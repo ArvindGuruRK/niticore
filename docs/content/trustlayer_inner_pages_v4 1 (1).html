@@ -1,0 +1,1484 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --ink:#1A1F2E;
+  --ink-70:#4A5568;
+  --ink-50:#718096;
+  --ink-30:#A0AEC0;
+  --cream:#FAF8F3;
+  --paper:#FFFFFF;
+  --sand:#F0EBE0;
+  --line:#E8E2D5;
+  --line-strong:#D4CDB8;
+
+  --accent:#2B5EE8;
+  --accent-soft:#EEF2FE;
+  --accent-hover:#1E4BC7;
+  --gold:#B8862E;
+  --gold-soft:#FBF4E2;
+  --sage:#4A7C5C;
+  --sage-soft:#EDF3EF;
+  --violet:#6B5AA6;
+  --violet-soft:#F0EDF7;
+
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
+}
+
+body{
+  font-family:var(--sans);
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+button{cursor:pointer;font-family:var(--sans);border:none;background:none;}
+
+/* ── TAB NAV ── */
+.tabs{
+  background:rgba(250,248,243,0.94);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  padding:0 48px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  gap:0;
+  overflow-x:auto;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.tab{
+  font-size:15px;
+  font-weight:500;
+  color:var(--ink-50);
+  padding:20px 28px;
+  border-bottom:3px solid transparent;
+  white-space:nowrap;
+  transition:all .15s;
+  margin-bottom:-1px;
+}
+.tab:hover{color:var(--ink);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600;}
+
+.page{display:none;}
+.page.active{display:block;}
+
+/* ── HERO ── */
+.page-hero{
+  padding:80px 48px 64px;
+  background:var(--cream);
+}
+.page-hero-inner{max-width:960px;}
+.hero-eyebrow{
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(40px,5.5vw,68px);
+  font-weight:300;
+  line-height:1.08;
+  letter-spacing:-0.03em;
+  color:var(--ink);
+  margin-bottom:24px;
+  max-width:840px;
+}
+.hero-title em{font-style:italic;font-weight:400;}
+.hero-lede{
+  font-size:20px;
+  line-height:1.55;
+  color:var(--ink-70);
+  max-width:680px;
+  margin-bottom:36px;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+
+/* Per-page hero accents */
+.hp-platform .hero-eyebrow{color:var(--accent);}
+.hp-platform .hero-title em{color:var(--accent);}
+.hp-assess .hero-eyebrow{color:var(--gold);}
+.hp-assess .hero-title em{color:var(--gold);}
+.hp-masterclass .hero-eyebrow{color:var(--violet);}
+.hp-masterclass .hero-title em{color:var(--violet);}
+.hp-advisory .hero-eyebrow{color:var(--sage);}
+.hp-advisory .hero-title em{color:var(--sage);}
+.hp-industries .hero-eyebrow{color:var(--accent);}
+.hp-industries .hero-title em{color:var(--gold);}
+
+/* Buttons */
+.btn{
+  font-size:16px;
+  font-weight:600;
+  padding:14px 28px;
+  border-radius:8px;
+  transition:all .15s;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:var(--accent-hover);}
+.btn-gold{background:var(--gold);color:#fff;}
+.btn-violet{background:var(--violet);color:#fff;}
+.btn-sage{background:var(--sage);color:#fff;}
+.btn-ghost{
+  background:transparent;
+  border:1.5px solid var(--line-strong);
+  color:var(--ink);
+  font-weight:500;
+}
+.btn-ghost:hover{border-color:var(--ink);}
+
+/* ── SECTION ── */
+section{padding:80px 48px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.band-paper{background:var(--paper);}
+.band-sand{background:var(--sand);}
+.band-ink{background:var(--ink);color:var(--cream);}
+
+.section-eyebrow{
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:18px;
+}
+.band-ink .section-eyebrow{color:#7BA5F5;}
+.section-heading{
+  font-family:var(--serif);
+  font-size:clamp(30px,3.5vw,44px);
+  font-weight:300;
+  line-height:1.18;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+  margin-bottom:20px;
+  max-width:780px;
+}
+.band-ink .section-heading{color:var(--cream);}
+.section-heading em{font-style:italic;font-weight:400;color:var(--gold);}
+.section-body{
+  font-size:18px;
+  line-height:1.6;
+  color:var(--ink-70);
+  max-width:680px;
+  margin-bottom:48px;
+}
+.band-ink .section-body{color:#B8C4D6;}
+
+/* ══════════════════════════════════
+   PAGE 1 — PLATFORM
+══════════════════════════════════ */
+
+/* Lifecycle detail — one stage at a time */
+.stage-nav{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:8px;
+  margin-bottom:40px;
+}
+.stage-btn{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:20px 12px;
+  text-align:center;
+  transition:all .15s;
+  cursor:pointer;
+}
+.stage-btn:hover{border-color:var(--accent);}
+.stage-btn.active{
+  background:var(--accent-soft);
+  border-color:var(--accent);
+  border-width:2px;
+  padding:19px 11px;
+}
+.stage-num{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink-50);
+  letter-spacing:0.08em;
+  margin-bottom:6px;
+}
+.stage-btn.active .stage-num{color:var(--accent);}
+.stage-name{
+  font-size:14px;
+  font-weight:600;
+  color:var(--ink);
+}
+
+.stage-detail{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:48px;
+  display:none;
+}
+.stage-detail.active{display:grid;grid-template-columns:1.4fr 1fr;gap:56px;}
+.stage-detail-title{
+  font-family:var(--serif);
+  font-size:32px;
+  font-weight:400;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:16px;
+}
+.stage-detail-body{
+  font-size:17px;
+  color:var(--ink-70);
+  line-height:1.65;
+  margin-bottom:28px;
+}
+.capabilities{list-style:none;}
+.capabilities li{
+  font-size:15px;
+  color:var(--ink);
+  padding:12px 0;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+.capabilities li:first-child{border-top:none;}
+.capabilities li::before{
+  content:'→';
+  color:var(--accent);
+  font-weight:600;
+  flex-shrink:0;
+}
+.stage-side-title{
+  font-size:12px;
+  font-weight:700;
+  color:var(--ink-50);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.fw-chip{
+  display:inline-block;
+  font-size:13px;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:6px;
+  margin:0 6px 6px 0;
+}
+.fw-eu{background:var(--gold-soft);color:var(--gold);}
+.fw-iso{background:var(--sage-soft);color:var(--sage);}
+.fw-nist{background:var(--accent-soft);color:var(--accent);}
+.fw-gdpr{background:#FCE8E1;color:#B45D3C;}
+.fw-uae{background:var(--violet-soft);color:var(--violet);}
+
+.why-matters{
+  background:var(--sand);
+  border-radius:12px;
+  padding:24px;
+  margin-top:24px;
+  border-left:4px solid var(--gold);
+}
+.why-matters-title{
+  font-size:13px;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.why-matters-body{
+  font-size:15px;
+  color:var(--ink);
+  line-height:1.6;
+}
+
+/* Dashboard preview */
+.dash{
+  background:var(--ink);
+  color:var(--cream);
+  border-radius:16px;
+  padding:40px;
+  max-width:920px;
+  margin:0 auto;
+}
+.dash-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  padding-bottom:24px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+  margin-bottom:32px;
+}
+.dash-title-block h3{
+  font-size:14px;
+  font-weight:600;
+  color:#B8C4D6;
+  margin-bottom:4px;
+}
+.dash-title-block .sub{
+  font-size:12px;
+  color:#7A8699;
+  font-weight:500;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+.dash-score{
+  font-family:var(--serif);
+  font-size:64px;
+  font-weight:300;
+  line-height:1;
+  color:#fff;
+  letter-spacing:-0.03em;
+  text-align:right;
+}
+.dash-score span{font-size:28px;color:#7A8699;}
+.dash-trend{font-size:13px;color:#7BC48A;font-weight:600;margin-top:6px;text-align:right;}
+.dash-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px;}
+.metric{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.metric-label{flex:1;font-size:14px;color:#D1D9E6;font-weight:500;}
+.metric-bar-wrap{width:100px;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+.metric-bar{height:100%;border-radius:3px;}
+.bar-good{background:#7BC48A;}.bar-ok{background:var(--gold);}.bar-warn{background:#E89060;}
+.metric-val{font-size:14px;font-weight:600;color:#fff;width:44px;text-align:right;}
+.dash-alerts-title{font-size:12px;font-weight:700;color:#7A8699;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:14px;}
+.alert{display:flex;align-items:center;gap:12px;padding:10px 0;font-size:15px;color:#D1D9E6;border-bottom:1px solid rgba(255,255,255,0.06);}
+.alert:last-child{border-bottom:none;}
+.a-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.d-red{background:#E85D5D;}.d-amber{background:var(--gold);}.d-green{background:#7BC48A;}
+
+/* ══════════════════════════════════
+   PAGE 2 — ASSESSMENT
+══════════════════════════════════ */
+.assess-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.assess-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:36px 32px;
+  border-top:4px solid var(--gold);
+  transition:transform .15s;
+}
+.assess-card:hover{transform:translateY(-4px);}
+.assess-icon-wrap{
+  width:56px;
+  height:56px;
+  border-radius:12px;
+  background:var(--gold-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:20px;
+  font-family:var(--serif);
+  font-size:24px;
+  font-weight:500;
+  color:var(--gold);
+}
+.assess-name{
+  font-family:var(--serif);
+  font-size:24px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:10px;
+  line-height:1.25;
+  letter-spacing:-0.01em;
+}
+.assess-question{
+  font-family:var(--serif);
+  font-size:15px;
+  font-style:italic;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+.assess-body{
+  font-size:15px;
+  color:var(--ink-70);
+  line-height:1.6;
+  margin-bottom:20px;
+}
+.assess-meta{
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink-50);
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+
+.free-cta{
+  background:linear-gradient(135deg,var(--gold-soft) 0%,#F9EEC5 100%);
+  border:2px solid var(--gold);
+  border-radius:20px;
+  padding:56px 48px;
+  text-align:center;
+  margin-top:56px;
+  max-width:820px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.free-cta-badge{
+  display:inline-block;
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  background:var(--gold);
+  padding:6px 14px;
+  border-radius:6px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+.free-cta-hl{
+  font-family:var(--serif);
+  font-size:36px;
+  font-weight:300;
+  color:var(--ink);
+  margin-bottom:14px;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
+.free-cta-hl em{color:var(--gold);font-style:italic;}
+.free-cta-body{
+  font-size:17px;
+  color:var(--ink-70);
+  line-height:1.6;
+  max-width:520px;
+  margin:0 auto 32px;
+}
+.free-cta-features{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  flex-wrap:wrap;
+  margin-bottom:32px;
+  font-size:14px;
+  color:var(--ink-70);
+}
+.free-cta-features span{display:flex;align-items:center;gap:8px;}
+.free-cta-features span::before{content:'✓';color:var(--sage);font-weight:700;}
+
+/* ══════════════════════════════════
+   PAGE 3 — MASTERCLASS
+══════════════════════════════════ */
+.tracks-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.track-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:36px 32px;
+  border-top:4px solid var(--violet);
+  display:flex;
+  flex-direction:column;
+}
+.track-tag{
+  font-size:12px;
+  font-weight:700;
+  color:var(--violet);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+.track-name{
+  font-family:var(--serif);
+  font-size:28px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:8px;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
+.track-duration{
+  font-size:14px;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:20px;
+}
+.track-body{
+  font-size:15px;
+  color:var(--ink-70);
+  line-height:1.6;
+  margin-bottom:24px;
+  flex:1;
+}
+.track-audience{
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  font-size:13px;
+  color:var(--ink-50);
+  font-weight:500;
+}
+
+.curriculum{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:48px;
+}
+.curriculum-lead{
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:32px;
+  font-style:italic;
+  line-height:1.4;
+}
+.curr-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.curr-topic{
+  background:var(--sand);
+  border-radius:8px;
+  padding:14px 18px;
+  font-size:15px;
+  color:var(--ink);
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.curr-topic::before{
+  content:'';
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--violet);
+  flex-shrink:0;
+}
+
+.outcomes{
+  background:var(--violet-soft);
+  border-radius:16px;
+  padding:40px 48px;
+  margin-top:32px;
+}
+.outcomes-title{
+  font-family:var(--serif);
+  font-size:24px;
+  font-weight:400;
+  color:var(--violet);
+  margin-bottom:24px;
+  letter-spacing:-0.01em;
+}
+.outcomes-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px 32px;
+}
+.outcome-item{
+  font-size:16px;
+  color:var(--ink);
+  line-height:1.55;
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+.outcome-item::before{
+  content:'✓';
+  color:var(--sage);
+  font-weight:700;
+  flex-shrink:0;
+  font-size:18px;
+}
+
+/* ══════════════════════════════════
+   PAGE 4 — ADVISORY
+══════════════════════════════════ */
+.adv-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:24px;
+}
+.adv-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:40px;
+  border-top:4px solid var(--sage);
+}
+.adv-num{
+  font-size:13px;
+  font-weight:700;
+  color:var(--sage);
+  letter-spacing:0.08em;
+  margin-bottom:16px;
+}
+.adv-title{
+  font-family:var(--serif);
+  font-size:28px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:14px;
+  line-height:1.2;
+  letter-spacing:-0.02em;
+}
+.adv-body{
+  font-size:16px;
+  color:var(--ink-70);
+  line-height:1.65;
+  margin-bottom:24px;
+}
+.adv-deliverables{list-style:none;}
+.adv-deliverables li{
+  font-size:15px;
+  color:var(--ink);
+  padding:12px 0;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+}
+.adv-deliverables li:first-child{border-top:none;}
+.adv-deliverables li::before{
+  content:'·';
+  color:var(--sage);
+  font-weight:700;
+  font-size:20px;
+  line-height:1;
+  flex-shrink:0;
+}
+
+.engage-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.engage-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:32px;
+  text-align:center;
+}
+.engage-name{
+  font-family:var(--serif);
+  font-size:22px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:10px;
+  letter-spacing:-0.01em;
+}
+.engage-duration{
+  font-size:13px;
+  font-weight:600;
+  color:var(--gold);
+  margin-bottom:16px;
+}
+.engage-body{
+  font-size:15px;
+  color:var(--ink-70);
+  line-height:1.6;
+  margin-bottom:24px;
+}
+
+/* ══════════════════════════════════
+   PAGE 5 — INDUSTRIES
+══════════════════════════════════ */
+.ind-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+.ind-card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:36px 32px;
+  transition:all .15s;
+}
+.ind-card:hover{border-color:var(--accent);transform:translateY(-4px);}
+.ind-icon{
+  font-family:var(--serif);
+  font-size:36px;
+  font-weight:400;
+  color:var(--accent);
+  margin-bottom:18px;
+  line-height:1;
+}
+.ind-name{
+  font-family:var(--serif);
+  font-size:24px;
+  font-weight:400;
+  color:var(--ink);
+  margin-bottom:12px;
+  letter-spacing:-0.02em;
+}
+.ind-body{
+  font-size:15px;
+  color:var(--ink-70);
+  line-height:1.65;
+  margin-bottom:20px;
+}
+.ind-tags{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.ind-tag{
+  font-size:12px;
+  font-weight:600;
+  color:var(--ink-70);
+  background:var(--sand);
+  padding:5px 10px;
+  border-radius:5px;
+}
+
+/* Bottom CTA bar */
+.cta-bar{
+  background:var(--ink);
+  color:#fff;
+  padding:96px 48px;
+  text-align:center;
+}
+.cta-title{
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,52px);
+  font-weight:300;
+  line-height:1.12;
+  letter-spacing:-0.03em;
+  margin-bottom:20px;
+  color:#fff;
+}
+.cta-title em{color:var(--gold);font-style:italic;}
+.cta-body{
+  font-size:18px;
+  color:#B8C4D6;
+  margin-bottom:36px;
+  max-width:560px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.55;
+}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.cta-btn-primary{
+  background:var(--gold);
+  color:var(--ink);
+  font-size:16px;
+  font-weight:700;
+  padding:16px 32px;
+  border-radius:8px;
+}
+.cta-btn-ghost{
+  background:transparent;
+  border:1.5px solid rgba(255,255,255,0.3);
+  color:#fff;
+  font-size:16px;
+  font-weight:500;
+  padding:15px 30px;
+  border-radius:8px;
+}
+</style>
+
+<h2 class="sr-only">TrustLayer inner pages — Platform, Assessment, Masterclass, Advisory, Industries</h2>
+
+<!-- ══ TAB NAV ══ -->
+<div class="tabs">
+  <button class="tab active" onclick="go(event,'platform')">Platform</button>
+  <button class="tab" onclick="go(event,'assess')">Assessment</button>
+  <button class="tab" onclick="go(event,'masterclass')">Masterclass</button>
+  <button class="tab" onclick="go(event,'advisory')">Advisory</button>
+  <button class="tab" onclick="go(event,'industries')">Industries</button>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 1 · PLATFORM
+══════════════════════════════════ -->
+<div class="page active" id="p-platform">
+  <div class="page-hero hp-platform">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow">TrustLayer Platform</div>
+      <h1 class="hero-title">Your AI governance <em>control centre.</em></h1>
+      <p class="hero-lede">A single place to know, govern, and prove that every AI system in your organisation is under control. Live posture. Structured evidence. Continuous confidence.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary">See it in action</button>
+        <button class="btn btn-ghost">Start with a free assessment →</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="band-sand">
+    <div class="section-inner">
+      <div class="section-eyebrow">Governance lifecycle</div>
+      <h2 class="section-heading">Seven stages. <em>One continuous practice.</em></h2>
+      <p class="section-body">Each stage feeds the next. Evidence generated in one closes gaps surfaced by another. Select a stage to see what the platform does there.</p>
+
+      <div class="stage-nav">
+        <button class="stage-btn active" onclick="stg(event,'discover')"><div class="stage-num">01</div><div class="stage-name">Discover</div></button>
+        <button class="stage-btn" onclick="stg(event,'classify')"><div class="stage-num">02</div><div class="stage-name">Classify</div></button>
+        <button class="stage-btn" onclick="stg(event,'assess-s')"><div class="stage-num">03</div><div class="stage-name">Assess</div></button>
+        <button class="stage-btn" onclick="stg(event,'govern')"><div class="stage-num">04</div><div class="stage-name">Govern</div></button>
+        <button class="stage-btn" onclick="stg(event,'evidence')"><div class="stage-num">05</div><div class="stage-name">Evidence</div></button>
+        <button class="stage-btn" onclick="stg(event,'monitor')"><div class="stage-num">06</div><div class="stage-name">Monitor</div></button>
+        <button class="stage-btn" onclick="stg(event,'improve')"><div class="stage-num">07</div><div class="stage-name">Improve</div></button>
+      </div>
+
+      <div class="stage-detail active" id="s-discover">
+        <div>
+          <h3 class="stage-detail-title">Discover your AI landscape.</h3>
+          <p class="stage-detail-body">Build a structured inventory of every AI system — in development, in production, and from third-party vendors. Each system gets a structured record: purpose, owner, data sources, model type, deployment state, and stakeholders. No more shadow AI.</p>
+          <ul class="capabilities">
+            <li>AI system inventory with lifecycle tracking</li>
+            <li>Third-party AI vendor registry</li>
+            <li>Model and dataset cataloguing</li>
+            <li>Agentic AI system registration</li>
+            <li>Stakeholder and ownership mapping</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+            <span class="fw-chip fw-uae">DIFC Reg. 10</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">You can't govern what you can't see. Most organisations have AI systems running that governance teams don't know about. Discovery is the mandatory first step.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-classify">
+        <div>
+          <h3 class="stage-detail-title">Classify by risk and regulation.</h3>
+          <p class="stage-detail-body">Each AI system is automatically classified by risk tier, regulatory applicability, and high-risk designation. EU AI Act Annex III systems trigger heightened governance workflows without manual configuration.</p>
+          <ul class="capabilities">
+            <li>Automated risk tier classification</li>
+            <li>EU AI Act Annex III designation</li>
+            <li>Multi-framework applicability mapping</li>
+            <li>Use-case-based classification</li>
+            <li>Vendor risk stratification</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Classification determines what governance applies. A clinical decision tool and an internal search tool don't carry the same obligations — but without structured classification, they often get the same treatment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-assess-s">
+        <div>
+          <h3 class="stage-detail-title">Assess what could go wrong.</h3>
+          <p class="stage-detail-body">Structured risk assessments across bias, safety, privacy, security, and performance. Each AI system gets a quantified risk profile — not a qualitative guess. FRIA, DPIA, and AI Impact Assessment workflows built in.</p>
+          <ul class="capabilities">
+            <li>Multi-domain risk assessment</li>
+            <li>Fundamental Rights Impact Assessment (FRIA)</li>
+            <li>Data Protection Impact Assessment (DPIA)</li>
+            <li>DIFC AI Impact Assessment</li>
+            <li>Inherent and residual risk scoring</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+            <span class="fw-chip fw-gdpr">GDPR</span>
+            <span class="fw-chip fw-uae">DIFC</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Regulators are moving away from checklists toward quantified risk. Structured assessment is the difference between a governance programme that holds up and one that collapses under scrutiny.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-govern">
+        <div>
+          <h3 class="stage-detail-title">Apply controls, once, across every framework.</h3>
+          <p class="stage-detail-body">Every governance action maps to controls that satisfy obligations across multiple frameworks simultaneously. Policies, workflows, and approval chains are structured and enforceable — not documents on a shared drive.</p>
+          <ul class="capabilities">
+            <li>Multi-framework control mapping</li>
+            <li>Policy management with version control</li>
+            <li>Approval workflows with delegation rules</li>
+            <li>High-risk AI workflow enforcement</li>
+            <li>Non-delegatable action registry</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+            <span class="fw-chip fw-gdpr">GDPR</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Duplicating control work across frameworks is the single largest hidden cost in AI compliance. TrustLayer eliminates it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-evidence">
+        <div>
+          <h3 class="stage-detail-title">Prove it, with traceable evidence.</h3>
+          <p class="stage-detail-body">Every control action generates evidence. Every evidence filing is mapped to the framework obligations it satisfies. One filing, multiple frameworks closed. Audit trails are immutable, versioned, and exportable on demand.</p>
+          <ul class="capabilities">
+            <li>Evidence filing with framework auto-mapping</li>
+            <li>Immutable audit trails</li>
+            <li>Declaration of Conformity management</li>
+            <li>Regulator-ready exports</li>
+            <li>External auditor access roles</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Evidence you can't produce on demand is evidence that doesn't exist. TrustLayer makes governance provable — every day, not just at audit time.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-monitor">
+        <div>
+          <h3 class="stage-detail-title">Know when something changes.</h3>
+          <p class="stage-detail-body">Post-deployment monitoring tracks control effectiveness, posture drift, and regulatory changes. Your governance posture updates as controls are applied — not annually when the auditor arrives.</p>
+          <ul class="capabilities">
+            <li>Live posture scoring at asset and portfolio level</li>
+            <li>Control effectiveness tracking</li>
+            <li>Regulatory change monitoring across 19 jurisdictions</li>
+            <li>LLM evaluation and model testing</li>
+            <li>Automated alerts on posture drift</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-eu">EU AI Act</span>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Governance that isn't monitored isn't governance. It's a snapshot. TrustLayer keeps your posture live.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="s-improve">
+        <div>
+          <h3 class="stage-detail-title">Close gaps before they become findings.</h3>
+          <p class="stage-detail-body">The platform surfaces what needs attention — high-risk systems without completed assessments, controls without evidence, policies due for review. Governance improvement is structured and prioritised, not reactive.</p>
+          <ul class="capabilities">
+            <li>Prioritised governance gap identification</li>
+            <li>Board and management reporting</li>
+            <li>Continuous improvement roadmaps</li>
+            <li>Framework coverage gap analysis</li>
+            <li>Governance Readiness™ tracking over time</li>
+          </ul>
+        </div>
+        <div>
+          <div class="stage-side-title">Frameworks addressed</div>
+          <div>
+            <span class="fw-chip fw-iso">ISO 42001</span>
+            <span class="fw-chip fw-nist">NIST AI RMF</span>
+          </div>
+          <div class="why-matters">
+            <div class="why-matters-title">Why it matters</div>
+            <p class="why-matters-body">Continuous improvement is what turns governance from a cost centre into a source of durable advantage.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="section-inner">
+      <div class="section-eyebrow">Governance health, live</div>
+      <h2 class="section-heading">Management sees this in <em>30 seconds.</em></h2>
+      <p class="section-body">The TrustLayer dashboard turns governance into something the board can understand without a briefing document.</p>
+
+      <div class="dash">
+        <div class="dash-header">
+          <div class="dash-title-block">
+            <h3>Your governance health</h3>
+            <div class="sub">TrustLayer Governance Readiness™</div>
+          </div>
+          <div>
+            <div class="dash-score">78<span> / 100</span></div>
+            <div class="dash-trend">↑ 6 points from last quarter</div>
+          </div>
+        </div>
+        <div class="dash-metrics">
+          <div class="metric"><span class="metric-label">AI Inventory</span><div class="metric-bar-wrap"><div class="metric-bar bar-good" style="width:92%;"></div></div><span class="metric-val">92%</span></div>
+          <div class="metric"><span class="metric-label">Policy Coverage</span><div class="metric-bar-wrap"><div class="metric-bar bar-good" style="width:81%;"></div></div><span class="metric-val">81%</span></div>
+          <div class="metric"><span class="metric-label">Risk Assessment</span><div class="metric-bar-wrap"><div class="metric-bar bar-ok" style="width:76%;"></div></div><span class="metric-val">76%</span></div>
+          <div class="metric"><span class="metric-label">Control Effectiveness</span><div class="metric-bar-wrap"><div class="metric-bar bar-ok" style="width:72%;"></div></div><span class="metric-val">72%</span></div>
+          <div class="metric"><span class="metric-label">Evidence Readiness</span><div class="metric-bar-wrap"><div class="metric-bar bar-warn" style="width:68%;"></div></div><span class="metric-val">68%</span></div>
+          <div class="metric"><span class="metric-label">AI Literacy</span><div class="metric-bar-wrap"><div class="metric-bar bar-good" style="width:84%;"></div></div><span class="metric-val">84%</span></div>
+        </div>
+        <div>
+          <div class="dash-alerts-title">What needs your attention</div>
+          <div class="alert"><div class="a-dot d-red"></div>3 high-risk AI systems without completed FRIA</div>
+          <div class="alert"><div class="a-dot d-amber"></div>7 risk assessments due this quarter</div>
+          <div class="alert"><div class="a-dot d-amber"></div>12 controls awaiting evidence filing</div>
+          <div class="alert"><div class="a-dot d-green"></div>94% policy coverage across active AI systems</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-bar">
+    <h2 class="cta-title">See TrustLayer Platform <em>in action.</em></h2>
+    <p class="cta-body">45-minute walkthrough. Bring your AI systems — we'll show you where the gaps are.</p>
+    <div class="cta-actions">
+      <button class="cta-btn-primary">Book a platform demo</button>
+      <button class="cta-btn-ghost">Download platform overview</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 2 · ASSESSMENT
+══════════════════════════════════ -->
+<div class="page" id="p-assess">
+  <div class="page-hero hp-assess">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow">AI Governance Assessment</div>
+      <h1 class="hero-title">Know your risks<br><em>before they become problems.</em></h1>
+      <p class="hero-lede">TrustLayer assessments give you a structured, honest picture of where your AI governance stands — and a clear path to where it needs to be. Start free. Go as deep as you need.</p>
+      <div class="hero-actions">
+        <button class="btn btn-gold">Take the free assessment</button>
+        <button class="btn btn-ghost">Explore all assessments →</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="band-sand">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="color:var(--gold);">Assessment suite</div>
+      <h2 class="section-heading">Six assessments. <em>One governance picture.</em></h2>
+      <p class="section-body">Each assessment is designed to answer a specific question your organisation is asking about its AI.</p>
+
+      <div class="assess-grid">
+        <div class="assess-card">
+          <div class="assess-icon-wrap">01</div>
+          <h3 class="assess-name">Governance Maturity</h3>
+          <p class="assess-question">"Where are we today?"</p>
+          <p class="assess-body">Assess your organisation against the TrustLayer Governance Readiness™ model (Levels 1–5). Delivers a personalised readiness score and a prioritised improvement roadmap.</p>
+          <div class="assess-meta">10 minutes · Free · Self-service</div>
+        </div>
+        <div class="assess-card">
+          <div class="assess-icon-wrap">02</div>
+          <h3 class="assess-name">AI Use Case</h3>
+          <p class="assess-question">"Should this AI system be deployed?"</p>
+          <p class="assess-body">Structured assessment of a specific AI system or use case against risk, regulatory, ethical, and business criteria. Answers the deployment question with evidence.</p>
+          <div class="assess-meta">30 minutes · Per system · Guided</div>
+        </div>
+        <div class="assess-card">
+          <div class="assess-icon-wrap">03</div>
+          <h3 class="assess-name">AI Risk</h3>
+          <p class="assess-question">"What could go wrong?"</p>
+          <p class="assess-body">Comprehensive risk assessment across multiple domains — bias, safety, privacy, security, performance, and operational risk. Quantified scoring, not qualitative guesswork.</p>
+          <div class="assess-meta">45 minutes · Per system · Structured</div>
+        </div>
+        <div class="assess-card">
+          <div class="assess-icon-wrap">04</div>
+          <h3 class="assess-name">Regulatory Readiness</h3>
+          <p class="assess-question">"What requirements apply?"</p>
+          <p class="assess-body">Determine which regulations apply to your AI systems — EU AI Act, ISO 42001, NIST, GDPR, UAE — and assess your readiness against each. Includes gap analysis and remediation plan.</p>
+          <div class="assess-meta">60 minutes · Framework-mapped</div>
+        </div>
+        <div class="assess-card">
+          <div class="assess-icon-wrap">05</div>
+          <h3 class="assess-name">AI Vendor</h3>
+          <p class="assess-question">"Can you trust the AI you're buying?"</p>
+          <p class="assess-body">Evaluate third-party AI vendors and products against governance, risk, compliance, and security criteria. Critical for organisations procuring AI models, APIs, and embedded systems.</p>
+          <div class="assess-meta">30 minutes · Per vendor · Repeatable</div>
+        </div>
+        <div class="assess-card">
+          <div class="assess-icon-wrap">06</div>
+          <h3 class="assess-name">AI Impact</h3>
+          <p class="assess-question">"Who or what could be affected?"</p>
+          <p class="assess-body">Assess the potential impact of AI systems on individuals, communities, and organisations. Satisfies FRIA (EU AI Act), DPIA (GDPR), and AI Impact Assessment (DIFC) requirements.</p>
+          <div class="assess-meta">Regulatory-grade · Multi-framework</div>
+        </div>
+      </div>
+
+      <div class="free-cta">
+        <span class="free-cta-badge">Free · 10 minutes</span>
+        <h3 class="free-cta-hl">How AI-governance ready<br>is <em>your organisation?</em></h3>
+        <p class="free-cta-body">Take TrustLayer's Governance Readiness™ assessment. Get a personalised readiness score and a clear picture of where to focus first.</p>
+        <div class="free-cta-features">
+          <span>No sign-up required</span>
+          <span>Personalised report</span>
+          <span>Actionable roadmap</span>
+        </div>
+        <button class="btn btn-gold" style="font-size:17px;padding:16px 36px;">Take the free assessment →</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 3 · MASTERCLASS
+══════════════════════════════════ -->
+<div class="page" id="p-masterclass">
+  <div class="page-hero hp-masterclass">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow">AI Governance Masterclass</div>
+      <h1 class="hero-title">Don't just use AI.<br><em>Understand how to govern it.</em></h1>
+      <p class="hero-lede">The practical programme for leaders and teams responsible for AI. Built on real regulatory frameworks. Delivered by governance practitioners — not academic theorists.</p>
+      <div class="hero-actions">
+        <button class="btn btn-violet">Explore the programme</button>
+        <button class="btn btn-ghost">Request a corporate programme →</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="band-sand">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="color:var(--violet);">Programme tracks</div>
+      <h2 class="section-heading">Three tracks. <em>One governance language.</em></h2>
+      <p class="section-body">Each track gives participants what they need for their role — so when governance decisions surface, everyone across the organisation speaks the same language.</p>
+
+      <div class="tracks-grid">
+        <div class="track-card">
+          <div class="track-tag">Executive intensive</div>
+          <h3 class="track-name">For the boardroom.</h3>
+          <div class="track-duration">4 hours · Half-day format</div>
+          <p class="track-body">Concentrated programme for boards, C-suite, and senior leadership. Covers AI governance strategy, the regulatory landscape, board-level oversight responsibilities, and how to read a governance health score.</p>
+          <div class="track-audience">Board · C-suite · Senior leadership</div>
+        </div>
+        <div class="track-card">
+          <div class="track-tag">Practitioner programme</div>
+          <h3 class="track-name">For the operators.</h3>
+          <div class="track-duration">2 days · Deep-dive format</div>
+          <p class="track-body">Two-day deep dive for governance, risk, compliance, legal, and technology teams. Covers EU AI Act implementation, ISO 42001 requirements, risk assessment methodology, policy design, and control frameworks.</p>
+          <div class="track-audience">Legal · Risk · Compliance · Technology</div>
+        </div>
+        <div class="track-card">
+          <div class="track-tag">AI team workshop</div>
+          <h3 class="track-name">For the builders.</h3>
+          <div class="track-duration">1 day · Workshop format</div>
+          <p class="track-body">One-day workshop for product managers, data scientists, and AI engineers. Covers responsible AI principles, bias and fairness, LLM governance, agentic AI considerations, and how to build governance into development.</p>
+          <div class="track-audience">Product · Data science · AI engineering</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="color:var(--violet);">Curriculum</div>
+      <h2 class="section-heading">What you'll <em>actually learn.</em></h2>
+      <p class="section-body">Every topic is taught through real governance scenarios — not abstract theory. Participants leave with knowledge they use the next day.</p>
+
+      <div class="curriculum">
+        <p class="curriculum-lede" style="font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink);margin-bottom:28px;font-style:italic;line-height:1.4;">A comprehensive curriculum covering the frameworks, practices, and operating models your organisation needs to govern AI at scale.</p>
+        <div class="curr-grid">
+          <div class="curr-topic">AI Governance fundamentals</div>
+          <div class="curr-topic">EU AI Act in practice</div>
+          <div class="curr-topic">ISO/IEC 42001</div>
+          <div class="curr-topic">NIST AI RMF</div>
+          <div class="curr-topic">AI risk management</div>
+          <div class="curr-topic">Responsible AI principles</div>
+          <div class="curr-topic">AI lifecycle governance</div>
+          <div class="curr-topic">Agentic AI governance</div>
+          <div class="curr-topic">Policies &amp; controls</div>
+          <div class="curr-topic">UAE regulatory landscape</div>
+          <div class="curr-topic">Governance operating models</div>
+          <div class="curr-topic">Board-level AI reporting</div>
+          <div class="curr-topic">Third-party AI vendor governance</div>
+          <div class="curr-topic">LLM evaluation &amp; testing</div>
+          <div class="curr-topic">Data governance for AI</div>
+          <div class="curr-topic">Governance maturity models</div>
+        </div>
+
+        <div class="outcomes">
+          <div class="outcomes-title">What your team leaves with</div>
+          <div class="outcomes-grid">
+            <div class="outcome-item">A shared governance vocabulary across teams</div>
+            <div class="outcome-item">Deep understanding of applicable regulations</div>
+            <div class="outcome-item">Ability to assess AI systems for risk and compliance</div>
+            <div class="outcome-item">Practical knowledge of policy and control design</div>
+            <div class="outcome-item">Internal champions to drive governance adoption</div>
+            <div class="outcome-item">A governance baseline to measure progress</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-bar">
+    <h2 class="cta-title">Build the governance capability<br><em>your AI demands.</em></h2>
+    <p class="cta-body">Open enrolment. Corporate programmes. Executive intensives. Talk to us about what fits your organisation.</p>
+    <div class="cta-actions">
+      <button class="cta-btn-primary" style="background:var(--violet);color:#fff;">Request a programme</button>
+      <button class="cta-btn-ghost">Download the curriculum</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 4 · ADVISORY
+══════════════════════════════════ -->
+<div class="page" id="p-advisory">
+  <div class="page-hero hp-advisory">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow">AI Governance Advisory</div>
+      <h1 class="hero-title">From policy <em>to practice.</em></h1>
+      <p class="hero-lede">TrustLayer Advisory goes beyond strategy decks. We design governance frameworks that actually get implemented — then operationalise them on the platform so they stick.</p>
+      <div class="hero-actions">
+        <button class="btn btn-sage">Talk to a governance expert</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="band-sand">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="color:var(--sage);">Four practice areas</div>
+      <h2 class="section-heading">Strategy. Framework. Implementation. <em>Assurance.</em></h2>
+      <p class="section-body">Full-lifecycle advisory — from defining your AI governance vision to independently validating it. Delivered by practitioners with real regulatory experience.</p>
+
+      <div class="adv-grid">
+        <div class="adv-card">
+          <div class="adv-num">01 · STRATEGY</div>
+          <h3 class="adv-title">Build the strategy.</h3>
+          <p class="adv-body">Define the vision, priorities, and operating model for AI governance across your organisation. Align stakeholders from the board to the build team before a single policy is written.</p>
+          <ul class="adv-deliverables">
+            <li>AI governance vision &amp; principles</li>
+            <li>Regulatory landscape mapping</li>
+            <li>Governance operating model design</li>
+            <li>Stakeholder alignment &amp; RACI</li>
+            <li>Roadmap with quick wins and long-term objectives</li>
+          </ul>
+        </div>
+        <div class="adv-card">
+          <div class="adv-num">02 · FRAMEWORK</div>
+          <h3 class="adv-title">Design the framework.</h3>
+          <p class="adv-body">Bespoke AI governance frameworks, policies, and controls designed for your sector, scale, and regulatory context. Not a generic template — a framework built for your organisation.</p>
+          <ul class="adv-deliverables">
+            <li>AI policy suite design</li>
+            <li>Risk classification and taxonomy</li>
+            <li>Control framework with evidence requirements</li>
+            <li>EU AI Act and ISO 42001 alignment</li>
+            <li>UAE regulatory mapping (DIFC, PDPL, ADGM)</li>
+          </ul>
+        </div>
+        <div class="adv-card">
+          <div class="adv-num">03 · IMPLEMENTATION</div>
+          <h3 class="adv-title">Operationalize across your organisation.</h3>
+          <p class="adv-body">Turn the governance framework into daily practice — embedded in workflows, tools, and the teams responsible for AI. This is where most governance programmes stall. It's where TrustLayer excels.</p>
+          <ul class="adv-deliverables">
+            <li>Platform configuration and rollout</li>
+            <li>Process and workflow design</li>
+            <li>Integration with existing GRC and AI tools</li>
+            <li>Change management and adoption support</li>
+            <li>Team capability building and handover</li>
+          </ul>
+        </div>
+        <div class="adv-card">
+          <div class="adv-num">04 · ASSURANCE</div>
+          <h3 class="adv-title">Validate and continuously improve.</h3>
+          <p class="adv-body">Independent review of your governance posture against frameworks, regulations, and your own standards. Not a one-off audit — an ongoing assurance relationship.</p>
+          <ul class="adv-deliverables">
+            <li>Governance maturity assessment</li>
+            <li>Audit readiness review and dry runs</li>
+            <li>ISO 42001 certification support</li>
+            <li>Continuous improvement roadmap</li>
+            <li>Regulatory change advisory</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="section-inner">
+      <div class="section-eyebrow" style="color:var(--sage);">How to engage</div>
+      <h2 class="section-heading">Three ways to <em>start.</em></h2>
+      <p class="section-body">Not every organisation needs the same commitment. Choose the engagement that fits where you are.</p>
+
+      <div class="engage-grid">
+        <div class="engage-card">
+          <h3 class="engage-name">Discovery workshop</h3>
+          <div class="engage-duration">Half-day · Single engagement</div>
+          <p class="engage-body">Understand your current state, map your regulatory landscape, and identify the highest-priority governance gaps.</p>
+          <button class="btn btn-ghost" style="padding:11px 22px;font-size:14px;">Book a discovery session →</button>
+        </div>
+        <div class="engage-card" style="border:2px solid var(--sage);padding:31px;">
+          <div style="font-size:12px;font-weight:700;color:var(--sage);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;">Most chosen</div>
+          <h3 class="engage-name">Governance sprint</h3>
+          <div class="engage-duration">6–8 weeks · Structured engagement</div>
+          <p class="engage-body">Strategy, framework design, and initial platform configuration — ending with a governance capability your team can operate.</p>
+          <button class="btn btn-sage" style="padding:11px 22px;font-size:14px;">Talk to our team →</button>
+        </div>
+        <div class="engage-card">
+          <h3 class="engage-name">Ongoing retainer</h3>
+          <div class="engage-duration">Monthly · Long-term relationship</div>
+          <p class="engage-body">Regulatory monitoring, quarterly governance reviews, and hands-on support as your AI portfolio grows.</p>
+          <button class="btn btn-ghost" style="padding:11px 22px;font-size:14px;">Discuss a retainer →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-bar">
+    <h2 class="cta-title">We don't just help you comply.<br><em>We help you build the capability.</em></h2>
+    <p class="cta-body">Talk to a TrustLayer governance expert about what your organisation needs to move from documentation to durable governance.</p>
+    <div class="cta-actions">
+      <button class="cta-btn-primary" style="background:var(--sage);color:#fff;">Talk to a governance expert</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PAGE 5 · INDUSTRIES
+══════════════════════════════════ -->
+<div class="page" id="p-industries">
+  <div class="page-hero hp-industries">
+    <div class="page-hero-inner">
+      <div class="hero-eyebrow">Governance for the AI economy</div>
+      <h1 class="hero-title">High-stakes AI demands<br><em>high-rigour governance.</em></h1>
+      <p class="hero-lede">TrustLayer is built for industries where AI errors carry real consequences — financial, legal, or human. The regulatory requirements differ. The governance challenge is the same: build the capability to govern AI, continuously and provably.</p>
+    </div>
+  </div>
+
+  <section class="band-sand">
+    <div class="section-inner">
+      <div class="ind-grid">
+        <div class="ind-card">
+          <div class="ind-icon">◆</div>
+          <h3 class="ind-name">Financial services</h3>
+          <p class="ind-body">Credit scoring, fraud detection, algorithmic trading, and customer-facing AI — all demand transparent risk management, model validation, and regulator-ready audit trails.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act</span>
+            <span class="ind-tag">NIST</span>
+            <span class="ind-tag">GDPR</span>
+            <span class="ind-tag">DIFC</span>
+            <span class="ind-tag">ADGM FSRA</span>
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-icon">✚</div>
+          <h3 class="ind-name">Healthcare &amp; life sciences</h3>
+          <p class="ind-body">Clinical decision tools, diagnostic AI, and drug development systems are high-risk by definition. Governance requires FRIA workflows, DPIA integration, and evidence trails for AI and healthcare regulators.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act Annex III</span>
+            <span class="ind-tag">GDPR</span>
+            <span class="ind-tag">ISO 42001</span>
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-icon">⬢</div>
+          <h3 class="ind-name">Government &amp; public sector</h3>
+          <p class="ind-body">AI used in public services carries heightened accountability and transparency obligations. TrustLayer manages the full lifecycle from procurement to deployment to audit — with citizen impact at the centre.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act</span>
+            <span class="ind-tag">NIST AI RMF</span>
+            <span class="ind-tag">ISO 42001</span>
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-icon">◉</div>
+          <h3 class="ind-name">Insurance</h3>
+          <p class="ind-body">Underwriting models, claims automation, and risk pricing algorithms. Model risk, fairness, and regulatory accountability require governance that goes beyond traditional model validation.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act</span>
+            <span class="ind-tag">GDPR</span>
+            <span class="ind-tag">NIST</span>
+            <span class="ind-tag">DIFC</span>
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-icon">▲</div>
+          <h3 class="ind-name">Technology</h3>
+          <p class="ind-body">If you build AI products, governance isn't something you add after launch. TrustLayer helps technology companies build governance into the development lifecycle — before deployment, not after a regulator arrives.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act GPAI</span>
+            <span class="ind-tag">ISO 42001</span>
+            <span class="ind-tag">NIST</span>
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-icon">◈</div>
+          <h3 class="ind-name">Multinational enterprises</h3>
+          <p class="ind-body">Operating across EU, UK, US, and UAE simultaneously? TrustLayer maps all jurisdictions — mainland, DIFC, ADGM — into a single governance practice, with multi-framework evidence reuse.</p>
+          <div class="ind-tags">
+            <span class="ind-tag">EU AI Act</span>
+            <span class="ind-tag">GDPR</span>
+            <span class="ind-tag">NIST</span>
+            <span class="ind-tag">UAE PDPL</span>
+            <span class="ind-tag">DIFC</span>
+            <span class="ind-tag">ADGM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-paper">
+    <div class="section-inner" style="max-width:820px;">
+      <div style="background:var(--sand);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:40px 44px;">
+        <p style="font-family:var(--serif);font-size:26px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.5;margin-bottom:20px;letter-spacing:-0.01em;">The organisations shaping the future of trusted AI aren't doing more compliance work. They're building the capability to do it once, prove it everywhere, and move faster than anyone still working from spreadsheets.</p>
+        <div style="font-size:13px;font-weight:600;color:var(--ink-50);letter-spacing:0.06em;text-transform:uppercase;">TrustLayer Advisory Team</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-bar">
+    <h2 class="cta-title">Ready to govern AI<br>with <em>confidence?</em></h2>
+    <p class="cta-body">Build the capability. Operationalize the governance. Accelerate the innovation.</p>
+    <div class="cta-actions">
+      <button class="cta-btn-primary">Assess your readiness</button>
+      <button class="cta-btn-ghost">Explore TrustLayer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function go(e,id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  e.target.classList.add('active');
+  document.querySelector('.tabs').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function stg(e,id){
+  document.querySelectorAll('.stage-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.stage-detail').forEach(d=>d.classList.remove('active'));
+  document.getElementById('s-'+id).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+</script>

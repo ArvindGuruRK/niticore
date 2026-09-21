@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NitiCore — Governed AI</title>
+<style>
+:root{
+  --bg:#07111f; --panel:#0c1a2b; --panel2:#102238; --text:#f4f7fb;
+  --muted:#9db0c5; --line:rgba(255,255,255,.10); --accent:#5ee7c5;
+  --accent2:#79a7ff; --warm:#f7c873; --max:1180px;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;line-height:1.55}
+a{color:inherit;text-decoration:none}.wrap{max-width:var(--max);margin:auto;padding:0 28px}
+nav{position:sticky;top:0;z-index:20;background:rgba(7,17,31,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:74px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:800;letter-spacing:-.04em;font-size:24px}
+.logo span{color:var(--accent)}.links{display:flex;gap:28px;color:#c7d4e2;font-size:14px}.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:10px;background:var(--accent);color:#06131e;font-weight:750;border:0}
+.btn.alt{background:transparent;color:var(--text);border:1px solid var(--line)}
+.hero{padding:112px 0 90px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:600px;height:600px;border-radius:50%;right:-220px;top:-250px;background:radial-gradient(circle,rgba(94,231,197,.17),transparent 65%)}
+.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:clamp(52px,7vw,88px);line-height:.98;letter-spacing:-.065em;max-width:900px;margin:20px 0}
+h2{font-size:clamp(34px,4.4vw,58px);line-height:1.03;letter-spacing:-.045em;margin:12px 0 22px}
+h3{font-size:22px;margin:0 0 8px;letter-spacing:-.02em}
+.lead{font-size:20px;color:var(--muted);max-width:760px}.actions{display:flex;gap:12px;margin:30px 0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}.chip{padding:8px 11px;border:1px solid var(--line);border-radius:999px;color:#b8c8d8;font-size:12px}
+section{padding:92px 0;border-top:1px solid var(--line)}.intro{max-width:780px;margin-bottom:42px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:linear-gradient(145deg,rgba(16,34,56,.94),rgba(10,24,40,.94));border:1px solid var(--line);border-radius:18px;padding:26px;min-height:190px}
+.num{font-size:12px;color:var(--accent);font-weight:800;margin-bottom:34px}.muted{color:var(--muted)}
+.callout{border:1px solid rgba(94,231,197,.28);background:linear-gradient(120deg,rgba(94,231,197,.09),rgba(121,167,255,.06));border-radius:24px;padding:42px}
+.lifecycle{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:34px}.life{padding:22px 16px;border:1px solid var(--line);border-radius:14px;background:#0b192a}.life b{display:block;margin-bottom:8px}.life small{color:var(--muted)}
+.product{display:grid;grid-template-columns:1fr 1.25fr;gap:24px;align-items:stretch}.dash{border:1px solid var(--line);border-radius:20px;padding:24px;background:#091727;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{padding:15px;background:#0d2034;border-radius:12px}.stat strong{display:block;font-size:24px}.stat span{font-size:11px;color:var(--muted)}
+.bars{margin-top:20px}.barrow{margin:15px 0}.barhead{display:flex;justify-content:space-between;font-size:12px;color:#cbd8e5}.bar{height:7px;background:#1a3047;border-radius:99px;margin-top:7px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.framework{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.framework .card{min-height:150px;padding:20px}
+.uae{position:relative;overflow:hidden;background:linear-gradient(135deg,#0b1b2e,#101e35)}.uae:after{content:"UAE";position:absolute;right:-10px;bottom:-45px;font-size:170px;font-weight:900;letter-spacing:-.1em;color:rgba(255,255,255,.035)}
+.steps{counter-reset:s}.step{position:relative;padding-left:60px;margin:24px 0}.step:before{counter-increment:s;content:counter(s);position:absolute;left:0;top:0;width:38px;height:38px;border:1px solid var(--accent);color:var(--accent);border-radius:50%;display:grid;place-items:center;font-weight:800}
+.cta{text-align:center;padding:110px 0}.cta h2{max-width:800px;margin:12px auto 20px}.cta p{max-width:650px;margin:0 auto;color:var(--muted)}
+footer{padding:34px 0;color:#8093a8;border-top:1px solid var(--line);font-size:13px;display:flex;justify-content:space-between}
+@media(max-width:850px){.links{display:none}.grid,.grid2,.product{grid-template-columns:1fr}.lifecycle{grid-template-columns:repeat(2,1fr)}.framework{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.wrap{padding:0 18px}.hero{padding:80px 0}.actions{flex-direction:column;align-items:flex-start}.lifecycle,.framework{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav"><div class="logo">Niti<span>Core</span></div><div class="links"><a href="#platform">Platform</a><a href="#frameworks">Frameworks</a><a href="#uae">UAE</a><a href="#agents">Agents</a><a href="#services">Services</a></div><a class="btn" href="#contact">Book a Demo →</a></div></nav>
+
+<header class="hero"><div class="wrap">
+<div class="eyebrow">The operating layer for governed AI</div>
+<h1>Move fast with AI.<br>Govern it with confidence.</h1>
+<p class="lead">NitiCore helps organisations build, deploy and scale AI with visibility, risk intelligence, controls and evidence — from idea to production, continuously.</p>
+<div class="actions"><a class="btn" href="#platform">See NitiCore in Action →</a><a class="btn alt" href="#frameworks">Explore AI Governance</a></div>
+<div class="chips"><span class="chip">EU AI Act</span><span class="chip">ISO/IEC 42001</span><span class="chip">NIST AI RMF</span><span class="chip">UAE AI Governance</span><span class="chip">Your Policies</span></div>
+</div></header>
+
+<section><div class="wrap"><div class="intro"><div class="eyebrow">Start with the questions that matter</div><h2>Can you answer these questions about your AI today?</h2></div>
+<div class="grid">
+<div class="card"><div class="num">01</div><h3>What AI do we actually have?</h3><p class="muted">Models, applications, agents, vendors, APIs and shadow AI.</p></div>
+<div class="card"><div class="num">02</div><h3>What could go wrong?</h3><p class="muted">Privacy, bias, security, hallucination, autonomy and regulatory exposure.</p></div>
+<div class="card"><div class="num">03</div><h3>Who is accountable?</h3><p class="muted">Business owner, model owner, risk, compliance, technology and human oversight.</p></div>
+<div class="card"><div class="num">04</div><h3>Are we compliant?</h3><p class="muted">Map obligations across global frameworks and your internal policies.</p></div>
+<div class="card"><div class="num">05</div><h3>Can we prove it?</h3><p class="muted">Evidence, assessments, controls, approvals and audit trails.</p></div>
+<div class="card callout"><h3>One governance system.</h3><p>NitiCore turns all five questions into an operating system for governed AI.</p></div>
+</div></div></section>
+
+<section id="platform"><div class="wrap"><div class="intro"><div class="eyebrow">The NitiCore governance loop</div><h2>Governance that travels with AI.</h2><p class="lead">Governance shouldn't be a gate at the end of development. It should travel with AI throughout its lifecycle.</p></div>
+<div class="lifecycle">
+<div class="life"><b>Discover</b><small>Know every AI system, model, agent and vendor.</small></div>
+<div class="life"><b>Assess</b><small>Understand risk, impact and obligations.</small></div>
+<div class="life"><b>Govern</b><small>Apply policies, controls, approvals and oversight.</small></div>
+<div class="life"><b>Assure</b><small>Generate evidence and audit trails.</small></div>
+<div class="life"><b>Monitor</b><small>Continuously monitor risk and compliance.</small></div>
+<div class="life"><b>Improve</b><small>Remediate and strengthen governance.</small></div>
+</div></div></section>
+
+<section><div class="wrap"><div class="intro"><div class="eyebrow">Platform</div><h2>Everything your AI needs to be trusted.</h2></div>
+<div class="product"><div class="grid2">
+<div class="card"><h3>AI Visibility</h3><p class="muted">AI inventory, model and agent registries, third-party AI and ownership.</p></div>
+<div class="card"><h3>AI Risk Intelligence</h3><p class="muted">Risk assessments, classification, impact, privacy, security and robustness.</p></div>
+<div class="card"><h3>Governance Controls</h3><p class="muted">Policies, approvals, governance gates, exceptions and remediation.</p></div>
+<div class="card"><h3>Continuous Assurance</h3><p class="muted">Monitoring, evidence, incidents, audit trails and control effectiveness.</p></div>
+</div>
+<div class="dash"><div class="eyebrow">Enterprise AI Governance</div><div class="stats" style="margin-top:18px"><div class="stat"><strong>147</strong><span>AI Systems</span></div><div class="stat"><strong>38</strong><span>High Risk</span></div><div class="stat"><strong>12</strong><span>Awaiting Approval</span></div><div class="stat"><strong>93%</strong><span>Control Coverage</span></div></div>
+<div class="bars"><div class="barrow"><div class="barhead"><span>EU AI Act</span><b>87%</b></div><div class="bar"><i style="width:87%"></i></div></div><div class="barrow"><div class="barhead"><span>ISO 42001</span><b>91%</b></div><div class="bar"><i style="width:91%"></i></div></div><div class="barrow"><div class="barhead"><span>NIST AI RMF</span><b>84%</b></div><div class="bar"><i style="width:84%"></i></div></div></div></div>
+</div></div></section>
+
+<section id="frameworks"><div class="wrap"><div class="intro"><div class="eyebrow">Framework intelligence</div><h2>One AI. Multiple frameworks. One governance system.</h2><p class="lead">Stop governing regulations separately. Map requirements into a common risk and control architecture.</p></div>
+<div class="framework">
+<div class="card"><h3>EU AI Act</h3><p class="muted">Risk classification, high-risk obligations, transparency and oversight.</p></div>
+<div class="card"><h3>ISO 42001</h3><p class="muted">AI management system, governance, risk, controls and improvement.</p></div>
+<div class="card"><h3>NIST AI RMF</h3><p class="muted">Govern, Map, Measure and Manage.</p></div>
+<div class="card"><h3>UAE</h3><p class="muted">Responsible AI, accountability, sovereignty and local requirements.</p></div>
+<div class="card"><h3>Your Policies</h3><p class="muted">Your standards, risk appetite, controls and approval requirements.</p></div>
+</div>
+<div class="callout" style="margin-top:24px"><h3>Regulation → Risk → Control → Owner → Evidence</h3><p class="muted">NitiCore translates regulation into work your teams can actually execute and prove.</p></div>
+</div></section>
+
+<section id="agents"><div class="wrap"><div class="intro"><div class="eyebrow">Agentic AI</div><h2>AI agents don't just make decisions. They take action.</h2><p class="lead">Govern the agent — not just the model. Understand what it is allowed to do, what it can access and when a human must intervene.</p></div>
+<div class="grid">
+<div class="card"><h3>Agent Identity</h3><p class="muted">Who is the agent?</p></div><div class="card"><h3>Purpose & Autonomy</h3><p class="muted">What can it decide without approval?</p></div><div class="card"><h3>Tools & Data</h3><p class="muted">What can it access, call or change?</p></div><div class="card"><h3>Guardrails</h3><p class="muted">What must it never do?</p></div><div class="card"><h3>Human Oversight</h3><p class="muted">When must a person intervene?</p></div><div class="card"><h3>Continuous Monitoring</h3><p class="muted">What is it doing in production?</p></div>
+</div></div></section>
+
+<section id="uae" class="uae"><div class="wrap"><div class="intro"><div class="eyebrow">UAE</div><h2>Born for the UAE.<br>Built for the world.</h2><p class="lead">The UAE is building one of the world's most ambitious AI economies. NitiCore helps organisations govern locally while aligning with the global frameworks their businesses depend on.</p></div>
+<div class="grid">
+<div class="card"><h3>Sovereignty</h3><p class="muted">Align governance with data, infrastructure and national requirements.</p></div>
+<div class="card"><h3>Trust</h3><p class="muted">Build confidence across citizens, customers, employees and regulators.</p></div>
+<div class="card"><h3>Accountability</h3><p class="muted">Know who owns every AI system and material AI decision.</p></div>
+<div class="card"><h3>Responsible Innovation</h3><p class="muted">Accelerate adoption without turning governance into bureaucracy.</p></div>
+</div>
+<div class="callout" style="margin-top:24px"><h3>Build AI locally. Govern it confidently. Scale it globally.</h3><p>Government · Financial Services · Healthcare · Energy · Aviation · Telecom · Critical Infrastructure · Smart Cities</p></div>
+</div></section>
+
+<section><div class="wrap"><div class="intro"><div class="eyebrow">For every AI stakeholder</div><h2>One platform. Every stakeholder.</h2></div>
+<div class="grid">
+<div class="card"><h3>CEO / Board</h3><p class="muted">“Can we trust our AI?” — portfolio risk, adoption and executive visibility.</p></div>
+<div class="card"><h3>CIO / CTO</h3><p class="muted">“Can we scale AI safely?” — inventory, lifecycle and operational controls.</p></div>
+<div class="card"><h3>Risk</h3><p class="muted">“Where are we exposed?” — risk appetite, treatment and monitoring.</p></div>
+<div class="card"><h3>Legal / Compliance</h3><p class="muted">“Can we prove compliance?” — mapping, policies, evidence and audit trails.</p></div>
+<div class="card"><h3>AI Teams</h3><p class="muted">“Can governance keep up?” — workflows, assessments and developer-friendly controls.</p></div>
+<div class="card"><h3>Internal Audit</h3><p class="muted">“Show me the evidence.” — traceability, effectiveness and historical records.</p></div>
+</div></div></section>
+
+<section id="services"><div class="wrap"><div class="intro"><div class="eyebrow">Advisory + platform</div><h2>Technology gives you the platform. Experience makes governance work.</h2></div>
+<div class="grid">
+<div class="card"><div class="num">01</div><h3>Assess</h3><p class="muted">AI governance maturity and readiness assessment.</p></div>
+<div class="card"><div class="num">02</div><h3>Design</h3><p class="muted">Governance framework and operating model.</p></div>
+<div class="card"><div class="num">03</div><h3>Implement</h3><p class="muted">Policies, controls, workflows and platform.</p></div>
+<div class="card"><div class="num">04</div><h3>Enable</h3><p class="muted">Training and capability building.</p></div>
+<div class="card"><div class="num">05</div><h3>Assure</h3><p class="muted">Readiness, audit support and continual improvement.</p></div>
+<div class="card"><div class="num">06</div><h3>Scale</h3><p class="muted">Enterprise-wide AI governance operating model.</p></div>
+</div></div></section>
+
+<section><div class="wrap"><div class="intro"><div class="eyebrow">Start where you are</div><h2>You don't need perfect governance to start.</h2></div>
+<div class="grid">
+<div class="card"><h3>“We don't know where our AI is.”</h3><p class="muted">Start with AI Discovery →</p></div>
+<div class="card"><h3>“AI is everywhere but governance isn't.”</h3><p class="muted">Start with a Governance Assessment →</p></div>
+<div class="card"><h3>“We need regulatory readiness.”</h3><p class="muted">Start with an AI Act Readiness Assessment →</p></div>
+<div class="card"><h3>“We're implementing ISO 42001.”</h3><p class="muted">Start with an AI Management System →</p></div>
+</div></div></section>
+
+<section id="contact" class="cta"><div class="wrap"><div class="eyebrow">Make AI governable</div><h2>Ready to make AI trustworthy at scale?</h2><p>Know what you have. Understand your risk. Govern what matters. Prove your compliance. Scale AI with confidence.</p><div class="actions" style="justify-content:center"><a class="btn" href="mailto:hello@niticore.ai">Start Your AI Governance Journey →</a><a class="btn alt" href="mailto:hello@niticore.ai">Talk to a Governance Expert</a></div></div></section>
+
+<footer class="wrap"><div><b style="color:#fff">NitiCore</b> — The operating layer for governed AI.</div><div>Build. Deploy. Govern. Prove. Scale.</div></footer>
+</body></html>

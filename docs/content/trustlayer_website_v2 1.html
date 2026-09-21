@@ -1,0 +1,553 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter+Tight:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --ink:#0F1922;--parchment:#F4EFE6;--brass:#A67C2D;--bl:#C9A052;
+  --mist:#E8E3DA;--forest:#3F6E45;
+  --i08:rgba(15,25,34,.08);--i14:rgba(15,25,34,.14);--i55:rgba(15,25,34,.55);
+  --p08:rgba(244,239,230,.08);--p18:rgba(244,239,230,.18);--p55:rgba(244,239,230,.55);
+  --serif:'Fraunces',Georgia,serif;--sans:'Inter Tight',system-ui,sans-serif;--mono:'Geist Mono',monospace;
+}
+
+body{font-family:var(--sans);background:var(--parchment);color:var(--ink);line-height:1.6;font-size:15px;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--sans);}
+
+/* NAV */
+nav{background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 36px;height:60px;position:sticky;top:0;z-index:200;}
+.logo{font-family:var(--serif);font-size:19px;font-weight:300;color:var(--parchment);letter-spacing:-.02em;}
+.logo b{color:var(--brass);font-weight:400;}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:13px;color:var(--p55);font-weight:500;letter-spacing:.02em;transition:color .15s;}
+.nav-links a:hover{color:var(--parchment);}
+.nav-demo{background:var(--brass);border:none;color:var(--ink);font-size:13px;font-weight:600;padding:8px 18px;border-radius:5px;letter-spacing:.01em;}
+
+/* ── HERO ── */
+.hero{background:var(--ink);padding:80px 36px 72px;position:relative;overflow:hidden;}
+.hero-grid{display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;max-width:1100px;}
+.hero-kicker{font-family:var(--mono);font-size:10.5px;color:var(--brass);letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;}
+.hero-h1{font-family:var(--serif);font-size:clamp(38px,5vw,58px);font-weight:300;line-height:1.1;letter-spacing:-.03em;color:var(--parchment);margin-bottom:24px;}
+.hero-h1 em{font-style:italic;color:var(--bl);}
+.hero-body{font-size:16px;color:var(--p55);line-height:1.7;margin-bottom:36px;max-width:460px;}
+.hero-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+.btn-primary{background:var(--brass);border:none;color:var(--ink);font-size:14px;font-weight:600;padding:13px 26px;border-radius:6px;}
+.btn-outline{background:transparent;border:1px solid var(--p18);color:var(--parchment);font-size:14px;font-weight:500;padding:13px 26px;border-radius:6px;}
+.hero-card{background:rgba(255,255,255,.04);border:1px solid var(--p08);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:14px;}
+.hero-card-row{display:flex;align-items:flex-start;gap:12px;}
+.hcr-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.dot-eu{background:#C9A052;}
+.dot-iso{background:#6DB078;}
+.dot-nist{background:#7AADCF;}
+.dot-gdpr{background:#CF8A7A;}
+.dot-uae{background:#A08ACF;}
+.hcr-body{font-size:13px;color:rgba(244,239,230,.75);line-height:1.5;}
+.hcr-body strong{color:var(--parchment);font-weight:600;display:block;font-size:13px;}
+.hero-card-label{font-family:var(--mono);font-size:9.5px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;}
+
+/* ── LOGOS ── */
+.logos-strip{background:var(--ink);border-top:1px solid var(--p08);padding:18px 36px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.logos-label{font-family:var(--mono);font-size:9.5px;color:rgba(244,239,230,.3);letter-spacing:.1em;text-transform:uppercase;margin-right:12px;white-space:nowrap;}
+.fw-pill{font-family:var(--mono);font-size:10px;font-weight:500;padding:5px 12px;border-radius:4px;white-space:nowrap;letter-spacing:.01em;}
+.p-eu{background:rgba(201,160,82,.14);color:#C9A052;border:1px solid rgba(201,160,82,.22);}
+.p-iso{background:rgba(109,176,120,.12);color:#6DB078;border:1px solid rgba(109,176,120,.2);}
+.p-nist{background:rgba(122,173,207,.12);color:#7AADCF;border:1px solid rgba(122,173,207,.2);}
+.p-gdpr{background:rgba(207,138,122,.12);color:#CF8A7A;border:1px solid rgba(207,138,122,.2);}
+.p-uae{background:rgba(160,138,207,.12);color:#A08ACF;border:1px solid rgba(160,138,207,.2);}
+
+/* ── SECTION SHELL ── */
+.s{padding:80px 36px;}
+.s-mist{background:var(--mist);}
+.s-ink{background:var(--ink);}
+.s-white{background:#FDFAF5;}
+.eyebrow{font-family:var(--mono);font-size:10px;color:var(--brass);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;}
+.hl{font-family:var(--serif);font-size:clamp(28px,3.2vw,40px);font-weight:300;letter-spacing:-.025em;line-height:1.18;margin-bottom:14px;}
+.sub{font-size:15px;color:var(--i55);line-height:1.72;max-width:580px;margin-bottom:52px;}
+.s-ink .hl{color:var(--parchment);}
+.s-ink .sub{color:var(--p55);}
+.s-ink .eyebrow{color:var(--brass);}
+.centered{text-align:center;}
+.centered .sub{margin-left:auto;margin-right:auto;}
+
+/* ── WHY TRUSTLAYER ── */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;}
+.why-card{background:var(--parchment);border:1px solid var(--i08);border-radius:10px;padding:28px 24px;}
+.why-icon{width:40px;height:40px;border-radius:9px;background:rgba(166,124,45,.1);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
+.why-icon svg{width:20px;height:20px;stroke:var(--brass);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.why-title{font-size:15px;font-weight:600;margin-bottom:8px;}
+.why-body{font-size:13.5px;color:var(--i55);line-height:1.62;}
+
+/* ── EVIDENCE REUSE VISUAL ── */
+.reuse-block{background:rgba(244,239,230,.04);border:1px solid var(--p08);border-radius:12px;padding:36px;max-width:760px;margin:0 auto;}
+.reuse-center{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin:24px 0;}
+.reuse-source{background:rgba(201,160,82,.12);border:1px solid rgba(201,160,82,.22);border-radius:8px;padding:16px 22px;text-align:center;}
+.reuse-source-label{font-family:var(--mono);font-size:9.5px;color:var(--brass);letter-spacing:.08em;margin-bottom:4px;}
+.reuse-source-name{font-size:13px;font-weight:600;color:var(--parchment);}
+.reuse-arrow{font-size:22px;color:rgba(244,239,230,.2);}
+.reuse-targets{display:flex;flex-direction:column;gap:7px;}
+.reuse-t{font-size:12px;padding:7px 14px;border-radius:5px;font-family:var(--mono);}
+.reuse-t-eu{background:rgba(201,160,82,.15);color:#C9A052;}
+.reuse-t-iso{background:rgba(109,176,120,.15);color:#6DB078;}
+.reuse-t-nist{background:rgba(122,173,207,.15);color:#7AADCF;}
+.reuse-t-gdpr{background:rgba(207,138,122,.15);color:#CF8A7A;}
+.reuse-label{font-size:12px;color:var(--p55);text-align:center;margin-top:8px;font-family:var(--mono);}
+
+/* ── FRAMEWORKS ── */
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.fw-card{border-radius:9px;padding:22px 20px;border:1px solid var(--i08);}
+.fw-card-eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;margin-bottom:10px;display:inline-block;padding:3px 9px;border-radius:4px;}
+.fw-card-name{font-size:14px;font-weight:600;margin-bottom:6px;}
+.fw-card-body{font-size:12.5px;color:var(--i55);line-height:1.6;}
+.fw-eu{background:#FBF6EC;border-color:rgba(201,160,82,.2);}
+.fw-eu .fw-card-eyebrow{background:rgba(201,160,82,.14);color:#A67C2D;}
+.fw-iso{background:#EEF6EF;border-color:rgba(109,176,120,.2);}
+.fw-iso .fw-card-eyebrow{background:rgba(109,176,120,.15);color:#3F6E45;}
+.fw-nist{background:#EDF4F9;border-color:rgba(122,173,207,.2);}
+.fw-nist .fw-card-eyebrow{background:rgba(122,173,207,.14);color:#3A6E8F;}
+.fw-gdpr{background:#FAF1EE;border-color:rgba(207,138,122,.2);}
+.fw-gdpr .fw-card-eyebrow{background:rgba(207,138,122,.14);color:#8F3E2A;}
+.fw-uae{background:#F4F0FA;border-color:rgba(160,138,207,.2);}
+.fw-uae .fw-card-eyebrow{background:rgba(160,138,207,.14);color:#5A3E9F;}
+
+/* ── HOW IT WORKS ── */
+.steps{display:flex;flex-direction:column;gap:0;max-width:720px;margin:0 auto;}
+.step{display:grid;grid-template-columns:56px 1fr;gap:24px;padding:32px 0;border-bottom:1px solid var(--i08);}
+.step:last-child{border-bottom:none;}
+.step-num{font-family:var(--serif);font-size:38px;font-weight:300;color:var(--brass);line-height:1;}
+.step-title{font-size:16px;font-weight:600;margin-bottom:6px;}
+.step-body{font-size:13.5px;color:var(--i55);line-height:1.65;}
+
+/* ── UAE ── */
+.uae-hero-block{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.uae-headline{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);font-weight:300;letter-spacing:-.025em;line-height:1.15;color:var(--parchment);margin-bottom:20px;}
+.uae-headline em{font-style:italic;color:var(--bl);}
+.uae-body{font-size:15px;color:var(--p55);line-height:1.72;margin-bottom:28px;}
+.uae-alert{background:rgba(201,160,82,.1);border:1px solid rgba(201,160,82,.22);border-radius:8px;padding:16px 20px;margin-bottom:28px;display:flex;gap:12px;align-items:flex-start;}
+.uae-dot{width:8px;height:8px;border-radius:50%;background:var(--brass);flex-shrink:0;margin-top:5px;}
+.uae-alert-text{font-size:13px;color:rgba(244,239,230,.85);line-height:1.55;}
+.uae-alert-text strong{color:var(--bl);}
+.uae-jurs{display:flex;flex-direction:column;gap:10px;}
+.jur-card{background:rgba(255,255,255,.04);border:1px solid var(--p08);border-radius:9px;padding:18px 20px;}
+.jur-title{font-size:13px;font-weight:600;color:var(--parchment);margin-bottom:2px;}
+.jur-sub{font-family:var(--mono);font-size:9.5px;color:var(--brass);letter-spacing:.06em;margin-bottom:8px;}
+.jur-desc{font-size:12.5px;color:var(--p55);line-height:1.55;}
+
+/* ── PERSONAS ── */
+.persona-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
+.persona-card{background:var(--parchment);border:1px solid var(--i08);border-radius:10px;padding:24px;}
+.persona-role{font-family:var(--mono);font-size:9.5px;color:var(--brass);letter-spacing:.08em;margin-bottom:10px;text-transform:uppercase;}
+.persona-name{font-size:15px;font-weight:600;margin-bottom:6px;}
+.persona-need{font-size:13px;color:var(--i55);line-height:1.6;margin-bottom:14px;}
+.persona-gets{font-size:12.5px;color:var(--forest);font-weight:500;padding-top:12px;border-top:1px solid var(--i08);}
+
+/* ── INDUSTRIES ── */
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
+.ind-card{background:var(--parchment);border:1px solid var(--i08);border-radius:8px;padding:18px 16px;text-align:center;}
+.ind-icon{font-size:22px;margin-bottom:8px;}
+.ind-name{font-size:13px;font-weight:600;margin-bottom:4px;}
+.ind-note{font-size:11.5px;color:var(--i55);line-height:1.5;}
+
+/* ── STATS ── */
+.stats-row{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--p08);border-bottom:1px solid var(--p08);margin:48px 0;}
+.stat-item{flex:1;min-width:160px;padding:32px 24px;border-right:1px solid var(--p08);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:var(--serif);font-size:40px;font-weight:300;color:var(--parchment);letter-spacing:-.04em;line-height:1;}
+.stat-num span{color:var(--brass);}
+.stat-label{font-size:12px;color:var(--p55);margin-top:6px;letter-spacing:.02em;}
+
+/* ── QUOTE ── */
+.quote-block{max-width:680px;margin:0 auto;text-align:center;padding:48px 0;}
+.qm{font-family:var(--serif);font-size:56px;font-weight:300;color:var(--brass);line-height:.5;margin-bottom:22px;display:block;}
+.qt{font-family:var(--serif);font-size:20px;font-weight:300;font-style:italic;line-height:1.6;letter-spacing:-.01em;margin-bottom:26px;}
+.qa{font-family:var(--mono);font-size:10.5px;color:var(--i55);letter-spacing:.06em;}
+
+/* ── CTA ── */
+.cta-section{background:var(--ink);padding:96px 36px;text-align:center;}
+.cta-hl{font-family:var(--serif);font-size:clamp(30px,4vw,48px);font-weight:300;color:var(--parchment);letter-spacing:-.03em;line-height:1.12;margin-bottom:18px;max-width:600px;margin-left:auto;margin-right:auto;}
+.cta-sub{font-size:15px;color:var(--p55);margin-bottom:36px;}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* ── FOOTER ── */
+footer{background:#080E12;padding:44px 36px 28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-end;}
+.f-brand{font-family:var(--serif);font-size:17px;font-weight:300;color:rgba(244,239,230,.35);}
+.f-brand b{color:var(--brass);font-weight:400;}
+.f-links{display:flex;gap:22px;flex-wrap:wrap;}
+.f-links a{font-size:12px;color:rgba(244,239,230,.28);}
+.f-copy{width:100%;font-family:var(--mono);font-size:10.5px;color:rgba(244,239,230,.18);margin-top:20px;}
+
+hr.divider{border:none;border-top:1px solid var(--i08);margin:0 36px;}
+</style>
+
+<h2 class="sr-only">TrustLayer AI — Enterprise AI Governance Platform</h2>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Trust<b>Layer</b> AI</div>
+  <div class="nav-links">
+    <a href="#">Platform</a>
+    <a href="#">Frameworks</a>
+    <a href="#">UAE</a>
+    <a href="#">Industries</a>
+    <a href="#">Resources</a>
+  </div>
+  <button class="nav-demo">Book a demo</button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-kicker">AI Governance · From Obligation to Advantage</div>
+      <h1 class="hero-h1">
+        Stop governing AI<br>framework by framework.<br>
+        <em>Do it once. Satisfy all.</em>
+      </h1>
+      <p class="hero-body">
+        Organisations adopting AI face a patchwork of obligations — EU AI Act, ISO 42001, NIST, GDPR, and now UAE regulations. TrustLayer turns that complexity into a single, continuous governance practice. One platform. Every framework. Evidence filed once.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary">See the platform</button>
+        <button class="btn-outline">Explore frameworks →</button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">One filing. Multiple frameworks closed.</div>
+      <div class="hero-card-row">
+        <div class="hcr-dot dot-eu"></div>
+        <div class="hcr-body"><strong>EU AI Act · High-Risk</strong>Conformity assessment, technical documentation, and FRIA obligations satisfied.</div>
+      </div>
+      <div class="hero-card-row">
+        <div class="hcr-dot dot-iso"></div>
+        <div class="hcr-body"><strong>ISO/IEC 42001:2023</strong>Risk treatment and control evidence mapped to clause requirements automatically.</div>
+      </div>
+      <div class="hero-card-row">
+        <div class="hcr-dot dot-nist"></div>
+        <div class="hcr-body"><strong>NIST AI RMF 1.0</strong>GOVERN, MAP, MEASURE, MANAGE coverage without a separate audit trail.</div>
+      </div>
+      <div class="hero-card-row">
+        <div class="hcr-dot dot-gdpr"></div>
+        <div class="hcr-body"><strong>GDPR · Data Protection</strong>DPIA and automated decision-making obligations linked to the same evidence base.</div>
+      </div>
+      <div class="hero-card-row">
+        <div class="hcr-dot dot-uae"></div>
+        <div class="hcr-body"><strong>UAE · DIFC · ADGM</strong>All three UAE jurisdictions governed separately — not combined into a single tab.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRAMEWORK STRIP -->
+<div class="logos-strip">
+  <span class="logos-label">Frameworks covered</span>
+  <span class="fw-pill p-eu">EU AI Act 2024/1689</span>
+  <span class="fw-pill p-iso">ISO/IEC 42001:2023</span>
+  <span class="fw-pill p-nist">NIST AI RMF 1.0</span>
+  <span class="fw-pill p-gdpr">GDPR</span>
+  <span class="fw-pill p-uae">DIFC Regulation 10</span>
+  <span class="fw-pill p-uae">UAE PDPL</span>
+  <span class="fw-pill p-uae">ADGM DPR 2021</span>
+</div>
+
+<!-- ── WHY ── -->
+<section class="s s-white">
+  <div class="eyebrow">The governance gap</div>
+  <h2 class="hl">Most AI teams are over-governed on paper<br>and under-governed in practice.</h2>
+  <p class="sub">Spreadsheets, point tools, and siloed audits produce compliance theatre — not real risk reduction. TrustLayer is built differently.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>
+      </div>
+      <div class="why-title">Evidence filed once, counted everywhere</div>
+      <div class="why-body">The same governance action — a bias audit, a data quality review — satisfies obligations across EU AI Act, ISO 42001, NIST, and GDPR simultaneously. No parallel audit trails. No duplicated effort.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg>
+      </div>
+      <div class="why-title">Live posture, not periodic snapshots</div>
+      <div class="why-body">Your compliance posture updates as controls are applied and evidence is filed — not annually when the auditor arrives. See where you stand today, across every framework and every AI system you operate.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </div>
+      <div class="why-title">Structured, not tickbox</div>
+      <div class="why-body">Every AI system carries a structured risk profile — likelihood, impact, and control effectiveness — not a yes/no compliance checklist. Risk reduction is measurable. Board reporting is honest.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="why-title">Built for multi-jurisdiction organisations</div>
+      <div class="why-body">Whether you operate under EU law, UK GDPR, or UAE regulations, TrustLayer maps each jurisdiction's obligations separately and surfaces where your existing evidence already covers the gap.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── EVIDENCE REUSE ── -->
+<section class="s s-ink centered">
+  <div class="eyebrow">Core architecture</div>
+  <h2 class="hl">One action. Five obligations closed.</h2>
+  <p class="sub" style="margin-left:auto;margin-right:auto;">Most platforms track what you've done. TrustLayer works out where it counts — and tells you what's still open.</p>
+
+  <div class="reuse-block">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--brass);letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px;">Multi-framework evidence reuse — illustrated</div>
+    <div class="reuse-center">
+      <div class="reuse-source">
+        <div class="reuse-source-label">Governance action</div>
+        <div class="reuse-source-name">Bias audit completed<br><span style="font-size:11px;opacity:.6;font-weight:400;">Clinical decision AI system</span></div>
+      </div>
+      <div class="reuse-arrow">→</div>
+      <div class="reuse-targets">
+        <div class="reuse-t reuse-t-eu">EU AI Act · Art. 9 Risk Management ✓</div>
+        <div class="reuse-t reuse-t-iso">ISO 42001 · §6.1.2 Risk Treatment ✓</div>
+        <div class="reuse-t reuse-t-nist">NIST AI RMF · MAP 2.3 ✓</div>
+        <div class="reuse-t reuse-t-gdpr">GDPR · Art. 22 Automated Decisions ✓</div>
+        <div class="reuse-t reuse-t-uae" style="background:rgba(160,138,207,.15);color:#A08ACF;">DIFC Regulation 10 · AI Impact ✓</div>
+      </div>
+    </div>
+    <div class="reuse-label">Filed once. Regulators satisfied across all frameworks. Gap analysis updated automatically.</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">5<span>+</span></div>
+      <div class="stat-label">Regulatory frameworks covered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Avg. obligations satisfied per evidence filing</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">UAE jurisdictions governed separately</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Platform modules. One evidence schema.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="s s-white">
+  <div class="eyebrow centered" style="text-align:center;">How it works</div>
+  <h2 class="hl centered" style="text-align:center;max-width:560px;margin-left:auto;margin-right:auto;">From scattered AI to governed portfolio — in four steps.</h2>
+  <p class="sub centered" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:48px;">TrustLayer is designed to be operational in days — not a six-month implementation project.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Register every AI system you operate</div>
+        <div class="step-body">Build a structured inventory of every AI system — in development, in production, and from third-party vendors. Each system is automatically classified by risk level and regulatory applicability. High-risk systems trigger the right governance workflows without manual configuration.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">See your real compliance posture</div>
+        <div class="step-body">TrustLayer maps your systems against every applicable framework and shows you what's covered, what's open, and what's critical. No guesswork. No spreadsheet archaeology. A live view of where you stand — for every regulation you operate under.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Apply controls — once, across all frameworks</div>
+        <div class="step-body">Every governance action you take — a review, an audit, a policy sign-off — is mapped to every obligation it satisfies. Your team stops asking "have we done this for ISO as well as EU AI Act?" because the answer is always visible, instantly.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">Report to boards, auditors, and regulators with confidence</div>
+        <div class="step-body">Generate structured, framework-mapped reports in formats that regulators and auditors actually need. Evidence is traceable, policies are versioned, and every approval workflow is logged. No last-minute audit preparation — because governance has been continuous.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FRAMEWORKS ── -->
+<section class="s s-mist">
+  <div class="eyebrow">Regulatory coverage</div>
+  <h2 class="hl">Every framework your AI needs to comply with.</h2>
+  <p class="sub">TrustLayer models the clause structure, article hierarchy, and enforcement context of each framework natively — not as a generic checklist overlay.</p>
+
+  <div class="fw-grid">
+    <div class="fw-card fw-eu">
+      <div class="fw-card-eyebrow">EU AI Act</div>
+      <div class="fw-card-name">EU AI Act 2024/1689</div>
+      <div class="fw-card-body">The world's first comprehensive horizontal AI law. Includes high-risk classification, conformity assessment, FRIA workflows, transparency obligations, and GPAI provisions for foundation models. High-risk enforcement is live as of August 2026.</div>
+    </div>
+    <div class="fw-card fw-iso">
+      <div class="fw-card-eyebrow">ISO 42001</div>
+      <div class="fw-card-name">ISO/IEC 42001:2023</div>
+      <div class="fw-card-body">The international standard for AI Management Systems. TrustLayer's team is ISO 42001-certified. Coverage spans context, risk treatment, performance evaluation, and continual improvement — with audit-ready evidence at every clause.</div>
+    </div>
+    <div class="fw-card fw-nist">
+      <div class="fw-card-eyebrow">NIST AI RMF</div>
+      <div class="fw-card-name">NIST AI RMF 1.0</div>
+      <div class="fw-card-body">The US voluntary framework for managing AI risk across GOVERN, MAP, MEASURE, and MANAGE functions. Widely adopted in US federal agencies and financial services. Cross-mapped to EU AI Act obligations for maximum evidence reuse.</div>
+    </div>
+    <div class="fw-card fw-gdpr">
+      <div class="fw-card-eyebrow">GDPR</div>
+      <div class="fw-card-name">GDPR & Data Protection</div>
+      <div class="fw-card-body">Data Protection Impact Assessments, automated decision-making controls, and data minimisation requirements — linked to the same evidence base as your AI governance controls. Cross-mapped to UAE PDPL and DIFC DPL for dual-jurisdiction organisations.</div>
+    </div>
+    <div class="fw-card fw-uae">
+      <div class="fw-card-eyebrow">UAE · DIFC · ADGM</div>
+      <div class="fw-card-name">UAE Regulatory Suite</div>
+      <div class="fw-card-body">DIFC Regulation 10 (enforcement live), UAE PDPL (federal deadline January 2027), and ADGM DPR 2021 — each modelled separately. Mainland, DIFC, and ADGM carry materially different obligations. TrustLayer is the only platform that maps all three distinctly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── UAE ── -->
+<section class="s s-ink" id="uae">
+  <div class="uae-hero-block">
+    <div>
+      <div class="eyebrow">UAE — the fastest-moving AI regulation market</div>
+      <h2 class="uae-headline">The UAE AI clock<br>is already <em>running.</em></h2>
+      <p class="uae-body">DIFC Regulation 10 is in active enforcement. The UAE PDPL federal deadline is January 2027. Organisations operating across mainland UAE, DIFC, and ADGM face three materially different obligation sets — and most governance platforms treat them as one. TrustLayer doesn't.</p>
+      <div class="uae-alert">
+        <div class="uae-dot"></div>
+        <div class="uae-alert-text"><strong>DIFC Regulation 10 — enforcement active since January 2026.</strong> AI governance frameworks are now a regulatory requirement for DIFC-registered entities, not a best practice. UAE PDPL federal deadline: <strong>January 2027.</strong></div>
+      </div>
+      <button class="btn-primary">Talk to our UAE team →</button>
+    </div>
+    <div class="uae-jurs">
+      <div class="jur-card">
+        <div class="jur-title">UAE Mainland</div>
+        <div class="jur-sub">Federal · UAE PDPL · January 2027</div>
+        <div class="jur-desc">Federal Personal Data Protection Law with a January 2027 compliance deadline. Data processing registration, consent requirements, and cross-border transfer restrictions — cross-mapped from GDPR controls to minimise duplication for global organisations.</div>
+      </div>
+      <div class="jur-card">
+        <div class="jur-title">DIFC</div>
+        <div class="jur-sub">Dubai International Financial Centre · Enforcement active</div>
+        <div class="jur-desc">DIFC Regulation 10 requires a board-approved AI governance framework, AI Impact Assessments, and a designated AI Systems Officer. TrustLayer includes the ASO role natively and automates Impact Assessment workflows for registered AI systems.</div>
+      </div>
+      <div class="jur-card">
+        <div class="jur-title">ADGM</div>
+        <div class="jur-sub">Abu Dhabi Global Market · FSRA regulated</div>
+        <div class="jur-desc">ADGM DPR 2021 closely mirrors UK GDPR in structure. If you're already GDPR-compliant, TrustLayer maps your existing evidence across to ADGM obligations automatically — dramatically reducing the compliance overhead for Abu Dhabi-registered entities.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHO IT'S FOR ── -->
+<section class="s s-white">
+  <div class="eyebrow">Who uses TrustLayer</div>
+  <h2 class="hl">Governance isn't one person's job.<br>TrustLayer is built for the whole team.</h2>
+  <p class="sub">Different stakeholders need different things from AI governance. TrustLayer gives each role what they actually need — without forcing everyone into the same view.</p>
+
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-role">Chief AI Officer / CAIO</div>
+      <div class="persona-name">Portfolio visibility</div>
+      <div class="persona-need">Needs to show the board that AI deployment is governed, risks are understood, and no system is running ungoverned.</div>
+      <div class="persona-gets">↗ Live portfolio posture. Board-ready reports. Framework coverage at a glance.</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-role">Risk Manager</div>
+      <div class="persona-name">Measurable risk reduction</div>
+      <div class="persona-need">Needs to know that risk assessments are consistent, that controls are actually working, and that high-risk systems get the most scrutiny.</div>
+      <div class="persona-gets">↗ Structured risk profiles per system. Control effectiveness tracking. Critical gaps surfaced first.</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-role">Data Protection Officer</div>
+      <div class="persona-name">GDPR + UAE data obligations</div>
+      <div class="persona-need">Needs DPIA workflows, data minimisation evidence, and — for UAE operations — PDPL and DIFC DPL compliance managed alongside GDPR, not separately.</div>
+      <div class="persona-gets">↗ GDPR-to-UAE cross-mapping. DPIA integrated into AI governance. One audit trail.</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-role">Legal Counsel / Compliance</div>
+      <div class="persona-name">Audit-ready evidence</div>
+      <div class="persona-need">Needs versioned policies, traceable approvals, immutable records for high-risk AI decisions, and regulator-ready exports on demand.</div>
+      <div class="persona-gets">↗ Immutable audit logs. Versioned policy records. Framework-mapped reports for regulators.</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-role">AI / Product Teams</div>
+      <div class="persona-name">Governance without blockers</div>
+      <div class="persona-need">Needs governance that integrates with the way teams actually build — without turning every deployment into a six-week compliance review.</div>
+      <div class="persona-gets">↗ Streamlined approval workflows. Clear requirements upfront. No governance surprises at launch.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── INDUSTRIES ── -->
+<section class="s s-mist">
+  <div class="eyebrow centered" style="text-align:center;">Industries</div>
+  <h2 class="hl centered" style="text-align:center;max-width:520px;margin:0 auto 14px;">High-stakes AI demands high-rigour governance.</h2>
+  <p class="sub" style="text-align:center;margin:0 auto 48px;">TrustLayer is built for industries where AI errors carry real consequences — financial, legal, or human.</p>
+  <div class="ind-grid">
+    <div class="ind-card">
+      <div class="ind-icon">🏥</div>
+      <div class="ind-name">Healthcare & Life Sciences</div>
+      <div class="ind-note">Clinical AI, diagnostic tools, and drug development systems require EU AI Act Annex III compliance and DPIA-linked audit trails.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon">🏦</div>
+      <div class="ind-name">Financial Services</div>
+      <div class="ind-note">Credit scoring, fraud detection, and trading algorithms demand transparent risk management, model validation, and regulator-ready reporting.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon">🏛️</div>
+      <div class="ind-name">Government & Public Sector</div>
+      <div class="ind-note">AI used in public services carries heightened accountability obligations. TrustLayer manages the full lifecycle from procurement to audit.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon">⚖️</div>
+      <div class="ind-name">Legal & Professional Services</div>
+      <div class="ind-note">Legal AI tools, document analysis, and automated advice systems carry professional liability. Governance is no longer optional.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon">🛢️</div>
+      <div class="ind-name">Energy & Infrastructure</div>
+      <div class="ind-note">Predictive maintenance, safety monitoring, and operational AI in critical infrastructure require robust risk classification and continuous oversight.</div>
+    </div>
+    <div class="ind-card">
+      <div class="ind-icon">🌍</div>
+      <div class="ind-name">Multinational Enterprises</div>
+      <div class="ind-note">Operating across EU, UK, US, and UAE simultaneously? TrustLayer maps all jurisdictions into a single governance view — without duplicating your team's effort.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── QUOTE ── -->
+<section class="s s-white">
+  <div class="quote-block">
+    <span class="qm">"</span>
+    <p class="qt">We moved from managing AI compliance in spreadsheets across five frameworks to having a single place where every governance action is counted everywhere it matters. The time-to-review dropped by more than half.</p>
+    <div class="qa">Head of AI Governance · Global Financial Services Organisation</div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <h2 class="cta-hl">Ready to make AI governance work — not just look like it does?</h2>
+  <p class="cta-sub">Book a 45-minute platform walkthrough. Bring your AI systems. We'll show you where the gaps are.</p>
+  <div class="cta-actions">
+    <button class="btn-primary">Book a demo</button>
+    <button class="btn-outline">Download the EU AI Act guide</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-brand">Trust<b>Layer</b> AI</div>
+  <div class="f-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">ISO 42001</a>
+    <a href="#">Contact</a>
+    <a href="#">Careers</a>
+  </div>
+  <div class="f-copy">© 2026 TrustLayer AI · ISO/IEC 42001:2023 Certified · Dubai · Bengaluru · London</div>
+</footer>

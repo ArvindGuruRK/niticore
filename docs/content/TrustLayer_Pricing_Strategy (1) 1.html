@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustLayer AI — Pricing Strategy v1.0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Inter+Tight:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink: #0F1922;
+    --parchment: #F4EFE6;
+    --brass: #A67C2D;
+    --brass-light: #C9A050;
+    --brass-dim: #7A5C20;
+    --forest: #3F6E45;
+    --forest-light: #5A9462;
+    --ink-80: rgba(15,25,34,0.80);
+    --ink-50: rgba(15,25,34,0.50);
+    --ink-20: rgba(15,25,34,0.12);
+    --ink-08: rgba(15,25,34,0.06);
+    --white: #ffffff;
+    --danger: #C0392B;
+    --warn: #D4880A;
+    --go: #2A7D4F;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter Tight', system-ui, sans-serif;
+    background: var(--parchment);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── SIDEBAR NAV ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  .sidebar {
+    width: 248px;
+    flex-shrink: 0;
+    background: var(--ink);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .sidebar-brand {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sidebar-brand .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+
+  .sidebar-brand .doc-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--brass);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  .sidebar nav { padding: 16px 0; flex: 1; }
+
+  .nav-section {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.3);
+    padding: 12px 24px 6px;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 9px 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    line-height: 1.3;
+    transition: color 0.15s, background 0.15s;
+    border-left: 2px solid transparent;
+  }
+
+  .nav-link:hover { color: var(--parchment); background: rgba(255,255,255,0.04); }
+  .nav-link.active { color: var(--brass-light); border-left-color: var(--brass); background: rgba(166,124,45,0.1); }
+
+  .sidebar-footer {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { flex: 1; min-width: 0; }
+
+  /* ── PAGE HEADER ── */
+  .doc-header {
+    background: var(--ink);
+    padding: 60px 64px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .doc-header::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(166,124,45,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .doc-header .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--brass);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .doc-header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 42px;
+    line-height: 1.1;
+    color: var(--parchment);
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+
+  .doc-meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.35); font-family: 'Geist Mono', monospace; }
+  .meta-value { font-size: 13px; color: rgba(255,255,255,0.75); }
+
+  /* ── CONTENT SECTIONS ── */
+  .content-section {
+    padding: 56px 64px;
+    border-bottom: 1px solid var(--ink-20);
+  }
+
+  .content-section:last-child { border-bottom: none; }
+
+  .section-anchor { display: block; position: relative; top: -80px; visibility: hidden; }
+
+  .section-eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brass);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .section-subtitle {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 16px;
+    margin-top: 36px;
+  }
+
+  .prose {
+    color: var(--ink-80);
+    max-width: 720px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-size: 15px;
+  }
+
+  strong { font-weight: 600; color: var(--ink); }
+
+  /* ── CALLOUT BOXES ── */
+  .callout {
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .callout.brass {
+    background: rgba(166,124,45,0.08);
+    border-left: 3px solid var(--brass);
+    color: var(--ink-80);
+  }
+
+  .callout.forest {
+    background: rgba(63,110,69,0.08);
+    border-left: 3px solid var(--forest);
+    color: var(--ink-80);
+  }
+
+  .callout.danger {
+    background: rgba(192,57,43,0.07);
+    border-left: 3px solid var(--danger);
+    color: var(--ink-80);
+  }
+
+  .callout strong { display: block; margin-bottom: 6px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-family: 'Geist Mono', monospace; }
+  .callout.brass strong { color: var(--brass-dim); }
+  .callout.forest strong { color: var(--forest); }
+  .callout.danger strong { color: var(--danger); }
+
+  /* ── TABLES ── */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 32px; border-radius: 8px; border: 1px solid var(--ink-20); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: var(--white);
+  }
+
+  thead { background: var(--ink); }
+
+  thead th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-family: 'Geist Mono', monospace;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255,255,255,0.65);
+    white-space: nowrap;
+  }
+
+  tbody tr { border-bottom: 1px solid var(--ink-08); transition: background 0.1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(166,124,45,0.04); }
+
+  tbody td {
+    padding: 13px 16px;
+    vertical-align: top;
+    color: var(--ink-80);
+    line-height: 1.5;
+  }
+
+  tbody td:first-child { font-weight: 500; color: var(--ink); }
+
+  .td-mono {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--brass-dim) !important;
+    font-weight: 400 !important;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .badge.high { background: rgba(192,57,43,0.12); color: var(--danger); }
+  .badge.med { background: rgba(212,136,10,0.12); color: var(--warn); }
+  .badge.low { background: rgba(63,110,69,0.12); color: var(--forest); }
+  .badge.rec { background: rgba(166,124,45,0.15); color: var(--brass-dim); border: 1px solid rgba(166,124,45,0.3); }
+
+  /* ── PRICING CARD GRID ── */
+  .plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .plan-card {
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    padding: 28px 26px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .plan-card:hover { box-shadow: 0 4px 24px rgba(15,25,34,0.1); }
+
+  .plan-card.featured {
+    border-color: var(--brass);
+    box-shadow: 0 0 0 2px rgba(166,124,45,0.2);
+  }
+
+  .plan-featured-label {
+    position: absolute;
+    top: -11px;
+    left: 24px;
+    background: var(--brass);
+    color: var(--white);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 10px;
+    border-radius: 3px;
+  }
+
+  .plan-tier {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brass);
+    margin-bottom: 6px;
+  }
+
+  .plan-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .plan-desc {
+    font-size: 13px;
+    color: var(--ink-50);
+    margin-bottom: 20px;
+    line-height: 1.5;
+    min-height: 54px;
+  }
+
+  .plan-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .plan-acv {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+
+  .plan-period {
+    font-size: 13px;
+    color: var(--ink-50);
+  }
+
+  .plan-acv-note {
+    font-size: 11px;
+    color: var(--ink-50);
+    margin-bottom: 20px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .plan-divider { border: none; border-top: 1px solid var(--ink-08); margin: 20px 0; }
+
+  .plan-feature {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-80);
+    margin-bottom: 9px;
+    line-height: 1.4;
+  }
+
+  .plan-feature-icon { color: var(--forest); flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+  .plan-feature-icon.dim { color: var(--ink-20); }
+
+  /* ── STRATEGY OPTION CARDS ── */
+  .strategy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+
+  .strategy-card {
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    padding: 26px;
+  }
+
+  .strategy-num {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    color: var(--ink-08);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .strategy-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .strategy-hook {
+    font-size: 13px;
+    color: var(--brass-dim);
+    font-style: italic;
+    margin-bottom: 12px;
+    font-family: 'Fraunces', serif;
+  }
+
+  .strategy-body { font-size: 13.5px; color: var(--ink-80); line-height: 1.6; margin-bottom: 14px; }
+
+  .strategy-pros, .strategy-cons { font-size: 12.5px; margin-bottom: 6px; }
+  .strategy-pros { color: var(--forest); }
+  .strategy-cons { color: var(--danger); }
+
+  /* ── METRIC CARDS ── */
+  .metric-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+  .metric-card {
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .metric-value {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .metric-label {
+    font-size: 12px;
+    color: var(--ink-50);
+    line-height: 1.4;
+  }
+
+  .metric-source {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-20);
+    margin-top: 8px;
+  }
+
+  /* ── EXPANSION LADDER ── */
+  .ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 32px;
+  }
+
+  .ladder-step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 24px;
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 0;
+    position: relative;
+  }
+
+  .ladder-step:first-child { border-radius: 8px 8px 0 0; }
+  .ladder-step:last-child { border-radius: 0 0 8px 8px; }
+  .ladder-step:not(:last-child) { border-bottom: none; }
+
+  .ladder-step::before {
+    content: '';
+    position: absolute;
+    left: 44px;
+    bottom: -20px;
+    width: 2px;
+    height: 20px;
+    background: var(--brass);
+    z-index: 1;
+  }
+
+  .ladder-step:last-child::before { display: none; }
+
+  .ladder-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--parchment);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .ladder-content { flex: 1; }
+  .ladder-label { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .ladder-desc { font-size: 13px; color: var(--ink-50); line-height: 1.5; }
+  .ladder-value { font-family: 'Geist Mono', monospace; font-size: 11px; color: var(--brass); margin-top: 6px; }
+
+  /* ── COMPETITIVE BENCH ── */
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 32px; }
+
+  .comp-card {
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    padding: 18px 18px;
+  }
+
+  .comp-name { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .comp-range { font-family: 'Geist Mono', monospace; font-size: 12px; color: var(--brass-dim); margin-bottom: 6px; }
+  .comp-note { font-size: 12px; color: var(--ink-50); line-height: 1.4; }
+  .comp-card.us { border-top: 3px solid #4A90D9; }
+  .comp-card.eu { border-top: 3px solid #5B8C5A; }
+  .comp-card.tl { border-top: 3px solid var(--brass); }
+
+  /* ── ADDON TABLE ── */
+  .addon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+  .addon-card {
+    background: var(--white);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .addon-name { font-weight: 600; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .addon-price { font-family: 'Geist Mono', monospace; font-size: 13px; color: var(--forest); margin-bottom: 8px; }
+  .addon-desc { font-size: 12.5px; color: var(--ink-50); line-height: 1.5; }
+
+  /* ── RECOMMENDATION BOX ── */
+  .rec-box {
+    background: var(--ink);
+    color: var(--parchment);
+    border-radius: 10px;
+    padding: 36px 40px;
+    margin-bottom: 32px;
+  }
+
+  .rec-box h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--parchment);
+    letter-spacing: -0.01em;
+  }
+
+  .rec-box p { font-size: 14px; color: rgba(244,239,230,0.75); line-height: 1.7; margin-bottom: 12px; }
+  .rec-box p:last-child { margin-bottom: 0; }
+  .rec-box strong { color: var(--brass-light); }
+
+  /* ── UTILS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+  .tag { font-family: 'Geist Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  hr.section-rule { border: none; border-top: 1px solid var(--ink-20); margin: 32px 0; }
+
+  @media (max-width: 900px) {
+    .sidebar { display: none; }
+    .doc-header { padding: 40px 28px; }
+    .content-section { padding: 40px 28px; }
+    .doc-header h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="wordmark">TrustLayer AI</div>
+    <div class="doc-label">Pricing Strategy v1.0</div>
+  </div>
+  <nav>
+    <div class="nav-section">Context</div>
+    <a class="nav-link" href="#market">Market Position</a>
+    <a class="nav-link" href="#competitive">Competitive Benchmark</a>
+
+    <div class="nav-section">Strategies</div>
+    <a class="nav-link" href="#strategy-overview">Four Models Compared</a>
+    <a class="nav-link" href="#strategy-a">A · Tier-Based SaaS</a>
+    <a class="nav-link" href="#strategy-b">B · AI System Volume</a>
+    <a class="nav-link" href="#strategy-c">C · Framework Licensing</a>
+    <a class="nav-link" href="#strategy-d">D · Outcome-Based</a>
+
+    <div class="nav-section">Recommended Plan</div>
+    <a class="nav-link" href="#recommended">Recommended Structure</a>
+    <a class="nav-link" href="#plans">Plan Cards</a>
+    <a class="nav-link" href="#addons">Advisory Add-ons</a>
+    <a class="nav-link" href="#expansion">Expansion Ladder</a>
+
+    <div class="nav-section">Go-to-Market</div>
+    <a class="nav-link" href="#acv">ACV Targets</a>
+    <a class="nav-link" href="#uae">UAE / GCC Pricing</a>
+    <a class="nav-link" href="#negotiation">Negotiation Playbook</a>
+    <a class="nav-link" href="#discounting">Discounting Policy</a>
+  </nav>
+  <div class="sidebar-footer">TL-STRAT-PRICING-001<br>Author: Quaint Q · Sep 2026</div>
+</aside>
+
+<!-- ════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════ -->
+<main class="main">
+
+  <!-- DOC HEADER -->
+  <div class="doc-header">
+    <div class="eyebrow">TL-STRAT-PRICING-001 · Confidential</div>
+    <h1>TrustLayer Pricing Strategy</h1>
+    <div class="doc-meta">
+      <div class="meta-item"><span class="meta-label">Version</span><span class="meta-value">1.0 · September 2026</span></div>
+      <div class="meta-item"><span class="meta-label">Author</span><span class="meta-value">Quaint Q, Pricing Strategist</span></div>
+      <div class="meta-item"><span class="meta-label">Status</span><span class="meta-value">Draft for Review</span></div>
+      <div class="meta-item"><span class="meta-label">Market</span><span class="meta-value">Global Enterprise + UAE/GCC</span></div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: MARKET POSITION ── -->
+  <section class="content-section" id="market">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 1</div>
+    <div class="section-title">Where TrustLayer sits in the market</div>
+
+    <p class="prose">The AI governance platform market is projected to reach <strong>$492M in 2026</strong> and exceed $1B by 2030 (Gartner, 2025). Despite this scale, almost no vendor in the dedicated AI Governance Platform (AIGP) segment publishes pricing — Credo AI, Holistic AI, Saidot, Modulos, and Trustible all sell by custom enterprise quote. This creates both a challenge and an opportunity for TrustLayer.</p>
+
+    <p class="prose">The opportunity: TrustLayer has a genuine structural advantage — multi-framework evidence reuse across EU AI Act, ISO 42001, NIST AI RMF, GDPR, and three UAE jurisdictions (mainland, DIFC, ADGM) simultaneously — that no competitor addresses as a native capability. The challenge: the market's incumbent ACV floor is around $50,000/year for a mid-market deployment. TrustLayer's current website pricing ($1,800/month Foundation = $21,600 ACV) is materially below market and risks anchoring perception downward before a single enterprise sales conversation.</p>
+
+    <div class="callout danger">
+      <strong>Pricing Risk — Immediate Action Required</strong>
+      The current published Foundation tier at $1,800/month ($21,600 ACV) sits well below the $50,000 minimum mid-market floor established by OneTrust, Holistic AI, and Credo AI. At this price point, enterprise buyers may question the platform's maturity before any demo. Repricing is a prerequisite to credible enterprise GTM — this document recommends revised ranges before any conference appearance.
+    </div>
+
+    <div class="metric-row">
+      <div class="metric-card">
+        <div class="metric-value">$492M</div>
+        <div class="metric-label">AI governance platform market, 2026</div>
+        <div class="metric-source">Gartner, 2025</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">$50K+</div>
+        <div class="metric-label">Market floor ACV, mid-market deployment</div>
+        <div class="metric-source">Industry estimates</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">$500K+</div>
+        <div class="metric-label">Enterprise multi-framework ACV ceiling</div>
+        <div class="metric-source">OneTrust benchmark</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">96%</div>
+        <div class="metric-label">Enterprises without AI governance at scale</div>
+        <div class="metric-source">Credo AI, 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 2: COMPETITIVE BENCHMARK ── -->
+  <section class="content-section" id="competitive">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 2</div>
+    <div class="section-title">Competitive pricing benchmark</div>
+
+    <p class="prose">All leading AI governance vendors sell by custom enterprise quote. The figures below represent market estimates from analyst notes, third-party procurement databases, and public sources. None are official published prices — but they establish the market's implicit expectations.</p>
+
+    <div class="comp-grid">
+      <div class="comp-card us">
+        <div class="comp-name">Credo AI</div>
+        <div class="comp-range">$75,000 – $300,000+ ACV</div>
+        <div class="comp-note">Forrester Leader. No published pricing. AWS + Microsoft marketplace. Custom enterprise quote only. US federal presence via Carahsoft.</div>
+      </div>
+      <div class="comp-card us">
+        <div class="comp-name">Holistic AI</div>
+        <div class="comp-range">$50,000 – $200,000+ ACV</div>
+        <div class="comp-note">Audit + red-teaming specialist. Closest like-for-like competitor to TrustLayer on governance depth. No published pricing.</div>
+      </div>
+      <div class="comp-card us">
+        <div class="comp-name">OneTrust AI Governance</div>
+        <div class="comp-range">$50,000 – $500,000+ ACV</div>
+        <div class="comp-note">Add-on module to existing OneTrust contracts. Benefits from 14,000+ existing customer base. Strong GDPR/privacy overlap.</div>
+      </div>
+      <div class="comp-card eu">
+        <div class="comp-name">Saidot</div>
+        <div class="comp-range">$20,000 – $80,000 ACV</div>
+        <div class="comp-note">European market specialist. Subscription model with cancellation flexibility. Smaller market presence (~$3.4M funding). Closest to published pricing.</div>
+      </div>
+      <div class="comp-card eu">
+        <div class="comp-name">Modulos</div>
+        <div class="comp-range">$30,000 – $150,000 ACV</div>
+        <div class="comp-note">Swiss-based. EU AI Act specialist. 'AI Compliance-in-a-Box' starter on Microsoft marketplace. Enterprise quote for full platform.</div>
+      </div>
+      <div class="comp-card tl">
+        <div class="comp-name">TrustLayer AI</div>
+        <div class="comp-range">Current: $21,600 → Target: $48,000+</div>
+        <div class="comp-note">Uniquely covers UAE jurisdictions (mainland + DIFC + ADGM) plus full EU/ISO/NIST/GDPR. Multi-framework evidence reuse is unmatched in market.</div>
+      </div>
+    </div>
+
+    <div class="callout brass">
+      <strong>TrustLayer's Pricing Moat</strong>
+      The UAE/GCC regulatory stack — DIFC Regulation 10 (in enforcement since January 2026), UAE PDPL (federal deadline January 2027), and ADGM DPR — is simply not covered by any US or European competitor. For UAE-regulated enterprises, TrustLayer is not competing with Credo AI; it is the only option. This should command a premium over the standard enterprise floor in that market.
+    </div>
+  </section>
+
+  <!-- ── SECTION 3: FOUR STRATEGIES ── -->
+  <section class="content-section" id="strategy-overview">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 3</div>
+    <div class="section-title">Four pricing strategies evaluated</div>
+    <p class="prose">Before selecting a model, four structurally distinct approaches were assessed. Each has genuine merit depending on TrustLayer's GTM priority — but they differ significantly in sales complexity, revenue predictability, and expansion ceiling.</p>
+  </section>
+
+  <!-- Strategy A -->
+  <section class="content-section" id="strategy-a" style="padding-top: 32px;">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Strategy A</div>
+    <div class="section-title">Tier-Based Platform SaaS</div>
+    <p class="prose"><em>Three named tiers — Foundation, Professional, Governed Enterprise — differentiated by AI asset caps, user seats, framework count, and advisory access. Fixed annual price per tier, negotiated at renewal.</em></p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-title">How it works</div>
+        <div class="strategy-body">Price is anchored to tier selection, not usage metrics. Customers choose a tier based on how many AI systems they need to govern and how many regulatory frameworks they face. The tier determines feature access, support level, and user limits. Most enterprise SaaS platforms use this model (Salesforce, ServiceNow, HubSpot).</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-title">Revenue mechanics</div>
+        <div class="strategy-body">Highly predictable ARR. Expansion revenue comes from tier upgrades (horizontal) and renewal uplift (vertical). Net Revenue Retention target should exceed 120% — meaning existing customer expansion outpaces churn. Upsell trigger: customer exceeds AI asset cap or adds a new jurisdiction.</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Target buyer</th>
+            <th>AI Assets</th>
+            <th>Frameworks</th>
+            <th>ACV Range</th>
+            <th>Risk</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Foundation</td>
+            <td>Mid-market, 1 framework</td>
+            <td>Up to 15</td>
+            <td>1</td>
+            <td class="td-mono">$36,000 – $48,000</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+          <tr>
+            <td>Professional</td>
+            <td>Regulated enterprise, multi-framework</td>
+            <td>Up to 50</td>
+            <td>All 5 frameworks</td>
+            <td class="td-mono">$72,000 – $96,000</td>
+            <td><span class="badge med">Med</span></td>
+          </tr>
+          <tr>
+            <td>Governed Enterprise</td>
+            <td>Large enterprise, UAE/GCC, board governance</td>
+            <td>Unlimited</td>
+            <td>All + custom mapping</td>
+            <td class="td-mono">$150,000 – $400,000</td>
+            <td><span class="badge low">Low</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="callout forest">
+        <strong>Strengths</strong>
+        Easy for sales to quote. Customers understand the model immediately. Predictable ARR. Works well in conference sales conversations ("we start at X"). Defensible tier gap logic based on genuine capability differences.
+      </div>
+      <div class="callout danger">
+        <strong>Weaknesses</strong>
+        Fixed tiers create a cliff edge — a customer with 16 AI systems doesn't want to jump from Foundation to Professional just for one overage. Can leave significant money on the table for high-asset-count customers who stay in a tier.
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy B -->
+  <section class="content-section" id="strategy-b" style="padding-top: 32px;">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Strategy B</div>
+    <div class="section-title">AI System Volume Pricing</div>
+    <p class="prose"><em>A base platform fee plus a per-AI-system charge. As customers register more AI systems in the asset registry, their contract value grows proportionally. The base fee covers platform access; the variable component scales with portfolio size.</em></p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-title">How it works</div>
+        <div class="strategy-body">Base platform access fee + a per-system monthly charge. Volume discounts apply at thresholds (1–10 systems at full rate, 11–50 at a discount, 51+ at enterprise rate). This aligns TrustLayer's revenue directly with customers' AI portfolio growth — as they deploy more AI, they pay more, which feels fair to both sides.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-title">Sample pricing</div>
+        <div class="strategy-body">Platform base: $24,000/year. Per-system: $2,400/year (1–10), $1,800/year (11–50), $1,200/year (51+). A customer governing 25 AI systems would pay: $24,000 + ($24,000 × 10 rate) + ($18,000 × 15 rate) = approximately $66,000 ACV. A 100-system enterprise: ~$168,000 ACV.</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>AI Systems</th>
+            <th>Per-System Rate (Annual)</th>
+            <th>Base Fee</th>
+            <th>Estimated ACV</th>
+            <th>Buyer profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 – 10</td>
+            <td class="td-mono">$2,400</td>
+            <td class="td-mono">$24,000</td>
+            <td class="td-mono">$48,000 – $48,000</td>
+            <td>Early-stage governance</td>
+          </tr>
+          <tr>
+            <td>11 – 50</td>
+            <td class="td-mono">$1,800</td>
+            <td class="td-mono">$24,000</td>
+            <td class="td-mono">$48,000 – $120,000</td>
+            <td>Scaling enterprise</td>
+          </tr>
+          <tr>
+            <td>51 – 100</td>
+            <td class="td-mono">$1,200</td>
+            <td class="td-mono">$24,000</td>
+            <td class="td-mono">$120,000 – $204,000</td>
+            <td>Large regulated enterprise</td>
+          </tr>
+          <tr>
+            <td>100+</td>
+            <td class="td-mono">Custom</td>
+            <td class="td-mono">Custom</td>
+            <td class="td-mono">$250,000+</td>
+            <td>Financial services, telco, government</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="callout forest">
+        <strong>Strengths</strong>
+        Revenue scales naturally with customer AI portfolio growth — net expansion happens automatically without a formal upsell conversation. Aligns incentives: TrustLayer wins when customers govern more AI. Very defensible in procurement because the value unit is clear.
+      </div>
+      <div class="callout danger">
+        <strong>Weaknesses</strong>
+        Harder to quote quickly. Customers with large AI estates may self-censor registration to reduce cost — the opposite of good governance behaviour. Requires robust M1 asset counting enforcement in the platform (tamper-resistant telemetry).
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy C -->
+  <section class="content-section" id="strategy-c" style="padding-top: 32px;">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Strategy C</div>
+    <div class="section-title">Framework Licensing</div>
+    <p class="prose"><em>Customers pay a base platform fee and then license individual regulatory frameworks as add-ons. Core platform includes one framework; each additional framework (EU AI Act, ISO 42001, NIST AI RMF, GDPR, UAE DIFC, UAE PDPL, ADGM) is licensed separately.</em></p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-title">How it works</div>
+        <div class="strategy-body">Base SaaS platform covers the nine-module architecture, asset registry, risk engine, and audit infrastructure with one framework active. Each additional framework pack is priced as an annual license add-on, with bundle discounts for purchasing multiple. UAE jurisdiction overlays (DIFC, ADGM, mainland PDPL) are treated as separate framework packs.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-title">Sample pricing</div>
+        <div class="strategy-body">Platform base: $36,000/year. EU AI Act: $18,000/year. ISO 42001: $14,400/year. NIST AI RMF: $12,000/year. GDPR: $10,800/year. UAE DIFC Regulation 10: $18,000/year. UAE PDPL: $14,400/year. ADGM DPR: $10,800/year. A European bank with EU AI Act + ISO 42001 + GDPR: $79,200. A UAE conglomerate with all seven: $150,400.</div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Framework Pack</th>
+            <th>Annual License</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Base Platform (1 framework included)</td>
+            <td class="td-mono">$36,000</td>
+            <td>Asset registry, risk engine, audit, 9 modules, 15 seats</td>
+          </tr>
+          <tr>
+            <td>EU AI Act</td>
+            <td class="td-mono">$18,000</td>
+            <td>Highest regulatory complexity; conformity workflows, FRIA, DoC</td>
+          </tr>
+          <tr>
+            <td>ISO/IEC 42001:2023</td>
+            <td class="td-mono">$14,400</td>
+            <td>Certification pathway workflows; strong bundling incentive</td>
+          </tr>
+          <tr>
+            <td>NIST AI RMF</td>
+            <td class="td-mono">$12,000</td>
+            <td>US-market positioning; often paired with EU AI Act</td>
+          </tr>
+          <tr>
+            <td>GDPR</td>
+            <td class="td-mono">$10,800</td>
+            <td>Privacy-governance overlap; cross-mapped to PDPL/DIFC DPL</td>
+          </tr>
+          <tr>
+            <td>DIFC Regulation 10</td>
+            <td class="td-mono">$18,000</td>
+            <td>In enforcement since Jan 2026; unique TrustLayer capability</td>
+          </tr>
+          <tr>
+            <td>UAE PDPL</td>
+            <td class="td-mono">$14,400</td>
+            <td>Federal deadline Jan 2027; strong urgency driver</td>
+          </tr>
+          <tr>
+            <td>ADGM DPR 2021</td>
+            <td class="td-mono">$10,800</td>
+            <td>Abu Dhabi Global Market overlay; add-on to DIFC or PDPL</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="callout forest">
+        <strong>Strengths</strong>
+        Excellent expansion revenue story — every new regulation that comes into force is an upsell conversation. UAE jurisdiction layering is a natural sales motion (start with DIFC, add PDPL as Jan 2027 approaches). The multi-framework evidence reuse thesis becomes directly visible in the pricing: customers pay per framework but save effort through shared evidence.
+      </div>
+      <div class="callout danger">
+        <strong>Weaknesses</strong>
+        More procurement friction — legal and finance teams prefer simple line items. Risk of "cherry-picking" where customers only license one cheap framework and miss the value of multi-framework evidence reuse. Requires tight entitlement enforcement in the platform.
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy D -->
+  <section class="content-section" id="strategy-d" style="padding-top: 32px;">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Strategy D</div>
+    <div class="section-title">Outcome-Based / Value-Share Pricing</div>
+    <p class="prose"><em>A small base retainer plus a fee tied to measurable compliance outcomes — audit pass rates, time-to-audit-readiness, evidence package generation milestones, or regulatory deadline clearance. Risk and reward are shared.</em></p>
+
+    <div class="strategy-grid">
+      <div class="strategy-card">
+        <div class="strategy-title">How it works</div>
+        <div class="strategy-body">Base platform access fee at a reduced rate, with a success fee triggered on outcome milestones: ISO 42001 certification achieved, EU AI Act conformity assessment passed, FRIA completed on schedule, or mean time to audit readiness falls below 5 business days. Success fee is typically 10–20% of a pre-agreed "value envelope" calculated as avoided regulatory-penalty or audit-preparation cost savings.</div>
+      </div>
+      <div class="strategy-card">
+        <div class="strategy-title">When it works</div>
+        <div class="strategy-body">Best for initial enterprise reference customers where TrustLayer is willing to share risk in exchange for a case study, a logo, and a proof point. Not recommended as the primary pricing model at this stage — outcome attribution is difficult to audit, and it creates internal complexity. However, it is a powerful tool in competitive displaccment situations where a prospect hesitates on budget.</div>
+      </div>
+    </div>
+
+    <div class="callout brass">
+      <strong>Verdict on Strategy D</strong>
+      Outcome-based pricing is a <em>sales acceleration tactic</em> rather than a structural model for TrustLayer at this stage. Recommend holding it as a commercial lever for strategic reference customers — particularly first UAE enterprise logos — rather than leading with it in the standard book of business. It adds complexity to ARR forecasting and should be reserved for exceptional circumstances.
+    </div>
+  </section>
+
+  <!-- ── SECTION 4: RECOMMENDED STRUCTURE ── -->
+  <section class="content-section" id="recommended">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 4 — Recommendation</div>
+    <div class="section-title">Recommended pricing architecture</div>
+
+    <div class="rec-box">
+      <h3>The recommended model: Strategy A + C hybrid</h3>
+      <p>Lead with <strong>three named tiers (Strategy A)</strong> for simplicity in sales conversations and fast quoting. Layer on <strong>framework pack licensing (Strategy C)</strong> as the primary expansion motion — particularly for UAE jurisdiction overlays. Use <strong>volume-based scaling (Strategy B)</strong> as an implicit mechanism within the Professional and Enterprise tiers via asset cap thresholds, without exposing it as a line-item complexity to the buyer.</p>
+      <p>This gives TrustLayer a clean answer to "what does it cost?" (Strategy A), a clear expansion story tied to new regulations (Strategy C), and a natural upgrade path without requiring a formal upsell motion (Strategy B thresholds built into tier gates).</p>
+      <p><strong>UAE/GCC market</strong> is handled as a distinct pricing track — not a module code on a tier card, but a named "UAE Compliance Bundle" add-on available on Professional and above, priced to reflect the unique three-jurisdiction complexity that no competitor can match.</p>
+    </div>
+  </section>
+
+  <!-- ── SECTION 5: PLAN CARDS ── -->
+  <section class="content-section" id="plans">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 5</div>
+    <div class="section-title">Recommended plan structure and pricing</div>
+    <p class="prose">All prices are annual contract value (ACV). Monthly billing available at a 15% premium. All tiers include the full nine-module platform — differentiation is by asset scale, framework count, seats, and advisory depth.</p>
+
+    <div class="plan-grid">
+
+      <!-- Foundation -->
+      <div class="plan-card">
+        <div class="plan-tier">Starter</div>
+        <div class="plan-name">Foundation</div>
+        <div class="plan-desc">One framework, up to 15 AI systems. For organisations beginning a structured AI governance programme under a single regulatory obligation.</div>
+        <div class="plan-price-row">
+          <div class="plan-acv">$42,000</div>
+          <div class="plan-period">/ year</div>
+        </div>
+        <div class="plan-acv-note">= $3,500 / month billed annually</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Up to 15 AI assets in M1 registry</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>1 regulatory framework (your choice)</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Full 9-module platform access</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Risk scoring + compliance posture</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>M7 audit-ready reporting</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>10 named users · standard roles</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Email + chat support · 48h SLA</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>Additional framework packs (add-on)</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>LLM evaluation harness</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>External auditor access</div>
+      </div>
+
+      <!-- Professional -->
+      <div class="plan-card featured">
+        <div class="plan-featured-label">Most adopted</div>
+        <div class="plan-tier">Professional</div>
+        <div class="plan-name">Professional</div>
+        <div class="plan-desc">Multi-framework, up to 60 AI systems. For regulated enterprises operating across EU AI Act, ISO 42001, GDPR, and NIST — simultaneously.</div>
+        <div class="plan-price-row">
+          <div class="plan-acv">$84,000</div>
+          <div class="plan-period">/ year</div>
+        </div>
+        <div class="plan-acv-note">= $7,000 / month billed annually</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Up to 60 AI assets</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>All 5 global frameworks (EU AI Act, ISO 42001, NIST, GDPR + 1 UAE)</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Multi-framework evidence reuse engine</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Approval workflows + HITL queue</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>M5 LLM evaluation harness</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>M9 third-party vendor management</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>30 named users · 14-role matrix</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Dedicated customer success manager</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>8h SLA · onboarding support</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>UAE Compliance Bundle (add-on)</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>External auditor roles</div>
+        <div class="plan-feature"><span class="plan-feature-icon dim">✗</span>Board-level portfolio reports</div>
+      </div>
+
+      <!-- Governed Enterprise -->
+      <div class="plan-card">
+        <div class="plan-tier">Enterprise</div>
+        <div class="plan-name">Governed Enterprise</div>
+        <div class="plan-desc">Unlimited assets, all frameworks, UAE jurisdiction coverage, board reporting, and external auditor access. Structured for large multi-jurisdiction AI portfolios.</div>
+        <div class="plan-price-row">
+          <div class="plan-acv">Custom</div>
+        </div>
+        <div class="plan-acv-note">Typical range: $180,000 – $400,000 ACV</div>
+        <hr class="plan-divider">
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Unlimited AI assets</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>All frameworks + custom mapping</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>UAE Compliance Bundle included</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>External auditor access roles</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Board-level portfolio reports</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>CAIO / CISO / Legal Counsel roles</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Unlimited users · custom groups</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>4h SLA · dedicated solutions team</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Annual compliance health review</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>API access + SSO/SAML</div>
+        <div class="plan-feature"><span class="plan-feature-icon">✓</span>Multi-year pricing available</div>
+      </div>
+    </div>
+
+    <div class="callout brass">
+      <strong>Pricing rationale</strong>
+      Foundation at $42,000 ACV positions TrustLayer just above the $36,000 floor (Saidot range) and below OneTrust's $50,000 minimum — appropriate for a market-entry anchor while remaining above the "too cheap to be credible" zone. Professional at $84,000 sits squarely in the $72,000–$96,000 sweet spot for multi-framework enterprise deployments. Governed Enterprise at $180K–$400K is in line with Credo AI and Holistic AI for complex multi-jurisdiction programs.
+    </div>
+  </section>
+
+  <!-- ── SECTION 6: ADVISORY ADD-ONS ── -->
+  <section class="content-section" id="addons">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 6</div>
+    <div class="section-title">Advisory and jurisdiction add-ons</div>
+    <p class="prose">Add-ons serve two commercial purposes: (1) they enable customers to expand spend without a full tier upgrade; and (2) they monetise TrustLayer's certified ISO 42001 team and UAE regulatory expertise separately from the platform, making advisory a distinct revenue line.</p>
+
+    <div class="section-subtitle">Platform add-ons</div>
+    <div class="addon-grid">
+      <div class="addon-card">
+        <div class="addon-name">UAE Compliance Bundle</div>
+        <div class="addon-price">$36,000 – $54,000 / year</div>
+        <div class="addon-desc">All three UAE jurisdictions: DIFC Regulation 10, UAE PDPL (federal), ADGM DPR 2021. Each modelled separately — not collapsed into one tab. Includes ASO role configuration, DIFC AI Impact Assessment workflow, and UAE-specific risk domains. Available on Professional tier and above.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Additional Framework Pack</div>
+        <div class="addon-price">$12,000 – $18,000 / year each</div>
+        <div class="addon-desc">Single-framework activation for customers who want to add coverage beyond their tier's included frameworks. Pricing scales with framework complexity: $12K for NIST AI RMF, $14.4K for ISO 42001, $18K for EU AI Act. Evidence reuse from existing frameworks is immediate on activation.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Agentic AI Risk Register</div>
+        <div class="addon-price">$18,000 / year</div>
+        <div class="addon-desc">Unlocks the agentic risk sub-register (TL-298 to TL-310) and associated agentic controls. Includes drift detection monitoring and autonomous system oversight workflows. Critical for organizations deploying AI agents or multi-agent pipelines.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">External Auditor Access</div>
+        <div class="addon-price">$8,400 / year</div>
+        <div class="addon-desc">Named external auditor seats (up to 5) with read-only access to evidence packages, audit workspaces, and tamper-evident logs. Designed to support Big Four audit engagements and ISO 42001 certification body assessments. Available on Professional and above.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Trust Center (Public)</div>
+        <div class="addon-price">$12,000 / year</div>
+        <div class="addon-desc">Publish a public-facing compliance transparency page linked to your governance posture. Covers current certification status, framework coverage, and AI system risk summary — at the right level of disclosure. Requires Governed Enterprise or add-on to Professional.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Regulatory Monitoring Feed</div>
+        <div class="addon-price">$9,600 / year</div>
+        <div class="addon-desc">Real-time regulatory change alerts across all active jurisdictions via the Techie Ray Global AI Regulation Tracker integration. Alerts trigger policy review workflows in M4 automatically when a material regulatory change is detected. Available on all tiers.</div>
+      </div>
+    </div>
+
+    <div class="section-subtitle">Advisory services (sold separately or bundled)</div>
+    <div class="addon-grid">
+      <div class="addon-card">
+        <div class="addon-name">ISO 42001 Gap Assessment</div>
+        <div class="addon-price">$8,000 – $14,000 one-time</div>
+        <div class="addon-desc">Half-day readiness assessment against ISO/IEC 42001:2023 clause structure. Delivered by TrustLayer's certified team. Scoped for organisations preparing for Stage 1 or Stage 2 certification. Output: gap register + remediation roadmap aligned to M2 risk domains.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">ISO 42001 Awareness Training</div>
+        <div class="addon-price">$4,500 per cohort</div>
+        <div class="addon-desc">Half-day programme for governance, risk, and product teams. Covers AIMS requirements, clause-level obligations, and how TrustLayer maps to each clause. Up to 20 participants. Remote or on-site delivery.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Certification Implementation Sprint</div>
+        <div class="addon-price">$28,000 – $60,000</div>
+        <div class="addon-desc">12-week structured engagement from gap to Stage 2 certification readiness. Covers policy drafting (M4), controls assignment, evidence collection, FRIA facilitation, and audit package preparation. Delivered by TrustLayer certified practitioners. Platform included.</div>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">UAE Regulatory Readiness Sprint</div>
+        <div class="addon-price">$22,000 – $45,000</div>
+        <div class="addon-desc">Jurisdiction mapping, DIFC AI Impact Assessment facilitation, PDPL obligation register, and ASO role setup. Designed for UAE-registered financial services and healthcare entities. Delivered in-market. Requires UAE Compliance Bundle platform add-on.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 7: EXPANSION LADDER ── -->
+  <section class="content-section" id="expansion">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 7</div>
+    <div class="section-title">Customer expansion ladder</div>
+    <p class="prose">Net Revenue Retention above 120% requires a clear, non-coercive expansion path from every tier. The following ladder maps the natural upgrade triggers from a typical customer journey — each step is driven by a business event, not a sales push.</p>
+
+    <div class="ladder">
+      <div class="ladder-step">
+        <div class="ladder-num">1</div>
+        <div class="ladder-content">
+          <div class="ladder-label">Land: Foundation tier</div>
+          <div class="ladder-desc">Customer enters at one framework, up to 15 AI systems. Typical trigger: EU AI Act enforcement deadline, ISO 42001 certification project, or DIFC Regulation 10 compliance requirement. First value: compliance posture score within 2 hours of onboarding.</div>
+          <div class="ladder-value">Entry ACV: $42,000</div>
+        </div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-num">2</div>
+        <div class="ladder-content">
+          <div class="ladder-label">Expand: Add a framework pack</div>
+          <div class="ladder-desc">At 6–12 months, customer's legal team surfaces a second obligation (e.g., ISO 42001 alongside EU AI Act, or UAE PDPL as the January 2027 deadline approaches). Evidence already filed under Framework 1 is partially reusable — the value of multi-framework reuse is demonstrated in real time. Add-on sale: $12,000–$18,000.</div>
+          <div class="ladder-value">Revised ACV: ~$56,000 – $60,000</div>
+        </div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-num">3</div>
+        <div class="ladder-content">
+          <div class="ladder-label">Expand: Asset cap breach → Professional upgrade</div>
+          <div class="ladder-desc">Customer exceeds 15 AI system registrations as shadow AI is discovered or new deployments are registered. The platform's Shadow AI Detection surface surfaces unregistered assets automatically, making the cap breach self-evident. Upgrade conversation: Professional tier unlocks 60 assets + full framework set.</div>
+          <div class="ladder-value">Revised ACV: $84,000 (tier upgrade)</div>
+        </div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-num">4</div>
+        <div class="ladder-content">
+          <div class="ladder-label">Expand: UAE Compliance Bundle or Agentic AI add-on</div>
+          <div class="ladder-desc">At renewal, customer is preparing for DIFC AI Impact Assessment or deploying AI agents into production. UAE Bundle ($36K–$54K/year) or Agentic AI Risk Register ($18K/year) add-on triggers a natural expansion conversation. Both are new regulatory or technology triggers — not feature upsells.</div>
+          <div class="ladder-value">Revised ACV: $120,000 – $138,000</div>
+        </div>
+      </div>
+      <div class="ladder-step">
+        <div class="ladder-num">5</div>
+        <div class="ladder-content">
+          <div class="ladder-label">Land in full: Governed Enterprise</div>
+          <div class="ladder-desc">Customer requires board-level portfolio reporting, external auditor access for a Big Four engagement, or unlimited asset governance across a complex multi-jurisdiction portfolio. Direct-to-enterprise conversation for financial services, healthcare, and government customers. Includes multi-year pricing with 5–10% annual commitment discount.</div>
+          <div class="ladder-value">ACV: $180,000 – $400,000</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECTION 8: ACV TARGETS ── -->
+  <section class="content-section" id="acv">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 8</div>
+    <div class="section-title">ACV targets and revenue model</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Tier Mix</th>
+            <th>Avg ACV</th>
+            <th>Customers</th>
+            <th>ARR</th>
+            <th>Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conservative Year 1</td>
+            <td>80% Foundation, 20% Professional</td>
+            <td class="td-mono">$51,000</td>
+            <td class="td-mono">30</td>
+            <td class="td-mono">$1.53M</td>
+            <td>Primarily conference + UAE leads</td>
+          </tr>
+          <tr>
+            <td>Base Year 1</td>
+            <td>60% Foundation, 35% Pro, 5% Enterprise</td>
+            <td class="td-mono">$67,000</td>
+            <td class="td-mono">50</td>
+            <td class="td-mono">$3.35M</td>
+            <td>Includes UAE Bundle upsells</td>
+          </tr>
+          <tr>
+            <td>Upside Year 1</td>
+            <td>40% Foundation, 45% Pro, 15% Enterprise</td>
+            <td class="td-mono">$89,000</td>
+            <td class="td-mono">80</td>
+            <td class="td-mono">$7.12M</td>
+            <td>Enterprise logos + advisory bundling</td>
+          </tr>
+          <tr>
+            <td>UAE-led Year 1</td>
+            <td>50% Pro + UAE Bundle, 50% Enterprise</td>
+            <td class="td-mono">$152,000</td>
+            <td class="td-mono">20</td>
+            <td class="td-mono">$3.04M</td>
+            <td>Concentrated UAE/GCC focus only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout forest">
+      <strong>NRR Target</strong>
+      Target Net Revenue Retention of 125% — meaning existing customers expand by 25% on average over 12 months through framework add-ons, asset cap upgrades, UAE bundles, and advisory services. This is achievable given the natural expansion triggers (new regulations, new AI deployments) without requiring a formal upsell motion. NRR above 120% is the benchmark for high-quality enterprise SaaS.
+    </div>
+  </section>
+
+  <!-- ── SECTION 9: UAE PRICING ── -->
+  <section class="content-section" id="uae">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 9</div>
+    <div class="section-title">UAE / GCC pricing track</div>
+    <p class="prose">The UAE market warrants a distinct pricing conversation — not a different product, but a different sales anchor. The regulatory urgency (DIFC Regulation 10 in enforcement since January 2026, UAE PDPL deadline January 2027) combined with TrustLayer's unmatched jurisdiction coverage (the only platform modelling mainland, DIFC, and ADGM as separate obligation sets) justifies positioning TrustLayer as the premium, specialist option in this market.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Buyer Type</th>
+            <th>Primary obligation</th>
+            <th>Recommended entry</th>
+            <th>Target ACV</th>
+            <th>Urgency driver</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DIFC-registered financial services</td>
+            <td>DIFC Regulation 10 + DIFC DPL</td>
+            <td>Professional + UAE Bundle</td>
+            <td class="td-mono">$120,000 – $138,000</td>
+            <td>In enforcement now</td>
+          </tr>
+          <tr>
+            <td>Abu Dhabi Global Market entities</td>
+            <td>ADGM DPR + DIFC overlay</td>
+            <td>Professional + UAE Bundle</td>
+            <td class="td-mono">$120,000 – $138,000</td>
+            <td>Regulatory alignment 2026</td>
+          </tr>
+          <tr>
+            <td>UAE mainland conglomerates</td>
+            <td>UAE PDPL + EU AI Act (export)</td>
+            <td>Professional + UAE Bundle + EU AI Act</td>
+            <td class="td-mono">$138,000 – $160,000</td>
+            <td>PDPL deadline Jan 2027</td>
+          </tr>
+          <tr>
+            <td>Healthcare (DHA / DOH regulated)</td>
+            <td>UAE PDPL + ISO 42001 + sector reqs</td>
+            <td>Professional + UAE Bundle + ISO pack</td>
+            <td class="td-mono">$135,000 – $155,000</td>
+            <td>Patient data AI risk</td>
+          </tr>
+          <tr>
+            <td>GCC sovereign wealth / government AI</td>
+            <td>UAE AI Charter + multi-framework</td>
+            <td>Governed Enterprise</td>
+            <td class="td-mono">$250,000 – $400,000</td>
+            <td>National AI Strategy 2031</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout brass">
+      <strong>UAE Conference Anchor Price</strong>
+      For conference conversations and pitch deck pricing pages, anchor the UAE message at "from AED 441,000 / year" (≈ $120,000 USD) for the Professional + UAE Bundle combination — local currency creates proximity and removes the friction of mental FX conversion for UAE buyers. For GCC sovereign conversations, quote in USD and position the $250,000+ range as appropriate for the scale and strategic importance of national AI governance programs.
+    </div>
+  </section>
+
+  <!-- ── SECTION 10: NEGOTIATION PLAYBOOK ── -->
+  <section class="content-section" id="negotiation">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 10</div>
+    <div class="section-title">Negotiation playbook</div>
+    <p class="prose">All enterprise software pricing is negotiated. The goal is not to hold list price — it is to hold the value anchor while giving procurement teams something to "win." The following levers are available, in order of preference.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Concession</th>
+            <th>What to offer</th>
+            <th>What to extract</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Multi-year commitment</td>
+            <td>5% discount Year 2, 10% discount Year 3</td>
+            <td>3-year committed contract, auto-renewal</td>
+            <td><span class="badge rec">Offer first</span></td>
+          </tr>
+          <tr>
+            <td>Upfront payment</td>
+            <td>5% discount for payment in full on signing</td>
+            <td>Cash collected Day 1, no invoicing friction</td>
+            <td><span class="badge rec">Offer early</span></td>
+          </tr>
+          <tr>
+            <td>Reference customer</td>
+            <td>10–15% discount in exchange for a named case study and logo</td>
+            <td>Referenceable customer, co-marketing rights</td>
+            <td><span class="badge med">Strategic only</span></td>
+          </tr>
+          <tr>
+            <td>Advisory bundle</td>
+            <td>Include one advisory engagement (gap assessment or training) at no charge</td>
+            <td>Hold platform ACV at list; advisory at cost</td>
+            <td><span class="badge med">Mid-cycle</span></td>
+          </tr>
+          <tr>
+            <td>Phased rollout</td>
+            <td>Start at Foundation ACV, commit to Professional at month 6 milestone</td>
+            <td>Written upgrade commitment with milestone defined</td>
+            <td><span class="badge low">Only if necessary</span></td>
+          </tr>
+          <tr>
+            <td>Cash discount floor</td>
+            <td>Maximum 20% total discount with VP approval</td>
+            <td>Do not go below 80% of list ACV without VP sign-off</td>
+            <td><span class="badge high">Hard floor</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── SECTION 11: DISCOUNTING POLICY ── -->
+  <section class="content-section" id="discounting">
+    <span class="section-anchor"></span>
+    <div class="section-eyebrow">Section 11</div>
+    <div class="section-title">Discounting policy and approval matrix</div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Discount Level</th>
+            <th>Max discount</th>
+            <th>Approval required</th>
+            <th>Conditions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Standard</td>
+            <td class="td-mono">0 – 10%</td>
+            <td>AE discretion</td>
+            <td>Multi-year, upfront payment, or bundle</td>
+          </tr>
+          <tr>
+            <td>Negotiated</td>
+            <td class="td-mono">11 – 20%</td>
+            <td>VP Sales</td>
+            <td>Competitive situation, strategic logo, or reference customer</td>
+          </tr>
+          <tr>
+            <td>Strategic</td>
+            <td class="td-mono">21 – 30%</td>
+            <td>Founder / CEO</td>
+            <td>Anchor reference customer, key market entry, pilot program</td>
+          </tr>
+          <tr>
+            <td>Pilot / POC</td>
+            <td class="td-mono">Up to 100%</td>
+            <td>Founder / CEO</td>
+            <td>Time-limited pilot only; must convert to paid at list within 90 days or exit</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout brass">
+      <strong>Discounting principle</strong>
+      Never discount the platform tier price in isolation — attach every discount to a structural commitment (multi-year, upfront, reference, defined expansion milestone). A 20% discount given freely devalues the product; a 20% discount exchanged for a 3-year commitment and a named case study is a deal worth making. The goal is to protect the ACV floor — $42,000 Foundation, $84,000 Professional — even when giving meaningful concessions on structure.
+    </div>
+
+    <div class="section-subtitle">Pricing pages: what to publish vs. what to quote</div>
+    <p class="prose">Following the market norm, TrustLayer should <strong>not publish a detailed pricing table on the website</strong> — the competitive intelligence risk outweighs the benefit of self-serve conversion at the enterprise ACV range. What to publish: tier names, feature differentiation, and a "starting from" indication at the Foundation level ($42,000/year or equivalent AED). What to gate: specific Professional and Enterprise ACVs, add-on pricing, and discount availability. The current website Pricing page should be revised to match this posture.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Content</th>
+            <th>Website</th>
+            <th>Sales deck</th>
+            <th>Contract</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tier names (Foundation, Professional, Governed Enterprise)</td>
+            <td>✓ Publish</td>
+            <td>✓</td>
+            <td>✓</td>
+          </tr>
+          <tr>
+            <td>Feature differentiation per tier</td>
+            <td>✓ Publish</td>
+            <td>✓</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>"Starting from" Foundation price</td>
+            <td>✓ Publish ($42K/year)</td>
+            <td>✓</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>Professional and Enterprise specific ACV</td>
+            <td>✗ Gate (book a demo)</td>
+            <td>✓</td>
+            <td>✓</td>
+          </tr>
+          <tr>
+            <td>Add-on pricing detail</td>
+            <td>✗ Gate</td>
+            <td>✓</td>
+            <td>✓</td>
+          </tr>
+          <tr>
+            <td>Discount policy and floors</td>
+            <td>✗ Never publish</td>
+            <td>Internal only</td>
+            <td>Internal only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+</main>
+</div>
+
+<script>
+  // Active nav link tracking
+  const links = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.content-section');
+
+  function updateActive() {
+    let current = '';
+    sections.forEach(s => {
+      const top = s.getBoundingClientRect().top;
+      if (top <= 120) current = s.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
+  }
+
+  document.querySelector('.main').addEventListener('scroll', updateActive);
+  window.addEventListener('scroll', updateActive);
+  updateActive();
+</script>
+</body>
+</html>
