@@ -13,9 +13,9 @@ export function FrameworkTicker() {
   return (
     <section
       aria-label="Supported compliance frameworks"
-      className="relative overflow-hidden border-y border-line bg-surface/40 py-6 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
+      className="group relative overflow-hidden border-y border-line bg-surface/40 py-6 [mask-image:linear-gradient(to_right,transparent,#000_12%,#000_88%,transparent)]"
     >
-      <div className="flex w-max animate-marquee motion-reduce:animate-none">
+      <div className="flex w-max animate-marquee motion-reduce:animate-none [@media(hover:hover)]:group-hover:[animation-play-state:paused]">
         {[0, 1].map((copy) => (
           <ul
             key={copy}

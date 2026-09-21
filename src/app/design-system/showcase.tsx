@@ -9,6 +9,8 @@ import { DrawPath } from "@/components/motion/draw-path";
 import { HorizontalScroll } from "@/components/motion/horizontal-scroll";
 import { Marquee } from "@/components/motion/marquee";
 import { MediaReveal } from "@/components/motion/media-reveal";
+import { ScrollExpand } from "@/components/motion/scroll-expand";
+import { VideoPlayer } from "@/components/ui/video-player";
 import { ScoreRing } from "@/components/motion/score-ring";
 import { ScrambleText } from "@/components/motion/scramble-text";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
@@ -133,6 +135,20 @@ export function MotionShowcase() {
             </div>
           </MediaReveal>
         </div>
+      </Demo>
+
+      <Demo
+        title="Scroll expand"
+        note="For video and hero media. The frame grows from 82% to full size as it scrolls to the middle of the screen, while the picture settles inside it. Scrubbed, so it reverses on scroll up. The player shows a Watch demo pill when idle and a glass control dock while playing."
+      >
+        <ScrollExpand className="aspect-video rounded-[2rem] border border-line shadow-panel">
+          <VideoPlayer
+            sources={[
+              { src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm", type: "video/webm" },
+              { src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4", type: "video/mp4" },
+            ]}
+          />
+        </ScrollExpand>
       </Demo>
 
       <Demo title="Spotlight card" note="A light follows the cursor and lights the border. Fine pointers only.">

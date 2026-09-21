@@ -13,7 +13,7 @@ export function Hero() {
       <HeroDoodles />
 
       <div className="px-page">
-        <div className="mx-auto flex min-h-[100dvh] max-w-7xl items-center justify-center px-4 pb-20 pt-28 sm:px-5 sm:pt-32 lg:px-6 lg:pt-28">
+        <div className="mx-auto flex min-h-[100dvh] max-w-7xl items-center justify-center px-4 pb-52 pt-28 sm:px-5 sm:pb-36 sm:pt-32 lg:px-6 lg:pb-28 lg:pt-28">
           <HeroCopy />
         </div>
       </div>
