@@ -84,11 +84,20 @@ export function Marquee({
     <div
       ref={root}
       className={cn(
-        "overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_8%,#000_92%,transparent)] motion-reduce:overflow-x-auto",
+        "relative overflow-hidden motion-reduce:overflow-x-auto",
         className,
       )}
     >
-      <div ref={track} className="flex w-max">
+      {/* Edge fades are overlays, not a mask-image: a mask on the parent repaints every moving frame */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[8%] bg-gradient-to-r from-canvas to-transparent motion-reduce:hidden"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[8%] bg-gradient-to-l from-canvas to-transparent motion-reduce:hidden"
+      />
+      <div ref={track} className="flex w-max will-change-transform">
         <div ref={group} className="flex shrink-0 items-center">
           {children}
         </div>
