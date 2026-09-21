@@ -1,0 +1,423 @@
+The big opportunity for TrustLayer is not to look like another AI governance software company.
+The competitors are increasingly converging on:
+AI inventory / registry
+risk assessment
+compliance
+policy management
+monitoring
+dashboards
+knowledge graphs
+agent governance
+integrations
+Credo is strongly positioning around “Measurable Trust” and agent governance; Saidot around its governance knowledge graph; Holistic around “Identify → Protect → Enforce”; and Monitaur around “Define → Manage → Automate.”
+TrustLayer should occupy a slightly different space:
+Don't sell AI governance as compliance software. Sell it as the operating system for responsible AI adoption.
+And your combination of platform + assessment + consulting + AI Governance Masterclass gives you a very strong basis for doing that.
+TrustLayer Website Concept
+The core idea
+TrustLayer
+Govern AI. Accelerate Innovation.
+The AI Governance platform and capability partner for organizations building, deploying and scaling AI responsibly.
+Assess where you stand.Build the right governance capability.Operationalize it across your AI lifecycle.Prove that your AI can be trusted.
+[ Explore TrustLayer ]    [ Take the AI Governance Assessment ]
+1. The strategic positioning
+I would not lead with:
+“AI Governance Platform”
+That's becoming commoditized.
+Instead:
+TrustLayer = AI Governance Capability Platform
+The distinction is important.
+Credo, Saidot and Holistic predominantly lead with the technology. Their services then support adoption. Credo, for example, explicitly combines its platform with advisory, training and implementation. Saidot similarly combines its platform with framework design, implementation, professional services and training.
+TrustLayer can make the capability journey the central story.
+The TrustLayer model
+ASSESS → ENABLE → OPERATIONALIZE → ASSURE
+That's much more ownable.
+2. The homepage
+I'd make the homepage feel more like a premium technology company than a consulting company.
+Think:
+Palantir × Stripe × modern cybersecurity company
+rather than:
+Big 4 consulting website.
+HERO
+Large, spacious, dark background.
+A subtle animated visualization of interconnected AI systems, policies, risks, people and decisions.
+At the centre:
+AI is moving faster than governance.
+TrustLayer helps you close the gap.
+The AI Governance platform and capability partner helping organizations assess, build and operationalize responsible AI governance — from strategy to deployment.
+[ Explore TrustLayer ][ Start with an AI Governance Assessment ]
+Small supporting line:
+Platform · Assessment · Consulting · Training
+3. Then immediately create the problem
+Don't jump directly into platform screenshots.
+Create a section called:
+AI adoption doesn't wait for governance.
+Your organization is already using:
+GenAI → Copilots → LLMs → AI applications → Agents → Autonomous workflows
+But governance often still looks like:
+Spreadsheets → PDFs → Policies → Email approvals → Periodic audits
+Then the punchline:
+That's the gap TrustLayer is built to close.
+This is a very strong storytelling device.
+4. The TrustLayer philosophy
+Next section:
+Governance should enable AI — not slow it down.
+Three large cards:
+Know
+Understand your AI landscape.
+AI inventory, use cases, systems, models, vendors, data and stakeholders.
+Assess
+Understand your risk.
+AI impact, risk classification, regulatory exposure, responsible AI considerations and governance maturity.
+Act
+Turn governance into practice.
+Policies, controls, workflows, evidence, accountability and continuous improvement.
+Then:
+From governance as documentation to governance as an operating capability.
+That's a key TrustLayer message.
+5. Introduce the TrustLayer ecosystem
+This should be one of the most visually distinctive sections.
+One governance journey. Four ways to engage.
+Use a horizontal journey:
+01 — ASSESS
+Know where you stand.
+AI Governance Maturity AssessmentAI System / Use Case AssessmentRisk AssessmentRegulatory ReadinessGap Analysis
+↓
+02 — LEARN
+Build governance capability.
+AI Governance Masterclass
+Executive educationPractitioner trainingAI literacyRole-based governance trainingWorkshops
+↓
+03 — BUILD
+Design governance that works for you.
+AI Governance StrategyAI PolicyFramework DesignOperating ModelRisk & Control FrameworkImplementation Consulting
+↓
+04 — OPERATE
+Run governance continuously.
+TrustLayer Platform
+AI inventoryAssessmentsRisk managementPoliciesControlsEvidenceWorkflowsDashboardsAudit readinessMonitoring
+This is where TrustLayer becomes different from a pure software company.
+6. The platform section
+Now introduce the product.
+Meet TrustLayer Platform
+Your AI Governance Control Center.
+A visual dashboard should sit prominently here.
+Instead of showing 15 generic feature cards, show the governance lifecycle.
+Discover
+What AI exists?
+↓
+Classify
+What is it?
+↓
+Assess
+What could go wrong?
+↓
+Govern
+What controls are required?
+↓
+Evidence
+Can we prove it?
+↓
+Monitor
+Has anything changed?
+↓
+Improve
+What needs attention?
+This becomes the TrustLayer product architecture.
+7. The dashboard concept
+The dashboard itself should feel different from competitors.
+I would create a central AI Governance Health Score.
+For example:
+Governance Readiness
+78 / 100
+Then:
+Area
+Status
+AI Inventory
+92%
+Risk Assessment
+76%
+Policy Coverage
+81%
+Control Effectiveness
+72%
+Evidence Readiness
+68%
+AI Literacy
+84%
+And underneath:
+What needs your attention?
+🔴 3 high-risk AI systems🟠 7 assessments due🟠 12 controls without evidence🟢 94% policy coverage
+This turns governance into something management can understand in 30 seconds.
+8. A major differentiator: Governance Readiness Score
+I think TrustLayer should own this concept.
+TrustLayer Governance Readiness™
+Instead of simply selling an assessment, create a proprietary maturity/readiness framework.
+Something like:
+Discover → Assess → Govern → Assure → Optimize
+Score an organization from:
+Level 1 — Emerging
+Governance is largely reactive.
+Level 2 — Defined
+Policies and responsibilities are beginning to emerge.
+Level 3 — Operational
+Governance processes are embedded.
+Level 4 — Measurable
+Governance performance is actively measured.
+Level 5 — Adaptive
+Governance continuously evolves with AI.
+This creates an extremely useful marketing asset.
+Someone lands on the website and sees:
+How AI-governance ready is your organization?
+[ Take the 10-minute assessment → ]
+That could become one of your strongest lead-generation mechanisms.
+9. AI Governance Masterclass
+I would give this far more prominence than most competitors give training.
+Because it's one of TrustLayer's potential entry points.
+AI Governance Masterclass
+Don't just use AI. Understand how to govern it.
+A practical program for leaders and teams responsible for AI.
+Then audience tabs:
+Board & ExecutivesLegal & ComplianceRisk & AuditTechnology & DataProduct & AI Teams
+And:
+What you'll learn
+AI Governance fundamentals
+AI risk
+Responsible AI
+AI regulations
+EU AI Act
+ISO/IEC 42001
+NIST AI RMF
+AI lifecycle governance
+AI assessment
+Policies & controls
+Agentic AI governance
+Governance operating models
+CTA:
+[ Explore the Masterclass ]
+10. Consulting
+Don't call it simply "Consulting."
+I'd call it:
+AI Governance Advisory
+From policy to practice.
+Four offerings:
+Strategy
+Build your AI Governance strategy.
+Framework
+Design your governance framework, policies and controls.
+Implementation
+Operationalize governance across people, process and technology.
+Assurance
+Assess, validate and continuously improve governance.
+CTA:
+[ Talk to a Governance Expert ]
+11. Assessment
+This should be a major navigation item.
+Assess Your AI Governance
+Know your risks before they become problems.
+TrustLayer assessments could include:
+AI Governance Maturity
+Where are you today?
+AI Use Case Assessment
+Should this AI system be deployed?
+AI Risk Assessment
+What could go wrong?
+Regulatory Assessment
+What requirements apply?
+AI Vendor Assessment
+Can you trust the AI you're buying?
+AI Impact Assessment
+Who or what could be affected?
+12. Industry pages
+Rather than generic "Solutions," create:
+Governance for the AI economy
+Then industries:
+Financial Services
+Govern AI across highly regulated decision environments.
+Healthcare
+Govern AI where safety, privacy and human oversight matter most.
+Government
+Build accountable, transparent and responsible public-sector AI.
+Insurance
+Manage model risk, fairness and regulatory accountability.
+Technology
+Build governance into AI products before deployment.
+Enterprises
+Create organization-wide AI governance capability.
+13. A very important page: "Why TrustLayer?"
+This should not be a generic "Why us?"
+Instead:
+AI Governance is bigger than software.
+And then show the TrustLayer advantage:
+Traditional approach
+TrustLayer
+Point-in-time assessment
+Continuous governance
+Compliance exercise
+Business capability
+Policy documents
+Operational controls
+Consultants alone
+Consulting + platform
+Software alone
+People + process + technology
+Generic framework
+Contextual governance
+Audit preparation
+Audit-ready by design
+Then:
+We don't just help you comply.
+We help you build the capability to govern AI.
+That could become a core brand statement.
+14. The visual identity
+I would not copy the current visual language of AI governance competitors.
+Credo is fairly dark/premium, Saidot leans toward graph/knowledge infrastructure, Holistic uses a strong enterprise SaaS aesthetic, while Monitaur is more traditional enterprise governance.
+For TrustLayer:
+Visual concept:
+"Intelligence under control."
+Dark navy/near-black foundation.
+Lots of whitespace.
+One distinctive electric accent.
+Minimal gradients.
+Fine-line network structures.
+Data visualization.
+Subtle motion.
+Avoid cliché AI imagery:
+❌ robot heads❌ glowing brains❌ humanoid robots❌ generic circuit boards❌ stock photos of executives looking at screens
+Instead:
+systems, relationships, controls, decisions, signals, evidence.
+15. The TrustLayer visual metaphor
+This could become your entire design language.
+The Governance Fabric
+Imagine hundreds of small points representing:
+AI systemsModelsAgentsPeoplePoliciesRisksControlsEvidenceRegulations
+Lines connect them.
+When the user scrolls, the network reorganizes.
+Eventually the network forms the TrustLayer N.
+This becomes the hero animation.
+It communicates:
+TrustLayer connects the things that make AI governable.
+It also gives you a distinctive visual asset that competitors don't own.
+16. Navigation
+I'd keep the top navigation extremely clean:
+TrustLayer
+PlatformAssessAdvisoryMasterclassIndustriesResources
+Right side:
+[ Take Assessment ][ Talk to Us ]
+17. Resources
+This is important because you're also building thought leadership.
+AI Governance Intelligence
+Categories:
+AI Governance 101
+Regulation
+Responsible AI
+AI Risk
+Agentic AI
+ISO 42001
+NIST AI RMF
+Case Studies
+Research
+TrustLayer Insights
+And create a flagship recurring asset:
+The TrustLayer AI Governance Index
+That could eventually become a major thought-leadership property.
+18. A powerful homepage section
+Near the bottom:
+Wherever you are on the journey, start here.
+Three entry points:
+I'm just getting started
+Take the AI Governance Assessment
+We have governance, but it's fragmented
+Talk to an AI Governance Expert
+We're ready to operationalize
+Explore TrustLayer Platform
+This is excellent UX because you're not forcing everyone into a software demo.
+19. Final CTA
+Don't end with:
+Book a Demo.
+That's too SaaS-generic.
+End with:
+Ready to govern AI with confidence?
+Build the capability.Operationalize the governance.Accelerate the innovation.
+[ Assess Your Readiness ]
+[ Explore TrustLayer ]
+20. Proposed sitemap
+TRUSTLAYER
+│
+├── Platform
+│   ├── Overview
+│   ├── AI Inventory
+│   ├── AI Assessment
+│   ├── Risk & Controls
+│   ├── Policy Management
+│   ├── Evidence & Assurance
+│   ├── Monitoring
+│   └── Reporting
+│
+├── Assess
+│   ├── Governance Maturity
+│   ├── AI Use Case
+│   ├── AI Risk
+│   ├── Regulatory Readiness
+│   └── AI Vendor
+│
+├── Advisory
+│   ├── Strategy
+│   ├── Framework
+│   ├── Implementation
+│   └── Assurance
+│
+├── Masterclass
+│   ├── Executive
+│   ├── Practitioner
+│   ├── Corporate
+│   └── Workshops
+│
+├── Industries
+│   ├── Financial Services
+│   ├── Healthcare
+│   ├── Government
+│   ├── Insurance
+│   ├── Technology
+│   └── Enterprise
+│
+├── Resources
+│   ├── Insights
+│   ├── Research
+│   ├── Guides
+│   ├── Regulations
+│   ├── Webinars
+│   └── Case Studies
+│
+└── Company
+├── About
+├── Our Approach
+├── Leadership
+└── Contact
+The most important strategic change
+I would position TrustLayer as three layers, rather than four unrelated offerings:
+TrustLayer Capability Stack
+01 — UNDERSTAND
+Assess
+Know your AI.Know your risks.Know your readiness.
+02 — ENABLE
+People + Advisory
+Build the knowledge, policies, processes and operating model.
+03 — OPERATIONALIZE
+TrustLayer Platform
+Turn governance into an ongoing organizational capability.
+So the website story becomes:
+Assess → Learn → Design → Operationalize → Assure
+And the commercial model naturally becomes:
+Assessment → Masterclass → Consulting → Platform
+That is a much more compelling customer journey than presenting four disconnected services.
+My recommended homepage headline
+Of all the directions, I would make this the lead:
+AI is moving fast.
+Governance needs to move faster.
+TrustLayer helps organizations build the capability to govern AI — combining expert advisory, practical training and an intelligent governance platform.
+Assess. Enable. Operationalize. Assure.
+[ Assess Your AI Governance ]    [ Explore TrustLayer ]
+This gives TrustLayer a category-level story, rather than making it look like another vendor selling an AI risk dashboard.
+And there is a real market opening here: the leading competitors are increasingly emphasizing continuous, lifecycle-based governance and agentic AI, while their professional-service offerings already extend into maturity assessment, operating-model design, training and implementation.
+TrustLayer can take that one step further and make “building AI governance capability” the product story itself.
