@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope, Sora } from "next/font/google";
+import { AnnouncementBar } from "@/components/announcement-bar";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import "./globals.css";
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <noscript>
           <style>{"[data-anim],[data-anim-stagger]>*,[data-word]{opacity:1!important}[data-split]{visibility:visible!important}[data-clip]{clip-path:none!important}[data-draw]{visibility:visible!important}"}</style>
         </noscript>
+        <AnnouncementBar />
         <SmoothScroll />
         <BackToTop />
         {children}

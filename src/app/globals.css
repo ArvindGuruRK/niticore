@@ -5,7 +5,8 @@
    Theme: dark only. The logo carries white sparkles, so the canvas stays dark.
    Brand inputs: canvas #06011F, accent #4AE057. Sora for display, Manrope for body.
    Shape rule: controls (buttons, badges) are pills, panels are 20px, fields are 12px.
-   Accent rule: green is the only accent. Status colors exist for alerts only.
+   Accent rule: green (signal) is the action colour: CTAs and the key word. Violet (aura) is the tertiary
+   accent for illustration and secondary highlights, never for buttons. Status colors exist for alerts only.
    ========================================================================== */
 
 @theme inline {
@@ -29,6 +30,14 @@
   --color-signal-600: #27a336;
   --color-signal-700: #1d7d2a;
 
+  /* Aura: violet ramp on the ink hue (~257deg) at high lightness, so it reads as a lit version of the
+     canvas and sits ~135deg from the green. Tertiary accent for illustration and secondary highlights. */
+  --color-aura-200: #e4dbff;
+  --color-aura-300: #c9b8ff;
+  --color-aura-400: #a98bff;
+  --color-aura-500: #8b68f5;
+  --color-aura-600: #6d4ad6;
+
   /* Semantic roles: use these in components, not the ramps */
   --color-canvas: var(--color-ink-950);
   --color-nav: #0c062b;
@@ -40,6 +49,8 @@
   --color-accent: var(--color-signal-400);
   --color-accent-hover: var(--color-signal-300);
   --color-accent-ink: var(--color-ink-950);
+  --color-tertiary: var(--color-aura-400);
+  --color-tertiary-soft: var(--color-aura-300);
   --color-line: rgb(255 255 255 / 0.08);
   --color-line-strong: rgb(255 255 255 / 0.16);
 
@@ -93,6 +104,9 @@
   --safe-right: env(safe-area-inset-right, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Announcement bar height. The nav sits this far down at scroll 0 and rises as --scroll-y grows. */
+  --banner-h: calc(2rem + var(--safe-top));
 
   /* Grid background cell: denser on phones so the pattern keeps its rhythm on a narrow canvas */
   --grid-cell: 40px;

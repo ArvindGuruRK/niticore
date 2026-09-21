@@ -35,6 +35,14 @@ const SIGNAL = [
   { name: "signal-600", role: "Deep", hex: "#27A336", cls: "bg-signal-600" },
 ];
 
+const AURA = [
+  { name: "aura-200", role: "Tint", hex: "#E4DBFF", cls: "bg-aura-200" },
+  { name: "aura-300", role: "Soft", hex: "#C9B8FF", cls: "bg-aura-300" },
+  { name: "aura-400", role: "Tertiary accent", hex: "#A98BFF", cls: "bg-aura-400" },
+  { name: "aura-500", role: "Pressed", hex: "#8B68F5", cls: "bg-aura-500" },
+  { name: "aura-600", role: "Deep, fills only", hex: "#6D4AD6", cls: "bg-aura-600" },
+];
+
 const TEXT = [
   { name: "fg", role: "Headlines, primary", hex: "#F2F0FB", cls: "bg-fg" },
   { name: "fg-muted", role: "Body copy", hex: "#CBC6E4", cls: "bg-fg-muted" },
@@ -208,23 +216,24 @@ export default function DesignSystemPage() {
             Design system
           </SplitHeading>
           <SplitHeading as="p" trigger="load" delay={0.3} className="type-lead max-w-[60ch]">
-            Dark by default. One green accent on a deep indigo canvas. Sora for headlines, Manrope for everything you
+            Dark by default. Green for action, violet for illustration, on a deep indigo canvas. Sora for headlines, Manrope for everything you
             read. Every value on this page is a token in globals.css or lib/motion.ts.
           </SplitHeading>
         </header>
 
         <Block
           title="Color"
-          note="Brand inputs are canvas #06011F and accent #4AE057. Green is the only accent. Use semantic roles in components, not raw ramps."
+          note="Brand inputs are canvas #06011F and accent #4AE057. Green is the action colour, violet (aura) is the tertiary accent for illustration and secondary highlights, never buttons. Use semantic roles in components, not raw ramps."
         >
           <div className="flex flex-col gap-8">
             <Swatches items={INK} />
             <Swatches items={SIGNAL} />
+            <Swatches items={AURA} />
             <Swatches items={TEXT} />
             <Swatches items={STATUS} />
           </div>
           <p className="type-caption max-w-[65ch]">
-            Contrast on canvas: fg 18.1:1, fg-muted 12.3:1, fg-subtle 8.3:1, accent 11.7:1. Ink text on the accent
+            Contrast on canvas: fg 18.1:1, fg-muted 12.3:1, fg-subtle 8.3:1, accent 11.7:1, tertiary 7.6:1. Ink text on the accent
             button passes at 11.7:1. Status colors are for alerts and score states only.
           </p>
         </Block>

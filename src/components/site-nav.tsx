@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { List, X } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -23,6 +23,16 @@ export function SiteNav() {
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLElement>(null);
   const box = useRef<HTMLDivElement>(null);
+
+  // The nav starts below the announcement bar and follows it off the top as the page scrolls.
+  // CSS does the math from --scroll-y, so the first paint is already in the right place.
+  useEffect(() => {
+    const root = document.documentElement;
+    const onScroll = () => root.style.setProperty("--scroll-y", String(Math.min(window.scrollY, 400)));
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Float to dock: as the page scrolls, the panel widens to the full viewport, loses its
   // margin and radius, and keeps only a bottom hairline. Scrubbed, so it reverses on scroll up.
@@ -62,7 +72,7 @@ export function SiteNav() {
   return (
     <header
       ref={wrap}
-      className="fixed inset-x-0 top-0 z-[var(--z-nav)] px-page pt-[max(1rem,var(--safe-top))]"
+      className="fixed inset-x-0 top-[max(0px,calc(var(--banner-h)_-_var(--scroll-y,0)*1px))] z-[var(--z-nav)] px-page pt-4"
     >
       <div
         ref={box}

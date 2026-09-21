@@ -46,7 +46,7 @@ export function HeroCopy() {
   );
   return (
     <div ref={root} className="relative flex w-full max-w-[64rem] flex-col items-center gap-7 text-center">
-      <Annotate target="[data-accent]" delay={1.3} className="w-full">
+      <Annotate target="[data-accent]" delay={1.3} className="w-full" markClassName="text-fg">
         <SplitHeading as="h1" by="words" trigger="load" delay={0.25} className="type-display text-fg">
           <span className="block">Move fast with AI.</span>
           {" "}

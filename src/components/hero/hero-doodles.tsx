@@ -15,16 +15,16 @@ export function HeroDoodles() {
         delay={1.9}
         duration={1.8}
         strokeWidth={3.5}
-        className="absolute left-[-3vw] top-[56%] w-[clamp(8rem,15.5vw,18rem)] text-accent"
+        className="absolute left-[-3vw] top-[56%] w-[clamp(8rem,15.5vw,18rem)] text-tertiary"
       />
       <StarArc
         trigger="load"
         delay={1.2}
         duration={1.4}
         strokeWidth={3.5}
-        className="absolute right-[-1vw] top-[17%] w-[clamp(3.25rem,5.6vw,6.5rem)] text-accent"
+        className="absolute right-[-1vw] top-[17%] w-[clamp(3.25rem,5.6vw,6.5rem)] text-tertiary"
       />
-      <Sparkle size={76} delay={1.5} trigger="load" className="absolute right-[4.5vw] top-[33%] text-accent" />
+      <Sparkle size={76} delay={1.5} trigger="load" className="absolute right-[4.5vw] top-[33%] text-tertiary" />
     </div>
   );
 }
