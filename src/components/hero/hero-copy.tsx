@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import { AskAi } from "./ask-ai";
 import { Annotate } from "@/components/illustrations/annotate";
 import { Magnetic } from "@/components/motion/magnetic";
 import { SplitHeading } from "@/components/motion/split-heading";
@@ -86,6 +87,12 @@ export function HeroCopy() {
         <Button href="#assessment" size="lg" variant="secondary">
           Take the assessment
         </Button>
+      </div>
+
+      {/* Absolutely placed under the buttons so it sits in the old empty space and doesn't push the
+          vertically centred stack upward. */}
+      <div data-anim="" className="absolute inset-x-0 top-full mt-10">
+        <AskAi />
       </div>
     </div>
   );
