@@ -28,9 +28,19 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  // Absolute base for the generated Open Graph image. Swap for the custom domain when there is one.
+  metadataBase: new URL("https://niticore.vercel.app"),
   title: "NitiCore | The operating layer for governed AI",
   description:
     "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
+  openGraph: {
+    type: "website",
+    siteName: "NitiCore",
+    title: "NitiCore | The operating layer for governed AI",
+    description:
+      "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
