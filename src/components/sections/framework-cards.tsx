@@ -6,14 +6,14 @@ import { Marquee } from "@/components/motion/marquee";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
 
 /**
- * Card colours. `base` is the resting gradient and `hover` is the contrast colour it fades to:
- * green turns violet, violet turns green, blue turns bright green. All three sit on the design-system
- * ramps (ink, aura, signal) and keep enough depth for white text.
+ * Card colours. `base` is the fixed gradient. `light` is the solid disc that follows the cursor, in a
+ * contrast colour: violet on green cards, green on violet and blue cards (space-separated RGB).
+ * All three sit on the design-system ramps (ink, aura, signal).
  */
 const TONES = {
-  blue: { base: ["#1a1260", "#2f2a8c"], hover: ["#127a2b", "#27a336"] },
-  violet: { base: ["#4a33b8", "#7654e0"], hover: ["#0f4a1d", "#1f8a31"] },
-  green: { base: ["#0f4a1d", "#1f8a31"], hover: ["#4a33b8", "#7654e0"] },
+  blue: { base: ["#1a1260", "#2f2a8c"], light: "31 138 49" },
+  violet: { base: ["#4a33b8", "#7654e0"], light: "31 138 49" },
+  green: { base: ["#0f4a1d", "#1f8a31"], light: "139 104 245" },
 } as const;
 
 type Tone = keyof typeof TONES;
@@ -85,18 +85,13 @@ function FrameworkCard({ f }: { f: Framework }) {
   const tone = TONES[f.tone];
   return (
     <li className="group/card mr-3 h-48 w-[17.5rem] shrink-0 sm:mr-4 sm:w-80">
-      {/* Spotlight: the design-system light follows the cursor over the card */}
+      {/* Spotlight: a solid contrast-coloured disc follows the cursor; the rest of the card keeps its colour */}
       <SpotlightCard
+        light={tone.light}
+        solid
         className="flex h-full flex-col border-white/10 p-5 shadow-none sm:p-6"
         style={{ backgroundImage: grad(tone.base) }}
       >
-        {/* Contrast colour: fades in over the resting gradient on hover, beneath the spotlight */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 -z-20 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
-          style={{ backgroundImage: grad(tone.hover) }}
-        />
-
         {/* The act comes first: its mark and name lead the card */}
         <div className="flex items-center gap-3">
           <Mark f={f} />

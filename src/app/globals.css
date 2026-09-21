@@ -171,9 +171,10 @@
     touch-action: manipulation;
   }
 
+  /* Text selection uses the standard system blue people expect, not the brand green */
   ::selection {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
+    background: #0078d7;
+    color: #fff;
   }
 
   :focus-visible {

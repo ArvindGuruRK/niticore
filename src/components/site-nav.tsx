@@ -28,7 +28,14 @@ export function SiteNav() {
   // CSS does the math from --scroll-y, so the first paint is already in the right place.
   useEffect(() => {
     const root = document.documentElement;
-    const onScroll = () => root.style.setProperty("--scroll-y", String(Math.min(window.scrollY, 400)));
+    let last = -1;
+    const onScroll = () => {
+      // Past 400px the value is constant; writing a custom property on <html> restyles the page, so skip no-ops
+      const v = Math.min(Math.round(window.scrollY), 400);
+      if (v === last) return;
+      last = v;
+      root.style.setProperty("--scroll-y", String(v));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -59,7 +66,7 @@ export function SiteNav() {
               borderTopColor: "rgba(255,255,255,0)",
               borderLeftColor: "rgba(255,255,255,0)",
               borderRightColor: "rgba(255,255,255,0)",
-              backgroundColor: "rgba(6,1,31,0.82)",
+              backgroundColor: "rgba(6,1,31,0.92)",
               boxShadow: "0 0 0 rgba(2,0,14,0)",
             },
             0,
@@ -76,7 +83,7 @@ export function SiteNav() {
     >
       <div
         ref={box}
-        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.62)] shadow-panel backdrop-blur-xl"
+        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.8)] shadow-panel"
       >
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-5 lg:px-6">
           <Link href="/" aria-label="NitiCore home" className="shrink-0 rounded-control">

@@ -16,8 +16,8 @@ export function AnnouncementBar() {
       aria-label="Announcement"
       className="absolute inset-x-0 top-0 z-[var(--z-nav)] h-[var(--banner-h)] bg-tertiary pt-safe text-accent-ink"
     >
-      {/* [&>div]:h-full lets the track fill the bar so the text centres vertically; the edge fade is off on a solid bar. */}
-      <Marquee direction={-1} speed={45} reactToScroll={false} className="h-full [mask-image:none] [&>div]:h-full">
+      {/* [&>div]:h-full lets the track fill the bar so the text centres vertically. The dark edge fades from Marquee are kept on purpose: they look good on the violet bar. */}
+      <Marquee direction={-1} speed={45} reactToScroll={false} className="h-full [&>div]:h-full">
         {Array.from({ length: COPIES }, (_, i) => (
           <div key={i} aria-hidden={i > 0} className="flex items-center whitespace-nowrap">
             <span className="text-sm font-semibold">{MESSAGE}</span>

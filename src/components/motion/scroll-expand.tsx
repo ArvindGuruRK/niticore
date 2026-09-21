@@ -19,19 +19,23 @@ type ScrollExpandProps = ComponentProps<"div"> & {
  */
 export function ScrollExpand({ from = 0.82, depth = 1.14, className, children, ...props }: ScrollExpandProps) {
   const root = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(NO_REDUCE, () => {
-        const el = root.current!;
+        const el = frame.current!;
+        // The trigger is the untransformed wrapper, so its measured position never includes the scale
+        // and offset being animated. scrub is true: Lenis already smooths the scroll, and a second
+        // layer of scrub smoothing made the frame lag behind and then catch up (felt as a jerk).
         const tl = gsap.timeline({
           defaults: { ease: EASE.linear },
-          scrollTrigger: { trigger: el, start: "top 96%", end: "top 28%", scrub: 0.6 },
+          scrollTrigger: { trigger: root.current, start: "top 96%", end: "top 28%", scrub: true },
         });
-        tl.fromTo(el, { scale: from, y: 48 }, { scale: 1, y: 0 }).fromTo(
+        tl.fromTo(el, { scale: from, y: 48, force3D: true }, { scale: 1, y: 0 }).fromTo(
           el.firstElementChild,
-          { scale: depth },
+          { scale: depth, force3D: true },
           { scale: 1 },
           0,
         );
@@ -41,8 +45,10 @@ export function ScrollExpand({ from = 0.82, depth = 1.14, className, children, .
   );
 
   return (
-    <div ref={root} className={cn("overflow-hidden will-change-transform", className)} {...props}>
-      {children}
+    <div ref={root} {...props}>
+      <div ref={frame} className={cn("overflow-hidden [backface-visibility:hidden]", className)}>
+        {children}
+      </div>
     </div>
   );
 }

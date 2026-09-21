@@ -104,7 +104,7 @@ export function VideoPlayer({
           type="button"
           onClick={toggle}
           tabIndex={started ? -1 : 0}
-          className="pointer-events-auto group/cta flex items-center gap-3 rounded-full border border-white/15 bg-ink-950/50 py-2 pl-2 pr-6 text-sm font-semibold text-fg shadow-panel backdrop-blur-md transition-all duration-300 ease-out-expo hover:border-accent/60 hover:bg-ink-950/70 active:scale-[0.97] sm:text-base"
+          className="pointer-events-auto group/cta flex items-center gap-3 rounded-full border border-white/15 bg-ink-950/70 py-2 pl-2 pr-6 text-sm font-semibold text-fg shadow-panel transition-all duration-300 ease-out-expo hover:border-accent/60 hover:bg-ink-950/85 active:scale-[0.97] sm:text-base"
         >
           <span className="grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-accent transition-transform duration-300 ease-out-expo group-hover/cta:scale-110 sm:size-14">
             <Play weight="fill" className="ml-0.5 size-5 sm:size-6" />
@@ -116,7 +116,7 @@ export function VideoPlayer({
       {/* Control dock */}
       <div
         className={cn(
-          "absolute inset-x-3 bottom-3 flex items-center gap-3 rounded-full border border-white/12 bg-ink-950/60 p-2 pr-4 text-fg shadow-panel backdrop-blur-xl transition-all duration-500 ease-out-expo sm:inset-x-6 sm:bottom-6",
+          "absolute inset-x-3 bottom-3 flex items-center gap-3 rounded-full border border-white/12 bg-ink-950/80 p-2 pr-4 text-fg shadow-panel transition-all duration-500 ease-out-expo sm:inset-x-6 sm:bottom-6",
           started
             ? "translate-y-0 opacity-100 [@media(hover:hover)]:group-hover/player:translate-y-0"
             : "pointer-events-none translate-y-4 opacity-0",

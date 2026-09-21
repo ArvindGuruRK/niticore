@@ -13,6 +13,8 @@ type MarqueeProps = {
   pauseOnHover?: boolean;
   /** Scroll velocity speeds the loop up, and scrolling up reverses it */
   reactToScroll?: boolean;
+  /** Soft fade at both edges. Turn off on a solid bar, where the fade colour would show. */
+  fade?: boolean;
   className?: string;
 };
 
@@ -27,6 +29,7 @@ export function Marquee({
   direction = 1,
   pauseOnHover = true,
   reactToScroll = true,
+  fade = true,
   className,
 }: MarqueeProps) {
   const root = useRef<HTMLDivElement>(null);
@@ -49,6 +52,11 @@ export function Marquee({
 
         const cleanups: Array<() => void> = [() => ro.disconnect()];
 
+        // Off-screen lanes stop ticking, so they cost nothing while the user is elsewhere on the page
+        const io = new IntersectionObserver(([entry]) => tween.paused(!entry.isIntersecting), { rootMargin: "80px" });
+        io.observe(root.current!);
+        cleanups.push(() => io.disconnect());
+
         if (reactToScroll) {
           const st = ScrollTrigger.create({
             start: 0,
@@ -64,7 +72,7 @@ export function Marquee({
 
         if (pauseOnHover) {
           const el = root.current!;
-          const slow = () => gsap.to(tween, { timeScale: 0, duration: 0.5, overwrite: true });
+          const slow = () => gsap.to(tween, { timeScale: 0, duration: 0.25, overwrite: true });
           const resume = () => gsap.to(tween, { timeScale: 1, duration: 0.5, overwrite: true });
           el.addEventListener("pointerenter", slow);
           el.addEventListener("pointerleave", resume);
@@ -89,14 +97,18 @@ export function Marquee({
       )}
     >
       {/* Edge fades are overlays, not a mask-image: a mask on the parent repaints every moving frame */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[8%] bg-gradient-to-r from-canvas to-transparent motion-reduce:hidden"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[8%] bg-gradient-to-l from-canvas to-transparent motion-reduce:hidden"
-      />
+      {fade && (
+        <>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[8%] bg-gradient-to-r from-canvas to-transparent motion-reduce:hidden"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-[8%] bg-gradient-to-l from-canvas to-transparent motion-reduce:hidden"
+          />
+        </>
+      )}
       <div ref={track} className="flex w-max will-change-transform">
         <div ref={group} className="flex shrink-0 items-center">
           {children}

@@ -265,14 +265,16 @@ export default function TextType({
 
     gsap.ticker.add(tick);
 
+    // Types only while on screen: it starts when first visible (if startOnVisible) and pauses whenever it
+    // scrolls out of view, so the hero copy is not rewriting text on the main thread while you scroll past.
+    let seen = !startOnVisible;
     let observer: IntersectionObserver | undefined;
-    if (startOnVisible && containerRef.current) {
+    if (containerRef.current) {
       observer = new IntersectionObserver(
         (entries) => {
-          if (entries.some((e) => e.isIntersecting)) {
-            active = true;
-            observer?.disconnect();
-          }
+          const visible = entries.some((e) => e.isIntersecting);
+          if (visible) seen = true;
+          active = seen && visible;
         },
         { threshold: 0.1 },
       );
