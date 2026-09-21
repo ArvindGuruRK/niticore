@@ -11,6 +11,7 @@ import { PinScrub } from "@/components/motion/pin-scrub";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { DIST, DUR, EASE, STAGGER } from "@/lib/motion";
+import { MotionShowcase } from "./showcase";
 
 export const metadata: Metadata = {
   title: "NitiCore Design System",
@@ -111,6 +112,31 @@ const ANIMATIONS = [
   { name: "Nav float to dock", where: "site-nav", trigger: "Scrubbed, first 160px", note: "Floating panel widens to a full-width bar" },
   { name: "Smooth scroll", where: "motion/smooth-scroll", trigger: "Always on", note: "Lenis inertia on the GSAP ticker" },
   { name: "Governance Fabric", where: "hero/governance-fabric", trigger: "Load, pointer", note: "Canvas: assemble, pulses, pointer repel" },
+  { name: "Split heading", where: "motion/split-heading", trigger: "Enters viewport, once", note: "Masked line or word rise, re-splits on resize" },
+  { name: "Scramble text", where: "motion/scramble-text", trigger: "Enters viewport, hover", note: "Characters decode from noise" },
+  { name: "Media reveal", where: "motion/media-reveal", trigger: "Enters viewport, once", note: "Clip-path wipe with inner zoom settle" },
+  { name: "Spotlight card", where: "motion/spotlight-card", trigger: "Pointer", note: "Cursor light on fill and border" },
+  { name: "Tilt card", where: "motion/tilt-card", trigger: "Pointer", note: "3D tilt with moving sheen" },
+  { name: "Score ring", where: "motion/score-ring", trigger: "Enters viewport, once", note: "Gauge sweep and count, status-coloured" },
+  { name: "Bar meter", where: "motion/bar-meter", trigger: "Enters viewport, once", note: "Staggered coverage bars" },
+  { name: "Draw path", where: "motion/draw-path", trigger: "Entry or scrubbed", note: "SVG stroke draw for connectors" },
+  { name: "Marquee", where: "motion/marquee", trigger: "Always on, scroll velocity", note: "Seamless loop that reacts to scroll speed" },
+  { name: "Timeline", where: "motion/timeline", trigger: "Scrubbed", note: "Progress line and lit nodes" },
+  { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
+  { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
+  { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
+];
+
+const RESPONSIVE: [string, string, string][] = [
+  ["Mobile", "320 to 639px", "Single column. Fabric sits under hero copy. Horizontal scroll is a swipe row. 44px touch targets."],
+  ["Large phone", "sm, 640px", "Nav shows the Book a demo button. Gutter keeps growing fluidly."],
+  ["Tablet", "md 768 to lg 1023px", "Two and three column grids begin. Nav still uses the menu. No pinned horizontal scroll on touch tablets."],
+  ["Desktop", "lg 1024px and up", "Full nav, hero fabric on the right, wide data rows, pinned horizontal scroll."],
+  ["px-page", "clamp(1rem, 0.6rem + 1.6vw, 2rem)", "Horizontal gutter. Clears notches through the safe-area tokens."],
+  ["py-section", "clamp(4rem, 2.4rem + 6vw, 8rem)", "Vertical rhythm between sections. spacing-stack is the gap inside one."],
+  ["Type scale", "clamp() per token", "Headings, lead and display scale fluidly. Body stays 16px."],
+  ["Viewport", "dvh, viewport-fit=cover", "Full-height sections use dvh so the mobile URL bar never crops them. ScrollTrigger ignores URL-bar resizes."],
+  ["Input", "hover and pointer media", "Pointer effects run on fine pointers only. Hover styles apply on hover-capable devices. Reduced motion removes all movement."],
 ];
 
 const PIN_STEPS = [
@@ -282,7 +308,7 @@ export default function DesignSystemPage() {
 
           <div className="flex flex-col divide-y divide-line rounded-panel border border-line">
             {ANIMATIONS.map((a) => (
-              <div key={a.name} className="grid gap-1 px-5 py-4 md:grid-cols-[11rem_12rem_13rem_1fr] md:gap-6">
+              <div key={a.name} className="grid gap-1 px-5 py-4 lg:grid-cols-[11rem_12rem_13rem_1fr] lg:gap-6">
                 <p className="text-sm font-bold text-fg">{a.name}</p>
                 <p className="type-caption">{a.where}</p>
                 <p className="type-small">{a.trigger}</p>
@@ -337,7 +363,13 @@ export default function DesignSystemPage() {
             <div className="flex flex-col gap-3">
               <p className="type-caption">Parallax (scrubbed)</p>
               <Parallax amount={14} className="h-64 rounded-panel border border-line">
-                <div className="grid-bg h-[140%] w-full bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgb(74_224_87/0.22),transparent_70%)]" />
+                <div className="relative h-[140%] w-full">
+                  <div aria-hidden className="grid-bg absolute inset-0" />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgb(74_224_87/0.22),transparent_70%)]"
+                  />
+                </div>
               </Parallax>
             </div>
 
@@ -359,13 +391,30 @@ export default function DesignSystemPage() {
           </p>
         </Block>
 
+        <MotionShowcase />
+
+        <Block
+          title="Responsive system"
+          note="Mobile first. Fluid tokens do most of the work, so breakpoints only change structure, never spacing."
+        >
+          <div className="flex flex-col divide-y divide-line rounded-panel border border-line">
+            {RESPONSIVE.map(([k, v, n]) => (
+              <div key={k} className="grid gap-1 px-5 py-4 lg:grid-cols-[11rem_14rem_1fr] lg:gap-6">
+                <p className="text-sm font-bold text-fg">{k}</p>
+                <p className="type-caption">{v}</p>
+                <p className="type-small">{n}</p>
+              </div>
+            ))}
+          </div>
+        </Block>
+
         <Block title="Layout rules" note="Locked so later sections stay consistent with the hero.">
           <ul className="type-body grid list-disc gap-2 pl-5 md:grid-cols-2">
-            <li>Container is max-w-7xl with 16, 24, 32px gutters.</li>
+            <li>Container is max-w-7xl with a fluid 16 to 32px gutter (px-page), safe-area aware.</li>
             <li>Hero uses min-h-[100dvh], never h-screen. Top padding is capped at 6rem.</li>
             <li>Nav is one line, 64px tall.</li>
-            <li>Breakpoints: 640, 768, 1024, 1280, 1536.</li>
-            <li>Multi-column layouts collapse to one column below 768px.</li>
+            <li>Breakpoints (mobile first): sm 640, md 768, lg 1024, xl 1280, 2xl 1536. Desktop layout starts at lg.</li>
+            <li>Multi-column layouts collapse to one column below 768px. Wide data rows wait for lg.</li>
             <li>Z-index layers: nav 50, scroll progress and mobile menu 60. Nothing else.</li>
           </ul>
         </Block>

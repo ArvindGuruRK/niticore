@@ -57,6 +57,20 @@
   --shadow-panel: 0 24px 60px -28px rgb(2 0 14 / 0.9), inset 0 1px 0 rgb(255 255 255 / 0.06);
   --shadow-accent: 0 10px 30px -12px rgb(74 224 87 / 0.28), inset 0 1px 0 rgb(255 255 255 / 0.3);
 
+  /* Breakpoints: mobile first. Base = phones, sm = large phones, md = tablet portrait,
+     lg = tablet landscape and small laptops (desktop layout begins here), xl/2xl = desktop. */
+  --breakpoint-sm: 40rem; /* 640 */
+  --breakpoint-md: 48rem; /* 768 */
+  --breakpoint-lg: 64rem; /* 1024 */
+  --breakpoint-xl: 80rem; /* 1280 */
+  --breakpoint-2xl: 96rem; /* 1536 */
+
+  /* Fluid layout tokens: one clamp() each, so spacing scales smoothly with no per-breakpoint overrides */
+  --spacing-gutter: clamp(1rem, 0.6rem + 1.6vw, 2rem); /* 16px phones to 32px desktop */
+  --spacing-section: clamp(4rem, 2.4rem + 6vw, 8rem); /* vertical rhythm between sections */
+  --spacing-stack: clamp(1.5rem, 1rem + 2vw, 3rem); /* gap inside a section */
+  --spacing-tap: 2.75rem; /* 44px minimum touch target */
+
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-marquee: marquee 48s linear infinite;
@@ -73,11 +87,32 @@
   --z-nav: 50;
   --z-menu: 60;
   color-scheme: dark;
+
+  /* Notches and home indicators. Resolve to 0 on devices without them (needs viewport-fit=cover). */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* Grid background cell: denser on phones so the pattern keeps its rhythm on a narrow canvas */
+  --grid-cell: 40px;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --grid-cell: 64px;
+  }
 }
 
 @layer base {
   html {
     background: var(--color-canvas);
+    /* Stop iOS Safari inflating text in landscape, and remove the grey tap flash */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    /* Reserve the scrollbar gutter so pinned sections and the docking nav never shift width */
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -86,6 +121,10 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Safety net: no stray element may create sideways scroll. clip (not hidden) keeps
+       position: sticky and ScrollTrigger pinning working. */
+    overflow-x: clip;
+    min-width: 20rem; /* 320px: smallest supported viewport */
   }
 
   h1,
@@ -94,6 +133,28 @@
   h4 {
     font-family: var(--font-display);
     letter-spacing: -0.025em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+    overflow-wrap: break-word;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  /* Touch: no double-tap zoom delay on controls */
+  a,
+  button,
+  [role="tab"] {
+    touch-action: manipulation;
   }
 
   ::selection {
@@ -129,6 +190,13 @@ html.lenis body {
   }
   [data-word] {
     opacity: 0.22;
+  }
+  /* SplitHeading is revealed by JS after the split; MediaReveal wipes in from a clipped state */
+  [data-split] {
+    visibility: hidden;
+  }
+  [data-clip] {
+    clip-path: inset(0 0 100% 0);
   }
 }
 
@@ -209,6 +277,32 @@ html.lenis body {
   text-transform: uppercase;
 }
 
+/* Layout utilities. Use these instead of hand-written px-4 sm:px-6 lg:px-8 stacks. */
+
+/* Horizontal page gutter, fluid 16 to 32px */
+@utility px-page {
+  padding-inline: max(var(--spacing-gutter), var(--safe-left)) max(var(--spacing-gutter), var(--safe-right));
+}
+
+/* Vertical section rhythm, fluid 64 to 128px */
+@utility py-section {
+  padding-block: var(--spacing-section);
+}
+
+/* Fixed elements that sit near a screen edge: clear the notch and home indicator */
+@utility pt-safe {
+  padding-top: var(--safe-top);
+}
+@utility pb-safe {
+  padding-bottom: var(--safe-bottom);
+}
+
+/* Minimum 44px hit area for icon and text controls */
+@utility tap-target {
+  min-height: var(--spacing-tap);
+  min-width: var(--spacing-tap);
+}
+
 /* Hero canvas fades into the copy column on wide screens */
 @utility fabric-mask {
   mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
@@ -224,7 +318,7 @@ html.lenis body {
   background-image:
     linear-gradient(to right, rgb(255 255 255 / 0.09) 1px, transparent 1px),
     linear-gradient(to bottom, rgb(255 255 255 / 0.09) 1px, transparent 1px);
-  background-size: 64px 64px;
+  background-size: var(--grid-cell) var(--grid-cell);
   background-position: center top;
   mask-image: radial-gradient(ellipse 85% 80% at 60% 45%, #000 25%, transparent 85%);
 }

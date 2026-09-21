@@ -11,13 +11,13 @@ export function Hero() {
       <div aria-hidden className="grid-bg absolute inset-0 -z-10" />
 
       {/* Mobile: fabric sits under the copy. Desktop: fabric owns the right two thirds of the container. */}
-      <div className="pointer-events-none absolute inset-0 -z-10 px-4 sm:px-6">
+      <div className="pointer-events-none absolute inset-0 -z-10 px-page">
         <div className="relative mx-auto h-full max-w-7xl">
           <GovernanceFabric className="fabric-mask absolute inset-x-0 bottom-0 h-[48%] w-full lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[68%]" />
         </div>
       </div>
 
-      <div className="px-4 sm:px-6">
+      <div className="px-page">
         <div className="mx-auto flex min-h-[100dvh] max-w-7xl items-start px-4 pb-16 pt-28 sm:px-5 sm:pt-32 lg:items-center lg:px-6 lg:pt-24">
           <HeroCopy />
         </div>

@@ -60,7 +60,10 @@ export function SiteNav() {
   );
 
   return (
-    <header ref={wrap} className="fixed inset-x-0 top-0 z-[var(--z-nav)] px-4 pt-4 sm:px-6">
+    <header
+      ref={wrap}
+      className="fixed inset-x-0 top-0 z-[var(--z-nav)] px-page pt-[max(1rem,var(--safe-top))]"
+    >
       <div
         ref={box}
         className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.62)] shadow-panel backdrop-blur-xl"
@@ -100,14 +103,18 @@ export function SiteNav() {
         </div>
 
         {open && (
-          <nav id="mobile-menu" aria-label="Mobile" className="border-t border-line lg:hidden">
+          <nav
+            id="mobile-menu"
+            aria-label="Mobile"
+            className="max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-line lg:hidden"
+          >
             <div className="flex flex-col gap-1 px-4 py-4 sm:px-5">
               {LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-field px-3 py-3 text-base font-semibold text-fg-muted hover:bg-white/[0.06] hover:text-fg"
+                  className="tap-target flex items-center rounded-field px-3 py-3 text-base font-semibold text-fg-muted hover:bg-white/[0.06] hover:text-fg"
                 >
                   {link.label}
                 </Link>
