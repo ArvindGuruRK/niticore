@@ -195,6 +195,9 @@ html.lenis body {
   [data-split] {
     visibility: hidden;
   }
+  [data-draw] {
+    visibility: hidden;
+  }
   [data-clip] {
     clip-path: inset(0 0 100% 0);
   }

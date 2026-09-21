@@ -1,3 +1,8 @@
+import { Annotate } from "@/components/illustrations/annotate";
+import { GovernanceFabric } from "@/components/illustrations/governance-fabric";
+import { Flourish } from "@/components/illustrations/flourish";
+import { Sparkle } from "@/components/illustrations/sparkle";
+import { StarArc } from "@/components/illustrations/star-arc";
 import { Accordion } from "@/components/motion/accordion";
 import { BarMeter } from "@/components/motion/bar-meter";
 import { DrawPath } from "@/components/motion/draw-path";
@@ -9,6 +14,8 @@ import { ScrambleText } from "@/components/motion/scramble-text";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { Tabs } from "@/components/motion/tabs";
+import { ScrambleWord } from "@/components/motion/scramble-word";
+import TextType from "@/components/motion/text-type";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { Timeline } from "@/components/motion/timeline";
 
@@ -46,7 +53,9 @@ function Demo({ title, note, children }: { title: string; note: string; children
   return (
     <section className="flex flex-col gap-6 border-t border-line py-14">
       <div className="flex flex-col gap-2">
-        <h2 className="type-h3 text-fg">{title}</h2>
+        <SplitHeading as="h2" className="type-h3 text-fg">
+          {title}
+        </SplitHeading>
         <p className="type-body max-w-[65ch]">{note}</p>
       </div>
       {children}
@@ -60,10 +69,43 @@ export function MotionShowcase() {
     <>
       <Demo
         title="Split heading"
-        note="Masked line-by-line rise. Re-splits on resize and after fonts load, so the breaks are always right."
+        note="Masked line or word rise, on scroll or on load (trigger prop). Re-splits on resize and after fonts load, so the breaks are always right."
       >
         <SplitHeading className="type-h2 max-w-3xl text-fg">
           One governance action closes five frameworks at once.
+        </SplitHeading>
+      </Demo>
+
+      <Demo
+        title="Text type"
+        note="Typewriter text from React Bits (reactbits.dev), adapted to TypeScript and our tokens. Types, holds, deletes and loops through an array. Our additions: stableLayout keeps long text on its final line breaks while typing, prefix keeps a fixed stem, typePrefix types that stem once on load, and the exit prop set to fade fades long text out instead of deleting it. Reserve the height for the longest text so nothing jumps. Reduced motion shows the first text static."
+      >
+        <TextType
+          as="p"
+          prefix="NitiCore gives you "
+          typePrefix
+          exit="fade"
+          startOnVisible
+          text={[
+            "agent governance, not just model governance: control what autonomous agents can execute, access and spend, with hard guardrails and human-in-the-loop gates.",
+            "one board-ready Governance Readiness score that turns technical MLOps metrics and complex legal clauses into something management reads in 30 seconds.",
+          ]}
+          typingSpeed={16}
+          deletingSpeed={6}
+          pauseDuration={2800}
+          initialDelay={400}
+          stableLayout
+          className="type-lead block min-h-[8em] max-w-[42rem] sm:min-h-[4.8em]"
+          cursorCharacter={<span className="inline-block h-[1.05em] w-[0.55em] translate-y-[0.18em] rounded-[1px] bg-accent" />}
+        />
+      </Demo>
+
+      <Demo
+        title="Scramble word"
+        note="A word that scrambles on hover and resolves back. Made for use inside SplitHeading, where the text is already split. Width is locked while it scrambles. Fine pointers only."
+      >
+        <SplitHeading className="type-h2 text-fg">
+          Govern it with <ScrambleWord className="text-accent">confidence.</ScrambleWord>
         </SplitHeading>
       </Demo>
 
@@ -128,6 +170,16 @@ export function MotionShowcase() {
         </div>
       </Demo>
 
+      <Demo
+        title="Governance fabric"
+        note="The spider-web network from the first hero, kept as a reusable canvas component. Nodes assemble, pulses travel the links, the pointer repels nearby nodes. align centres it in a panel or anchors it right for a split layout. Reserved for a later section."
+      >
+        <div className="relative h-[26rem] overflow-hidden rounded-panel border border-line bg-surface md:h-[34rem]">
+          <div aria-hidden className="grid-bg absolute inset-0" />
+          <GovernanceFabric align="center" className="absolute inset-0 size-full" />
+        </div>
+      </Demo>
+
       <Demo title="Draw path" note="SVG line draw, played once or scrubbed to scroll. Built for connectors and flow diagrams.">
         <DrawPath
           viewBox="0 0 800 120"
@@ -135,6 +187,23 @@ export function MotionShowcase() {
           strokeWidth={3}
           className="max-w-3xl"
         />
+      </Demo>
+
+      <Demo
+        title="Illustrations"
+        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc and Annotate are built on it. Colour comes from currentColor. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
+      >
+        <div className="flex flex-wrap items-center gap-12">
+          <Sparkle size={72} className="text-fg" />
+          <Sparkle size={36} className="text-accent" delay={0.3} />
+          <Flourish className="w-40 text-fg/60" strokeWidth={2.5} />
+          <StarArc className="w-16 text-fg/80" strokeWidth={2.5} delay={0.2} />
+          <Annotate target="[data-mark]" trigger="view" delay={0.4} className="type-h2 text-fg">
+            <p>
+              Governed <span data-mark="" className="inline-block">AI agents</span>
+            </p>
+          </Annotate>
+        </div>
       </Demo>
 
       <Demo title="Marquee" note="Seamless loop. Scroll speed pushes it faster and scrolling up reverses it. Hover pauses.">

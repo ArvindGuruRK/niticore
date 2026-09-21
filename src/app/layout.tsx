@@ -40,7 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <noscript>
-          <style>{"[data-anim],[data-anim-stagger]>*,[data-word]{opacity:1!important}[data-split]{visibility:visible!important}[data-clip]{clip-path:none!important}"}</style>
+          <style>{"[data-anim],[data-anim-stagger]>*,[data-word]{opacity:1!important}[data-split]{visibility:visible!important}[data-clip]{clip-path:none!important}[data-draw]{visibility:visible!important}"}</style>
         </noscript>
         <SmoothScroll />
         <BackToTop />

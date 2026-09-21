@@ -9,6 +9,7 @@ import { Magnetic } from "@/components/motion/magnetic";
 import { Parallax } from "@/components/motion/parallax";
 import { PinScrub } from "@/components/motion/pin-scrub";
 import { Reveal } from "@/components/motion/reveal";
+import { SplitHeading } from "@/components/motion/split-heading";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { DIST, DUR, EASE, STAGGER } from "@/lib/motion";
 import { MotionShowcase } from "./showcase";
@@ -111,9 +112,11 @@ const ANIMATIONS = [
   { name: "Back to top", where: "motion/back-to-top", trigger: "Scrubbed ring, shows after 320px", note: "Circle button with page-progress ring, scrolls up via Lenis" },
   { name: "Nav float to dock", where: "site-nav", trigger: "Scrubbed, first 160px", note: "Floating panel widens to a full-width bar" },
   { name: "Smooth scroll", where: "motion/smooth-scroll", trigger: "Always on", note: "Lenis inertia on the GSAP ticker" },
-  { name: "Governance Fabric", where: "hero/governance-fabric", trigger: "Load, pointer", note: "Canvas: assemble, pulses, pointer repel" },
+  { name: "Governance Fabric", where: "illustrations/governance-fabric", trigger: "Load, pointer", note: "Canvas network for a later section: assemble, pulses, pointer repel" },
   { name: "Split heading", where: "motion/split-heading", trigger: "Enters viewport, once", note: "Masked line or word rise, re-splits on resize" },
   { name: "Scramble text", where: "motion/scramble-text", trigger: "Enters viewport, hover", note: "Characters decode from noise" },
+  { name: "Text type", where: "motion/text-type", trigger: "Load, loops", note: "React Bits typewriter, cursor blink, reduced-motion safe" },
+  { name: "Scramble word", where: "motion/scramble-word", trigger: "Hover (fine pointers)", note: "Word scrambles inside split text, width locked" },
   { name: "Media reveal", where: "motion/media-reveal", trigger: "Enters viewport, once", note: "Clip-path wipe with inner zoom settle" },
   { name: "Spotlight card", where: "motion/spotlight-card", trigger: "Pointer", note: "Cursor light on fill and border" },
   { name: "Tilt card", where: "motion/tilt-card", trigger: "Pointer", note: "3D tilt with moving sheen" },
@@ -125,6 +128,7 @@ const ANIMATIONS = [
   { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
+  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, Annotate: self-drawing line art" },
 ];
 
 const RESPONSIVE: [string, string, string][] = [
@@ -182,7 +186,9 @@ function Block({ title, note, children }: { title: string; note?: string; childr
   return (
     <section className="flex flex-col gap-6 border-t border-line py-14">
       <div className="flex flex-col gap-2">
-        <h2 className="type-h3 text-fg">{title}</h2>
+        <SplitHeading as="h2" className="type-h3 text-fg">
+          {title}
+        </SplitHeading>
         {note && <p className="type-body max-w-[65ch]">{note}</p>}
       </div>
       {children}
@@ -198,11 +204,13 @@ export default function DesignSystemPage() {
       <Container>
         <header className="flex flex-col items-start gap-6 pb-14">
           <Image src="/logo/niticore.svg" alt="NitiCore" width={156} height={38} className="h-9 w-auto" />
-          <h1 className="type-hero max-w-3xl">Design system</h1>
-          <p className="type-lead max-w-[60ch]">
+          <SplitHeading as="h1" by="words" trigger="load" className="type-hero max-w-3xl">
+            Design system
+          </SplitHeading>
+          <SplitHeading as="p" trigger="load" delay={0.3} className="type-lead max-w-[60ch]">
             Dark by default. One green accent on a deep indigo canvas. Sora for headlines, Manrope for everything you
             read. Every value on this page is a token in globals.css or lib/motion.ts.
-          </p>
+          </SplitHeading>
         </header>
 
         <Block
@@ -232,7 +240,9 @@ export default function DesignSystemPage() {
                   <p className="text-sm font-bold text-fg">{t.token}</p>
                   <p className="type-caption">{t.spec}</p>
                 </div>
-                <div className={t.cls}>{t.sample}</div>
+                <SplitHeading as="div" by={t.token === "type-label" ? "words" : "lines"} className={t.cls}>
+                  {t.sample}
+                </SplitHeading>
               </div>
             ))}
           </div>

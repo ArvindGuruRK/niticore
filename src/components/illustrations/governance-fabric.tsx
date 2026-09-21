@@ -54,7 +54,12 @@ type Pulse = { a: number; b: number; t: number; speed: number }; // b === -1 tar
 const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-export function GovernanceFabric({ className }: { className?: string }) {
+/**
+ * Animated governance network on a canvas: nodes assemble, pulses travel the links, the pointer
+ * repels nearby nodes. `align="right"` anchors the network to the right edge (for a split layout),
+ * `align="center"` centres it in its box (for a panel or a full-width section).
+ */
+export function GovernanceFabric({ className, align = "right" }: { className?: string; align?: "right" | "center" }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -125,13 +130,15 @@ export function GovernanceFabric({ className }: { className?: string }) {
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Keep the whole network clear of the floating nav (top) and the ticker fade (bottom)
-      const topPad = width < 640 ? 24 : 116;
-      const bottomPad = width < 640 ? 24 : 56;
+      const centered = align === "center";
+      const topPad = centered ? 32 : width < 640 ? 24 : 116;
+      const bottomPad = centered ? 32 : width < 640 ? 24 : 56;
       const availH = Math.max(height - topPad - bottomPad, 120);
       const wide = width >= 600;
-      radius = Math.min(width * (wide ? 0.32 : 0.28), availH / 2 / 0.9);
+      radius = Math.min(width * (wide ? 0.26 : 0.25), availH / 2 / 0.9);
+      if (centered) radius = Math.min(width * 0.3, availH / 2 / 0.9, width / 2 - 76);
       // Wide: anchor to the right so the outer labels end at the container edge
-      cx = wide ? width - radius - 104 : width * 0.5;
+      cx = centered || !wide ? width * 0.5 : width - radius - 64;
       cy = topPad + availH / 2;
     };
 
@@ -435,7 +442,7 @@ export function GovernanceFabric({ className }: { className?: string }) {
       document.documentElement.removeEventListener("pointerleave", onPointerLeave);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, []);
+  }, [align]);
 
   return <canvas ref={canvasRef} aria-hidden className={className} />;
 }
