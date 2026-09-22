@@ -17,6 +17,9 @@ export type DoodleProps = {
   trigger?: "view" | "load";
   delay?: number;
   duration?: number;
+  /** Gap between each path's start, in seconds. Equal to `duration` draws one stroke fully before
+   * the next begins (an even, one-at-a-time build); smaller values let strokes overlap. */
+  stagger?: number;
   /** Stretch to the box and keep a constant stroke width (used for underlines that follow a word) */
   stretch?: boolean;
   /** Colour comes from currentColor, so set it with a text-* class */
@@ -34,6 +37,7 @@ export function Doodle({
   trigger = "view",
   delay = 0,
   duration = 1.1,
+  stagger = 0.28,
   stretch = false,
   className,
 }: DoodleProps) {
@@ -51,14 +55,14 @@ export function Doodle({
             drawSVG: "100%",
             duration,
             delay,
-            stagger: 0.28,
+            stagger,
             ease: "power2.inOut",
             scrollTrigger: trigger === "view" ? { trigger: root.current, start: "top 90%", once: true } : undefined,
           },
         );
       });
     },
-    { scope: root, dependencies: [trigger, delay, duration, paths.join("|")] },
+    { scope: root, dependencies: [trigger, delay, duration, stagger, paths.join("|")] },
   );
 
   return (

@@ -1,5 +1,6 @@
 import { ScrollExpand } from "@/components/motion/scroll-expand";
 import { VideoPlayer } from "@/components/ui/video-player";
+import { VideoDoodles } from "./video-doodles";
 
 /** Placeholder clip. Swap for the product walkthrough (mp4/webm) when it exists. */
 const VIDEO_SOURCES = [
@@ -10,7 +11,8 @@ const VIDEO_SOURCES = [
 /** Product video under the ticker. The frame grows to full size as it scrolls into view. */
 export function VideoShowcase() {
   return (
-    <section aria-label="Product video" className="px-page pb-section pt-12 sm:pt-16">
+    <section aria-label="Product video" className="relative px-page pb-section pt-12 sm:pt-16">
+      <VideoDoodles />
       <div className="mx-auto max-w-6xl">
         <ScrollExpand className="aspect-video rounded-[2rem] border border-line shadow-panel sm:rounded-[2.5rem]">
           <VideoPlayer sources={VIDEO_SOURCES} />
