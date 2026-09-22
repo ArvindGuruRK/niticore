@@ -25,6 +25,8 @@ export function Scribble({
   target,
   delay = 1,
   trigger = "load",
+  triggerSelector,
+  start,
   className,
   markClassName,
   children,
@@ -33,6 +35,11 @@ export function Scribble({
   target: string;
   delay?: number;
   trigger?: "view" | "load";
+  /** See Doodle's `triggerSelector` — required if this mark sits inside a `position: sticky`
+   *  ancestor, or ScrollTrigger's start point will be computed from the stuck position instead of
+   *  the natural document position. */
+  triggerSelector?: string;
+  start?: string;
   className?: string;
   markClassName?: string;
   children: ReactNode;
@@ -75,6 +82,8 @@ export function Scribble({
           viewBox={`0 -4 ${VB_W} ${VB_H}`}
           strokeWidth={5}
           trigger={trigger}
+          triggerSelector={triggerSelector}
+          start={start}
           delay={delay}
           duration={1.4}
           className={cn("size-full text-tertiary [&_path]:[stroke-width:var(--scribble-sw,5)]", markClassName)}

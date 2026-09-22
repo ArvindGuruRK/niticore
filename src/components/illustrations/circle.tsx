@@ -59,13 +59,17 @@ export function Circle({
       const padX = Math.max(r.width * 0.06, fs * 0.5);
       const ringHeight = fs * 1.72;
       const cy = r.top + r.height / 2;
+      const boxW = r.width + padX * 2;
       m.style.left = `${r.left - h.left - padX}px`;
       m.style.top = `${cy - h.top - ringHeight / 2}px`;
-      m.style.width = `${r.width + padX * 2}px`;
+      m.style.width = `${boxW}px`;
       m.style.height = `${ringHeight}px`;
-      // The stroke is non-scaling (see `stretch`), so this is a plain CSS pixel width — tie it to
-      // the font size so the mark stays as light on a 36px heading as on a 64px one.
-      m.style.setProperty("--circle-sw", `${Math.max(fs * 0.07, 2.5)}`);
+      // No vector-effect here (see Doodle's `stretch` doc), so stroke-width is a plain SVG user
+      // unit that gets scaled by the same non-uniform transform as the path. Divide the target CSS
+      // pixel width by the box's average scale factor so the drawn line reads the same thickness
+      // regardless of how wide or tall the ring ends up.
+      const scale = (boxW / VB_W + ringHeight / VB_H) / 2;
+      m.style.setProperty("--circle-sw", `${Math.max(fs * 0.07, 2.5) / scale}`);
     };
     place();
     const ro = new ResizeObserver(place);

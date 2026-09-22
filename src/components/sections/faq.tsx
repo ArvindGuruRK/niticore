@@ -81,7 +81,13 @@ export function Faq() {
       <Container>
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.62fr_1.7fr] lg:gap-12">
           <div className="flex flex-col items-start lg:sticky lg:top-32 lg:self-start">
-            <Scribble target="[data-scribble]" trigger="view" delay={0.3}>
+            <Scribble
+              target="[data-scribble]"
+              trigger="view"
+              delay={0.3}
+              triggerSelector="#faq"
+              start="top 65%"
+            >
               <WarpHeading id="faq-heading" text="Frequently asked questions" className="type-h2 text-left text-fg">
                 <span data-scribble="">
                   Frequently
