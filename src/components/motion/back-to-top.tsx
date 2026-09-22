@@ -46,9 +46,31 @@ export function BackToTop() {
       start: "top top",
       end: () => ScrollTrigger.maxScroll(window),
       invalidateOnRefresh: true,
+      // Refreshes dead last (after every other trigger, including pinned sections that insert
+      // their own spacer elements) so `maxScroll` reads the page's true final height instead of
+      // whatever it measured before those spacers existed. Without this, this trigger's `end` gets
+      // computed mid-refresh — before GovernanceLoop's pin spacer is sized — so it undercounts the
+      // page by the pin's scroll distance and the ring reads 100% right as the pinned section ends.
+      refreshPriority: -9999,
       onRefresh: update,
       onUpdate: update,
     });
+
+    // Sections further down (illustrations, background canvases, ...) settle into their real size
+    // after mount, growing the document mid-scroll with no resize/nav event to hang a refresh off.
+    // Without this, `end` above stays pinned to whatever height existed at the last refresh and the
+    // ring still saturates before the real bottom of the page, just less so than the ordering bug.
+    let pending = 0;
+    const resizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(pending);
+      pending = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+    resizeObserver.observe(document.body);
+
+    return () => {
+      cancelAnimationFrame(pending);
+      resizeObserver.disconnect();
+    };
   });
 
   const goTop = () => {
