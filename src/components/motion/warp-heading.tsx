@@ -110,6 +110,24 @@ function useWrappedText(ref: RefObject<HTMLElement | null>, text: string, enable
   return enabled ? wrapped : null;
 }
 
+/** Reads the real heading's computed `text-align` so WarpText's canvas draws lines at the same
+ *  edge instead of always centering them — otherwise a short wrapped line (e.g. under a left-aligned
+ *  heading) jumps to the box's horizontal center on hover while the real text stays put. */
+function useTextAlign(ref: RefObject<HTMLElement | null>, enabled: boolean): "left" | "center" {
+  const [align, setAlign] = useState<"left" | "center">("center");
+
+  useEffect(() => {
+    if (!enabled) return undefined;
+    const el = ref.current;
+    if (!el) return undefined;
+    const computed = window.getComputedStyle(el).textAlign;
+    setAlign(computed === "left" || computed === "start" ? "left" : "center");
+    return undefined;
+  }, [ref, enabled]);
+
+  return align;
+}
+
 /**
  * Section `<h2>` that swaps to the React Bits WarpText glass-distortion effect on hover. The real
  * heading text never leaves the DOM or changes size — it just fades out while an absolutely
@@ -140,6 +158,7 @@ export function WarpHeading({
   const warpEnabled = useWarpEnabled();
   const textRef = useRef<HTMLSpanElement>(null);
   const wrappedText = useWrappedText(textRef, text, warpEnabled);
+  const textAlign = useTextAlign(textRef, warpEnabled);
   const warpReady = warpEnabled && wrappedText !== null;
 
   return (
@@ -155,6 +174,7 @@ export function WarpHeading({
           <WarpText
             text={wrappedText}
             color={color}
+            align={textAlign}
             fontFamily="inherit"
             fontWeight={600}
             letterSpacing="inherit"

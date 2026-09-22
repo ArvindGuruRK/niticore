@@ -143,6 +143,11 @@ export type WarpTextProps = {
    *  box (the upstream default use case), but it's pure unwanted shrink once the caller already knows
    *  the exact wrap points and box from the real DOM (see `WarpHeading`, which sets this false). */
   fitText?: boolean;
+  /** Horizontal alignment of the rasterised text within its box. Defaults to "center" (the upstream
+   *  behaviour); pass "left" when the real heading underneath is left-aligned, or a short line (e.g.
+   *  a wrapped second line) will draw centered under the pointer while the real text sits at the
+   *  left edge — visibly jumping sideways on hover. */
+  align?: "left" | "center";
   fontSize?: string | number;
   fontWeight?: string | number;
   fontFamily?: string;
@@ -170,6 +175,7 @@ type RasterProps = {
   fitWidth: number;
   fitHeight: number;
   fitText: boolean;
+  align: "left" | "center";
 };
 
 const getFontValue = (value: string | number) => (typeof value === "number" ? `${value}px` : value);
@@ -186,9 +192,10 @@ const drawLine = (
   x: number,
   y: number,
   letterSpacing: number,
+  align: "left" | "center",
 ) => {
   const chars = Array.from(line);
-  let cursor = x - measureLine(ctx, line, letterSpacing) / 2;
+  let cursor = align === "left" ? x : x - measureLine(ctx, line, letterSpacing) / 2;
 
   chars.forEach((char, index) => {
     ctx.fillText(char, cursor, y);
@@ -270,7 +277,10 @@ const buildTextCanvas = ({
   }
 
   const startY = height / 2 - (lineHeight * (lines.length - 1)) / 2;
-  lines.forEach((line, index) => drawLine(ctx, line, width / 2, startY + index * lineHeight, letterSpacing));
+  const originX = props.align === "left" ? 0 : width / 2;
+  lines.forEach((line, index) =>
+    drawLine(ctx, line, originX, startY + index * lineHeight, letterSpacing, props.align),
+  );
 
   return canvas;
 };
@@ -303,6 +313,7 @@ export function WarpText({
   fitWidth = 0.86,
   fitHeight = 0.78,
   fitText = true,
+  align = "center",
   fontSize = "clamp(3rem, 10vw, 9rem)",
   fontWeight = 800,
   fontFamily = "inherit",
@@ -330,6 +341,7 @@ export function WarpText({
     fitWidth,
     fitHeight,
     fitText,
+    align,
   });
   const contextRef = useRef<{ program: Program; rasterize: () => void } | null>(null);
 
@@ -352,6 +364,7 @@ export function WarpText({
       fitWidth,
       fitHeight,
       fitText,
+      align,
     };
 
     if (contextRef.current) {
@@ -376,6 +389,7 @@ export function WarpText({
     fitWidth,
     fitHeight,
     fitText,
+    align,
   ]);
 
   useEffect(() => {
