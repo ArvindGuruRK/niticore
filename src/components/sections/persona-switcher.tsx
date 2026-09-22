@@ -4,7 +4,9 @@ import { Crown } from "@phosphor-icons/react/dist/ssr/Crown";
 import { Rocket } from "@phosphor-icons/react/dist/ssr/Rocket";
 import { ShieldCheck } from "@phosphor-icons/react/dist/ssr/ShieldCheck";
 import { Reveal } from "@/components/motion/reveal";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
+import { WarpHeading } from "@/components/motion/warp-heading";
 import { Container } from "@/components/ui/container";
 
 type Persona = {
@@ -61,10 +63,11 @@ function PersonaCard({ persona }: { persona: Persona }) {
     <TiltCard className="flex flex-1 flex-col gap-8 p-8 sm:p-10">
       <Glyph weight="light" className={`size-14 shrink-0 ${TONE_CLASS[persona.tone]}`} aria-hidden />
       <div className="flex flex-col gap-3">
-        <p className="font-display text-[1.75rem] font-semibold leading-none tracking-[-0.03em] text-fg">
-          {persona.label}
-        </p>
-        <p className="type-body">{persona.description}</p>
+        <TextReveal
+          text={persona.label}
+          className="font-display text-[1.75rem] font-semibold leading-none tracking-[-0.03em] text-fg"
+        />
+        <TextReveal text={persona.description} className="type-body" />
       </div>
     </TiltCard>
   );
@@ -75,9 +78,11 @@ export function PersonaSwitcher() {
   return (
     <section aria-labelledby="persona-heading" className="pb-section">
       <Container className="flex flex-col items-center gap-4 text-center">
-        <h2 id="persona-heading" className="type-h2 max-w-2xl text-fg">
-          One governance layer. Every seat at the table.
-        </h2>
+        <WarpHeading
+          id="persona-heading"
+          text="One governance layer. Every seat at the table."
+          className="type-h2 max-w-2xl text-fg"
+        />
       </Container>
       <Container className="mt-10 sm:mt-14">
         <Reveal stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -1,4 +1,5 @@
 import { Hero } from "@/components/hero/hero";
+import { AgenticGovernance } from "@/components/sections/agentic-governance";
 import { FrameworkCards } from "@/components/sections/framework-cards";
 import { GovernanceLoop } from "@/components/sections/governance-loop";
 import { PersonaSwitcher } from "@/components/sections/persona-switcher";
@@ -17,6 +18,7 @@ export default function Home() {
         <StatStrip />
         <PersonaSwitcher />
         <GovernanceLoop />
+        <AgenticGovernance />
       </main>
     </>
   );

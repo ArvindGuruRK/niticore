@@ -11,6 +11,7 @@ import { PinScrub } from "@/components/motion/pin-scrub";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { TextReveal } from "@/components/motion/text-reveal";
+import { WarpHeading } from "@/components/motion/warp-heading";
 import { DIST, DUR, EASE, STAGGER } from "@/lib/motion";
 import { MotionShowcase } from "./showcase";
 
@@ -363,6 +364,15 @@ export default function DesignSystemPage() {
               <TextReveal
                 className="type-h2 max-w-3xl text-fg"
                 text="Most AI teams are over-governed on paper and under-governed in practice."
+              />
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <p className="type-caption">Warp heading (hover, fine pointers only)</p>
+              <WarpHeading
+                as="p"
+                className="type-h2 max-w-3xl text-fg"
+                text="One governance action. Every framework satisfied."
               />
             </div>
 

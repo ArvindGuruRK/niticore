@@ -139,7 +139,6 @@ export function GovernanceLoop() {
         <PinScrub
           steps={STAGES}
           minHeight="100dvh"
-          topAlign
           background={<GovernanceFabric align="right" className="fabric-mask size-full" />}
         />
       </Container>

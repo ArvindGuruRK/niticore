@@ -1,6 +1,7 @@
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
+import { WarpHeading } from "@/components/motion/warp-heading";
 import { Container } from "@/components/ui/container";
 
 type Stat = {
@@ -70,9 +71,11 @@ export function StatStrip() {
   return (
     <section aria-labelledby="stat-strip-heading" className="pb-section">
       <Container className="flex flex-col items-center gap-4 text-center">
-        <h2 id="stat-strip-heading" className="type-h2 max-w-2xl text-fg">
-          What continuous governance looks like.
-        </h2>
+        <WarpHeading
+          id="stat-strip-heading"
+          text="What continuous governance looks like."
+          className="type-h2 max-w-2xl text-fg"
+        />
       </Container>
       <Container className="mt-[var(--spacing-stack)]">
         <Reveal stagger className="flex flex-col gap-4 sm:flex-row">

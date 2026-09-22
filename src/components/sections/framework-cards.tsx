@@ -4,6 +4,7 @@ import { Bank } from "@phosphor-icons/react/dist/ssr/Bank";
 import { Buildings } from "@phosphor-icons/react/dist/ssr/Buildings";
 import { Marquee } from "@/components/motion/marquee";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
+import { WarpHeading } from "@/components/motion/warp-heading";
 
 /**
  * Card colours. `base` is the fixed gradient. `light` is the solid disc that follows the cursor, in a
@@ -131,9 +132,11 @@ export function FrameworkCards() {
   return (
     <section aria-labelledby="frameworks-heading" className="overflow-hidden pb-section">
       <div className="px-page">
-        <h2 id="frameworks-heading" className="type-h2 mx-auto max-w-3xl text-center text-fg">
-          One governance action. Every framework satisfied.
-        </h2>
+        <WarpHeading
+          id="frameworks-heading"
+          text="One governance action. Every framework satisfied."
+          className="type-h2 mx-auto max-w-3xl text-center text-fg"
+        />
       </div>
       <div className="mt-10 flex flex-col gap-3 sm:mt-14 sm:gap-4">
         <Lane items={GLOBAL} reps={2} direction={-1} speed={38} />
