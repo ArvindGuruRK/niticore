@@ -1,0 +1,86 @@
+import { CountUp } from "@/components/motion/count-up";
+import { Reveal } from "@/components/motion/reveal";
+import { TiltCard } from "@/components/motion/tilt-card";
+import { Container } from "@/components/ui/container";
+
+type Stat = {
+  to: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+  /** Rendered after the counted value, outside the tween (e.g. "/ 100") */
+  trailing?: string;
+  label: string;
+  tone: "accent" | "tertiary" | "fg";
+};
+
+const STATS: Stat[] = [
+  {
+    to: 20,
+    suffix: "+",
+    label: "Global and regional frameworks unified in one control layer",
+    tone: "accent",
+  },
+  {
+    to: 5,
+    suffix: "×",
+    label: "Regulations satisfied per single evidence filing",
+    tone: "tertiary",
+  },
+  {
+    to: 78,
+    trailing: "/ 100",
+    label: "Average governance readiness score, board-ready in 30 seconds",
+    tone: "fg",
+  },
+  {
+    to: 94,
+    suffix: "%",
+    label: "Policy coverage tracked across active production models",
+    tone: "accent",
+  },
+];
+
+const TONE_CLASS: Record<Stat["tone"], string> = {
+  accent: "text-accent",
+  tertiary: "text-tertiary",
+  fg: "text-fg",
+};
+
+function StatCard({ stat }: { stat: Stat }) {
+  return (
+    <TiltCard max={16} className="flex flex-1 flex-col gap-3">
+      <p className={`type-display ${TONE_CLASS[stat.tone]}`}>
+        {stat.prefix}
+        <CountUp to={stat.to} decimals={stat.decimals} suffix={stat.suffix} />
+        {stat.trailing ? <span className="type-h3 ml-1 text-fg-subtle">{stat.trailing}</span> : null}
+      </p>
+      <p className="type-small text-fg-muted">{stat.label}</p>
+    </TiltCard>
+  );
+}
+
+/**
+ * Trust strip, directly below the FrameworkCards marquee ("One governance action. Every framework
+ * satisfied."). Reframed from a customer-logo trust bar (we have no public customer base yet) into
+ * what the platform itself proves: framework coverage, evidence reuse, and the two live-dashboard
+ * figures from the Cockpit Preview content.
+ */
+export function StatStrip() {
+  return (
+    <section aria-labelledby="stat-strip-heading" className="pb-section">
+      <Container className="flex flex-col items-center gap-4 text-center">
+        <h2 id="stat-strip-heading" className="type-h2 max-w-2xl text-fg">
+          What continuous governance looks like.
+        </h2>
+      </Container>
+      <Container className="mt-[var(--spacing-stack)]">
+        <Reveal stagger className="flex flex-col gap-4 sm:flex-row">
+          {STATS.map((stat) => (
+            <StatCard key={stat.label} stat={stat} />
+          ))}
+        </Reveal>
+      </Container>
+    </section>
+  );
+}
