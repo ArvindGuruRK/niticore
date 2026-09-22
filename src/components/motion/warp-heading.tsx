@@ -153,12 +153,12 @@ export function WarpHeading({
             // per-character ctx.measureText() calls) reliably overshoots the browser's real, kerned
             // text width by a few percent, which otherwise shrinks text that already fits perfectly.
             fitText={false}
-            warpStrength={0.08}
-            warpScale={1.7}
-            speed={0.55}
-            pointerInfluence={0.42}
-            pointerStrength={0.38}
-            refraction={0.018}
+            warpStrength={0.12}
+            warpScale={1.5}
+            speed={0.7}
+            pointerInfluence={0.46}
+            pointerStrength={0.52}
+            refraction={0.026}
             ripple
             className="size-full"
           />

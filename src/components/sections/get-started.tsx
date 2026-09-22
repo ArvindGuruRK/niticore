@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/motion/reveal";
 import { TextLoop } from "@/components/motion/text-loop";
+import { WarpHeading } from "@/components/motion/warp-heading";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 
@@ -14,9 +15,7 @@ export function GetStarted() {
     <section aria-labelledby="get-started-heading" className="pb-6 sm:pb-8">
       <Container>
         <Reveal className="flex flex-col items-center gap-6 text-center">
-          <h2 id="get-started-heading" className="type-h2 text-fg">
-            Ready to get started?
-          </h2>
+          <WarpHeading id="get-started-heading" text="Ready to get started?" className="type-h2 text-fg" />
           <p className="type-lead max-w-lg">
             Book a walkthrough or launch your first assessment. See the governance loop running on your own AI
             inventory in under a week.
