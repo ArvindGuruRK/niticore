@@ -29,7 +29,7 @@ export function GetStarted() {
 
       <div role="region" aria-label="Join NitiCore" className="mt-14 h-28 w-full sm:h-36">
         <TextLoop
-          text="Join Us in Harnessing AI Governance"
+          text="See AI Governance in Action ✦ Book a Demo"
           shape="wave"
           curviness={36}
           speed={70}
