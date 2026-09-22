@@ -18,6 +18,9 @@ type AccordionProps = {
   multiple?: boolean;
   defaultOpen?: string[];
   className?: string;
+  /** "joined" (default) is one bordered box with hairline dividers between rows. "separated"
+   *  gives each item its own panel with a gap between them. */
+  variant?: "joined" | "separated";
 };
 
 /**
@@ -25,7 +28,13 @@ type AccordionProps = {
  * aria-expanded is always truthful, and closed panels are inert (out of the tab order).
  * Under reduced motion the change is instant.
  */
-export function Accordion({ items, multiple = false, defaultOpen = [], className }: AccordionProps) {
+export function Accordion({
+  items,
+  multiple = false,
+  defaultOpen = [],
+  className,
+  variant = "joined",
+}: AccordionProps) {
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState<string[]>(defaultOpen.slice(0, multiple ? undefined : 1));
@@ -51,14 +60,26 @@ export function Accordion({ items, multiple = false, defaultOpen = [], className
       return multiple ? [...cur, id] : [id];
     });
 
+  const separated = variant === "separated";
+
   return (
-    <div ref={root} className={cn("flex flex-col divide-y divide-line rounded-panel border border-line", className)}>
+    <div
+      ref={root}
+      className={cn(
+        "flex flex-col",
+        separated ? "gap-4" : "divide-y divide-line rounded-panel border border-line",
+        className,
+      )}
+    >
       {items.map((item) => {
         const isOpen = open.includes(item.id);
         const buttonId = `${uid}-b-${item.id}`;
         const panelId = `${uid}-p-${item.id}`;
         return (
-          <div key={item.id}>
+          <div
+            key={item.id}
+            className={cn(separated && "overflow-hidden rounded-panel border border-line bg-white/[0.02] shadow-panel")}
+          >
             <h3>
               <button
                 id={buttonId}
@@ -66,9 +87,22 @@ export function Accordion({ items, multiple = false, defaultOpen = [], className
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => toggle(item.id)}
-                className="flex w-full items-center justify-between gap-6 px-5 py-5 text-left transition-colors hover:bg-white/[0.03]"
+                className={cn(
+                  "flex w-full items-center justify-between gap-6 text-left transition-colors hover:bg-white/[0.03]",
+                  separated ? "px-6 py-[1.375rem]" : "px-5 py-5",
+                )}
               >
-                <span className="type-h4 text-fg">{item.title}</span>
+                {/* Separated rows carry the FAQ's heavier row type: a touch larger and bold. */}
+                <span
+                  className={cn(
+                    "text-fg",
+                    separated
+                      ? "font-display text-[1.1875rem] font-bold leading-snug tracking-[-0.015em]"
+                      : "type-h4",
+                  )}
+                >
+                  {item.title}
+                </span>
                 <span
                   data-icon={item.id}
                   aria-hidden
@@ -87,7 +121,7 @@ export function Accordion({ items, multiple = false, defaultOpen = [], className
               className="overflow-hidden"
               style={{ height: isOpen ? "auto" : 0 }}
             >
-              <div className="type-body px-5 pb-6">{item.content}</div>
+              <div className={cn("type-body pb-6", separated ? "px-6" : "px-5")}>{item.content}</div>
             </div>
           </div>
         );

@@ -4,13 +4,18 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Doodle } from "./doodle";
 
-// A proper closed ellipse (precise Bezier construction, not a hand-guessed wobble) with a short
-// tail that overshoots the start point on close — like a marker circling a word in one continuous
-// loop and crossing back over its own start.
+// Traced off the reference mark rather than constructed from a perfect ellipse: the pen starts on
+// the top-right, runs anticlockwise round a slightly egg-shaped loop — flat across the top, full
+// and heavy at the bottom — comes back up the right side, then cuts *inside* the loop and runs
+// left as a short horizontal tail tucked under the top arc. The asymmetry is the point; a true
+// ellipse reads as a shape, not as a stroke someone drew.
+// The box is stretched to fit the phrase, so the viewBox is drawn at roughly a phrase's aspect
+// (2.6:1) instead of a word's — a near-square viewBox stretched this wide flattens the stroke into
+// something that no longer reads as drawn.
 const CIRCLE =
-  "M100,8 C150.8,8 192,40.2 192,80 C192,119.8 150.8,152 100,152 C49.2,152 8,119.8 8,80 C8,40.2 49.2,8 100,8 C112,4 122,4 130,10";
-const VB_W = 200;
-const VB_H = 160;
+  "M268 16 C 230 6, 148 3, 92 12 C 48 19, 11 38, 8 62 C 5 87, 32 107, 72 117 C 124 129, 232 127, 286 111 C 320 101, 337 82, 333 60 C 331 44, 321 36, 300 33 C 272 29, 224 37, 172 35";
+const VB_W = 340;
+const VB_H = 130;
 
 /**
  * Hand-drawn ring that circles a word or short phrase, like marking it up with a marker. Finds the
@@ -49,13 +54,18 @@ export function Circle({
       // Height comes from the word's own font size, not its line box — a line box includes leading
       // above/below the glyphs that can be much taller than the visible letterforms, which is what
       // made the ring balloon into the next line. Centered on the word's own vertical midpoint.
-      const padX = r.width * 0.2;
-      const ringHeight = fs * 1.8;
+      // Short phrases need a pad set by the font size, not by their own width, or the ring chokes
+      // the word; long ones need a proportional one so it does not swell. Whichever is larger wins.
+      const padX = Math.max(r.width * 0.06, fs * 0.5);
+      const ringHeight = fs * 1.72;
       const cy = r.top + r.height / 2;
       m.style.left = `${r.left - h.left - padX}px`;
       m.style.top = `${cy - h.top - ringHeight / 2}px`;
       m.style.width = `${r.width + padX * 2}px`;
       m.style.height = `${ringHeight}px`;
+      // The stroke is non-scaling (see `stretch`), so this is a plain CSS pixel width — tie it to
+      // the font size so the mark stays as light on a 36px heading as on a 64px one.
+      m.style.setProperty("--circle-sw", `${Math.max(fs * 0.07, 2.5)}`);
     };
     place();
     const ro = new ResizeObserver(place);
@@ -76,7 +86,7 @@ export function Circle({
           delay={delay}
           duration={1}
           stretch
-          className={cn("size-full", markClassName)}
+          className={cn("size-full [&_path]:[stroke-width:var(--circle-sw,6)]", markClassName)}
         />
       </span>
     </div>
