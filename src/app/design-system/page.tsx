@@ -139,7 +139,7 @@ const ANIMATIONS = [
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
   { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, Annotate: self-drawing line art" },
-  { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, once, last in the footer", note: "Rise and settle; mark stays cropped to its top 70% via aspect ratio" },
+  { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, once, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
 ];
 
 const RESPONSIVE: [string, string, string][] = [
@@ -405,7 +405,7 @@ export default function DesignSystemPage() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <p className="type-caption">Footer mark (cropped to top 70%, reveals last)</p>
+              <p className="type-caption">Footer mark (shown in full, reveals last)</p>
               <div className="rounded-panel border border-line bg-surface p-6">
                 <FooterMark className="w-48" />
               </div>
