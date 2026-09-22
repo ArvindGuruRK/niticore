@@ -16,16 +16,16 @@ export function VideoDoodles() {
       <FilmClap
         trigger="view"
         delay={0.15}
-        duration={0.35}
-        stagger={0.35}
+        duration={0.22}
+        stagger={0.22}
         strokeWidth={3.5}
         className="absolute left-[-1vw] top-[16%] w-[clamp(4.5rem,7.5vw,7rem)] rotate-[8deg] text-tertiary"
       />
       <Popcorn
         trigger="view"
         delay={0.35}
-        duration={0.5}
-        stagger={0.5}
+        duration={0.32}
+        stagger={0.32}
         strokeWidth={3.5}
         className="absolute right-[-2vw] top-[54%] w-[clamp(4.5rem,7.5vw,7rem)] -rotate-[8deg] text-tertiary"
       />
