@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { CountUp } from "@/components/motion/count-up";
+import { FooterMark } from "@/components/motion/footer-mark";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Parallax } from "@/components/motion/parallax";
 import { PinScrub } from "@/components/motion/pin-scrub";
@@ -138,6 +139,7 @@ const ANIMATIONS = [
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
   { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, Annotate: self-drawing line art" },
+  { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, once, last in the footer", note: "Rise and settle; mark stays cropped to its top 70% via aspect ratio" },
 ];
 
 const RESPONSIVE: [string, string, string][] = [
@@ -403,6 +405,13 @@ export default function DesignSystemPage() {
             </div>
 
             <div className="flex flex-col gap-3">
+              <p className="type-caption">Footer mark (cropped to top 70%, reveals last)</p>
+              <div className="rounded-panel border border-line bg-surface p-6">
+                <FooterMark className="w-48" />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3">
               <p className="type-caption">Magnetic (hover with a mouse)</p>
               <div className="py-4">
                 <Magnetic>
@@ -445,6 +454,10 @@ export default function DesignSystemPage() {
             <li>Breakpoints (mobile first): sm 640, md 768, lg 1024, xl 1280, 2xl 1536. Desktop layout starts at lg.</li>
             <li>Multi-column layouts collapse to one column below 768px. Wide data rows wait for lg.</li>
             <li>Z-index layers: nav 50, scroll progress and mobile menu 60. Nothing else.</li>
+            <li>
+              Footer uses <code>sticky top-[100dvh]</code>: it rises from behind the last section as you finish
+              scrolling, instead of just following the scroll. No extra scroll distance or z-index trick needed.
+            </li>
           </ul>
         </Block>
 
