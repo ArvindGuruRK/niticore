@@ -8,127 +8,53 @@ import { Container } from "@/components/ui/container";
  * The Governance Fabric canvas is reserved for exactly this kind of split layout (see its own
  * comment and hero/hero.tsx, which explicitly leaves it for "a later section").
  *
- * Each stage's copy is a short punch line (docs/content/02 §2 stage name) followed by 9 supporting
- * lines pulled from that same doc's stage breakdown, pillar, and dashboard sections — 10 lines total,
- * long enough to read as a real explanation while the pin holds it on screen.
+ * Each stage's copy is a short punch line (docs/content/02 §2 stage name), bright, opening a single
+ * flowing paragraph — not a list of bullet lines — so the pin reads as a quick, intuitive explanation
+ * rather than a wall of points.
  */
 const STAGES = [
   {
     title: "Discover",
-    lines: [
-      "Eliminate all shadow AI across every team, tool, and vendor.",
-      "Automated asset registration, code-repo scanners, and API gateways.",
-      "Procurement intake forms catch new tools before they go live.",
-      "A full inventory of models, weights, parameters, and dependencies.",
-      "Datasets tracked by provenance, licensing, and training lineage.",
-      "Every AI vendor and SaaS tool scored and registered.",
-      "Business owners mapped to every asset from day one.",
-      "Agentic AI registration tracks every autonomous operational scope.",
-      "One live system of record replaces a dozen spreadsheets.",
-      "Inventory feeds straight into classification, with nothing left out.",
-    ],
+    lead: "Eliminate shadow AI across every team, tool, and vendor.",
+    rest: "Automated registration pulls in every model, dataset, and agentic system alongside code-repo scanners and procurement intake, mapping each asset to a business owner from day one — one live system of record instead of a dozen spreadsheets.",
   },
   {
     title: "Classify",
-    lines: [
-      "Instant risk tiering the moment a new system enters your stack.",
-      "Auto-detects EU AI Act Annex III high-risk designations.",
-      "Flags GPAI status and local UAE jurisdictional applicability.",
-      "Regulatory classification updates automatically as rules change.",
-      "No manual spreadsheets, no missed deadlines, no guesswork.",
-      "Every system lands on the right compliance track immediately.",
-      "Classification evidence feeds straight into the next stage.",
-      "Cross-mapped in real time against EU AI Act, ISO 42001, NIST AI RMF.",
-      "GDPR and UAE regional regulations checked in the same pass.",
-      "Tiering updates automatically the moment your system changes.",
-    ],
+    lead: "Instant risk tiering the moment a new system enters your stack.",
+    rest: "Systems are cross-mapped in real time against EU AI Act Annex III, GPAI status, ISO 42001, NIST AI RMF, and UAE regional rules, with tiering updating automatically as regulations change — no manual spreadsheets, no missed deadlines.",
   },
   {
     title: "Assess",
-    lines: [
-      "Quantified risk scoring across every dimension that matters.",
-      "Multi-dimensional scoring: bias, safety, privacy, hallucination.",
-      "Covers robustness, drift, and adversarial resilience too.",
-      "Built-in Fundamental Rights Impact Assessment workflows.",
-      "Data Protection Impact Assessments run without extra tooling.",
-      "DIFC AI Impact Assessments generated the same way.",
-      "One assessment engine, every regulatory flavour covered.",
-      "Inherent versus residual risk quantified, not just guessed at.",
-      "Red-teaming integrations and adversarial stress-test logs included.",
-      "Every score ties back to a specific, defensible control.",
-    ],
+    lead: "Quantified risk scoring across every dimension that matters.",
+    rest: "One engine covers bias, safety, privacy, hallucination, robustness, drift, and adversarial resilience, running Fundamental Rights, Data Protection, and DIFC AI Impact Assessments out of the box so every score ties back to a defensible control.",
   },
   {
     title: "Govern",
-    lines: [
-      "Unified controls that satisfy every applicable framework.",
-      "One policy gate satisfies multiple statutory requirements at once.",
-      "Configurable governance gates enforce separation of duties.",
-      "Non-delegatable sign-offs keep accountability with the right owner.",
-      "Automated escalation workflows route exceptions to the right desk.",
-      "No system ships without its required approvals in place.",
-      "Controls stay mapped as regulations evolve, not frozen in time.",
-      "Preventing CI/CD deployment without a signed FRIA is standard.",
-      "Exception management runs on time-boxed, audit-tracked exemptions.",
-      "A single control satisfies EU, ISO, and NIST requirements at once.",
-    ],
+    lead: "Unified controls that satisfy every applicable framework at once.",
+    rest: "Configurable gates enforce separation of duties and non-delegatable sign-offs, routing exceptions to the right desk automatically — no system ships without its required approvals, including a signed FRIA before CI/CD deployment.",
   },
   {
     title: "Evidence",
-    lines: [
-      "File once, satisfy everywhere.",
-      "Every action generates timestamped, immutable evidence.",
-      "Declarations of Conformity assembled automatically.",
-      "Technical documentation packages ready for external auditors.",
-      "Tamper-evident records survive scrutiny from any regulator.",
-      "No duplicated work across overlapping frameworks.",
-      "Audit season stops being a fire drill.",
-      "Cryptographically chained logs an auditor can independently verify.",
-      "Every filing versioned, timestamped, and linked to its control.",
-      "Regulator-ready packages export in one click, not one quarter.",
-    ],
+    lead: "File once, satisfy everywhere.",
+    rest: "Every action generates timestamped, cryptographically chained evidence, with Declarations of Conformity and audit-ready documentation assembled automatically so regulator-ready packages export in one click, not one quarter.",
   },
   {
     title: "Monitor",
-    lines: [
-      "Continuous surveillance runs long after a model ships.",
-      "Real-time tracking of control drift and model decay.",
-      "Prompt injection attempts and toxic outputs flagged instantly.",
-      "Regulatory amendments tracked across 19 global jurisdictions.",
-      "New compliance gaps surface the moment rules shift.",
-      "Nothing waits for the next scheduled audit cycle.",
-      "Governance keeps pace with production, not the calendar.",
-      "Governance Readiness score recalculates in near real time.",
-      "An executive attention feed flags what actually needs a decision.",
-      "Drift gets caught before it becomes an incident report.",
-    ],
+    lead: "Continuous surveillance runs long after a model ships.",
+    rest: "Control drift, model decay, prompt injection, and toxic outputs are flagged in real time, regulatory amendments are tracked across 19 jurisdictions, and an executive attention feed surfaces what actually needs a decision.",
   },
   {
     title: "Improve",
-    lines: [
-      "Prioritised gap closures your board can see.",
-      "Continuous gap analysis across every open control.",
-      "Remediation roadmaps ranked by real business risk.",
-      "Executive-ready readiness trend reporting, always current.",
-      "Every fix feeds evidence back into the loop.",
-      "Teams know exactly what to close next, and why.",
-      "Governance keeps compounding instead of resetting each quarter.",
-      "Readiness trend reporting tracks quarter-over-quarter progress.",
-      "Closed gaps become new evidence for the next audit cycle.",
-      "The loop restarts at Discover, sharper than it started.",
-    ],
+    lead: "Prioritised gap closures your board can see.",
+    rest: "Continuous gap analysis ranks remediation by real business risk, feeding every fix back into the loop as new evidence — readiness trends stay current quarter over quarter, and the cycle restarts at Discover, sharper than it started.",
   },
 ].map((stage) => ({
   title: stage.title,
   body: (
-    <span className="flex flex-col gap-2">
-      <span className="text-fg">{stage.lines[0]}</span>
-      {stage.lines.slice(1).map((line) => (
-        <span key={line} className="text-fg-muted">
-          {line}
-        </span>
-      ))}
-    </span>
+    <p>
+      <span className="text-fg">{stage.lead} </span>
+      <span className="text-fg-muted">{stage.rest}</span>
+    </p>
   ),
 }));
 
