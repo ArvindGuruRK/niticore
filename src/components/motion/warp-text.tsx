@@ -311,7 +311,7 @@ export function WarpText({
   className = "",
   style,
 }: WarpTextProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLSpanElement>(null);
   const propsRef = useRef<RasterProps>({
     text,
     color,
@@ -610,7 +610,7 @@ export function WarpText({
   }, []);
 
   return (
-    <div
+    <span
       ref={containerRef}
       className={`relative block size-full overflow-hidden [isolation:isolate] rounded-[inherit] ${className}`.trim()}
       style={style}
