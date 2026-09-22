@@ -5,6 +5,7 @@ import { HandPalm } from "@phosphor-icons/react/dist/ssr/HandPalm";
 import { Plugs } from "@phosphor-icons/react/dist/ssr/Plugs";
 import { Prohibit } from "@phosphor-icons/react/dist/ssr/Prohibit";
 import { Waveform } from "@phosphor-icons/react/dist/ssr/Waveform";
+import { Circle } from "@/components/illustrations/circle";
 import { MediaReveal } from "@/components/motion/media-reveal";
 import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
@@ -199,11 +200,15 @@ export function AgenticGovernance() {
   return (
     <section aria-labelledby="agentic-heading" className="pb-section">
       <Container className="flex flex-col items-center text-center">
-        <WarpHeading
-          id="agentic-heading"
-          text="AI agents don't just predict. They take action."
-          className="type-h2 max-w-2xl text-fg"
-        />
+        <Circle target="[data-circle]" trigger="view" delay={0.3} markClassName="text-tertiary">
+          <WarpHeading
+            id="agentic-heading"
+            text="AI agents don't just predict. They take action."
+            className="type-h2 max-w-2xl text-fg"
+          >
+            <span data-circle="">AI agents</span> don&apos;t just predict. They take action.
+          </WarpHeading>
+        </Circle>
       </Container>
       <Container className="mt-10 sm:mt-14">
         <Reveal stagger className="flex flex-col gap-4">

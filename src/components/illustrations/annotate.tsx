@@ -6,10 +6,17 @@ import { Doodle } from "./doodle";
 
 // One continuous marker stroke, like a scribble pen: left to right, a sharp snap back on the
 // diagonal, then a long run to the right again. DrawSVG follows it as a single pen pass.
-const SCRIBBLE = "M0 16 C 180 8, 430 0, 698 2 L 193 48 C 400 42, 650 52, 856 64";
-// The viewBox is 860 x 72. The box is always sized to this exact ratio so the drawing scales uniformly.
+const SCRIBBLE = ["M0 16 C 180 8, 430 0, 698 2 L 193 48 C 400 42, 650 52, 856 64"];
+// Two separate, independent strokes stacked with a gap — both bowing the same way (like two
+// parallel passes of a marker), the second shorter, offset right, and set below the first.
+const DOUBLE = [
+  "M0 24 C 230 4, 520 0, 858 20",
+  "M40 68 C 250 50, 520 46, 760 64",
+];
+// The viewBox width is always 860 so both variants share the same horizontal scale; height differs
+// per variant since "double" needs room for a second line beneath the first.
 const VB_W = 860;
-const VB_H = 72;
+const VB_H = { scribble: 72, double: 100 } as const;
 
 /**
  * Scribble underline that follows a word. Finds the element matching `target` inside the children,
@@ -19,6 +26,7 @@ const VB_H = 72;
  */
 export function Annotate({
   target,
+  variant = "scribble",
   delay = 1,
   trigger = "load",
   className,
@@ -27,6 +35,8 @@ export function Annotate({
 }: {
   /** CSS selector for the word to underline, for example "[data-accent]". It must be an inline-block (or block) box so it can be measured, especially inside split text. */
   target: string;
+  /** "scribble" (default) is one continuous marker pass; "double" is two separate, gapped strokes. */
+  variant?: "scribble" | "double";
   delay?: number;
   trigger?: "view" | "load";
   className?: string;
@@ -35,6 +45,7 @@ export function Annotate({
 }) {
   const root = useRef<HTMLDivElement>(null);
   const mark = useRef<HTMLSpanElement>(null);
+  const vbH = VB_H[variant];
 
   useEffect(() => {
     const place = () => {
@@ -51,7 +62,7 @@ export function Annotate({
       m.style.left = `${r.left - h.left + r.width * 0.05}px`;
       m.style.top = `${r.bottom - h.top - fs * 0.1}px`;
       m.style.width = `${w}px`;
-      m.style.height = `${VB_H * scale}px`;
+      m.style.height = `${vbH * scale}px`;
       // Stroke weight is set in drawing units (screen px divided by scale), so it stays uniform
       m.style.setProperty("--annotate-sw", `${Math.max(fs * 0.065, 3) / scale}`);
     };
@@ -60,19 +71,20 @@ export function Annotate({
     ro.observe(root.current!);
     document.fonts?.ready.then(place);
     return () => ro.disconnect();
-  }, [target]);
+  }, [target, vbH]);
 
   return (
     <div ref={root} className={cn("relative", className)}>
       {children}
       <span ref={mark} aria-hidden className="pointer-events-none absolute">
         <Doodle
-          paths={[SCRIBBLE]}
-          viewBox={`0 -4 ${VB_W} ${VB_H}`}
+          paths={variant === "double" ? DOUBLE : SCRIBBLE}
+          viewBox={`0 -4 ${VB_W} ${vbH}`}
           strokeWidth={5}
           trigger={trigger}
           delay={delay}
-          duration={1.3}
+          duration={variant === "double" ? 0.8 : 1.3}
+          stagger={variant === "double" ? 0.25 : 0.28}
           className={cn("size-full text-accent [&_path]:[stroke-width:var(--annotate-sw,5)]", markClassName)}
         />
       </span>

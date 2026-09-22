@@ -1,3 +1,4 @@
+import { Annotate } from "@/components/illustrations/annotate";
 import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
@@ -71,11 +72,15 @@ export function StatStrip() {
   return (
     <section aria-labelledby="stat-strip-heading" className="pb-section">
       <Container className="flex flex-col items-center gap-4 text-center">
-        <WarpHeading
-          id="stat-strip-heading"
-          text="What continuous governance looks like."
-          className="type-h2 max-w-2xl text-fg"
-        />
+        <Annotate target="[data-accent]" variant="double" trigger="view" delay={0.3} markClassName="text-tertiary">
+          <WarpHeading
+            id="stat-strip-heading"
+            text="What continuous governance looks like."
+            className="type-h2 max-w-2xl text-fg"
+          >
+            What continuous <span data-accent="">governance</span> looks like.
+          </WarpHeading>
+        </Annotate>
       </Container>
       <Container className="mt-[var(--spacing-stack)]">
         <Reveal stagger className="flex flex-col gap-4 sm:flex-row">
