@@ -87,7 +87,7 @@ type TextLoopProps = {
  * ribbon behind it. Adapted from React Bits' TextLoop onto this project's gsap wrapper.
  */
 export function TextLoop({
-  text = "NitiCore",
+  text = "Niticore",
   shape = "wave",
   path,
   speed = 90,

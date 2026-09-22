@@ -26,7 +26,7 @@ export function GetStarted() {
         </Reveal>
       </Container>
 
-      <div role="region" aria-label="Join NitiCore" className="mt-14 h-28 w-full sm:h-36">
+      <div role="region" aria-label="Join Niticore" className="mt-14 h-28 w-full sm:h-36">
         <TextLoop
           text="See AI Governance in Action ✦ Book a Demo"
           shape="wave"

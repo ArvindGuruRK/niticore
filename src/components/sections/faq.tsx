@@ -9,25 +9,25 @@ import { Container } from "@/components/ui/container";
 const ITEMS = [
   {
     id: "what-is-niticore",
-    title: "What is NitiCore?",
+    title: "What is Niticore?",
     content:
-      "The operating layer for governed AI. NitiCore helps organizations build, deploy, and scale AI with continuous visibility, risk intelligence, controls, and evidence — from idea to production.",
+      "The operating layer for governed AI. Niticore helps organizations build, deploy, and scale AI with continuous visibility, risk intelligence, controls, and evidence — from idea to production.",
   },
   {
     id: "one-control",
     title: "How does \"do it once, satisfy all\" actually work?",
     content:
-      "Universal control mapping: an action performed once in NitiCore — a bias audit, a risk review — is automatically mapped and credited against every statutory obligation it satisfies, eliminating parallel audit trails and cutting governance overhead by more than 50%.",
+      "Universal control mapping: an action performed once in Niticore — a bias audit, a risk review — is automatically mapped and credited against every statutory obligation it satisfies, eliminating parallel audit trails and cutting governance overhead by more than 50%.",
   },
   {
     id: "frameworks",
-    title: "Which frameworks and regulations does NitiCore cover?",
+    title: "Which frameworks and regulations does Niticore cover?",
     content:
       "The EU AI Act (2024/1689), ISO/IEC 42001:2023, NIST AI RMF 1.0, GDPR and UK GDPR, plus the UAE and GCC's sovereign frameworks: DIFC Regulation 10, UAE Federal PDPL, and ADGM DPR 2021 (FSRA).",
   },
   {
     id: "agentic-governance",
-    title: "How does NitiCore govern autonomous AI agents?",
+    title: "How does Niticore govern autonomous AI agents?",
     content:
       "By governing the agent, not just the model: a cryptographic agent identity and owner, pre-approved autonomy limits and budgets, fine-grained tool and data access, hard guardrails coded into the agent, mandatory human-in-the-loop confirmation gates, and continuous runtime auditing with an instant kill-switch.",
   },
@@ -45,19 +45,19 @@ const ITEMS = [
   },
   {
     id: "assessments",
-    title: "What assessments does NitiCore offer?",
+    title: "What assessments does Niticore offer?",
     content:
       "Six modular assessments: AI Governance Maturity, AI Use Case, AI Risk, Regulatory Readiness, AI Vendor & Procurement, and AI Impact Assessment — a single artifact that satisfies EU AI Act Article 27 FRIA, GDPR Article 35 DPIA, and DIFC Regulation 10 AI Impact requirements at once.",
   },
   {
     id: "uae-gcc",
-    title: "Does NitiCore support UAE and GCC-specific regulation?",
+    title: "Does Niticore support UAE and GCC-specific regulation?",
     content:
       "Yes — mainland UAE, DIFC, and ADGM are treated as distinct, first-class jurisdictions, covering DIFC Regulation 10 (in active enforcement since January 2026), the UAE Federal PDPL (federal deadline January 2027), and ADGM DPR 2021, with bilingual Arabic/English policy and evidence filing.",
   },
   {
     id: "pricing",
-    title: "How is NitiCore priced?",
+    title: "How is Niticore priced?",
     content:
       "A platform tier plus modular framework packs: Foundation (up to 15 AI systems, one framework), Professional (up to 50 systems, all five major frameworks, real-time drift monitoring), and Governed Enterprise (unlimited systems and frameworks, dedicated auditor workspaces and technical TAM).",
   },

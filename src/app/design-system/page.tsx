@@ -17,7 +17,7 @@ import { DIST, DUR, EASE, STAGGER } from "@/lib/motion";
 import { MotionShowcase } from "./showcase";
 
 export const metadata: Metadata = {
-  title: "NitiCore Design System",
+  title: "Niticore Design System",
   robots: { index: false },
 };
 
@@ -214,7 +214,7 @@ export default function DesignSystemPage() {
     <main className="pb-24 pt-28">
       <Container>
         <header className="flex flex-col items-start gap-6 pb-14">
-          <Image src="/logo/niticore.svg" alt="NitiCore" width={156} height={38} className="h-9 w-auto" />
+          <Image src="/logo/niticore.svg" alt="Niticore" width={156} height={38} className="h-9 w-auto" />
           <SplitHeading as="h1" by="words" trigger="load" className="type-hero max-w-3xl">
             Design system
           </SplitHeading>

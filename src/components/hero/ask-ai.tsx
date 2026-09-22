@@ -1,6 +1,6 @@
 const SOURCES = ["https://niticore.ai"];
 
-const PROMPT = `What is NitiCore? Using ${SOURCES.join(" and ")} as ${SOURCES.length > 1 ? "sources" : "a source"}, explain what the AI governance platform does, which frameworks it covers (EU AI Act, ISO 42001, NIST AI RMF) and who it is for.`;
+const PROMPT = `What is Niticore? Using ${SOURCES.join(" and ")} as ${SOURCES.length > 1 ? "sources" : "a source"}, explain what the AI governance platform does, which frameworks it covers (EU AI Act, ISO 42001, NIST AI RMF) and who it is for.`;
 
 const q = encodeURIComponent(PROMPT);
 
@@ -26,11 +26,11 @@ const ASSISTANTS = [
   },
 ];
 
-/** "Ask AI about NitiCore" row: one pill per assistant, each deep-links to a chat with the question filled in. */
+/** "Ask AI about Niticore" row: one pill per assistant, each deep-links to a chat with the question filled in. */
 export function AskAi() {
   return (
     <div className="flex flex-col items-center gap-3">
-      <p className="type-small font-semibold text-fg-subtle">Ask AI what NitiCore is</p>
+      <p className="type-small font-semibold text-fg-subtle">Ask AI what Niticore is</p>
       <ul className="flex flex-wrap items-center justify-center gap-2">
         {ASSISTANTS.map((a) => (
           <li key={a.name}>
@@ -38,7 +38,7 @@ export function AskAi() {
               href={a.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Ask ${a.name} about NitiCore (opens in a new tab)`}
+              aria-label={`Ask ${a.name} about Niticore (opens in a new tab)`}
               className="group flex h-11 items-center gap-2.5 rounded-full border border-line bg-white/[0.03] pl-3.5 pr-4 text-fg-muted transition-colors duration-200 hover:bg-white/[0.09] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
             >
               <svg viewBox={a.viewBox} aria-hidden className="size-[18px] shrink-0 fill-current">

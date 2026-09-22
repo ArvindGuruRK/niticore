@@ -55,7 +55,7 @@ function FooterColumn({ index, title, links }: { index: string; title: string; l
 const DWELL_VH = 50;
 
 /**
- * Sitemap columns up top, then the NitiCore mark bleeding off the bottom edge, on the same
+ * Sitemap columns up top, then the Niticore mark bleeding off the bottom edge, on the same
  * flat grid-bg canvas as the hero (see hero/hero.tsx). A hairline top border and panel radius
  * read as a lifted surface without breaking the dark, flat background rule. The grid drifts on
  * a scrubbed parallax as the footer crosses the viewport, for depth without moving the content.
@@ -89,7 +89,7 @@ export function Footer() {
         <FooterMark className="mt-4 sm:mt-6" />
 
         <Container className="relative border-t border-line py-6">
-          <p className="type-caption">© {new Date().getFullYear()} NitiCore. All rights reserved.</p>
+          <p className="type-caption">© {new Date().getFullYear()} Niticore. All rights reserved.</p>
         </Container>
       </footer>
     </div>

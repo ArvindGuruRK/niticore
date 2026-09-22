@@ -84,7 +84,7 @@ export function MotionShowcase() {
       >
         <TextType
           as="p"
-          prefix="NitiCore gives you "
+          prefix="Niticore gives you "
           typePrefix
           exit="fade"
           startOnVisible

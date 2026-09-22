@@ -13,7 +13,7 @@ import { DIST, DUR, EASE, NO_REDUCE, STAGGER } from "@/lib/motion";
 
 /**
  * Hero descriptions, written from docs/content (landing-page copy, platform, frameworks, agentic AI, cockpit).
- * Each one continues the fixed stem "NitiCore gives you " on the same line, so start them lowercase.
+ * Each one continues the fixed stem "Niticore gives you " on the same line, so start them lowercase.
  * The first is the original hero description, word for word. The rest are from the content files.
  * Keep them under 185 characters or the reserved height below will be too short.
  */
@@ -64,7 +64,7 @@ export function HeroCopy() {
       <div data-anim="" className="mx-auto w-full max-w-[42rem]">
         <TextType
           as="p"
-          prefix="NitiCore gives you "
+          prefix="Niticore gives you "
           typePrefix
           exit="fade"
           text={LEAD_PHRASES}

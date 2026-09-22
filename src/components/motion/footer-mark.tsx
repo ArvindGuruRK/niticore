@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 const CROPPED_RATIO = "156/32.3";
 
 /**
- * Closes out the footer: the full NitiCore wordmark, cropped to its top 85% by the wrapper's
+ * Closes out the footer: the full Niticore wordmark, cropped to its top 85% by the wrapper's
  * aspect ratio (object-top) so it bleeds off the footer's bottom edge instead of sitting as a
  * complete, self-contained logo. Revealed last, after the link columns above it have settled.
  */

@@ -86,8 +86,8 @@ export function SiteNav() {
         className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.8)] shadow-panel"
       >
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-5 lg:px-6">
-          <Link href="/" aria-label="NitiCore home" className="shrink-0 rounded-control">
-            <Image src="/logo/niticore.svg" alt="NitiCore" width={156} height={38} priority className="h-8 w-auto -translate-y-[2px]" />
+          <Link href="/" aria-label="Niticore home" className="shrink-0 rounded-control">
+            <Image src="/logo/niticore.svg" alt="Niticore" width={156} height={38} priority className="h-8 w-auto -translate-y-[2px]" />
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
