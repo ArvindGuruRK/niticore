@@ -27,7 +27,7 @@ export function VideoDoodles() {
         duration={0.5}
         stagger={0.5}
         strokeWidth={3.5}
-        className="absolute right-[-2vw] top-[50%] w-[clamp(4.5rem,7.5vw,7rem)] -rotate-[8deg] text-tertiary"
+        className="absolute right-[-2vw] top-[54%] w-[clamp(4.5rem,7.5vw,7rem)] -rotate-[8deg] text-tertiary"
       />
     </div>
   );

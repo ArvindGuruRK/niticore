@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * The Governance Fabric: AI systems, agents, policies and regulations drift in
@@ -60,19 +61,20 @@ const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
  * `align="center"` centres it in its box (for a panel or a full-width section).
  */
 export function GovernanceFabric({ className, align = "right" }: { className?: string; align?: "right" | "center" }) {
+  const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const wrap = wrapRef.current;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    if (!wrap || !canvas || !ctx) return;
 
     const styles = getComputedStyle(document.documentElement);
     const token = (name: string, fallback: string) =>
       styles.getPropertyValue(name).trim() || fallback;
     const accent = token("--color-signal-400", "#4ae057");
     const ink = token("--color-ink-950", "#06011f");
-    const surface = token("--color-ink-900", "#0c062b");
     const fontFamily = getComputedStyle(document.body).fontFamily;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -135,10 +137,10 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
       const bottomPad = centered ? 32 : width < 640 ? 24 : 56;
       const availH = Math.max(height - topPad - bottomPad, 120);
       const wide = width >= 600;
-      radius = Math.min(width * (wide ? 0.26 : 0.25), availH / 2 / 0.9);
-      if (centered) radius = Math.min(width * 0.3, availH / 2 / 0.9, width / 2 - 76);
+      radius = Math.min(width * (wide ? 0.21 : 0.2), availH / 2 / 0.9);
+      if (centered) radius = Math.min(width * 0.25, availH / 2 / 0.9, width / 2 - 76);
       // Wide: anchor to the right so the outer labels end at the container edge
-      cx = centered || !wide ? width * 0.5 : width - radius - 64;
+      cx = centered || !wide ? width * 0.5 : width - radius - 32;
       cy = topPad + availH / 2;
     };
 
@@ -155,7 +157,6 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
     };
 
     const pulses: Pulse[] = [];
-    let coreFlash = 0;
     let elapsed = 0;
     let nextPulseAt = 1.8;
 
@@ -165,8 +166,8 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
       const showOuterLabels = width >= 640;
 
       // Orbit guides
-      ctx.lineWidth = 1;
-      ctx.strokeStyle = "rgba(255,255,255,0.045)";
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "rgba(255,255,255,0.07)";
       const coreIntro = easeOutCubic(clamp(elapsed / 1.2));
       RINGS.forEach((ring) => {
         ctx.beginPath();
@@ -236,17 +237,17 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
       }
 
       // Links
-      ctx.lineWidth = 1;
       const link = (ax: number, ay: number, bx: number, by: number, strength: number) => {
         if (strength <= 0.01) return;
         let near = 0;
         if (animate && pointer.active) {
           near = clamp(1 - Math.hypot((ax + bx) / 2 - pointer.x, (ay + by) / 2 - pointer.y) / 190);
         }
+        ctx.lineWidth = 1.5 + near * 0.75;
         ctx.strokeStyle =
           near > 0.02
-            ? `rgba(74,224,87,${(0.1 + near * 0.5) * strength})`
-            : `rgba(190,184,235,${0.14 * strength})`;
+            ? `rgba(74,224,87,${(0.16 + near * 0.55) * strength})`
+            : `rgba(190,184,235,${0.2 * strength})`;
         ctx.beginPath();
         ctx.moveTo(ax, ay);
         ctx.lineTo(bx, by);
@@ -263,7 +264,7 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
         link(node.x, node.y, target.x, target.y, Math.min(node.progress, target.progress) * node.spokeAlpha);
       }
 
-      // Evidence pulses hop inward, ring by ring, and land on the core
+      // Evidence pulses hop inward, ring by ring, and land on the core (the HTML mark overlay, not canvas)
       if (animate) {
         if (elapsed > nextPulseAt && pulses.length < 8) {
           const outer = nodes[nodes.length - 1 - Math.floor(Math.random() * RINGS[2].count)];
@@ -280,9 +281,7 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
           const by = pulse.b === -1 ? cy : nodes[pulse.b].y;
           if (pulse.t >= 1) {
             pulses.splice(i, 1);
-            if (pulse.b === -1) {
-              coreFlash = 1;
-            } else {
+            if (pulse.b !== -1) {
               const landed = nodes[pulse.b];
               pulses.push({
                 a: pulse.b,
@@ -302,17 +301,16 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
           trail.addColorStop(0, "rgba(74,224,87,0)");
           trail.addColorStop(1, "rgba(74,224,87,0.95)");
           ctx.strokeStyle = trail;
-          ctx.lineWidth = 1.75;
+          ctx.lineWidth = 2.5;
           ctx.beginPath();
           ctx.moveTo(tx, ty);
           ctx.lineTo(px, py);
           ctx.stroke();
           ctx.fillStyle = accent;
           ctx.beginPath();
-          ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+          ctx.arc(px, py, 2.75, 0, Math.PI * 2);
           ctx.fill();
         }
-        coreFlash = Math.max(0, coreFlash - dt * 1.6);
       }
 
       // Nodes and labels
@@ -323,8 +321,8 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
         const named = Boolean(node.label);
         ctx.globalAlpha = node.progress;
         ctx.fillStyle = ink;
-        ctx.strokeStyle = named ? accent : "rgba(242,240,251,0.55)";
-        ctx.lineWidth = named ? 1.5 : 1.25;
+        ctx.strokeStyle = named ? accent : "rgba(242,240,251,0.7)";
+        ctx.lineWidth = named ? 2.25 : 1.75;
         ctx.beginPath();
         ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
         ctx.fill();
@@ -338,53 +336,21 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
         }
       }
       ctx.globalAlpha = 1;
+    };
 
-      // Core: shield inside a ringed disc
-      ctx.save();
-      ctx.globalAlpha = coreIntro;
-      const halo = ctx.createRadialGradient(cx, cy, 8, cx, cy, 90 + coreFlash * 30);
-      halo.addColorStop(0, `rgba(74,224,87,${0.16 + coreFlash * 0.2})`);
-      halo.addColorStop(1, "rgba(74,224,87,0)");
-      ctx.fillStyle = halo;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 120, 0, Math.PI * 2);
-      ctx.fill();
-
-      if (coreFlash > 0) {
-        ctx.strokeStyle = `rgba(74,224,87,${coreFlash * 0.55})`;
-        ctx.lineWidth = 1.25;
-        ctx.beginPath();
-        ctx.arc(cx, cy, 32 + (1 - coreFlash) * 26, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-
-      ctx.fillStyle = surface;
-      ctx.strokeStyle = "rgba(74,224,87,0.7)";
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.arc(cx, cy, 30, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.strokeStyle = accent;
-      ctx.lineWidth = 1.75;
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      ctx.moveTo(cx, cy - 12);
-      ctx.bezierCurveTo(cx + 4, cy - 9, cx + 8, cy - 8, cx + 11, cy - 8);
-      ctx.lineTo(cx + 11, cy + 1);
-      ctx.bezierCurveTo(cx + 11, cy + 8, cx + 5, cy + 11, cx, cy + 13);
-      ctx.bezierCurveTo(cx - 5, cy + 11, cx - 11, cy + 8, cx - 11, cy + 1);
-      ctx.lineTo(cx - 11, cy - 8);
-      ctx.bezierCurveTo(cx - 8, cy - 8, cx - 4, cy - 9, cx, cy - 12);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.restore();
+    // The core sits at (cx, cy), computed in resize(). Publish it as CSS pixel offsets on the
+    // wrapper so the HTML mark overlay can sit exactly on top of it without redrawing on canvas —
+    // no flashing halo, no coreFlash pulse: a plain, static mark.
+    const publishCore = () => {
+      wrap.style.setProperty("--core-x", `${cx}px`);
+      wrap.style.setProperty("--core-y", `${cy}px`);
     };
 
     resize();
+    publishCore();
     const observer = new ResizeObserver(() => {
       resize();
+      publishCore();
       if (reduceMotion) render(0, false);
     });
     observer.observe(canvas);
@@ -444,5 +410,19 @@ export function GovernanceFabric({ className, align = "right" }: { className?: s
     };
   }, [align]);
 
-  return <canvas ref={canvasRef} aria-hidden className={className} />;
+  return (
+    <div ref={wrapRef} className={cn("relative", className)}>
+      <canvas ref={canvasRef} aria-hidden className="size-full" />
+      {/* The mark sits exactly on the canvas-computed core (see publishCore in the effect above):
+          a plain, static logo — no glow, no flash. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo/niticore-mark.svg"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute size-9 -translate-x-1/2 -translate-y-1/2"
+        style={{ left: "var(--core-x, 50%)", top: "var(--core-y, 50%)" }}
+      />
+    </div>
+  );
 }

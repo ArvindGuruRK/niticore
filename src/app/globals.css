@@ -321,12 +321,14 @@ html.lenis body {
   min-width: var(--spacing-tap);
 }
 
-/* Hero canvas fades into the copy column on wide screens */
+/* Governance fabric canvas fades out behind a copy column on wide screens, so its lines and node
+   labels don't clash with the text sitting on top of it. The lg stop (55%) clears a max-w-2xl
+   column inside a max-w-7xl container; widen it if a narrower or wider column reuses this. */
 @utility fabric-mask {
   mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
 
   @media (min-width: 1024px) {
-    mask-image: linear-gradient(to right, transparent 0%, #000 34%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 55%);
   }
 }
 
