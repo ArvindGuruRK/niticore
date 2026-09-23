@@ -13,7 +13,13 @@ export function Hero() {
       <HeroDoodles />
 
       <div className="px-page">
-        <div className="mx-auto flex min-h-[100dvh] max-w-7xl items-center justify-center px-4 pb-52 pt-28 sm:px-5 sm:pb-36 sm:pt-32 lg:px-6 lg:pb-28 lg:pt-28">
+        {/* Mobile-only top padding adds --safe-top on top of the base 7rem (now 9rem): the nav's own
+            position already grows with the notch (see --banner-h), so without matching that here, a
+            notched phone (e.g. iPhone 12) shrinks the visual gap by however much the notch eats — the
+            heading reads as stuck to the navbar even though desktop/tablet (sm:/lg:, no notch math
+            needed) look fine. The extra +2rem on top of that is genuine breathing room, not just the
+            safe-area fix. */}
+        <div className="mx-auto flex min-h-[100dvh] max-w-7xl items-center justify-center px-4 pb-52 pt-[calc(9rem+var(--safe-top))] sm:px-5 sm:pb-36 sm:pt-32 lg:px-6 lg:pb-28 lg:pt-28">
           <HeroCopy />
         </div>
       </div>
