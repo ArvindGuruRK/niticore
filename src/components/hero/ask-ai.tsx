@@ -39,12 +39,14 @@ export function AskAi() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Ask ${a.name} about Niticore (opens in a new tab)`}
-              className="group flex h-11 items-center gap-2.5 rounded-full border border-line bg-white/[0.03] pl-3.5 pr-4 text-fg-muted transition-colors duration-200 hover:bg-white/[0.09] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg"
+              // Mobile: icon-only circle (label hidden, icon sized up) so all three fit one line
+              // without wrapping or crowding. sm+ restores the original labelled pill untouched.
+              className="group flex size-12 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-muted transition-colors duration-200 hover:bg-white/[0.09] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg sm:h-11 sm:w-auto sm:justify-start sm:gap-2.5 sm:pl-3.5 sm:pr-4"
             >
-              <svg viewBox={a.viewBox} aria-hidden className="size-[18px] shrink-0 fill-current">
+              <svg viewBox={a.viewBox} aria-hidden className="size-5 shrink-0 fill-current sm:size-[18px]">
                 <path d={a.path} />
               </svg>
-              <span className="text-sm font-semibold">{a.name}</span>
+              <span className="hidden text-sm font-semibold sm:inline">{a.name}</span>
               <svg
                 viewBox="0 0 16 16"
                 aria-hidden
