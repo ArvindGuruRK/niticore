@@ -83,7 +83,7 @@ export function SiteNav() {
     >
       <div
         ref={box}
-        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.8)] shadow-panel"
+        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-nav/80 shadow-panel backdrop-blur-xl"
       >
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-5 lg:px-6">
           <Link href="/" aria-label="Niticore home" className="shrink-0 rounded-control">

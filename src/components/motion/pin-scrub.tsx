@@ -16,7 +16,9 @@ type Step = { title: string; body: ReactNode };
  * steps instead of animating with them — hidden below lg, where the steps alone still work full-width.
  * `background` renders behind everything else in the pinned box (absolutely positioned, `-z-10`) —
  * for a full-bleed illustration that should hold pinned position together with the text, not a
- * side-by-side column like `aside`.
+ * side-by-side column like `aside`. Hidden below xl: `GovernanceFabric`'s right-anchored radius
+ * scales with container width, and between lg and xl (1024–1280px) its outer ring runs into the
+ * text column's right edge — xl is where real clearance starts.
  * `header` renders static content (e.g. a section heading) inside the pinned box, above the steps, so
  * it stays on screen for the whole scrub instead of scrolling away before the pin engages — put a
  * section's own heading here rather than above <PinScrub>, or it disappears the moment the pin starts.
@@ -106,7 +108,7 @@ export function PinScrub({
       style={{ "--pin-min-h": minHeight } as React.CSSProperties}
     >
       {background && (
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden xl:block">
           {background}
         </div>
       )}
