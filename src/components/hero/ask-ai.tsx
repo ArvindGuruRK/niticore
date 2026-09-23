@@ -43,14 +43,17 @@ export function AskAi() {
               // without wrapping or crowding. sm+ restores the original labelled pill untouched.
               className="group flex size-12 items-center justify-center rounded-full border border-line bg-white/[0.03] text-fg-muted transition-colors duration-200 hover:bg-white/[0.09] hover:text-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fg sm:h-11 sm:w-auto sm:justify-start sm:gap-2.5 sm:pl-3.5 sm:pr-4"
             >
-              <svg viewBox={a.viewBox} aria-hidden className="size-5 shrink-0 fill-current sm:size-[18px]">
+              <svg viewBox={a.viewBox} aria-hidden className="size-6 shrink-0 fill-current sm:size-[18px]">
                 <path d={a.path} />
               </svg>
               <span className="hidden text-sm font-semibold sm:inline">{a.name}</span>
+              {/* Hidden below sm: it only ever appears on hover (a state touch doesn't have), and its
+                  unconditional -ml-1.5/-translate-x-1 skew the flex line's centering math on mobile's
+                  icon-only circle even at w-0 — invisible on the old text pill, visible here. */}
               <svg
                 viewBox="0 0 16 16"
                 aria-hidden
-                className="-ml-1.5 size-3.5 w-0 shrink-0 -translate-x-1 fill-none stroke-current stroke-2 opacity-0 transition-all duration-200 group-hover:ml-0 group-hover:w-3.5 group-hover:translate-x-0 group-hover:opacity-100"
+                className="hidden size-3.5 w-0 shrink-0 fill-none stroke-current stroke-2 opacity-0 transition-all duration-200 sm:-ml-1.5 sm:inline sm:-translate-x-1 group-hover:ml-0 group-hover:w-3.5 group-hover:translate-x-0 group-hover:opacity-100"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
