@@ -83,7 +83,13 @@ export function SiteNav() {
     >
       <div
         ref={box}
-        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-nav/80 shadow-panel backdrop-blur-xl"
+        // Explicit rgb() rather than bg-nav/80: the dock animation below tweens this element's
+        // backgroundColor with GSAP, which reads the *computed* starting color to interpolate from.
+        // Tailwind v4's opacity-modifier shorthand (bg-nav/80) computes to oklab(), which GSAP's
+        // color parser misreads as raw 0-255 RGB components — those tiny oklab fractions round down
+        // to ~(0,0,0), so the dock tween started from near-black instead of this color, flashing
+        // solid black partway through the scroll. rgb() computes to a plain rgba() GSAP parses correctly.
+        className="mx-auto w-full max-w-7xl rounded-[2rem] border border-line-strong bg-[rgb(12_6_43/0.8)] shadow-panel backdrop-blur-xl"
       >
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-5 lg:px-6">
           <Link href="/" aria-label="Niticore home" className="shrink-0 rounded-control">

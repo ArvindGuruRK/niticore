@@ -78,13 +78,17 @@ export function HeroCopy() {
         />
       </div>
 
-      <div data-anim="" className="flex flex-wrap items-center justify-center gap-3">
-        <Magnetic>
-          <Button href="#demo" size="lg" arrow>
+      {/* Mobile: the two CTAs are stacked (flex-col) and stretched to the same width, so their
+          different label lengths ("Book a demo" vs "Take the assessment") don't leave mismatched
+          edges when center-stacked — that read as misaligned. sm+ reverts to the original
+          side-by-side, natural-width row, untouched. */}
+      <div data-anim="" className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
+        <Magnetic className="w-full sm:w-auto">
+          <Button href="#demo" size="lg" arrow className="w-full sm:w-auto">
             Book a demo
           </Button>
         </Magnetic>
-        <Button href="#assessment" size="lg" variant="secondary">
+        <Button href="#assessment" size="lg" variant="secondary" className="w-full sm:w-auto">
           Take the assessment
         </Button>
       </div>
