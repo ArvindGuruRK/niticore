@@ -13,7 +13,7 @@ export function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: true, anchors: true });
+    const lenis = new Lenis({ lerp: 0.09, smoothWheel: true, anchors: true });
     setLenis(lenis);
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
