@@ -27,8 +27,9 @@ const FEED = [
 const DOT = { risk: "bg-status-risk", warn: "bg-status-warn", ok: "bg-status-ok" } as const;
 
 /**
- * The executive cockpit as a product panel: readiness and risk rings, the six sub-domains, and the
- * attention feed. Status colours appear only on the feed dots and the score rings, where they are alerts.
+ * The executive cockpit as a product panel: the readiness score, the six sub-domains, and the
+ * attention feed. Every figure is from docs/content/02 §5 (plus the PDPL date from 03 §3). Status
+ * colours appear only on the feed dots and the score ring, where they are alerts.
  */
 export function Cockpit() {
   return (
@@ -45,9 +46,8 @@ export function Cockpit() {
           <div className="grid gap-10 p-6 sm:p-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-12">
             <div className="flex flex-col gap-5 lg:pr-4">
               <p className="type-body font-semibold text-fg">Governance Health</p>
-              <div className="flex flex-wrap justify-center gap-6 sm:justify-start lg:flex-col lg:items-center">
-                <ScoreRing value={78} label="Governance Readiness™" size={152} />
-                <ScoreRing value={31} label="Risk" size={152} />
+              <div className="flex justify-center sm:justify-start lg:justify-center">
+                <ScoreRing value={78} label="Governance Readiness™" size={184} />
               </div>
             </div>
 

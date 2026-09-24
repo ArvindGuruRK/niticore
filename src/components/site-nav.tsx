@@ -110,7 +110,7 @@ export function SiteNav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button href="#demo" size="md" className="hidden sm:inline-flex">
+            <Button href="/demo" size="md" className="hidden sm:inline-flex">
               Book a demo
             </Button>
             <button
@@ -144,7 +144,7 @@ export function SiteNav() {
                   {link.label}
                 </Link>
               ))}
-              <Button href="#demo" size="lg" className="mt-3 sm:hidden" onClick={() => setOpen(false)}>
+              <Button href="/demo" size="lg" className="mt-3 sm:hidden" onClick={() => setOpen(false)}>
                 Book a demo
               </Button>
             </div>

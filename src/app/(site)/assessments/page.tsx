@@ -21,9 +21,9 @@ export default function AssessmentsPage() {
       />
       <GetStarted
         title="Find out where you stand in 10 minutes."
-        lead="Get your Governance Readiness score, a breakdown across six dimensions, and an executive roadmap you can act on this quarter."
-        primary={{ label: "Take the free assessment", href: "#readiness" }}
-        secondary={{ label: "Book a demo", href: "#demo" }}
+        lead="Get your Governance Readiness score, a breakdown across six dimensions, and an immediate executive roadmap."
+        primary={{ label: "Take the free assessment", href: "/assessments" }}
+        secondary={{ label: "Book a demo", href: "/demo" }}
       />
     </>
   );

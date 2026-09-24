@@ -1,0 +1,263 @@
+{
+  "$source": "docs/content/03_framework_intelligence_and_compliance.md, plus the simulator copy in docs/content/08 section 6",
+  "simulator": {
+    "title": "One governance action. Five frameworks closed.",
+    "lead": "Stop governing regulation by regulation. Every action you take in Niticore is mapped and credited against each obligation it satisfies.",
+    "action": {
+      "title": "Bias audit completed",
+      "subject": "Clinical decision model"
+    },
+    "targets": [
+      {
+        "framework": "EU AI Act",
+        "clause": "Art. 9 Risk Management",
+        "logo": "/eu-iso-act-logos/eu-ai-act.webp"
+      },
+      {
+        "framework": "ISO/IEC 42001",
+        "clause": "§6.1.2 Risk Treatment",
+        "logo": "/eu-iso-act-logos/iso-42001.webp"
+      },
+      {
+        "framework": "NIST AI RMF",
+        "clause": "MAP 2.3 & MEASURE 2.6",
+        "logo": "/eu-iso-act-logos/nist-rmf.webp"
+      },
+      {
+        "framework": "GDPR",
+        "clause": "Art. 22 Automated Decisions",
+        "logo": "/eu-iso-act-logos/gdpr.svg"
+      },
+      {
+        "framework": "DIFC Reg 10",
+        "clause": "AI Impact Assessment",
+        "logo": null
+      }
+    ],
+    "summary": [
+      {
+        "value": 1,
+        "label": "evidence filing"
+      },
+      {
+        "value": 5,
+        "label": "regulations covered"
+      },
+      {
+        "value": 0,
+        "label": "duplicated work"
+      }
+    ]
+  },
+  "explorer": {
+    "title": "Five frameworks, mapped clause by clause.",
+    "lead": "The global standards your auditors ask about, built into the platform as working controls, not PDFs.",
+    "frameworks": [
+      {
+        "id": "eu-ai-act",
+        "name": "EU AI Act",
+        "reference": "Regulation 2024/1689",
+        "status": "The global benchmark. High-risk enforcement active as of August 2026.",
+        "logo": "/eu-iso-act-logos/eu-ai-act.webp",
+        "tone": "violet",
+        "capabilities": [
+          {
+            "title": "Annex III risk classifier",
+            "body": "Determines whether a system falls under critical infrastructure, education, employment, essential services, law enforcement or biometric categorisation."
+          },
+          {
+            "title": "Conformity & technical files",
+            "body": "Guides internal and third-party conformity evaluation, and auto-generates Annex IV technical files."
+          },
+          {
+            "title": "FRIA",
+            "body": "Built-in Fundamental Rights Impact Assessment templates for Article 27 obligations."
+          },
+          {
+            "title": "GPAI & foundation models",
+            "body": "Tracking for general-purpose AI models and systemic risk mitigation."
+          }
+        ]
+      },
+      {
+        "id": "iso-42001",
+        "name": "ISO/IEC 42001",
+        "reference": "2023 · AI Management System",
+        "status": "The premier international certifiable standard for AI organisational governance.",
+        "logo": "/eu-iso-act-logos/iso-42001.webp",
+        "tone": "blue",
+        "capabilities": [
+          {
+            "title": "Clauses 4 to 10",
+            "body": "Direct clause-by-clause mapping: context, leadership, planning, support, operations and evaluation."
+          },
+          {
+            "title": "Annex A & B controls",
+            "body": "Control libraries embedded natively into approval workflows."
+          },
+          {
+            "title": "Certification readiness",
+            "body": "Internal audit dry-runs and certification readiness benchmarking."
+          }
+        ]
+      },
+      {
+        "id": "nist-ai-rmf",
+        "name": "NIST AI RMF",
+        "reference": "AI RMF 1.0",
+        "status": "The standard of choice for US enterprise, federal agencies and global technology providers.",
+        "logo": "/eu-iso-act-logos/nist-rmf.webp",
+        "tone": "green",
+        "functions": [
+          "Govern",
+          "Map",
+          "Measure",
+          "Manage"
+        ],
+        "capabilities": [
+          {
+            "title": "Core functions",
+            "body": "Work organised by GOVERN, MAP, MEASURE and MANAGE."
+          },
+          {
+            "title": "Transatlantic cross-mapping",
+            "body": "Dynamic mapping between NIST sub-categories and EU AI Act articles."
+          }
+        ]
+      },
+      {
+        "id": "gdpr",
+        "name": "GDPR & UK GDPR",
+        "reference": "Data protection & privacy",
+        "status": "Privacy obligations wired into every AI system that touches personal data.",
+        "logo": "/eu-iso-act-logos/gdpr.svg",
+        "tone": "violet",
+        "capabilities": [
+          {
+            "title": "DPIA workflows",
+            "body": "Integrated Data Protection Impact Assessments."
+          },
+          {
+            "title": "Article 22 controls",
+            "body": "Direct controls for automated individual decision-making, including profiling."
+          },
+          {
+            "title": "Data lineage",
+            "body": "Lineage, minimisation and privacy-preserving model verification."
+          }
+        ]
+      },
+      {
+        "id": "difc-reg-10",
+        "name": "DIFC Regulation 10",
+        "reference": "Dubai International Financial Centre",
+        "status": "In active enforcement since January 2026. Niticore treats DIFC as a first-class jurisdiction, not an afterthought.",
+        "logo": null,
+        "tone": "green",
+        "capabilities": [
+          {
+            "title": "Governance framework builder",
+            "body": "Build the board-approved AI governance framework the regulation requires."
+          },
+          {
+            "title": "DIFC AI Impact Assessment",
+            "body": "Automated impact assessments, unified with EU AI Act FRIA and GDPR DPIA in one artifact."
+          },
+          {
+            "title": "AI Systems Officer",
+            "body": "A dedicated ASO role with its own audit dashboard."
+          }
+        ]
+      }
+    ]
+  },
+  "pipeline": {
+    "title": "From statute to evidence, in five links.",
+    "lead": "Abstract legal text becomes day-to-day engineering and compliance work, and every link stays connected.",
+    "steps": [
+      {
+        "title": "Regulation",
+        "body": "Statutory obligation"
+      },
+      {
+        "title": "Risk",
+        "body": "Specific AI failure mode"
+      },
+      {
+        "title": "Control",
+        "body": "Enforceable gate or rule"
+      },
+      {
+        "title": "Owner",
+        "body": "Accountable role (RACI)"
+      },
+      {
+        "title": "Evidence",
+        "body": "Verifiable artifact"
+      }
+    ],
+    "points": [
+      "Prevents compliance amnesia, where policies live in disconnected PDFs.",
+      "Links every line of production code and model prompt to the exact legal requirement it fulfils."
+    ]
+  },
+  "regional": {
+    "title": "The UAE, treated as three jurisdictions.",
+    "lead": "Most US and European platforms treat Middle Eastern compliance as an afterthought. Niticore treats mainland UAE, DIFC and ADGM as distinct, first-class legal jurisdictions.",
+    "milestones": [
+      {
+        "date": "In force",
+        "label": "ADGM DPR 2021",
+        "state": "active"
+      },
+      {
+        "date": "Jan 2026",
+        "label": "DIFC Regulation 10",
+        "state": "active"
+      },
+      {
+        "date": "Jan 2027",
+        "label": "UAE Federal PDPL",
+        "state": "upcoming"
+      }
+    ],
+    "jurisdictions": [
+      {
+        "code": "DIFC",
+        "name": "Dubai International Financial Centre",
+        "law": "DIFC Regulation 10",
+        "tone": "green",
+        "capabilities": [
+          "Board-approved AI governance framework builder",
+          "Automated DIFC AI Impact Assessment",
+          "Dedicated AI Systems Officer role and audit dashboard"
+        ]
+      },
+      {
+        "code": "UAE",
+        "name": "UAE Mainland",
+        "law": "UAE Federal PDPL",
+        "tone": "violet",
+        "capabilities": [
+          "Cross-maps existing GDPR controls to PDPL articles",
+          "Local data residency and sovereign AI infrastructure compliance",
+          "Bilingual Arabic and English policy and evidence filing"
+        ]
+      },
+      {
+        "code": "ADGM",
+        "name": "Abu Dhabi Global Market",
+        "law": "ADGM DPR 2021 (FSRA)",
+        "tone": "blue",
+        "capabilities": [
+          "Full FSRA algorithmic risk and compliance mapping",
+          "Instant evidence reuse for UK and EU GDPR-compliant firms expanding into ADGM"
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "title": "Map every obligation in one pass.",
+    "lead": "See how far your current controls already reach across EU, ISO, NIST, GDPR and UAE requirements, and exactly where the gaps are."
+  }
+}

@@ -15,8 +15,8 @@ type Cta = { label: string; href: string };
 /** Defaults are the landing copy. Inner pages pass their own heading, lead and actions, and keep the ribbon. */
 export function GetStarted({
   title = "Ready to get started?",
-  lead = "Book a walkthrough or launch your first assessment. See the governance loop running on your own AI inventory in under a week.",
-  primary = { label: "Book a demo", href: "#demo" },
+  lead = "Wherever you are on the governance journey, we provide an immediate path forward.",
+  primary = { label: "Book a demo", href: "/demo" },
   secondary,
 }: {
   title?: string;

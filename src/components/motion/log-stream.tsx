@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils";
 type Level = "info" | "ok" | "allow" | "warn" | "block" | "escalate";
 
 type LogLine = {
-  /** Clock time shown in the gutter, e.g. "14:02:11" */
-  time: string;
+  /** Optional clock time in the gutter, e.g. "14:02:11" */
+  time?: string;
   level: Level;
   text: string;
 };
@@ -142,8 +142,12 @@ export function LogStream({
               const level = LEVEL[line.level];
               return (
                 <li key={i} data-line="" className="whitespace-pre">
-                  <span className="text-fg-subtle/70">{line.time}</span>
-                  {"  "}
+                  {line.time && (
+                    <>
+                      <span className="text-fg-subtle/70">{line.time}</span>
+                      {"  "}
+                    </>
+                  )}
                   <span className={cn("inline-block w-[6ch] font-bold", level.className)}>{level.label}</span>
                   {" "}
                   <span className="text-fg-muted">{line.text}</span>

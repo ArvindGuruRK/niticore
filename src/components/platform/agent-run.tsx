@@ -13,16 +13,20 @@ const CONTROLS = [
   { title: "Runtime Auditing", body: "Live execution logs and safety drift" },
 ];
 
-/** An illustrative run: what §4 says Niticore captures (tool calls, payloads) and enforces (circuit breakers). */
+/**
+ * An illustrative run built only from docs/content/02 §4: agent identity, authority caps, allowed
+ * endpoints and database privileges, the circuit breaker, the human confirmation gate and runtime
+ * logging. No invented times, amounts or names.
+ */
 const RUN = [
-  { time: "14:02:11", level: "info", text: "run started · owner=finance-ops" },
-  { time: "14:02:11", level: "ok", text: "identity verified · cap=$10,000" },
-  { time: "14:02:12", level: "allow", text: 'erp.lookup_vendor("Acme Ltd")' },
-  { time: "14:02:12", level: "allow", text: 'db.read("invoices")' },
-  { time: "14:02:13", level: "warn", text: "payments.create($48,000) > cap" },
-  { time: "14:02:13", level: "block", text: "circuit breaker tripped" },
-  { time: "14:02:13", level: "escalate", text: "human approval required · cfo" },
-  { time: "14:02:14", level: "ok", text: "evidence logged · run paused" },
+  { level: "info", text: "agent run started" },
+  { level: "ok", text: "agent identity verified · owner and role on record" },
+  { level: "allow", text: "tool call · allowed API endpoint" },
+  { level: "allow", text: "database read · within granted privileges" },
+  { level: "warn", text: "action exceeds pre-approved authority cap" },
+  { level: "block", text: "circuit breaker tripped · action halted" },
+  { level: "escalate", text: "human confirmation gate · approval required" },
+  { level: "ok", text: "execution logged for runtime audit" },
 ] as const;
 
 /**
@@ -56,7 +60,7 @@ export function AgentRun() {
         <Reveal>
           <LogStream
             title="agents — niticore watch — zsh"
-            command="niticore watch procurement-agent"
+            command="niticore watch agent"
             lines={[...RUN]}
           />
         </Reveal>

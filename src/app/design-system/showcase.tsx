@@ -8,6 +8,9 @@ import { StarArc } from "@/components/illustrations/star-arc";
 import { StarFive } from "@/components/illustrations/star-five";
 import { FocusList } from "@/components/motion/focus-list";
 import { LogStream } from "@/components/motion/log-stream";
+import { EvidenceSimulator } from "@/components/frameworks/evidence-simulator";
+import { FlowSteps } from "@/components/motion/flow-steps";
+import { VerticalTabs } from "@/components/motion/vertical-tabs";
 import { OrbitSteps } from "@/components/motion/orbit-steps";
 import { Zigzag } from "@/components/illustrations/zigzag";
 import { Accordion } from "@/components/motion/accordion";
@@ -169,7 +172,7 @@ export function MotionShowcase() {
         </div>
       </Demo>
 
-      <Demo title="Tilt card" note="3D tilt toward the pointer with a moving sheen. Springs back on leave.">
+      <Demo title="Tilt card" note="3D tilt toward the pointer with a moving sheen. Springs back on leave. A still outer frame holds the perspective and reads the pointer while only the inner card rotates, so there is no jitter and no flicker at the edges. Put layout classes (flex-1) on frameClassName.">
         <div className="grid gap-4 md:grid-cols-2">
           <TiltCard className="flex flex-col gap-2">
             <p className="type-h4 text-fg">Governance score</p>
@@ -272,17 +275,72 @@ export function MotionShowcase() {
 
       <Demo
         title="Log stream"
-        note="A macOS terminal window (close, minimize, zoom lights) in JetBrains Mono. The command types itself at the prompt, log lines print instantly one by one with a fixed-width level column, a fresh prompt returns with a blinking block cursor, then it clears and loops, only while on screen. Reduced motion shows the finished screen, still. Used for the Platform page's agent run."
+        note="A macOS terminal window (close, minimize, zoom lights) in JetBrains Mono. The command types itself at the prompt, log lines print instantly one by one with an optional time column and a fixed-width level column, a fresh prompt returns with a blinking block cursor, then it clears and loops, only while on screen. Reduced motion shows the finished screen, still. Used for the Platform page's agent run."
       >
         <LogStream
           className="max-w-xl"
           title="agents — niticore watch — zsh"
-          command="niticore watch procurement-agent"
+          command="niticore watch agent"
           lines={[
-            { time: "14:02:11", level: "info", text: "run started · owner=finance-ops" },
-            { time: "14:02:12", level: "allow", text: 'db.read("invoices")' },
-            { time: "14:02:13", level: "warn", text: "payments.create($48,000) > cap" },
-            { time: "14:02:13", level: "block", text: "circuit breaker tripped" },
+            { level: "info", text: "agent run started" },
+            { level: "allow", text: "database read · within granted privileges" },
+            { level: "warn", text: "action exceeds pre-approved authority cap" },
+            { level: "block", text: "circuit breaker tripped · action halted" },
+          ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Evidence simulator"
+        note="One action fans out to many targets: the action pulses, green wires draw to each target in turn (lg+) and each card ticks from Waiting to Satisfied, then the tally rises. Plays each time it scrolls into view, resetting only once fully off screen. Reduced motion shows the finished state. Used on the Frameworks page."
+      >
+        <EvidenceSimulator
+          action={{ title: "Bias audit completed", subject: "Clinical decision model" }}
+          targets={[
+            { framework: "EU AI Act", clause: "Art. 9 Risk Management", logo: "/eu-iso-act-logos/eu-ai-act.webp" },
+            { framework: "ISO/IEC 42001", clause: "§6.1.2 Risk Treatment", logo: "/eu-iso-act-logos/iso-42001.webp" },
+            { framework: "NIST AI RMF", clause: "MAP 2.3 & MEASURE 2.6", logo: "/eu-iso-act-logos/nist-rmf.webp" },
+            { framework: "GDPR", clause: "Art. 22 Automated Decisions", logo: "/eu-iso-act-logos/gdpr.svg" },
+            { framework: "DIFC Reg 10", clause: "AI Impact Assessment", logo: null },
+          ]}
+          summary={[
+            { value: 1, label: "evidence filing" },
+            { value: 5, label: "regulations covered" },
+            { value: 0, label: "duplicated work" },
+          ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Vertical tabs"
+        note="Side tabs: the selected option is raised and the panel fades up on each switch. With interval, it advances by itself while on screen (green line filling along the selected tab) and never stops; a click jumps to that tab and the countdown carries on. Arrow keys, Home and End. Stacks below lg. Used for the Frameworks explorer."
+      >
+        <VerticalTabs
+          label="Demo"
+          interval={3}
+          tabs={["EU AI Act", "ISO/IEC 42001", "NIST AI RMF"].map((name, i) => ({
+            id: `demo-${i}`,
+            label: <span key={name} className="type-h4 text-fg">{name}</span>,
+            content: (
+              <div key={name} className="card-blue rounded-panel border border-white/10 p-8">
+                <p className="type-h2 text-fg">{name}</p>
+              </div>
+            ),
+          }))}
+        />
+      </Demo>
+
+      <Demo
+        title="Flow steps"
+        note="A chain of linked steps. Scrolling fills a green line through the nodes and each node lights as it is reached; scrolling back un-lights them. Horizontal from lg, vertical below. Used for the regulation-to-evidence pipeline."
+      >
+        <FlowSteps
+          steps={[
+            { title: "Regulation", body: "Statutory obligation" },
+            { title: "Risk", body: "AI failure mode" },
+            { title: "Control", body: "Enforceable gate" },
+            { title: "Owner", body: "Accountable role" },
+            { title: "Evidence", body: "Verifiable artifact" },
           ]}
         />
       </Demo>

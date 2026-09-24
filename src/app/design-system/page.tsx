@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteNav } from "@/components/site-nav";
 import { Button } from "@/components/ui/button";
+import { CheckPill, Field, Input, Select, Textarea } from "@/components/ui/field";
 import { Container } from "@/components/ui/container";
 import { CountUp } from "@/components/motion/count-up";
 import { FooterMark } from "@/components/motion/footer-mark";
@@ -141,6 +142,9 @@ const ANIMATIONS = [
   { name: "Focus list", where: "motion/focus-list", trigger: "Scroll position", note: "Row in the middle band lights, others dim" },
   { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },
   { name: "Log stream", where: "motion/log-stream", trigger: "Loops while on screen", note: "Lines print in sequence, hold, clear" },
+  { name: "Evidence simulator", where: "frameworks/evidence-simulator", trigger: "Each time it enters view", note: "Wires fan out, targets tick, tally rises" },
+  { name: "Vertical tabs", where: "motion/vertical-tabs", trigger: "Autoplay on screen, click, keyboard", note: "Raised selection, progress line, panel fade-rise" },
+  { name: "Flow steps", where: "motion/flow-steps", trigger: "Scrubbed", note: "Line fills through the chain, nodes light" },
   { name: "Drift", where: "illustrations/drift", trigger: "Load, loops", note: "Idle bob and sway for margin doodles after they draw" },
   { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, replays on every return, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
 ];
@@ -303,6 +307,33 @@ export default function DesignSystemPage() {
                 Shadows are tinted to the canvas hue with a 1px inner highlight. No pure black shadows, no outer neon
                 glow.
               </p>
+            </div>
+          </div>
+        </Block>
+
+        <Block
+          title="Form fields"
+          note="ui/field: Field (label, optional hint), Input, Select, Textarea and CheckPill. Fields use the 12px field radius, surface fill and a green focus ring. Used on the Book a demo page."
+        >
+          <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+            <Field label="Work email" htmlFor="ds-email" hint="We never share it.">
+              <Input id="ds-email" type="email" placeholder="name@company.com" />
+            </Field>
+            <Field label="Your role" htmlFor="ds-role">
+              <Select id="ds-role" defaultValue="">
+                <option value="" disabled>
+                  Choose a role
+                </option>
+                <option>Data Protection Officer</option>
+              </Select>
+            </Field>
+            <Field label="Anything we should know?" htmlFor="ds-notes" optional className="sm:col-span-2">
+              <Textarea id="ds-notes" />
+            </Field>
+            <div className="flex flex-wrap gap-2 sm:col-span-2">
+              <CheckPill label="EU AI Act" defaultChecked />
+              <CheckPill label="ISO/IEC 42001" />
+              <CheckPill label="DIFC Regulation 10" />
             </div>
           </div>
         </Block>

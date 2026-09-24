@@ -22,7 +22,7 @@ export default function AcademyAdvisoryPage() {
       <GetStarted
         title="We don't just help you comply. We help you build the capability."
         lead="Talk to a governance expert about what your organisation needs to move from documentation to durable governance."
-        primary={{ label: "Talk to an expert", href: "#demo" }}
+        primary={{ label: "Talk to an expert", href: "/demo" }}
       />
     </>
   );

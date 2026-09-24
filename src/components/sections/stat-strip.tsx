@@ -18,9 +18,9 @@ type Stat = {
 
 const STATS: Stat[] = [
   {
-    to: 20,
-    suffix: "+",
-    label: "Global and regional frameworks unified in one control layer",
+    // docs/content/02 §2 (Monitor): regulatory amendments tracked across 19 global jurisdictions
+    to: 19,
+    label: "Global jurisdictions tracked for regulatory amendments",
     tone: "accent",
   },
   {
@@ -32,13 +32,13 @@ const STATS: Stat[] = [
   {
     to: 78,
     trailing: "/ 100",
-    label: "Average governance readiness score, board-ready in 30 seconds",
+    label: "Governance Readiness™ score, board-ready in under 30 seconds",
     tone: "fg",
   },
   {
     to: 94,
     suffix: "%",
-    label: "Policy coverage tracked across active production models",
+    label: "Policy coverage maintained across active production systems",
     tone: "accent",
   },
 ];
@@ -51,7 +51,7 @@ const TONE_CLASS: Record<Stat["tone"], string> = {
 
 function StatCard({ stat }: { stat: Stat }) {
   return (
-    <TiltCard max={16} className="flex flex-1 flex-col gap-3">
+    <TiltCard max={16} frameClassName="flex-1" className="flex flex-col gap-3">
       <p className={`type-display ${TONE_CLASS[stat.tone]}`}>
         {stat.prefix}
         <CountUp to={stat.to} decimals={stat.decimals} suffix={stat.suffix} />

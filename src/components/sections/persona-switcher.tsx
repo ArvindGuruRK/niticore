@@ -60,7 +60,7 @@ const TONE_CLASS: Record<Persona["tone"], string> = {
 function PersonaCard({ persona }: { persona: Persona }) {
   const Glyph = persona.icon;
   return (
-    <TiltCard className="flex flex-1 flex-col gap-8 p-8 sm:p-10">
+    <TiltCard className="flex flex-col gap-8 p-8 sm:p-10">
       <Glyph weight="light" className={`size-14 shrink-0 ${TONE_CLASS[persona.tone]}`} aria-hidden />
       <div className="flex flex-col gap-3">
         <TextReveal

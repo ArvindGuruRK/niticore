@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Niticore is a one-page marketing site for an AI governance platform. In site copy the brand is spelled "Niticore", not "NitiCore". The site is purely presentational: no API routes, data layer, auth or env vars. Its value is in the visual design and scroll animation.
+Niticore is a multi-page marketing site for an AI governance platform. In site copy the brand is spelled "Niticore", not "NitiCore". The site is purely presentational: no API routes, data layer, auth or env vars. Its value is in the visual design and scroll animation.
 
 Stack: Next.js 16 (App Router), React 19 with the React Compiler, Tailwind CSS v4 (CSS-first config, no `tailwind.config`) and TypeScript. For motion:
 
@@ -36,15 +36,19 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 
 ## How the page is put together
 
-- `src/app/layout.tsx` sets up the page shell: fonts (Sora for display, Manrope for body), metadata and viewport, `AnnouncementBar`, `SmoothScroll`, `BackToTop`, and a `<noscript>` style block that un-hides animated content.
-- `src/app/page.tsx` stacks the sections in order, between `SiteNav` and `Footer`. A new section goes in `src/components/sections/` and gets added here.
+- `src/app/layout.tsx` sets up the page shell: fonts (Sora for display, Manrope for body, JetBrains Mono for terminal text), metadata (title template `%s | Niticore`) and viewport, `AnnouncementBar`, `SmoothScroll`, `BackToTop`, and a `<noscript>` style block that un-hides animated content.
+- `src/app/(site)/` is a route group whose `layout.tsx` renders `SiteNav` and `Footer` around every marketing page:
+  - `page.tsx` is the landing page. It stacks the sections from `src/components/sections/` in order.
+  - `platform/`, `frameworks/`, `assessments/`, `solutions/` and `academy-advisory/` are the nav pages; `demo/` is "Book a demo". The nav and footer links come from `NAV_LINKS` in `src/lib/site.ts`, and each page sets its metadata with `pageMetadata()` from the same file.
+  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `demo/`).
+- Page copy can live in JSON under `src/content/` (`frameworks.json`, `demo.json`), imported by the page. Edit the JSON to change text.
 - `src/app/design-system/` is an internal showcase of the tokens, type scale and motion components. **Every animation, from any library, must also be shown here.**
 - `src/app/opengraph-image.tsx` generates the social card.
 
 In `src/components/`:
 
 - Section files stay server components where possible. They compose client "leaf" components from `motion/` (Reveal, WarpHeading, CountUp, TiltCard, PinScrub, Marquee and others) and `illustrations/` (hand-drawn SVG doodles and the `governance-fabric` network graphic).
-- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), `Eyebrow` and `VideoPlayer`.
+- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Select`, `Textarea`, `CheckPill`) and `VideoPlayer`.
 - Icons come from `@phosphor-icons/react`. In server components import from the `/ssr` entry, for example `@phosphor-icons/react/ssr` or `.../dist/ssr/<Name>`.
 
 ## Animation system
@@ -71,6 +75,7 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
   - Notch-safe padding: `pt-safe` and `pb-safe`, which rely on `--safe-*` and `viewport-fit=cover`.
   - Backgrounds and masks: `grid-bg` and `fabric-mask`.
   - Spacing is fluid through `clamp()`. Design mobile first; the desktop layout starts at `lg`.
+- **Card tones.** Solid feature cards use `card-blue`, `card-violet` and `card-green`. For a `SpotlightCard`, take the matching cursor light from `CARD_TONES` in `src/lib/card-tones.ts`. No divider lines inside cards.
 - **Z-index.** Only `--z-nav` and `--z-menu` exist.
 - **Performance.** Don't put `backdrop-filter` on fixed or large surfaces. It caused scroll jank over the hero video. `body` uses `overflow-x: clip`, not `hidden`, so sticky elements and pinning still work.
 
@@ -83,10 +88,19 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - `docs/*.html` holds the client's HTML concepts and prototypes (TrustLayer, the earlier product name, and the Niticore concept).
 - `docs/inspiration/` holds reference screenshots.
 
+**Every number on the site must come from `docs/`.** No invented figures, scores, amounts, dates or timestamps, not even in illustrative demos. If a design needs a number the docs don't have, leave the number out.
+
 **From the HTML files and the concept, take only the text and content**: headlines, copy, section structure, features, numbers. **Take no design from them**: no colours, fonts, layouts, spacing, components, CSS or animations. All visual decisions come from our design system. Don't invent product claims that aren't in `docs/`.
 
 `client-deliverable/` holds a standalone HTML export and a design write-up produced for the client. The Next app doesn't use it.
 
+## House style
+
+- **No eyebrows.** Never put a pill, badge or small label above a heading.
+- **Heroes have no buttons.** "Book a demo" lives in the nav.
+- **Illustrations are violet** (`text-tertiary`), including underline and circle marks.
+
 Placeholders still in the code:
   - The showcase video points to an MDN sample clip.
-  - Most `SiteNav` anchors (`#platform`, `#assessment` and others) have no matching section ids yet.
+  - The demo form (`src/components/demo/demo-form.tsx`) is not connected to anything yet: submit only prevents the page reload.
+  - The Assessments, Solutions and Academy & Advisory pages have only their hero and closing CTA so far.
