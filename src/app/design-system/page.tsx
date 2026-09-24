@@ -244,7 +244,7 @@ export default function DesignSystemPage() {
           </div>
           <p className="type-caption max-w-[65ch]">
             Contrast on canvas: fg 18.1:1, fg-muted 12.3:1, fg-subtle 8.3:1, accent 11.7:1, tertiary 7.6:1. Ink text on the accent
-            button passes at 11.7:1. Status colors are for alerts and score states only.
+            button passes at 11.7:1. Status colors are for alert text and score arcs only. No status dots: no green, amber or red dot beside a label, level or list item. The one exception is the Frameworks enforcement timeline (green in force, amber upcoming).
           </p>
         </Block>
 

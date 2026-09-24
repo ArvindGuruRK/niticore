@@ -30,6 +30,12 @@ import { ScrambleWord } from "@/components/motion/scramble-word";
 import TextType from "@/components/motion/text-type";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { Timeline } from "@/components/motion/timeline";
+import { AssessmentIndex } from "@/components/assessments/assessment-index";
+import { MaturityLadder } from "@/components/assessments/maturity-ladder";
+import { ReadinessCheck } from "@/components/assessments/readiness-check";
+import assessments from "@/content/assessments.json";
+import { ConfettiDemo } from "./confetti-demo";
+import { RadarDemo } from "./radar-demo";
 
 const FRAMEWORKS = ["EU AI Act", "NIST AI RMF", "ISO 42001", "SOC 2", "GDPR", "HIPAA", "DORA", "India DPDP"];
 
@@ -343,6 +349,45 @@ export function MotionShowcase() {
             { title: "Evidence", body: "Verifiable artifact" },
           ]}
         />
+      </Demo>
+
+      <Demo
+        title="Radar chart and live number"
+        note="Spider graph that grows out from the centre on first view, then morphs to every new set of values. Rings can mark uneven bands (here the five readiness levels) and one axis can be lit. The live number rolls from its old value to each new one. Reduced motion snaps both. Used in the readiness check."
+      >
+        <RadarDemo />
+      </Demo>
+
+      <Demo
+        title="Confetti"
+        note="canvas-confetti in the brand palette (violet, signal green, fg white), drawn above the nav. celebrate() fires two cannons from the lower corners, twice. Reserve it for finishing a whole flow, never for single actions. Nothing fires under reduced motion. Used once by the readiness check, when all six questions are answered."
+      >
+        <ConfettiDemo />
+      </Demo>
+
+      <Demo
+        title="Maturity ladder"
+        note="A signal meter: five equal-width bars, each taller than the last and each in a card tone (violet, blue, green, violet, blue, with the ruler segment matching, glossy with a bright top edge), on a ruler of five equal segments labelled with their score bands. One entrance timeline raises the bars in turn, drops the numbers in, draws the ruler and lifts the panel. Then it plays by itself, climbing one level every few seconds and lighting every bar up to it like signal strength (fills climb bar by bar, the current bar lifts, the ruler fills, the panel fades up); after level 5 it drains back to 1 and loops. It runs whenever it is on screen (hover does not pause it), and a click or arrow key jumps to a level and carries on from there. All five panels share one grid cell, so the card never changes height while it plays. No autoplay under reduced motion. Used on the Assessments page."
+      >
+        <MaturityLadder levels={assessments.model.levels} />
+      </Demo>
+
+      <Demo
+        title="Readiness check"
+        note="Question card with a live readout. The two panels rise in turn on entry and the answers cascade in. No Next button: picking an answer (click, tap or keys 1 to 5) pops its number, grows its staircase and moves on by itself. Left unanswered for a few seconds, a highlight runs down the answers to invite a pick. Only finishing all six sets off confetti. Progress segments fill and drain, each question slides in from the side you are heading with its answers cascading, the level line flips on every level change, and the radar and score redraw. The result reveals in stages: one bar in five equal level shares, with thin divider lines between them, fills green to the score (placed within its level by how far into the band it is) while the score pin rides its tip, level names centred under their shares in white, then the focus cards rise."
+      >
+        <ReadinessCheck
+          levels={assessments.model.levels}
+          dimensions={assessments.check.dimensions}
+          result={assessments.check.result}
+        />
+      </Demo>
+
+      <Demo
+        title="Assessment index"
+        note="Questions on the left, a sticky spec sheet on the right. Rows slide in one by one on entry and a raised highlight glides between rows with the selection. On lg it plays by itself, moving to the next assessment every few seconds while on screen (hover never pauses it), with a violet countdown line along the highlight; a click restarts it from that row. Each switch fades the sheet up, cascades the deliverables and pops the tags; the clock arc sweeps to the length out of an hour while the minutes roll (the open-ended one is a dashed full ring). Below lg the sheet opens inline under its question."
+      >
+        <AssessmentIndex assessments={assessments.suite.assessments} />
       </Demo>
 
       <Demo title="Marquee" note="Seamless loop. Scroll speed pushes it faster and scrolling up reverses it. Hover pauses.">

@@ -3,7 +3,6 @@ import { MediaReveal } from "@/components/motion/media-reveal";
 import { ScoreRing } from "@/components/motion/score-ring";
 import { SectionHeader } from "@/components/page/section-header";
 import { Container } from "@/components/ui/container";
-import { cn } from "@/lib/utils";
 
 /** docs/content/02 §5: the live Governance Health dashboard figures. */
 const DOMAINS = [
@@ -16,20 +15,18 @@ const DOMAINS = [
 ];
 
 const FEED = [
-  { tone: "risk", count: "3", text: "high-risk systems without completed FRIA documentation" },
-  { tone: "warn", count: "7", text: "scheduled risk assessments due this quarter" },
-  { tone: "warn", count: "12", text: "controls awaiting validated evidence filings" },
+  { count: "3", text: "high-risk systems without completed FRIA documentation" },
+  { count: "7", text: "scheduled risk assessments due this quarter" },
+  { count: "12", text: "controls awaiting validated evidence filings" },
   // docs/content/03 §3: the UAE mainland regulatory deadline
-  { tone: "warn", count: "Jan 2027", text: "UAE Federal PDPL deadline for mainland AI systems" },
-  { tone: "ok", count: "94%", text: "policy coverage across active production systems" },
+  { count: "Jan 2027", text: "UAE Federal PDPL deadline for mainland AI systems" },
+  { count: "94%", text: "policy coverage across active production systems" },
 ] as const;
-
-const DOT = { risk: "bg-status-risk", warn: "bg-status-warn", ok: "bg-status-ok" } as const;
 
 /**
  * The executive cockpit as a product panel: the readiness score, the six sub-domains, and the
  * attention feed. Every figure is from docs/content/02 §5 (plus the PDPL date from 03 §3). Status
- * colours appear only on the feed dots and the score ring, where they are alerts.
+ * colour appears only on the score ring. No status dots.
  */
 export function Cockpit() {
   return (
@@ -62,9 +59,8 @@ export function Cockpit() {
                 {FEED.map((item) => (
                   <li
                     key={item.text}
-                    className="flex items-start gap-3 rounded-field border border-line bg-raised/60 px-4 py-3"
+                    className="rounded-field border border-line bg-raised/60 px-4 py-3"
                   >
-                    <span aria-hidden className={cn("mt-2 size-2 shrink-0 rounded-full", DOT[item.tone])} />
                     <p className="type-small">
                       <span className="font-bold text-fg">{item.count}</span> {item.text}
                     </p>

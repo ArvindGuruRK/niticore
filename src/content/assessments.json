@@ -1,0 +1,317 @@
+{
+  "$source": "docs/content/04_assessments_and_readiness_score.md (levels, bands, the six assessments, the calculator funnel), docs/content/02 §5 (the six score dimensions), docs/docx_extracted.txt §8 and §11 (headline copy)",
+  "model": {
+    "title": "Five levels. One honest score.",
+    "lead": "The Niticore Governance Readiness™ model places your organisation on a 0 to 100 scale, from reactive to adaptive. Each step is as wide as its score band.",
+    "levels": [
+      {
+        "level": 1,
+        "name": "Emerging",
+        "min": 0,
+        "max": 29,
+        "summary": "Governance is reactive.",
+        "traits": "Teams use AI without central visibility. Unknown vendor APIs and shadow LLMs spread, and issues are handled ad hoc.",
+        "platform": "No inventory. High regulatory vulnerability.",
+        "note": null
+      },
+      {
+        "level": 2,
+        "name": "Defined",
+        "min": 30,
+        "max": 49,
+        "summary": "Policies exist on paper.",
+        "traits": "An initial AI inventory is assembled. Written policies and ethical guidelines exist in static documents, but enforcement is voluntary and siloed.",
+        "platform": "Documented on paper, disconnected in practice.",
+        "note": null
+      },
+      {
+        "level": 3,
+        "name": "Operational",
+        "min": 50,
+        "max": 69,
+        "summary": "Governance is built into delivery.",
+        "traits": "Governance processes are integrated into development and deployment pipelines. Evidence is generated continuously and mapped across frameworks.",
+        "platform": "Automated governance gates and live compliance visibility.",
+        "note": "Where Niticore takes hold."
+      },
+      {
+        "level": 4,
+        "name": "Measurable",
+        "min": 70,
+        "max": 84,
+        "summary": "Governance is tracked in numbers.",
+        "traits": "Governance performance is tracked through metrics and SLAs. Control effectiveness is monitored in real time, and board reporting is automated.",
+        "platform": "Audit-ready by design, with live posture scoring.",
+        "note": null
+      },
+      {
+        "level": 5,
+        "name": "Adaptive",
+        "min": 85,
+        "max": 100,
+        "summary": "Governance is built in from the start.",
+        "traits": "New systems inherit governance the moment they are provisioned. The organisation adapts to regulatory shifts without an operational crisis.",
+        "platform": "Self-healing compliance and continuous risk mitigation.",
+        "note": "Governance as a competitive advantage."
+      }
+    ]
+  },
+  "check": {
+    "title": "How AI-governance ready is your organisation?",
+    "lead": "Answer six questions, one for each dimension of the Governance Readiness™ score. Pick the answer closest to how things work today. Your score builds as you go.",
+    "dimensions": [
+      {
+        "id": "inventory",
+        "name": "AI Inventory",
+        "question": "Do you know every AI system in use across the organisation?",
+        "options": [
+          "No. Teams adopt AI tools and vendor APIs on their own.",
+          "We have an initial inventory, put together by hand.",
+          "Systems are registered as part of our development and deployment pipelines.",
+          "The inventory is tracked with metrics, and gaps are reported.",
+          "New systems inherit governance automatically when they are provisioned."
+        ],
+        "focus": "Build one register of every model, agent and vendor API, so shadow AI has nowhere to hide.",
+        "next": {
+          "label": "AI Use Case Assessment",
+          "href": "#assessment-use-case"
+        }
+      },
+      {
+        "id": "literacy",
+        "name": "AI Literacy",
+        "question": "How well do your people understand AI risk and their part in governing it?",
+        "options": [
+          "Awareness is informal. People learn as they go.",
+          "Guidelines exist, but training is optional.",
+          "Role-based training is part of how teams build and deploy AI.",
+          "Training and understanding are measured and reported.",
+          "Learning keeps pace with new regulation and new AI capabilities."
+        ],
+        "focus": "Give leaders and teams a shared understanding of AI risk, regulation and their own responsibilities.",
+        "next": {
+          "label": "AI Governance Masterclass",
+          "href": "/academy-advisory"
+        }
+      },
+      {
+        "id": "policy",
+        "name": "Policy Coverage",
+        "question": "Do you know which rules apply to your AI, and are they written down?",
+        "options": [
+          "We haven't mapped which regulations apply to us.",
+          "Policies and ethical guidelines exist in documents, followed voluntarily.",
+          "Policies are mapped to frameworks like the EU AI Act and ISO/IEC 42001, and applied in delivery.",
+          "Policy coverage is measured across every production system.",
+          "We adapt to regulatory shifts without an operational scramble."
+        ],
+        "focus": "Map which obligations apply to your AI portfolio, then close the gaps against each framework.",
+        "next": {
+          "label": "Regulatory Readiness Assessment",
+          "href": "#assessment-regulatory"
+        }
+      },
+      {
+        "id": "risk",
+        "name": "Risk Assessment",
+        "question": "How do you handle high-risk uses of AI?",
+        "options": [
+          "Case by case, usually after something goes wrong.",
+          "Some systems are assessed, separately by each team.",
+          "Every system is classified and assessed before it goes live.",
+          "Risk is scored quantitatively and tracked over time.",
+          "Risk is mitigated continuously as systems and regulations change."
+        ],
+        "focus": "Score each system across privacy, bias, security, accuracy, safety and legal liability before it ships.",
+        "next": {
+          "label": "AI Risk Assessment",
+          "href": "#assessment-risk"
+        }
+      },
+      {
+        "id": "controls",
+        "name": "Control Effectiveness",
+        "question": "Who keeps AI in check once it is running?",
+        "options": [
+          "Nobody in particular. Oversight is reactive.",
+          "Owners are named, but enforcement is voluntary.",
+          "Automated governance gates stop systems that don't meet policy.",
+          "Control effectiveness is monitored in real time, against SLAs.",
+          "Controls correct themselves when something drifts."
+        ],
+        "focus": "Turn voluntary rules into automated governance gates that run inside your delivery pipeline.",
+        "next": {
+          "label": "See the platform",
+          "href": "/platform"
+        }
+      },
+      {
+        "id": "evidence",
+        "name": "Evidence Readiness",
+        "question": "If an auditor asked tomorrow, could you prove compliance?",
+        "options": [
+          "No. We would be starting from scratch.",
+          "Some documents exist, but gathering them would be a project of its own.",
+          "Evidence is generated continuously and mapped to several frameworks.",
+          "We are audit-ready by design, and board reporting is automated.",
+          "Evidence and posture stay current without anyone chasing them."
+        ],
+        "focus": "File each piece of evidence once and credit it against every framework it satisfies.",
+        "next": {
+          "label": "How evidence is reused",
+          "href": "/frameworks"
+        }
+      }
+    ],
+    "result": {
+      "fullCheck": "This quick check covers the six dimensions. The full AI Governance Maturity Assessment takes 10 minutes and ends with an executive roadmap.",
+      "primary": {
+        "label": "Book a 45-minute gap analysis",
+        "href": "/demo"
+      },
+      "gapAnalysis": "Walk through your results with a certified AI governance specialist."
+    }
+  },
+  "suite": {
+    "title": "Six assessments. One governance picture.",
+    "lead": "Each assessment answers a specific question your organisation is asking about its AI. Start free, and go as deep as you need.",
+    "assessments": [
+      {
+        "id": "maturity",
+        "number": "01",
+        "name": "AI Governance Maturity Assessment",
+        "question": "Where are we today?",
+        "format": "Self-service diagnostic",
+        "minutes": 10,
+        "deliverables": [
+          "Personal Governance Readiness™ score, 0 to 100",
+          "Spider graph across six dimensions",
+          "An immediate executive roadmap"
+        ],
+        "tagsTitle": null,
+        "tags": [],
+        "cta": {
+          "label": "Try the quick check",
+          "href": "#readiness-check"
+        }
+      },
+      {
+        "id": "use-case",
+        "number": "02",
+        "name": "AI Use Case Assessment",
+        "question": "Should this AI system be deployed?",
+        "format": "Guided workflow per proposed system",
+        "minutes": 30,
+        "deliverables": [
+          "Business value vs. risk matrix",
+          "Ethics evaluation",
+          "Alignment with your enterprise risk appetite",
+          "Go or no-go recommendation, with conditional controls"
+        ],
+        "tagsTitle": null,
+        "tags": [],
+        "cta": {
+          "label": "Book this assessment",
+          "href": "/demo"
+        }
+      },
+      {
+        "id": "risk",
+        "number": "03",
+        "name": "AI Risk Assessment",
+        "question": "What could go wrong?",
+        "format": "Structured technical and operational review",
+        "minutes": 45,
+        "deliverables": [
+          "Quantified risk scoring across six vectors"
+        ],
+        "tagsTitle": "The six risk vectors",
+        "tags": [
+          "Data Privacy",
+          "Algorithmic Bias",
+          "Cybersecurity & Jailbreaks",
+          "Hallucination & Accuracy",
+          "Safety",
+          "Legal Liability"
+        ],
+        "cta": {
+          "label": "Book this assessment",
+          "href": "/demo"
+        }
+      },
+      {
+        "id": "regulatory",
+        "number": "04",
+        "name": "Regulatory Readiness Assessment",
+        "question": "What requirements apply to our AI portfolio?",
+        "format": "Framework-mapped deep dive",
+        "minutes": 60,
+        "deliverables": [
+          "Gap analysis across every framework that applies",
+          "Remediation timeline"
+        ],
+        "tagsTitle": "Frameworks covered",
+        "tags": [
+          "EU AI Act",
+          "ISO/IEC 42001",
+          "NIST AI RMF",
+          "GDPR",
+          "UAE regulations"
+        ],
+        "cta": {
+          "label": "Book this assessment",
+          "href": "/demo"
+        }
+      },
+      {
+        "id": "vendor",
+        "number": "05",
+        "name": "AI Vendor & Procurement Assessment",
+        "question": "Can we trust the third-party AI we are buying?",
+        "format": "Repeatable vendor evaluation",
+        "minutes": 30,
+        "deliverables": [
+          "Model transparency audit",
+          "Training data copyright risk scoring",
+          "SOC 2 and ISO/IEC 42001 verification",
+          "Contractual warranty gap check"
+        ],
+        "tagsTitle": null,
+        "tags": [],
+        "cta": {
+          "label": "Book this assessment",
+          "href": "/demo"
+        }
+      },
+      {
+        "id": "impact",
+        "number": "06",
+        "name": "AI Impact Assessment",
+        "question": "Who or what could be affected by this autonomous decision?",
+        "format": "Regulatory-grade deep assessment",
+        "minutes": null,
+        "deliverables": [
+          "One assessment artifact that satisfies three mandates at once"
+        ],
+        "tagsTitle": "Mandates it satisfies",
+        "tags": [
+          "EU AI Act Art. 27 FRIA",
+          "GDPR Art. 35 DPIA",
+          "DIFC Reg. 10 AI Impact"
+        ],
+        "cta": {
+          "label": "Book this assessment",
+          "href": "/demo"
+        }
+      }
+    ]
+  },
+  "cta": {
+    "title": "Find out where you stand.",
+    "lead": "Start with the quick readiness check, then walk through your results with a certified AI governance specialist.",
+    "primary": {
+      "label": "Take the readiness check",
+      "href": "#readiness-check"
+    }
+  }
+}

@@ -12,8 +12,9 @@ type Jurisdiction = {
   capabilities: string[];
 };
 
-/** In force = green (the obligation is live and met); upcoming = amber (a deadline to prepare for). */
-const DOT: Record<string, string> = { active: "bg-status-ok", upcoming: "bg-status-warn" };
+/** In force = green (the obligation is live); upcoming = amber (a deadline to prepare for). The one
+ *  agreed place for status-coloured dots on the site. */
+const NODE: Record<string, string> = { active: "bg-status-ok", upcoming: "bg-status-warn" };
 
 /**
  * docs/content/03 §3, the regional moat: an enforcement timeline (what is live, what is next), then
@@ -30,7 +31,7 @@ export function Regional({ milestones, jurisdictions }: { milestones: Milestone[
           <div key={m.label} className="relative flex flex-col items-center gap-3 text-center">
             <span
               aria-hidden
-              className={cn("size-4 rounded-full ring-4 ring-canvas", DOT[m.state])}
+              className={cn("size-4 rounded-full ring-4 ring-canvas", NODE[m.state])}
             />
             <p className="type-h3 text-fg">{m.date}</p>
             <p className="type-small">{m.label}</p>

@@ -71,7 +71,8 @@
   --color-window-minimize: #febc2e;
   --color-window-zoom: #28c840;
 
-  /* Status: reserved for alerts and score states, never for decoration */
+  /* Status: reserved for alert text and score arcs, never for decoration. Never as coloured dots,
+     except the Frameworks enforcement timeline (in force / upcoming). */
   --color-status-ok: var(--color-signal-400);
   --color-status-warn: #f5b544;
   --color-status-risk: #ff6b7a;

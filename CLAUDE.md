@@ -16,6 +16,7 @@ Stack: Next.js 16 (App Router), React 19 with the React Compiler, Tailwind CSS v
 - **Lenis** handles smooth scrolling.
 - **GSAP** (with ScrollTrigger) is the main animation engine.
 - **React Bits** (https://reactbits.dev) provides certain effects. They are ported into `src/components/motion/` as `text-type.tsx`, `text-loop.tsx`, and `warp-text.tsx`, which runs on `ogl`/WebGL and is wrapped by `warp-heading.tsx`.
+- **canvas-confetti** powers `motion/confetti.ts` (`celebrate`), in the brand palette. Use it only for finishing a whole flow, never on single actions.
 - **Other animation libraries** are welcome and will be used heavily. Pick whichever suits the effect.
 
 Whatever the library, put reusable motion components in `src/components/motion/`, use the timing in `@/lib/motion` where it applies, respect reduced motion, and show the effect on `/design-system`.
@@ -40,8 +41,8 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 - `src/app/(site)/` is a route group whose `layout.tsx` renders `SiteNav` and `Footer` around every marketing page:
   - `page.tsx` is the landing page. It stacks the sections from `src/components/sections/` in order.
   - `platform/`, `frameworks/`, `assessments/`, `solutions/` and `academy-advisory/` are the nav pages; `demo/` is "Book a demo". The nav and footer links come from `NAV_LINKS` in `src/lib/site.ts`, and each page sets its metadata with `pageMetadata()` from the same file.
-  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `demo/`).
-- Page copy can live in JSON under `src/content/` (`frameworks.json`, `demo.json`), imported by the page. Edit the JSON to change text.
+  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `demo/`).
+- Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `demo.json`), imported by the page. Edit the JSON to change text.
 - `src/app/design-system/` is an internal showcase of the tokens, type scale and motion components. **Every animation, from any library, must also be shown here.**
 - `src/app/opengraph-image.tsx` generates the social card.
 
@@ -67,7 +68,7 @@ These conventions cover the GSAP and Lenis code. Other libraries can be used alo
 Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There is no JS theme object.
 
 - **Dark only.** In components use semantic colour roles such as `bg-canvas`, `bg-surface`, `bg-raised`, `text-fg`, `text-fg-muted`, `text-fg-subtle`, `text-accent`, `text-tertiary` and `border-line`. Don't use the raw `ink-*`, `signal-*` or `aura-*` ramps.
-- **Accent rules.** Green (`accent`, #4AE057) is only for actions: CTAs and the one key word in a heading. Violet (`tertiary`) is for illustrations and secondary highlights, never buttons. `status-*` colours are only for alerts and scores.
+- **Accent rules.** Green (`accent`, #4AE057) is only for actions: CTAs and the one key word in a heading. Violet (`tertiary`) is for illustrations and secondary highlights, never buttons. `status-*` colours are only for alert text (LogStream), score arcs (ScoreRing) and score fills (the readiness result bar). **No status dots**: never put a green, amber or red dot beside a label, level or list item. The one exception is the Frameworks enforcement timeline (`frameworks/regional.tsx`): green = in force, amber = upcoming.
 - **Shape.** Controls are pills (`rounded-control`), panels use `rounded-panel` (20px), fields use `rounded-field` (12px).
 - **Type.** Use the utilities, not ad-hoc sizes: `type-display`, `type-hero`, `type-h2`, `type-h3`, `type-h4`, `type-lead`, `type-body`, `type-small`, `type-caption`, `type-label`.
 - **Layout.**
@@ -103,4 +104,4 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 Placeholders still in the code:
   - The showcase video points to an MDN sample clip.
   - The demo form (`src/components/demo/demo-form.tsx`) is not connected to anything yet: submit only prevents the page reload.
-  - The Assessments, Solutions and Academy & Advisory pages have only their hero and closing CTA so far.
+  - The Solutions and Academy & Advisory pages have only their hero and closing CTA so far.
