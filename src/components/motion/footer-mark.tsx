@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { DUR, EASE, NO_REDUCE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +13,7 @@ const LOGO_RATIO = "156/38";
 /**
  * Closes out the footer: the full Niticore wordmark, shown in full (client feedback: a partially
  * cropped mark read as a rendering bug rather than an intentional bleed). Revealed last, after
- * the link columns above it have settled.
+ * the link columns above it have settled, and again on every return to the footer.
  */
 export function FooterMark({ className }: { className?: string }) {
   const root = useRef<HTMLDivElement>(null);
@@ -22,7 +22,7 @@ export function FooterMark({ className }: { className?: string }) {
     () => {
       const mm = gsap.matchMedia();
       mm.add(NO_REDUCE, () => {
-        gsap.fromTo(
+        const reveal = gsap.fromTo(
           root.current,
           { opacity: 0, y: 56, scale: 0.94 },
           {
@@ -32,10 +32,13 @@ export function FooterMark({ className }: { className?: string }) {
             duration: DUR.slow,
             delay: 0.15,
             ease: EASE.out,
-            clearProps: "transform",
-            scrollTrigger: { trigger: root.current, start: "top 88%", once: true },
+            paused: true,
           },
         );
+        // Plays every time the footer is reached, not just once. It re-arms only after the mark has
+        // left the screen completely (scrolling back up past it), so it never blinks out while seen.
+        ScrollTrigger.create({ trigger: root.current, start: "top 88%", onEnter: () => reveal.restart(true) });
+        ScrollTrigger.create({ trigger: root.current, start: "top bottom", onLeaveBack: () => reveal.pause(0) });
       });
     },
     { scope: root },

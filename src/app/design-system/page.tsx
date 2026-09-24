@@ -3,7 +3,6 @@ import Image from "next/image";
 import { SiteNav } from "@/components/site-nav";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
 import { CountUp } from "@/components/motion/count-up";
 import { FooterMark } from "@/components/motion/footer-mark";
 import { Magnetic } from "@/components/motion/magnetic";
@@ -138,8 +137,12 @@ const ANIMATIONS = [
   { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
-  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, Annotate: self-drawing line art" },
-  { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, once, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
+  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, Annotate: self-drawing line art" },
+  { name: "Focus list", where: "motion/focus-list", trigger: "Scroll position", note: "Row in the middle band lights, others dim" },
+  { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },
+  { name: "Log stream", where: "motion/log-stream", trigger: "Loops while on screen", note: "Lines print in sequence, hold, clear" },
+  { name: "Drift", where: "illustrations/drift", trigger: "Load, loops", note: "Idle bob and sway for margin doodles after they draw" },
+  { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, replays on every return, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
 ];
 
 const RESPONSIVE: [string, string, string][] = [
@@ -288,10 +291,6 @@ export default function DesignSystemPage() {
           </p>
         </Block>
 
-        <Block title="Eyebrow" note="Pill label used in the hero. Sections use at most one eyebrow per three sections.">
-          <Eyebrow className="self-start">The operating layer for governed AI</Eyebrow>
-        </Block>
-
         <Block title="Shape and elevation" note="One rule set, applied everywhere.">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="flex flex-col gap-3 rounded-panel bg-surface p-6 shadow-panel">
@@ -305,6 +304,19 @@ export default function DesignSystemPage() {
                 glow.
               </p>
             </div>
+          </div>
+        </Block>
+
+        <Block
+          title="Card tones"
+          note="Solid-colour panels: card-blue, card-violet and card-green (tokens in globals.css). Use them for feature cards (framework cards, agentic cards, platform pillars) with light text and no divider lines inside. For a SpotlightCard, take the matching cursor light from CARD_TONES in lib/card-tones.ts."
+        >
+          <div className="grid gap-4 sm:grid-cols-3">
+            {(["card-blue", "card-violet", "card-green"] as const).map((c) => (
+              <div key={c} className={`${c} flex h-28 items-end rounded-panel border border-white/10 p-5 shadow-panel`}>
+                <p className="type-h4 text-fg">{c}</p>
+              </div>
+            ))}
           </div>
         </Block>
 

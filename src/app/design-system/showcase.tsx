@@ -1,8 +1,15 @@
 import { Annotate } from "@/components/illustrations/annotate";
+import { Drift } from "@/components/illustrations/drift";
 import { GovernanceFabric } from "@/components/illustrations/governance-fabric";
 import { Flourish } from "@/components/illustrations/flourish";
+import { Petal } from "@/components/illustrations/petal";
 import { Sparkle } from "@/components/illustrations/sparkle";
 import { StarArc } from "@/components/illustrations/star-arc";
+import { StarFive } from "@/components/illustrations/star-five";
+import { FocusList } from "@/components/motion/focus-list";
+import { LogStream } from "@/components/motion/log-stream";
+import { OrbitSteps } from "@/components/motion/orbit-steps";
+import { Zigzag } from "@/components/illustrations/zigzag";
 import { Accordion } from "@/components/motion/accordion";
 import { BarMeter } from "@/components/motion/bar-meter";
 import { DrawPath } from "@/components/motion/draw-path";
@@ -207,19 +214,77 @@ export function MotionShowcase() {
 
       <Demo
         title="Illustrations"
-        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc and Annotate are built on it. Colour comes from currentColor. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
+        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc, StarFive, Petal, Zigzag and Annotate are built on it. Drift adds a slow idle bob and sway once a margin shape has drawn in (inner-page heroes: one shape per edge via PageDoodles). Colour comes from currentColor and is always text-tertiary (violet), underlines and marks included. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
       >
         <div className="flex flex-wrap items-center gap-12">
-          <Sparkle size={72} className="text-fg" />
-          <Sparkle size={36} className="text-accent" delay={0.3} />
-          <Flourish className="w-40 text-fg/60" strokeWidth={2.5} />
-          <StarArc className="w-16 text-fg/80" strokeWidth={2.5} delay={0.2} />
+          <Sparkle size={72} className="text-tertiary" />
+          <Sparkle size={36} className="text-tertiary" delay={0.3} />
+          <Flourish className="w-40 text-tertiary" strokeWidth={2.5} />
+          <StarArc className="w-16 text-tertiary" strokeWidth={2.5} delay={0.2} />
+          <Drift delay={1.8}>
+            <StarFive className="w-28 text-tertiary" delay={0.3} />
+          </Drift>
+          <Drift delay={2} amount={8}>
+            <Petal className="w-28 text-tertiary" delay={0.5} />
+          </Drift>
+          <Zigzag className="w-32 text-tertiary" delay={0.7} />
           <Annotate target="[data-mark]" trigger="view" delay={0.4} className="type-h2 text-fg">
             <p>
               Governed <span data-mark="" className="inline-block">AI agents</span>
             </p>
           </Annotate>
+          <Annotate target="[data-mark]" variant="double" trigger="view" delay={0.6} className="type-h2 text-fg">
+            <p>
+              Satisfy <span data-mark="" className="inline-block">all.</span>
+            </p>
+          </Annotate>
         </div>
+      </Demo>
+
+      <Demo
+        title="Focus list"
+        note="Numbered rows that brighten while they cross the middle of the screen and dim once passed, so one row is in focus at a time. The number turns green when lit. Used for the Platform page's five questions."
+      >
+        <FocusList
+          className="max-w-3xl border-b border-line"
+          items={[
+            { meta: "01", title: "What AI do we actually have?", body: "Models, apps, agents, vendor tools and shadow AI." },
+            { meta: "02", title: "What could go wrong?", body: "Privacy leaks, bias, jailbreaks and hallucination." },
+            { meta: "03", title: "Who is accountable?", body: "Clear RACI ownership for every system." },
+          ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Orbit steps"
+        note="Steps on a loop. A green arc and a comet dot travel forwards to the active node; the centre and the panel swap with a fade-rise. Auto-advances every 3.5s while on screen, with a green progress line filling under the panel, until someone clicks or uses the arrow keys. Reduced motion: no autoplay. Used for the 7-stage lifecycle."
+      >
+        <OrbitSteps
+          steps={[
+            { title: "Discover", question: "What AI exists?", points: ["Find every model, agent and vendor tool."] },
+            { title: "Classify", question: "What is it?", points: ["Automated risk tiering."] },
+            { title: "Assess", question: "What could go wrong?", points: ["Multi-dimensional risk scoring."] },
+            { title: "Govern", question: "What controls apply?", points: ["One control, many frameworks."] },
+            { title: "Evidence", question: "Can we prove it?", points: ["File once, satisfy everywhere."] },
+          ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Log stream"
+        note="A macOS terminal window (close, minimize, zoom lights) in JetBrains Mono. The command types itself at the prompt, log lines print instantly one by one with a fixed-width level column, a fresh prompt returns with a blinking block cursor, then it clears and loops, only while on screen. Reduced motion shows the finished screen, still. Used for the Platform page's agent run."
+      >
+        <LogStream
+          className="max-w-xl"
+          title="agents — niticore watch — zsh"
+          command="niticore watch procurement-agent"
+          lines={[
+            { time: "14:02:11", level: "info", text: "run started · owner=finance-ops" },
+            { time: "14:02:12", level: "allow", text: 'db.read("invoices")' },
+            { time: "14:02:13", level: "warn", text: "payments.create($48,000) > cap" },
+            { time: "14:02:13", level: "block", text: "circuit breaker tripped" },
+          ]}
+        />
       </Demo>
 
       <Demo title="Marquee" note="Seamless loop. Scroll speed pushes it faster and scrolling up reverses it. Hover pauses.">

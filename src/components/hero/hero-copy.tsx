@@ -1,10 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { AskAi } from "./ask-ai";
 import { Annotate } from "@/components/illustrations/annotate";
-import { Magnetic } from "@/components/motion/magnetic";
 import { SplitHeading } from "@/components/motion/split-heading";
 import { ScrambleWord } from "@/components/motion/scramble-word";
 import TextType from "@/components/motion/text-type";
@@ -26,7 +24,7 @@ const LEAD_PHRASES = [
 ];
 
 
-/** Hero stack: headline, typed description, CTAs. Nothing else lives up here. */
+/** Hero stack: headline and typed description. Nothing else lives up here. */
 export function HeroCopy() {
   const root = useRef<HTMLDivElement>(null);
 
@@ -46,7 +44,7 @@ export function HeroCopy() {
   );
   return (
     <div ref={root} className="relative flex w-full max-w-[64rem] flex-col items-center gap-7 text-center">
-      <Annotate target="[data-accent]" delay={1.3} className="w-full" markClassName="text-fg">
+      <Annotate target="[data-accent]" delay={1.3} className="w-full">
         <SplitHeading as="h1" by="words" trigger="load" delay={0.25} className="type-display text-fg">
           <span className="block">Move fast with AI.</span>
           {" "}
@@ -60,7 +58,7 @@ export function HeroCopy() {
       </Annotate>
 
       {/* Full descriptions typed in place. stableLayout fixes the final line breaks from the first
-          character, and the reserved height keeps the buttons still while the copy changes. */}
+          character, and the reserved height keeps the Ask AI row still while the copy changes. */}
       <div data-anim="" className="mx-auto w-full max-w-[42rem]">
         <TextType
           as="p"
@@ -78,23 +76,8 @@ export function HeroCopy() {
         />
       </div>
 
-      {/* Mobile: the two CTAs are stacked (flex-col) and stretched to the same width, so their
-          different label lengths ("Book a demo" vs "Take the assessment") don't leave mismatched
-          edges when center-stacked — that read as misaligned. sm+ reverts to the original
-          side-by-side, natural-width row, untouched. */}
-      <div data-anim="" className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center">
-        <Magnetic className="w-full sm:w-auto">
-          <Button href="#demo" size="lg" arrow className="w-full sm:w-auto">
-            Book a demo
-          </Button>
-        </Magnetic>
-        <Button href="#assessment" size="lg" variant="secondary" className="w-full sm:w-auto">
-          Take the assessment
-        </Button>
-      </div>
-
-      {/* Absolutely placed under the buttons so it sits in the old empty space and doesn't push the
-          vertically centred stack upward. */}
+      {/* Absolutely placed under the description so it doesn't push the vertically centred stack
+          upward. No CTA buttons here: "Book a demo" lives in the nav. */}
       <div data-anim="" className="absolute inset-x-0 top-full mt-10">
         <AskAi />
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Sora } from "next/font/google";
+import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
@@ -9,6 +9,14 @@ const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
   display: "swap",
+});
+
+// Terminal text only (LogStream), so it is not preloaded on every page
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const manrope = Manrope({
@@ -30,7 +38,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   // Absolute base for the generated Open Graph image. Swap for the custom domain when there is one.
   metadataBase: new URL("https://niticore.vercel.app"),
-  title: "Niticore | The operating layer for governed AI",
+  // Inner pages set a bare title ("Platform") and the template adds the brand
+  title: {
+    default: "Niticore | The operating layer for governed AI",
+    template: "%s | Niticore",
+  },
   description:
     "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
   openGraph: {
@@ -47,7 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${sora.variable} ${manrope.variable} h-full antialiased`}
+      className={`${sora.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <noscript>

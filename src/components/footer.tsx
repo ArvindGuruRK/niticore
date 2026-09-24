@@ -3,14 +3,9 @@ import { FooterMark } from "@/components/motion/footer-mark";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
+import { NAV_LINKS } from "@/lib/site";
 
-const SITEMAP = [
-  { label: "Home", href: "/" },
-  { label: "Platform", href: "#platform" },
-  { label: "Frameworks", href: "#frameworks" },
-  { label: "Assessments", href: "#assessment" },
-  { label: "Solutions", href: "#solutions" },
-];
+const SITEMAP = [{ label: "Home", href: "/" }, ...NAV_LINKS];
 
 const SOCIALS = [
   { label: "LinkedIn", href: "#" },

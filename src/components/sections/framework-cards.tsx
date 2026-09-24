@@ -5,26 +5,16 @@ import { Buildings } from "@phosphor-icons/react/dist/ssr/Buildings";
 import { Marquee } from "@/components/motion/marquee";
 import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { WarpHeading } from "@/components/motion/warp-heading";
+import { CARD_TONES, type CardTone } from "@/lib/card-tones";
+import { cn } from "@/lib/utils";
 
-/**
- * Card colours. `base` is the fixed gradient. `light` is the solid disc that follows the cursor, in a
- * contrast colour: violet on green cards, green on violet and blue cards (space-separated RGB).
- * All three sit on the design-system ramps (ink, aura, signal).
- */
-const TONES = {
-  blue: { base: ["#1a1260", "#2f2a8c"], light: "31 138 49" },
-  violet: { base: ["#4a33b8", "#7654e0"], light: "31 138 49" },
-  green: { base: ["#0f4a1d", "#1f8a31"], light: "139 104 245" },
-} as const;
-
-type Tone = keyof typeof TONES;
 
 type Framework = {
   name: string;
   /** The headline figure on the card: the one fact worth reading at a glance */
   stat: string;
   note: string;
-  tone: Tone;
+  tone: CardTone;
   /** Mark from public/eu-iso-act-logos. Frameworks without one fall back to an icon tile */
   logo?: string;
   icon?: Icon;
@@ -60,8 +50,6 @@ const REGIONAL: Framework[] = [
   { name: "SS1/23", stat: "PRA", note: "UK model risk management principles for banks", tone: "violet", logo: L("ss1-23.svg") },
 ];
 
-const grad = ([a, b]: readonly [string, string]) => `linear-gradient(135deg, ${a}, ${b})`;
-
 function Mark({ f }: { f: Framework }) {
   if (f.logo) {
     return (
@@ -83,15 +71,14 @@ function Mark({ f }: { f: Framework }) {
 }
 
 function FrameworkCard({ f }: { f: Framework }) {
-  const tone = TONES[f.tone];
+  const tone = CARD_TONES[f.tone];
   return (
     <li className="group/card mr-3 h-48 w-[17.5rem] shrink-0 sm:mr-4 sm:w-80">
       {/* Spotlight: a solid contrast-coloured disc follows the cursor; the rest of the card keeps its colour */}
       <SpotlightCard
         light={tone.light}
         solid
-        className="flex h-full flex-col border-white/10 p-5 shadow-none sm:p-6"
-        style={{ backgroundImage: grad(tone.base) }}
+        className={cn("flex h-full flex-col border-white/10 p-5 shadow-none sm:p-6", tone.className)}
       >
         {/* The act comes first: its mark and name lead the card */}
         <div className="flex items-center gap-3">

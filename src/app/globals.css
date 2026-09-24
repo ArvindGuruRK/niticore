@@ -12,6 +12,8 @@
 @theme inline {
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), var(--font-manrope), ui-sans-serif, sans-serif;
+  /* Code and terminal text only (LogStream). JetBrains Mono: a real coding font, ligatures off in use. */
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 @theme {
@@ -54,6 +56,21 @@
   --color-line: rgb(255 255 255 / 0.08);
   --color-line-strong: rgb(255 255 255 / 0.16);
 
+  /* Card tones: the solid-colour panels (framework cards, agentic cards, platform pillars). Each is a
+     135deg gradient built from the ink, aura and signal ramps. Use the card-blue / card-violet /
+     card-green utilities below, not these stops directly. */
+  --color-card-blue-from: #1a1260;
+  --color-card-blue-to: #2f2a8c;
+  --color-card-violet-from: #4a33b8;
+  --color-card-violet-to: #7654e0;
+  --color-card-green-from: #0f4a1d;
+  --color-card-green-to: #1f8a31;
+
+  /* macOS window controls, for the terminal window chrome only (close, minimize, zoom) */
+  --color-window-close: #ff5f57;
+  --color-window-minimize: #febc2e;
+  --color-window-zoom: #28c840;
+
   /* Status: reserved for alerts and score states, never for decoration */
   --color-status-ok: var(--color-signal-400);
   --color-status-warn: #f5b544;
@@ -85,6 +102,14 @@
   /* Motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --animate-marquee: marquee 48s linear infinite;
+  /* Terminal block cursor: hard on/off, like a real caret, not a fade */
+  --animate-blink: blink 1.05s steps(1, end) infinite;
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
 
   @keyframes marquee {
     to {
@@ -293,6 +318,18 @@ html.lenis body {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+/* Card tones: solid-colour panels. Pair with border-white/10 and light text (text-fg, text-fg/85).
+   For a SpotlightCard, take the matching cursor light from CARD_TONES in lib/card-tones.ts. */
+@utility card-blue {
+  background-image: linear-gradient(135deg, var(--color-card-blue-from), var(--color-card-blue-to));
+}
+@utility card-violet {
+  background-image: linear-gradient(135deg, var(--color-card-violet-from), var(--color-card-violet-to));
+}
+@utility card-green {
+  background-image: linear-gradient(135deg, var(--color-card-green-from), var(--color-card-green-to));
 }
 
 /* Layout utilities. Use these instead of hand-written px-4 sm:px-6 lg:px-8 stacks. */

@@ -72,7 +72,7 @@ export function StatStrip() {
   return (
     <section aria-labelledby="stat-strip-heading" className="pb-section">
       <Container className="flex flex-col items-center gap-4 text-center">
-        <Annotate target="[data-accent]" variant="double" trigger="view" delay={0.3} markClassName="text-tertiary">
+        <Annotate target="[data-accent]" variant="double" trigger="view" delay={0.3}>
           <WarpHeading
             id="stat-strip-heading"
             text="What continuous governance looks like."

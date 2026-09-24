@@ -2,25 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { List, X } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { EASE, NO_REDUCE } from "@/lib/motion";
-
-const LINKS = [
-  { label: "Platform", href: "#platform" },
-  { label: "Frameworks", href: "#frameworks" },
-  { label: "Assessments", href: "#assessment" },
-  { label: "Solutions", href: "#solutions" },
-  { label: "Academy & Advisory", href: "#advisory" },
-];
+import { NAV_LINKS as LINKS } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 /** Scroll distance (px) over which the floating panel docks into a full-width bar. */
 const DOCK_DISTANCE = 160;
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const wrap = useRef<HTMLElement>(null);
   const box = useRef<HTMLDivElement>(null);
 
@@ -101,7 +98,11 @@ export function SiteNav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="whitespace-nowrap rounded-control px-3.5 py-2 text-sm font-semibold text-fg-muted transition-colors duration-300 hover:bg-white/[0.08] hover:text-fg"
+                aria-current={isActive(link.href) ? "page" : undefined}
+                className={cn(
+                  "whitespace-nowrap rounded-control px-3.5 py-2 text-sm font-semibold text-fg-muted transition-colors duration-300 hover:bg-white/[0.08] hover:text-fg",
+                  "aria-[current=page]:bg-white/[0.08] aria-[current=page]:text-fg",
+                )}
               >
                 {link.label}
               </Link>
@@ -137,7 +138,8 @@ export function SiteNav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="tap-target flex items-center rounded-field px-3 py-3 text-base font-semibold text-fg-muted hover:bg-white/[0.06] hover:text-fg"
+                  aria-current={isActive(link.href) ? "page" : undefined}
+                  className="tap-target flex items-center rounded-field px-3 py-3 text-base font-semibold text-fg-muted hover:bg-white/[0.06] hover:text-fg aria-[current=page]:bg-white/[0.06] aria-[current=page]:text-fg"
                 >
                   {link.label}
                 </Link>

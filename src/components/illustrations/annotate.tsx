@@ -85,7 +85,7 @@ export function Annotate({
           delay={delay}
           duration={variant === "double" ? 0.8 : 1.3}
           stagger={variant === "double" ? 0.25 : 0.28}
-          className={cn("size-full text-accent [&_path]:[stroke-width:var(--annotate-sw,5)]", markClassName)}
+          className={cn("size-full text-tertiary [&_path]:[stroke-width:var(--annotate-sw,5)]", markClassName)}
         />
       </span>
     </div>

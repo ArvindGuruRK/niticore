@@ -11,32 +11,19 @@ import { Reveal } from "@/components/motion/reveal";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { WarpHeading } from "@/components/motion/warp-heading";
 import { Container } from "@/components/ui/container";
+import { CARD_TONES, type CardTone } from "@/lib/card-tones";
 import { cn } from "@/lib/utils";
-
-/**
- * Same gradient tone set as FrameworkCards (blue, violet, green built from the ink/signal/aura
- * ramps), reused here so the two "solid coloured panel" sections read as one family.
- */
-const TONES = {
-  blue: ["#1a1260", "#2f2a8c"],
-  violet: ["#4a33b8", "#7654e0"],
-  green: ["#0f4a1d", "#1f8a31"],
-} as const;
-
-type Tone = keyof typeof TONES;
 
 type Pillar = {
   tag: string;
   title: string;
   description: string;
   icon: Icon;
-  tone: Tone;
+  tone: CardTone;
   /** Placeholder photography standing in for a product screenshot/clip */
   image: string;
   alt: string;
 };
-
-const grad = ([a, b]: readonly [string, string]) => `linear-gradient(135deg, ${a}, ${b})`;
 
 /** Every placeholder photo is cropped to the same 4:3 box at the source, so no card's image is
  * naturally taller than another's and every StackCard can share one plain height pattern. */
@@ -150,8 +137,10 @@ function StackCard({ pillar, imageFirst = false }: { pillar: Pillar; imageFirst?
   const media = <Media pillar={pillar} className="min-h-44 flex-1 sm:min-h-52" />;
   return (
     <div
-      className="flex h-full flex-col gap-4 rounded-panel border border-white/10 p-6 shadow-panel sm:p-7"
-      style={{ backgroundImage: grad(TONES[pillar.tone]) }}
+      className={cn(
+        "flex h-full flex-col gap-4 rounded-panel border border-white/10 p-6 shadow-panel sm:p-7",
+        CARD_TONES[pillar.tone].className,
+      )}
     >
       {imageFirst ? (
         <>
@@ -175,8 +164,10 @@ function StackCard({ pillar, imageFirst = false }: { pillar: Pillar; imageFirst?
 function CenterCard({ pillar }: { pillar: Pillar }) {
   return (
     <div
-      className="flex flex-col gap-6 rounded-panel border border-white/10 p-6 shadow-panel sm:flex-row sm:items-stretch sm:p-7"
-      style={{ backgroundImage: grad(TONES[pillar.tone]) }}
+      className={cn(
+        "flex flex-col gap-6 rounded-panel border border-white/10 p-6 shadow-panel sm:flex-row sm:items-stretch sm:p-7",
+        CARD_TONES[pillar.tone].className,
+      )}
     >
       <div className="flex flex-col justify-center gap-4 sm:w-[38%] sm:shrink-0">
         <Header pillar={pillar} />
@@ -193,8 +184,8 @@ function CenterCard({ pillar }: { pillar: Pillar }) {
  * full-width centred card, repeated. Each row alternates text-top and image-top stack cards instead
  * of repeating the same layout six times, and the two full-width cards centre their content instead
  * of splitting it left/right. Images are placeholder photography (MediaReveal wipes them in
- * bottom-to-top) until real product screenshots or clips replace them. Recolours FrameworkCards'
- * blue/violet/green tone set.
+ * bottom-to-top) until real product screenshots or clips replace them. Uses the shared card tones
+ * (card-blue / card-violet / card-green).
  */
 export function AgenticGovernance() {
   return (

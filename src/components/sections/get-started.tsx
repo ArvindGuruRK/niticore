@@ -10,19 +10,36 @@ import { Container } from "@/components/ui/container";
  *  own bottom space is intentionally tight (not pb-section) so the ribbon sits close to the
  *  footer's top edge, not floating a full section-gap above it. Matches the footer's own
  *  internal rhythm (pt-6/8, mt-4/6) rather than the page's section-to-section spacing. */
-export function GetStarted() {
+type Cta = { label: string; href: string };
+
+/** Defaults are the landing copy. Inner pages pass their own heading, lead and actions, and keep the ribbon. */
+export function GetStarted({
+  title = "Ready to get started?",
+  lead = "Book a walkthrough or launch your first assessment. See the governance loop running on your own AI inventory in under a week.",
+  primary = { label: "Book a demo", href: "#demo" },
+  secondary,
+}: {
+  title?: string;
+  lead?: string;
+  primary?: Cta;
+  secondary?: Cta;
+}) {
   return (
     <section aria-labelledby="get-started-heading" className="pb-6 sm:pb-8">
       <Container>
         <Reveal className="flex flex-col items-center gap-6 text-center">
-          <WarpHeading id="get-started-heading" text="Ready to get started?" className="type-h2 text-fg" />
-          <p className="type-lead max-w-lg">
-            Book a walkthrough or launch your first assessment. See the governance loop running on your own AI
-            inventory in under a week.
-          </p>
-          <Button href="#demo" size="lg" arrow>
-            Book a demo
-          </Button>
+          <WarpHeading id="get-started-heading" text={title} className="type-h2 max-w-3xl text-fg" />
+          <p className="type-lead max-w-lg">{lead}</p>
+          <div className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:justify-center">
+            <Button href={primary.href} size="lg" arrow>
+              {primary.label}
+            </Button>
+            {secondary && (
+              <Button href={secondary.href} size="lg" variant="secondary">
+                {secondary.label}
+              </Button>
+            )}
+          </div>
         </Reveal>
       </Container>
 
