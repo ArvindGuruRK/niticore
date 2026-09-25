@@ -24,7 +24,8 @@ const INTERVAL = 2.8;
  * seconds, lighting every bar up to the current level like signal strength (the fills climb bar by
  * bar, the current bar lifts, the ruler fills to it, the detail panel fades up). After level 5 it
  * drains from the top back to level 1 and climbs again.
- * Autoplay runs whenever the meter is on screen, hover or not. A click or the arrow keys jump to a
+ * Autoplay runs whenever the meter is on screen, hover or not. Each time the meter comes back on
+ * screen it starts over: all bars drain, bar 1 fills, and the climb carries on from level 2. A click or the arrow keys jump to a
  * level, and the climb carries on from that level with a fresh interval.
  * All five detail panels share one grid cell, so the card keeps the tallest panel's height and the
  * page below never moves while it plays.
@@ -56,6 +57,23 @@ export function MaturityLadder({ levels }: { levels: Level[] }) {
     timer.current?.kill();
     timer.current = gsap.delayedCall(INTERVAL, () => setActive((a) => (a + 1) % levels.length));
     sync();
+  };
+
+  /**
+   * Start the climb over from level 1: every bar drains at once, then bar 1 fills and the climb
+   * carries on from there. Runs each time the meter comes back on screen.
+   */
+  const restart = () => {
+    timer.current?.kill();
+    timer.current = null;
+    light(-1, false);
+    if (wanted.current === 0) {
+      // Already on level 1, so no state change will fire the level effect: light it here
+      light(0, true);
+      schedule();
+    } else {
+      setActive(0);
+    }
   };
 
   useEffect(() => () => void timer.current?.kill(), []);
@@ -154,6 +172,8 @@ export function MaturityLadder({ levels }: { levels: Level[] }) {
           end: "bottom 15%",
           onToggle: (self) => {
             onScreen.current = self.isActive;
+            // Back on screen after the entrance: begin again from level 1, not where it paused
+            if (self.isActive && entered.current) restart();
             sync();
           },
         });
