@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/ssr";
 import { FooterMark } from "@/components/motion/footer-mark";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal } from "@/components/motion/reveal";
@@ -7,10 +8,11 @@ import { NAV_LINKS } from "@/lib/site";
 
 const SITEMAP = [{ label: "Home", href: "/" }, ...NAV_LINKS];
 
+// X has no link yet: it stays "#" (and opens in place) until the handle is ready.
 const SOCIALS = [
-  { label: "LinkedIn", href: "#" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/niticore-ai/", external: true },
+  { label: "Instagram", href: "https://www.instagram.com/niticore_ai/", external: true },
   { label: "X", href: "#" },
-  { label: "GitHub", href: "#" },
 ];
 
 const INFOS = [
@@ -18,7 +20,14 @@ const INFOS = [
   { label: "Privacy Policy", href: "#" },
 ];
 
-type FooterLink = { label: string; href: string };
+/** `external` opens in a new tab and shows the ↗ arrow; everything else shows → on hover. */
+type FooterLink = { label: string; href: string; external?: boolean };
+
+const linkClass =
+  "group type-h4 inline-flex items-center gap-2 text-fg-muted transition-colors duration-200 hover:text-fg focus-visible:text-fg";
+// Slides in from the left and fades up on hover or keyboard focus, like the Ask AI links in the hero
+const arrowClass =
+  "size-4 shrink-0 -translate-x-1 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100";
 
 function FooterColumn({ index, title, links }: { index: string; title: string; links: FooterLink[] }) {
   return (
@@ -30,12 +39,18 @@ function FooterColumn({ index, title, links }: { index: string; title: string; l
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
           <li key={link.label}>
-            <Link
-              href={link.href}
-              className="type-h4 text-fg-muted transition-colors duration-200 hover:text-fg"
-            >
-              {link.label}
-            </Link>
+            {link.external ? (
+              <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                {link.label}
+                <span className="sr-only"> (opens in a new tab)</span>
+                <ArrowUpRight aria-hidden weight="bold" className={arrowClass} />
+              </a>
+            ) : (
+              <Link href={link.href} className={linkClass}>
+                {link.label}
+                <ArrowRight aria-hidden weight="bold" className={arrowClass} />
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -83,8 +98,20 @@ export function Footer() {
 
         <FooterMark className="mt-4 sm:mt-6" />
 
-        <Container className="relative border-t border-line py-6">
+        <Container className="relative flex flex-col gap-4 border-t border-line py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="type-caption">© {new Date().getFullYear()} Niticore. All rights reserved.</p>
+          <p className="type-caption flex items-center gap-3">
+            Designed by
+            {/* eslint-disable-next-line @next/next/no-img-element -- static white SVG wordmark; next/image won't optimise SVG */}
+            <img
+              src="/logo/trident-logo-white.svg"
+              alt="Trident Solutions"
+              width={115}
+              height={16}
+              loading="lazy"
+              className="h-4 w-auto opacity-80"
+            />
+          </p>
         </Container>
       </footer>
     </div>
