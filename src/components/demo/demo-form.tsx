@@ -33,7 +33,18 @@ const IDS: Record<DemoField, string> = {
  *   shows an alert above the button with the form still filled in, ready to retry.
  * - On success the form is replaced by a confirmation panel that takes focus, with confetti.
  */
-export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frameworks: string[]; submit: string }) {
+export function DemoForm({
+  roles,
+  frameworks,
+  submit,
+  nextStep,
+}: {
+  roles: string[];
+  frameworks: string[];
+  submit: string;
+  /** One line beside the button: what happens after sending */
+  nextStep: string;
+}) {
   const [state, dispatch, pending] = useActionState(requestDemo, INITIAL);
   const errors = state.status === "invalid" ? state.errors : {};
 
@@ -67,7 +78,7 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
 
       <fieldset disabled={pending} className="flex min-w-0 flex-col gap-6">
         <div className="grid gap-6 sm:grid-cols-2">
-          <Field label="Full name" htmlFor={IDS.name} error={errors.name}>
+          <Field label="Full name" htmlFor={IDS.name} error={errors.name} required>
             <Input
               id={IDS.name}
               name="name"
@@ -78,7 +89,7 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
               aria-describedby={described("name")}
             />
           </Field>
-          <Field label="Work email" htmlFor={IDS.email} error={errors.email}>
+          <Field label="Work email" htmlFor={IDS.email} error={errors.email} required>
             <Input
               id={IDS.email}
               name="email"
@@ -90,7 +101,7 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
               aria-describedby={described("email")}
             />
           </Field>
-          <Field label="Company" htmlFor={IDS.company} error={errors.company}>
+          <Field label="Company" htmlFor={IDS.company} error={errors.company} required>
             <Input
               id={IDS.company}
               name="company"
@@ -101,7 +112,7 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
               aria-describedby={described("company")}
             />
           </Field>
-          <Field label="Your role" htmlFor={IDS.role} error={errors.role}>
+          <Field label="Your role" htmlFor={IDS.role} error={errors.role} required>
             <Select
               id={IDS.role}
               name="role"
@@ -145,15 +156,25 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
           </p>
         )}
 
-        <Button type="submit" size="lg" arrow={!pending} aria-busy={pending} className="self-start">
-          {pending && (
-            <span
-              aria-hidden
-              className="size-4 rounded-full border-2 border-accent-ink/30 border-t-accent-ink motion-safe:animate-spin"
-            />
-          )}
-          {pending ? "Sending…" : submit}
-        </Button>
+        {/* What happens next on the left, the action on the right; stacked with the button last on phones */}
+        <div className="flex flex-col gap-5 pt-2 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+          <p className="type-small max-w-sm text-fg">{nextStep}</p>
+          <Button
+            type="submit"
+            size="lg"
+            arrow={!pending}
+            aria-busy={pending}
+            className="w-full shrink-0 sm:w-auto"
+          >
+            {pending && (
+              <span
+                aria-hidden
+                className="size-4 rounded-full border-2 border-accent-ink/30 border-t-accent-ink motion-safe:animate-spin"
+              />
+            )}
+            {pending ? "Sending…" : submit}
+          </Button>
+        </div>
       </fieldset>
     </form>
   );

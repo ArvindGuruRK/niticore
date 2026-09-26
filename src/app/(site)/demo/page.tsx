@@ -34,7 +34,7 @@ export default function DemoPage() {
             </SplitHeading>
             <p className="type-lead max-w-2xl">{form.lead}</p>
           </div>
-          <DemoForm roles={form.roles} frameworks={form.frameworks} submit={form.submit} />
+          <DemoForm roles={form.roles} frameworks={form.frameworks} submit={form.submit} nextStep={form.nextStep} />
         </Reveal>
 
         <Reveal delay={0.2} className="flex flex-col gap-6 lg:sticky lg:top-32 lg:self-start lg:pt-10">

@@ -2,7 +2,7 @@
   "$source": "docs/content/04 §3 (gap analysis walkthrough), 02 §1 (five questions), 03 (frameworks), 06 §2 (personas)",
   "form": {
     "title": "Book your demo.",
-    "lead": "Tell us a little about your AI estate and we'll tailor the walkthrough to it.",
+    "lead": "Tell us a little about your AI estate, and a certified AI governance specialist will tailor your 45-minute walkthrough to it.",
     "roles": [
       "Board member or CEO",
       "Chief AI Officer, CTO or CIO",
@@ -22,6 +22,7 @@
       "ADGM DPR"
     ],
     "submit": "Request my demo",
+    "nextStep": "A specialist will be in touch to schedule your walkthrough.",
     "agendaTitle": "What we'll answer",
     "agenda": [
       "What AI do we actually have?",

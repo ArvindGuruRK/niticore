@@ -15,7 +15,8 @@ type VerticalTab = {
 /**
  * Side tabs: a list of options on the left, the selected one raised, and a large panel on the right
  * that fades up on every switch. The panel area keeps the tallest panel's height, so switching
- * never moves the page. Stacks (list above panel) below lg.
+ * never moves the page. From lg the list is centred vertically against the panel, so the space above
+ * and below it is even. Stacks (list above panel) below lg.
  * With `interval` (seconds) it advances by itself while on screen, and a green line fills along the
  * bottom of the selected tab as the countdown. It never stops: hovering does not pause it, and a
  * click or the arrow keys just jump to that tab and the countdown carries on from there.
@@ -117,7 +118,7 @@ export function VerticalTabs({
         role="tablist"
         aria-label={label}
         aria-orientation={top ? "horizontal" : "vertical"}
-        className={top ? "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" : "flex flex-col gap-2 self-start"}
+        className={top ? "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" : "flex flex-col gap-2 self-start lg:self-center"}
       >
         {tabs.map((tab, i) => {
           const selected = tab.id === active;
