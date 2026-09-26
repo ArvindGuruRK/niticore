@@ -12,7 +12,7 @@ import { Popcorn } from "@/components/illustrations/popcorn";
  */
 export function VideoDoodles() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 hidden md:block">
+    <div aria-hidden className="pointer-events-none absolute inset-0 hidden overflow-x-clip md:block">
       <FilmClap
         trigger="view"
         delay={0.15}

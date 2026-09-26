@@ -95,7 +95,7 @@ export function DemoForm({
       </div>
 
       <fieldset disabled={pending} className="flex min-w-0 flex-col gap-6">
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <Field label="Full name" htmlFor={IDS.name} error={errors.name} required>
             <Input
               id={IDS.name}

@@ -89,7 +89,7 @@ export function Accordion({
                 onClick={() => toggle(item.id)}
                 className={cn(
                   "flex w-full items-center justify-between gap-6 text-left transition-colors hover:bg-white/[0.03]",
-                  separated ? "px-6 py-[1.375rem]" : "px-5 py-5",
+                  separated ? "px-5 py-5 sm:px-6 sm:py-[1.375rem]" : "px-5 py-5",
                 )}
               >
                 {/* Separated rows carry the FAQ's heavier row type: a touch larger and bold. */}
@@ -121,7 +121,7 @@ export function Accordion({
               className="overflow-hidden"
               style={{ height: isOpen ? "auto" : 0 }}
             >
-              <div className={cn("type-body pb-6", separated ? "px-6" : "px-5")}>{item.content}</div>
+              <div className={cn("type-body pb-6", separated ? "px-5 sm:px-6" : "px-5")}>{item.content}</div>
             </div>
           </div>
         );

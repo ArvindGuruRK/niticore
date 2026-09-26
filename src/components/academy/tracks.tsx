@@ -35,7 +35,7 @@ export function Tracks({ tracks }: { tracks: Track[] }) {
             front={
               <div
                 className={cn(
-                  "flex h-full flex-col gap-6 rounded-panel border border-white/10 p-6 shadow-panel sm:p-8",
+                  "flex h-full flex-col gap-5 sm:gap-6 rounded-panel border border-white/10 p-card shadow-panel sm:p-8",
                   tone.className,
                 )}
               >
@@ -56,7 +56,7 @@ export function Tracks({ tracks }: { tracks: Track[] }) {
                 {/* eslint-disable-next-line @next/next/no-img-element -- external placeholder, swap for the real asset later */}
                 <img src={t.image} alt={t.alt} decoding="async" className="absolute inset-0 size-full object-cover" />
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/40 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-6 sm:p-8">
+                <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-card sm:p-8">
                   <p className="type-h3 text-fg">{t.name}</p>
                   <p className="type-body text-fg/85">
                     {t.duration} · {t.format}

@@ -44,7 +44,7 @@ export default function SolutionsPage() {
         <Container>
           <figure className="mx-auto flex max-w-5xl flex-col items-center gap-8 text-center">
             <blockquote>
-              <TextReveal as="p" text={statement.quote} className="type-h2 text-fg" />
+              <TextReveal as="p" text={statement.quote} className="type-h3 text-fg sm:type-h2" />
             </blockquote>
             <figcaption className="type-body text-tertiary">{statement.author}</figcaption>
           </figure>

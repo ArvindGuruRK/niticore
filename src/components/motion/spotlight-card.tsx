@@ -89,7 +89,7 @@ export function SpotlightCard({
     <div
       ref={root}
       className={cn(
-        "relative isolate overflow-hidden rounded-panel border border-line bg-surface p-6 shadow-panel",
+        "relative isolate overflow-hidden rounded-panel border border-line bg-surface p-card shadow-panel",
         className,
       )}
       style={light ? ({ ...style, "--light": light } as React.CSSProperties) : style}

@@ -329,7 +329,7 @@ export function MaturityLadder({ levels }: { levels: Level[] }) {
         aria-labelledby={`${uid}-t-${active}`}
         data-detail=""
         data-anim=""
-        className="grid rounded-panel border border-line bg-surface p-6 shadow-panel sm:p-8"
+        className="grid rounded-panel border border-line bg-surface p-card shadow-panel sm:p-8"
       >
         {levels.map((l, i) => {
           const shown = i === active;

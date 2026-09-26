@@ -340,6 +340,14 @@ html.lenis body {
   padding-inline: max(var(--spacing-gutter), var(--safe-left)) max(var(--spacing-gutter), var(--safe-right));
 }
 
+/* Card inner padding: 20px on phones, 24px from sm. Larger cards add their own sm:p-8 or sm:p-10 */
+@utility p-card {
+  padding: 1.25rem;
+  @media (width >= 40rem) {
+    padding: 1.5rem;
+  }
+}
+
 /* Vertical section rhythm, fluid 64 to 128px */
 @utility py-section {
   padding-block: var(--spacing-section);

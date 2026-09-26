@@ -36,7 +36,7 @@ const RUN = [
 export function AgentRun() {
   return (
     <section aria-labelledby="agent-heading" className="pb-section">
-      <Container className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Container className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <div className="flex flex-col gap-10">
           <SectionHeader
             id="agent-heading"

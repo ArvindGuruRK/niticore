@@ -70,7 +70,7 @@ export function IndustryExplorer({ industries, frameworks }: { industries: Indus
             <div
               key={ind.id}
               className={cn(
-                "grid h-full gap-10 rounded-panel border border-white/10 p-6 shadow-panel sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14",
+                "grid h-full gap-10 rounded-panel border border-white/10 p-card shadow-panel sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14",
                 CARD_TONES[ind.tone as CardTone].className,
               )}
             >

@@ -2,7 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { NO_REDUCE } from "@/lib/motion";
+import { FINE_POINTER, NO_REDUCE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type MarqueeProps = {
@@ -70,7 +70,8 @@ export function Marquee({
           cleanups.push(() => st.kill());
         }
 
-        if (pauseOnHover) {
+        // Mouse only: on touch, pointerenter fires as a swipe begins and froze the lane mid-scroll
+        if (pauseOnHover && window.matchMedia(FINE_POINTER).matches) {
           const el = root.current!;
           const slow = () => gsap.to(tween, { timeScale: 0, duration: 0.25, overwrite: true });
           const resume = () => gsap.to(tween, { timeScale: 1, duration: 0.5, overwrite: true });

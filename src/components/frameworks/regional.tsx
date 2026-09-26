@@ -50,7 +50,7 @@ export function Regional({ milestones, jurisdictions }: { milestones: Milestone[
               light={tone.light}
               solid
               className={cn(
-                "flex h-full flex-col gap-6 border-white/10 p-6 sm:p-8 lg:row-span-3 lg:grid lg:grid-rows-subgrid",
+                "flex h-full flex-col gap-6 border-white/10 p-card sm:p-8 lg:row-span-3 lg:grid lg:grid-rows-subgrid",
                 tone.className,
               )}
             >

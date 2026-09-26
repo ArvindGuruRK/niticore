@@ -21,7 +21,7 @@ import { Sparkle } from "@/components/illustrations/sparkle";
  */
 export function DemoDoodles() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden text-tertiary md:block">
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden overflow-x-clip text-tertiary md:block">
       <Sparkle size={48} trigger="load" delay={0.4} className="absolute left-[3vw] top-[16%]" />
       {/* Top of the card: the section's top padding (lg:pt-40) plus a little */}
       <Drift delay={3} className="absolute right-0 top-[calc(10rem+var(--safe-top))] w-[clamp(10rem,15vw,16rem)]">

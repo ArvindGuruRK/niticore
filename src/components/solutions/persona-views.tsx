@@ -45,7 +45,7 @@ export function PersonaViews({ personas, providesTitle }: { personas: Persona[];
           content: (
             <div
               key={p.id}
-              className="grid gap-10 rounded-panel border border-line-strong bg-surface p-6 shadow-panel sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14"
+              className="grid gap-8 rounded-panel border border-line-strong bg-surface p-card shadow-panel sm:gap-10 sm:p-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex items-center gap-4">
@@ -53,7 +53,7 @@ export function PersonaViews({ personas, providesTitle }: { personas: Persona[];
                   <p className="type-h4 text-fg">{p.role}</p>
                 </div>
                 <blockquote>
-                  <p className="type-h2 text-fg">{p.question}</p>
+                  <p className="type-h3 text-fg sm:type-h2">{p.question}</p>
                 </blockquote>
               </div>
 
@@ -61,7 +61,7 @@ export function PersonaViews({ personas, providesTitle }: { personas: Persona[];
                 <h3 className="type-h4 text-fg">{providesTitle}</h3>
                 <ul className="flex flex-col gap-3">
                   {p.provides.map((item) => (
-                    <li key={item} className="flex gap-4 rounded-field bg-raised px-5 py-4">
+                    <li key={item} className="flex gap-3 rounded-field bg-raised px-4 py-3.5 sm:gap-4 sm:px-5 sm:py-4">
                       <Check weight="bold" aria-hidden className="mt-1 size-4 shrink-0 text-accent" />
                       <span className="type-body text-fg">{item}</span>
                     </li>

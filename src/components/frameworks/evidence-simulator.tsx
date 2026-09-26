@@ -20,7 +20,8 @@ const WIRES = [100, 300, 500, 700, 900].map((x) => `M500 0 C 500 70, ${x} 50, ${
  * pulses the action, draws a green wire to each framework in turn, and ticks that framework's clause
  * as satisfied, then the tally lands. Plays each time it is scrolled into view (re-arming only once
  * it is fully off screen, so it never resets while seen).
- * Wires show from lg up; below that the cards stack and still tick in order. Reduced motion (and no
+ * Wires show from lg up; below that the cards stack and still tick in order (on phones each card is
+ * one compact row). Reduced motion (and no
  * JS) shows the finished state.
  */
 export function EvidenceSimulator({
@@ -77,7 +78,7 @@ export function EvidenceSimulator({
       {/* The action */}
       <div
         data-action=""
-        className="flex w-full max-w-sm flex-col items-center gap-1 rounded-panel border-2 border-line-strong bg-surface p-6 text-center shadow-panel sm:p-8"
+        className="flex w-full max-w-sm flex-col items-center gap-1 rounded-panel border-2 border-line-strong bg-surface p-card text-center shadow-panel sm:p-8"
       >
         <h3 className="type-h3 text-fg">{action.title}</h3>
         <p className="type-body">{action.subject}</p>
@@ -100,23 +101,24 @@ export function EvidenceSimulator({
             key={t.framework}
             data-target=""
             data-done="true"
-            className="group flex flex-col gap-4 rounded-panel border-2 border-line bg-surface p-5 shadow-panel transition-colors duration-500 data-[done=true]:border-tertiary data-[done=true]:bg-accent/[0.06] sm:last:col-span-2 lg:last:col-span-1"
+            className="group grid grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-0.5 rounded-panel border-2 border-line bg-surface p-4 shadow-panel transition-colors duration-500 data-[done=true]:border-tertiary data-[done=true]:bg-accent/[0.06] sm:flex sm:flex-col sm:items-stretch sm:gap-4 sm:p-5 sm:last:col-span-2 lg:last:col-span-1"
           >
-            <div className="flex items-center justify-between gap-3">
+            {/* Phones: one compact row (logo, text, tick). From sm: logo and tick share a top row */}
+            <div className="contents sm:flex sm:items-center sm:justify-between sm:gap-3">
               {t.logo ? (
-                <Image src={t.logo} alt="" width={112} height={112} className="size-12 object-contain" />
+                <Image src={t.logo} alt="" width={112} height={112} className="row-span-2 size-10 object-contain sm:size-12" />
               ) : (
-                <Buildings weight="fill" aria-hidden className="size-12 text-fg" />
+                <Buildings weight="fill" aria-hidden className="row-span-2 size-10 text-fg sm:size-12" />
               )}
-              <span className="grid size-8 place-items-center rounded-full border border-line-strong text-transparent transition-all duration-500 group-data-[done=true]:scale-110 group-data-[done=true]:border-accent group-data-[done=true]:bg-accent group-data-[done=true]:text-accent-ink">
+              <span className="col-start-3 row-span-2 row-start-1 grid size-8 place-items-center rounded-full border border-line-strong text-transparent transition-all duration-500 group-data-[done=true]:scale-110 group-data-[done=true]:border-accent group-data-[done=true]:bg-accent group-data-[done=true]:text-accent-ink">
                 <Check weight="bold" aria-hidden className="size-4" />
               </span>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="col-start-2 row-start-1 flex flex-col gap-0.5 sm:gap-1">
               <h4 className="type-h4 text-fg">{t.framework}</h4>
               <p className="type-small">{t.clause}</p>
             </div>
-            <p className="type-small mt-auto font-semibold text-fg-subtle transition-colors duration-500 group-data-[done=true]:text-accent">
+            <p className="type-small col-start-2 row-start-2 font-semibold sm:mt-auto text-fg-subtle transition-colors duration-500 group-data-[done=true]:text-accent">
               <span className="group-data-[done=true]:hidden">Waiting</span>
               <span className="hidden group-data-[done=true]:inline">Satisfied</span>
             </p>

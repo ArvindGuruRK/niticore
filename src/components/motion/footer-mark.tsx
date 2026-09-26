@@ -12,7 +12,8 @@ const LOGO_RATIO = "156/38";
 
 /**
  * Closes out the footer: the full Niticore wordmark, shown in full (client feedback: a partially
- * cropped mark read as a rendering bug rather than an intentional bleed). Revealed last, after
+ * cropped mark read as a rendering bug rather than an intentional bleed). Three quarters width on
+ * phones, where edge to edge read as oversized. Revealed last, after
  * the link columns above it have settled, and again on every return to the footer.
  */
 export function FooterMark({ className }: { className?: string }) {
@@ -49,7 +50,7 @@ export function FooterMark({ className }: { className?: string }) {
       ref={root}
       data-anim=""
       aria-hidden
-      className={cn("relative mx-auto w-full max-w-5xl overflow-hidden", className)}
+      className={cn("relative mx-auto w-3/4 max-w-5xl overflow-hidden sm:w-full", className)}
       style={{ aspectRatio: LOGO_RATIO }}
     >
       <Image

@@ -89,7 +89,7 @@ export function TiltCard({ max = 9, className, frameClassName, children, ...prop
       <div
         ref={card}
         className={cn(
-          "relative isolate h-full overflow-hidden rounded-panel border border-line bg-surface p-6 shadow-panel will-change-transform",
+          "relative isolate h-full overflow-hidden rounded-panel border border-line bg-surface p-card shadow-panel will-change-transform",
           className,
         )}
         {...props}

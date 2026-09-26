@@ -21,17 +21,17 @@ function Shape({ shape, side }: { shape: DoodleShape; side: "left" | "right" }) 
  * Hand-drawn line art for the inner-page heroes, after the Postiz reference: one shape bleeding off
  * each viewport edge, at different heights so the pair reads as scattered rather than mirrored.
  * Violet (text-tertiary) like every illustration on the site. Each page passes its own pair, so the
- * five heroes share one language without repeating. On phones the shapes shrink and move clear of
- * the copy: the right one up beside the sparkle, the left one down below the description.
+ * five heroes share one language without repeating. Hidden below lg: on phones and tablets
+ * there is no room beside the centred copy, so the shapes ran over the headline and lead.
  */
 export function PageDoodles({ left, right }: { left: DoodleShape; right: DoodleShape }) {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 text-tertiary">
+    <div aria-hidden className="pointer-events-none absolute inset-0 hidden text-tertiary lg:block">
       <Drift
         delay={DRAW_AT.left + 1.6}
         className={cn(
-          "absolute top-[76%] w-[clamp(5rem,11vw,12.5rem)] md:top-[52%]",
-          left === "zigzag" ? "left-0" : "left-[-6vw] -rotate-12 md:left-[-3.5vw]",
+          "absolute top-[52%] w-[clamp(5rem,11vw,12.5rem)]",
+          left === "zigzag" ? "left-0" : "left-[-3.5vw] -rotate-12",
         )}
       >
         <Shape shape={left} side="left" />
@@ -40,8 +40,8 @@ export function PageDoodles({ left, right }: { left: DoodleShape; right: DoodleS
         delay={DRAW_AT.right + 1.6}
         amount={8}
         className={cn(
-          "absolute top-[15%] w-[clamp(5rem,11vw,12.5rem)] md:top-[20%]",
-          right === "zigzag" ? "right-0" : "right-[-6vw] rotate-12 md:right-[-3.5vw]",
+          "absolute top-[20%] w-[clamp(5rem,11vw,12.5rem)]",
+          right === "zigzag" ? "right-0" : "right-[-3.5vw] rotate-12",
         )}
       >
         <Shape shape={right} side="right" />

@@ -2,7 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { EASE, NO_REDUCE } from "@/lib/motion";
+import { DIST, DUR, EASE, NO_REDUCE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 type Step = { title: string; body: ReactNode };
@@ -10,6 +10,9 @@ type Step = { title: string; body: ReactNode };
 /**
  * Pin and scrub: the block pins at the viewport top while vertical scroll
  * crossfades through the steps. Base pattern for the 7-stage governance loop.
+ * Only on lg+ screens (1024px and up) without reduced motion, like HorizontalScroll. Below lg the
+ * steps stack as a list that fades in step by step: on phones a long pin felt like the page had
+ * stopped scrolling (a swipe moved nothing but the text), and touch keeps its native momentum.
  * Under reduced motion the steps stack as a plain list.
  *
  * `aside` renders a second column (e.g. an illustration) that holds still next to the crossfading
@@ -51,7 +54,18 @@ export function PinScrub({
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      mm.add(NO_REDUCE, () => {
+      mm.add(`${NO_REDUCE} and (max-width: 1023.98px)`, () => {
+        gsap.utils.toArray<HTMLElement>("[data-step]", root.current).forEach((item) => {
+          gsap.from(item, {
+            opacity: 0,
+            y: DIST,
+            duration: DUR.base,
+            ease: EASE.out,
+            scrollTrigger: { trigger: item, start: "top 88%", once: true },
+          });
+        });
+      });
+      mm.add(`${NO_REDUCE} and (min-width: 1024px)`, () => {
         const items = gsap.utils.toArray<HTMLElement>("[data-step]", root.current);
         const bar = barRef.current;
         gsap.set(items.slice(1), { opacity: 0, y: 28 });
@@ -83,12 +97,12 @@ export function PinScrub({
   );
 
   const stepStack = (
-    <div className="grid motion-reduce:gap-8">
+    <div className="grid gap-12 lg:motion-safe:gap-0">
       {steps.map((step, i) => (
         <div
           key={step.title}
           data-step=""
-          className="col-start-1 row-start-1 flex max-w-2xl flex-col gap-3 motion-reduce:col-auto motion-reduce:row-auto"
+          className="flex max-w-2xl flex-col gap-3 lg:motion-safe:col-start-1 lg:motion-safe:row-start-1"
         >
           <p className="type-caption tabular-nums">{String(i + 1).padStart(2, "0")}</p>
           <h3 className="type-h2 text-fg">{step.title}</h3>
@@ -102,8 +116,8 @@ export function PinScrub({
     <div
       ref={root}
       className={cn(
-        "relative isolate flex min-h-[var(--pin-min-h)] flex-col gap-10 motion-reduce:min-h-0 motion-reduce:py-10",
-        topAlign ? "justify-start pt-24" : "justify-center",
+        "relative isolate flex flex-col gap-10 lg:motion-safe:min-h-[var(--pin-min-h)]",
+        topAlign ? "justify-start lg:motion-safe:pt-24" : "lg:motion-safe:justify-center",
       )}
       style={{ "--pin-min-h": minHeight } as React.CSSProperties}
     >
@@ -113,7 +127,7 @@ export function PinScrub({
         </div>
       )}
       {showBar && (
-        <div className="absolute inset-x-0 top-16 h-0.5 bg-line-strong motion-reduce:hidden">
+        <div className="absolute inset-x-0 top-16 hidden h-0.5 bg-line-strong lg:motion-safe:block">
           <div ref={barRef} className="h-full origin-left scale-x-0 bg-accent" />
         </div>
       )}

@@ -222,7 +222,7 @@ export function ReadinessCheck({
       {/* Question card, then the result */}
       <div
         data-panel=""
-        className="rounded-panel border border-line-strong bg-surface p-5 shadow-panel sm:p-8"
+        className="rounded-panel border border-line-strong bg-surface p-4 shadow-panel sm:p-8"
         onKeyDown={onKeyDown}
       >
         {/* Progress: one segment per dimension; each is a button back to its question */}
@@ -324,7 +324,7 @@ export function ReadinessCheck({
       <aside
         data-panel=""
         aria-label="Your readiness score"
-        className="flex flex-col rounded-panel border border-line bg-surface/60 p-5 shadow-panel sm:p-8 lg:sticky lg:top-28"
+        className="flex flex-col rounded-panel border border-line bg-surface/60 p-4 shadow-panel sm:p-8 lg:sticky lg:top-28"
       >
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
           <div className="flex flex-col gap-1">

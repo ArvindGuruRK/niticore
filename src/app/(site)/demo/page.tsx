@@ -26,7 +26,7 @@ export default function DemoPage() {
       />
       <DemoDoodles />
 
-      <Container className="grid gap-10 pb-section pt-[calc(8rem+var(--safe-top))] sm:pt-36 lg:grid-cols-[1.85fr_1fr] lg:gap-14 lg:pt-40">
+      <Container className="grid grid-cols-1 gap-10 pb-section pt-[calc(8rem+var(--safe-top))] sm:pt-36 lg:grid-cols-[1.85fr_1fr] lg:gap-14 lg:pt-40">
         <Reveal className="flex flex-col gap-10 rounded-panel border border-line-strong bg-surface p-6 shadow-panel sm:p-10">
           <div className="flex flex-col gap-4">
             <SplitHeading as="h1" id="book-heading" by="words" trigger="load" className="type-h2 text-fg">

@@ -123,7 +123,8 @@ export function LogStream({
       </div>
 
       <div className="overflow-x-auto p-4 text-[0.8125rem] leading-[1.75] sm:p-6 sm:text-[0.9375rem] xl:text-base">
-        <div className="min-w-max">
+        {/* Phones: lines wrap under their text, with the level as a fixed column. From sm: one line each */}
+        <div className="sm:min-w-max">
           <p className="text-fg">
             <Prompt cwd={cwd} />
             <span className="sr-only">{command}</span>
@@ -141,14 +142,14 @@ export function LogStream({
             {lines.map((line, i) => {
               const level = LEVEL[line.level];
               return (
-                <li key={i} data-line="" className="whitespace-pre">
+                <li key={i} data-line="" className="flex gap-[1ch] sm:block sm:whitespace-pre">
                   {line.time && (
                     <>
-                      <span className="text-fg-subtle/70">{line.time}</span>
+                      <span className="shrink-0 text-fg-subtle/70">{line.time}</span>
                       {"  "}
                     </>
                   )}
-                  <span className={cn("inline-block w-[6ch] font-bold", level.className)}>{level.label}</span>
+                  <span className={cn("inline-block w-[6ch] shrink-0 font-bold", level.className)}>{level.label}</span>
                   {" "}
                   <span className="text-fg-muted">{line.text}</span>
                 </li>

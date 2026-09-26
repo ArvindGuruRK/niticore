@@ -77,7 +77,7 @@ export function Pillars() {
                 key={pillar.title}
                 light={tone.light}
                 solid
-                className={cn("flex h-full flex-col gap-6 border-white/10 p-6 sm:p-8", tone.className)}
+                className={cn("flex h-full flex-col gap-6 border-white/10 p-card sm:p-8", tone.className)}
               >
                 <div className="flex items-center justify-between">
                   <span className="grid size-12 place-items-center rounded-full bg-white/15 text-fg">

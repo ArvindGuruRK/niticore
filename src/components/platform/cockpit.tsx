@@ -40,7 +40,7 @@ export function Cockpit() {
 
         <MediaReveal zoom={1.04} className="rounded-panel border border-line-strong bg-surface shadow-panel">
           {/* Three columns, each opened by its title, so the three titles share one row */}
-          <div className="grid gap-10 p-6 sm:p-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-12">
+          <div className="grid gap-10 p-card sm:p-8 lg:grid-cols-[auto_1fr_1fr] lg:gap-12">
             <div className="flex flex-col gap-5 lg:pr-4">
               <p className="type-body font-semibold text-fg">Governance Health</p>
               <div className="flex justify-center sm:justify-start lg:justify-center">

@@ -61,7 +61,8 @@ These conventions cover the GSAP and Lenis code. Other libraries can be used alo
 3. **No flash before animation.** `globals.css` hides animation targets before JS runs, keyed on data attributes: `data-anim`, `data-anim-stagger`, `data-word`, `data-split`, `data-draw`, `data-clip`. This applies only under `prefers-reduced-motion: no-preference`. The `<noscript>` rule in `layout.tsx` reverses it. If you add a new pre-hidden attribute, update both files.
 4. **Scrolling.** `SmoothScroll` runs Lenis from the GSAP ticker so ScrollTrigger and Lenis share one clock. Scroll programmatically with `getLenis()` from `@/lib/lenis`. Lenis is off under reduced motion, and touch uses native scrolling (`syncTouch` was tried and reverted as laggy).
 5. **Nav and banner.** `SiteNav` writes a `--scroll-y` CSS variable. CSS combines it with `--banner-h` so the nav follows the announcement bar up the page. A scrubbed ScrollTrigger then docks the floating pill into a full-width bar.
-6. **WebGL.** `motion/warp-text.tsx` is a ported React Bits `ogl` shader, used through `WarpHeading` for heading hover. Keep its logic unchanged. Tune the shared params instead.
+6. **No pinning on phones or tablets.** `PinScrub` and `HorizontalScroll` pin only at `lg` (1024px) and up. Below that they stack or swipe natively; a long pin on touch felt like the page had stopped scrolling. Hover-only effects (marquee pause, tilt) are gated on `FINE_POINTER`, since `pointerenter` also fires when a finger starts a swipe.
+7. **WebGL.** `motion/warp-text.tsx` is a ported React Bits `ogl` shader, used through `WarpHeading` for heading hover. Keep its logic unchanged. Tune the shared params instead.
 
 ## Design tokens
 
@@ -72,7 +73,8 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - **Shape.** Controls are pills (`rounded-control`), panels use `rounded-panel` (20px), fields use `rounded-field` (12px).
 - **Type.** Use the utilities, not ad-hoc sizes: `type-display`, `type-hero`, `type-h2`, `type-h3`, `type-h4`, `type-lead`, `type-body`, `type-small`, `type-caption`, `type-label`.
 - **Layout.**
-  - Spacing: `px-page`, `py-section`, `tap-target` (44px minimum).
+  - Spacing: `px-page`, `py-section`, `tap-target` (44px minimum), `p-card` (card padding: 20px on phones, 24px from `sm`; roomier cards add `sm:p-8`/`sm:p-10`).
+  - Grids that stack on phones need `grid-cols-1`: a bare `grid` column grows to its widest content (a log line, a form row) and widens the whole page on mobile.
   - Notch-safe padding: `pt-safe` and `pb-safe`, which rely on `--safe-*` and `viewport-fit=cover`.
   - Backgrounds and masks: `grid-bg` and `fabric-mask`.
   - Spacing is fluid through `clamp()`. Design mobile first; the desktop layout starts at `lg`.

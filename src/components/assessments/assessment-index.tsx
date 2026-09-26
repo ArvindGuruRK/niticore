@@ -282,7 +282,7 @@ function Sheet({ a }: { a: Assessment }) {
   };
 
   return (
-    <div data-sheet="" className="flex flex-col gap-7 rounded-panel border border-line-strong bg-surface p-6 shadow-panel sm:p-8">
+    <div data-sheet="" className="flex flex-col gap-7 rounded-panel border border-line-strong bg-surface p-card shadow-panel sm:p-8">
       <div className="flex flex-col gap-5">
         <h3 className="type-h3 text-fg">{a.name}</h3>
         <div className="flex items-center gap-5">

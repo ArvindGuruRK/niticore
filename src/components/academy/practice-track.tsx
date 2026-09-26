@@ -17,7 +17,7 @@ export function PracticeTrack({ areas }: { areas: Area[] }) {
         <article
           key={a.name}
           className={cn(
-            "flex w-[85vw] shrink-0 flex-col gap-4 rounded-panel border border-white/10 p-6 shadow-panel sm:w-[24rem] sm:p-7 lg:w-[27rem]",
+            "flex w-[85vw] shrink-0 flex-col gap-4 rounded-panel border border-white/10 p-card shadow-panel sm:w-[24rem] sm:p-7 lg:w-[27rem]",
             CARD_TONES[a.tone as CardTone].className,
           )}
         >

@@ -51,7 +51,7 @@ export function FrameworkExplorer({ frameworks }: { frameworks: Framework[] }) {
           <div
             key={f.id}
             className={cn(
-              "flex h-full flex-col gap-8 rounded-panel border border-white/10 p-6 shadow-panel sm:p-10",
+              "flex h-full flex-col gap-8 rounded-panel border border-white/10 p-card shadow-panel sm:p-10",
               CARD_TONES[f.tone as CardTone].className,
             )}
           >

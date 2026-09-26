@@ -120,7 +120,7 @@ const ANIMATIONS = [
   { name: "Text reveal", where: "motion/text-reveal", trigger: "Scrubbed to scroll", note: "Words light up as the paragraph crosses" },
   { name: "Parallax", where: "motion/parallax", trigger: "Scrubbed to scroll", note: "Depth drift on imagery and panels" },
   { name: "Count up", where: "motion/count-up", trigger: "Enters viewport, once", note: "Scores and metrics tween from zero" },
-  { name: "Pin and scrub", where: "motion/pin-scrub", trigger: "Pinned, scrubbed", note: "Base for the 7-stage governance loop" },
+  { name: "Pin and scrub", where: "motion/pin-scrub", trigger: "Pinned, scrubbed", note: "Base for the 7-stage governance loop. lg+ only; below that the steps stack and fade in" },
   { name: "Magnetic", where: "motion/magnetic", trigger: "Pointer proximity", note: "Primary CTA only, fine pointers" },
   { name: "Back to top", where: "motion/back-to-top", trigger: "Scrubbed ring, shows after 320px", note: "Circle button with page-progress ring, scrolls up via Lenis" },
   { name: "Nav float to dock", where: "site-nav", trigger: "Scrubbed, first 160px", note: "Floating panel widens to a full-width bar" },
@@ -156,11 +156,12 @@ const ANIMATIONS = [
 ];
 
 const RESPONSIVE: [string, string, string][] = [
-  ["Mobile", "320 to 639px", "Single column. Fabric sits under hero copy. Horizontal scroll is a swipe row. 44px touch targets."],
+  ["Mobile", "320 to 639px", "Single column. No pinned sections: horizontal scroll is a swipe row, pin-scrub steps stack. Inner-page hero doodles hidden (they return at lg). 44px touch targets."],
   ["Large phone", "sm, 640px", "Nav shows the Book a demo button. Gutter keeps growing fluidly."],
   ["Tablet", "md 768 to lg 1023px", "Two and three column grids begin. Nav still uses the menu. No pinned horizontal scroll on touch tablets."],
-  ["Desktop", "lg 1024px and up", "Full nav, hero fabric on the right, wide data rows, pinned horizontal scroll."],
+  ["Desktop", "lg 1024px and up", "Full nav, hero fabric on the right, wide data rows, pinned horizontal scroll and pin-scrub."],
   ["px-page", "clamp(1rem, 0.6rem + 1.6vw, 2rem)", "Horizontal gutter. Clears notches through the safe-area tokens."],
+  ["p-card", "20px, 24px from sm", "Card inner padding. Roomier cards add their own sm:p-8 or sm:p-10; phones always get 20px."],
   ["py-section", "clamp(4rem, 2.4rem + 6vw, 8rem)", "Vertical rhythm between sections. spacing-stack is the gap inside one."],
   ["Type scale", "clamp() per token", "Headings, lead and display scale fluidly. Body stays 16px."],
   ["Viewport", "dvh, viewport-fit=cover", "Full-height sections use dvh so the mobile URL bar never crops them. ScrollTrigger ignores URL-bar resizes."],
@@ -520,7 +521,8 @@ export default function DesignSystemPage() {
             <h2 className="type-h3 text-fg">Pin and scrub</h2>
             <p className="type-body max-w-[65ch]">
               The block pins at the viewport top and scroll crossfades through the steps. This is the pattern for the
-              7-stage governance loop.
+              7-stage governance loop. It pins from lg (1024px) up; on phones and tablets the steps stack and fade in
+              one by one, so a swipe always moves the page.
             </p>
           </div>
           <PinScrub steps={PIN_STEPS} />

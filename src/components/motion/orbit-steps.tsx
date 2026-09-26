@@ -93,7 +93,7 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
   const step = steps[active];
 
   return (
-    <div ref={root} className={cn("grid items-center gap-12 lg:grid-cols-2 lg:gap-16", className)}>
+    <div ref={root} className={cn("grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16", className)}>
       <div className="relative mx-auto aspect-square w-full max-w-[22rem] sm:max-w-[30rem]">
         <svg aria-hidden viewBox="0 0 400 400" className="absolute inset-0 size-full -rotate-90 overflow-visible">
           <circle cx="200" cy="200" r="168" fill="none" stroke="var(--color-line-strong)" strokeWidth="2" />
@@ -165,7 +165,7 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
         id={`${uid}-panel`}
         role="tabpanel"
         aria-labelledby={`${uid}-t-${active}`}
-        className="flex flex-col gap-5 rounded-panel border border-line bg-surface p-6 shadow-panel sm:p-8"
+        className="flex flex-col gap-5 rounded-panel border border-line bg-surface p-card shadow-panel sm:p-8"
       >
         <p data-swap="" className="type-label text-fg-subtle">
           {pad(active + 1)} / {pad(n)}
