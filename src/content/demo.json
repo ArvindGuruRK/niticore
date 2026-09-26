@@ -1,17 +1,13 @@
 {
-  "$source": "docs/content/04 §3 (gap analysis walkthrough), 02 §1 (five questions), 03 (frameworks), 06 §2 (personas)",
+  "$source": "docs/content/04 §3 (gap analysis walkthrough), 02 §1 (five questions), 03 (frameworks)",
   "form": {
     "title": "Book your demo.",
-    "lead": "Tell us a little about your AI estate, and a certified AI governance specialist will tailor your 45-minute walkthrough to it.",
-    "roles": [
-      "Board member or CEO",
-      "Chief AI Officer, CTO or CIO",
-      "Chief Risk Officer or risk manager",
-      "General Counsel or Chief Compliance Officer",
-      "Data Protection Officer",
-      "AI engineer or data scientist",
-      "Internal or external auditor"
-    ],
+    "lead": "Tell us a little about your AI estate, and a certified AI governance specialist will tailor a live walkthrough to your systems, risks and frameworks.",
+    "phone": {
+      "label": "Phone number",
+      "hint": "We'll only use it to schedule your demo.",
+      "search": "Search countries"
+    },
     "frameworks": [
       "EU AI Act",
       "ISO/IEC 42001",

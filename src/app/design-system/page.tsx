@@ -4,6 +4,7 @@ import { SiteNav } from "@/components/site-nav";
 import { Button } from "@/components/ui/button";
 import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { EmailPreviews } from "./email-previews";
 import { Container } from "@/components/ui/container";
 import { CountUp } from "@/components/motion/count-up";
@@ -318,7 +319,7 @@ export default function DesignSystemPage() {
 
         <Block
           title="Form fields"
-          note="ui/field: Field (label, optional hint), Input, Textarea and CheckPill; ui/select: a custom dropdown (the native menu cannot be styled) that eases open, with arrow keys, typeahead, Escape and native required validation. Fields use the 12px field radius and the raised fill, so they read on cards and on the page; autofill keeps the same colours. CheckPill turns solid green with a check when on. Used on the Book a demo page."
+          note="ui/field: Field (label, optional hint), Input, Textarea and CheckPill; ui/select: a custom dropdown (the native menu cannot be styled) that eases open, with arrow keys, typeahead, Escape and native required validation. ui/phone-input: a searchable country picker (flag, name, dial code) joined to a number box; libphonenumber-js validates and formats per country and submits one E.164 value. Fields use the 12px field radius and the raised fill, so they read on cards and on the page; autofill keeps the same colours. CheckPill turns solid green with a check when on. Used on the Book a demo page."
         >
           <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
             <Field label="Work email" htmlFor="ds-email" hint="We never share it.">
@@ -326,6 +327,9 @@ export default function DesignSystemPage() {
             </Field>
             <Field label="Your role" htmlFor="ds-role">
               <Select id="ds-role" name="ds-role" placeholder="Choose a role" options={["Board member or CEO", "Data Protection Officer", "Internal or external auditor"]} />
+            </Field>
+            <Field label="Phone number" htmlFor="ds-phone" hint="Searchable country picker with flags; validates per country." optional className="sm:col-span-2">
+              <PhoneInput id="ds-phone" name="ds-phone" />
             </Field>
             <Field label="Anything we should know?" htmlFor="ds-notes" optional className="sm:col-span-2">
               <Textarea id="ds-notes" />

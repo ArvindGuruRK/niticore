@@ -49,7 +49,7 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 In `src/components/`:
 
 - Section files stay server components where possible. They compose client "leaf" components from `motion/` (Reveal, WarpHeading, CountUp, TiltCard, PinScrub, Marquee and others) and `illustrations/` (hand-drawn SVG doodles and the `governance-fabric` network graphic).
-- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Textarea`, `CheckPill`), the custom dropdown `select.tsx` (`Select`; never use a native `<select>`) and `VideoPlayer`.
+- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Textarea`, `CheckPill`), the custom dropdown `select.tsx` (`Select`; never use a native `<select>`), and `phone-input.tsx` (`PhoneInput`: searchable country picker plus number, validated with `libphonenumber-js/min`; flags are SVGs in `public/flags` from `country-flag-icons`, since emoji flags don't render on Windows) and `VideoPlayer`.
 - Icons come from `@phosphor-icons/react`. In server components import from the `/ssr` entry, for example `@phosphor-icons/react/ssr` or `.../dist/ssr/<Name>`.
 
 ## Animation system
@@ -97,7 +97,7 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 
 ## Book a demo emails
 
-- **Flow.** `src/components/demo/demo-form.tsx` submits (via `useActionState`, not `<form action>`, so typed values survive errors) to the Server Action `src/app/(site)/demo/actions.tsx`. It re-validates with `src/lib/demo-request.ts`, drops honeypot spam, emails the team (reply-to = visitor), then emails the visitor a confirmation (best effort).
+- **Flow.** `src/components/demo/demo-form.tsx` submits (via `useActionState`, not `<form action>`, so typed values survive errors) to the Server Action `src/app/(site)/demo/actions.tsx`. It re-validates with `src/lib/demo-request.ts` (the optional phone must be a valid number for its country and is stored as E.164), drops honeypot spam, emails the team (reply-to = visitor), then emails the visitor a confirmation (best effort).
 - **Templates.** React Email components in `src/emails/` with inline styles; `theme.tsx` copies the design tokens as plain values (keep it in step with `globals.css`). The logo is a PNG from the static route `src/app/email-logo.png/route.tsx`, because many clients don't show SVG. Previews render on `/design-system` (Emails block).
 - **Environment variables** (documented in `.env.example`): `RESEND_API_KEY`, `DEMO_TEAM_EMAIL` (comma-separated), optional `DEMO_FROM_EMAIL` (defaults to Resend's test sender `onboarding@resend.dev`, which only delivers to the Resend account's own email), optional `NEXT_PUBLIC_SITE_URL` (absolute links and images in emails; also `metadataBase`). Without the key or team email, the form shows "Demo requests aren't switched on yet."
 - **Abuse protection** (`src/lib/demo-guard.ts`, `src/lib/rate-limit.ts`): requests without a matching browser `Origin` are rejected (Next.js only rejects a *mismatched* one); an in-memory sliding-window limit of 5 attempts per IP per 10 minutes and 3 sent requests per email per hour; optional global limit through the Vercel Firewall Rate Limiting SDK when `DEMO_RATE_LIMIT_ID` is set; a honeypot field; server-side validation; Server Action bodies capped at 64 KB (`next.config.ts`).

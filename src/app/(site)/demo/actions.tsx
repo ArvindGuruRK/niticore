@@ -149,3 +149,13 @@ export async function requestDemo(_previous: DemoState, form: FormData): Promise
 
   return { status: "sent", firstName: firstName(request.name), email: request.email, confirmationSent };
 }
+
+/**
+ * The visitor's country from Vercel's edge (x-vercel-ip-country), to preselect the phone country.
+ * Kept as its own tiny action so the Book a demo page stays static. Returns null off Vercel, and for
+ * anything that isn't a two-letter code; the form then falls back to the browser's region.
+ */
+export async function detectCountry(): Promise<string | null> {
+  const code = (await headers()).get("x-vercel-ip-country")?.trim().toUpperCase();
+  return code && /^[A-Z]{2}$/.test(code) ? code : null;
+}

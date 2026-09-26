@@ -1,12 +1,13 @@
 "use client";
 
-import { startTransition, useActionState, useEffect, useRef, type FormEvent } from "react";
+import { startTransition, useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { Check, Warning } from "@phosphor-icons/react";
-import { requestDemo } from "@/app/(site)/demo/actions";
+import { getCountries, type CountryCode } from "libphonenumber-js/min";
+import { detectCountry, requestDemo } from "@/app/(site)/demo/actions";
 import { celebrate } from "@/components/motion/confetti";
 import { Button } from "@/components/ui/button";
 import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";
-import { Select } from "@/components/ui/select";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { gsap } from "@/lib/gsap";
 import { NO_REDUCE } from "@/lib/motion";
 import { HONEYPOT, type DemoField, type DemoState } from "@/lib/demo-request";
@@ -18,7 +19,7 @@ const IDS: Record<DemoField, string> = {
   name: "demo-name",
   email: "demo-email",
   company: "demo-company",
-  role: "demo-role",
+  phone: "demo-phone",
   notes: "demo-notes",
 };
 
@@ -34,18 +35,35 @@ const IDS: Record<DemoField, string> = {
  * - On success the form is replaced by a confirmation panel that takes focus, with confetti.
  */
 export function DemoForm({
-  roles,
+  phone,
   frameworks,
   submit,
   nextStep,
 }: {
-  roles: string[];
+  phone: { label: string; hint: string; search: string };
   frameworks: string[];
   submit: string;
   /** One line beside the button: what happens after sending */
   nextStep: string;
 }) {
   const [state, dispatch, pending] = useActionState(requestDemo, INITIAL);
+  const [country, setCountry] = useState<CountryCode>("IN");
+
+  // Preselect the phone country: Vercel's location first, then the browser's region, else India
+  useEffect(() => {
+    const known = new Set<string>(getCountries());
+    const region = navigator.language.split("-")[1]?.toUpperCase();
+    let cancelled = false;
+    detectCountry()
+      .catch(() => null)
+      .then((code) => {
+        const pick = [code, region].find((c): c is string => Boolean(c && known.has(c)));
+        if (!cancelled && pick) setCountry(pick as CountryCode);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   const errors = state.status === "invalid" ? state.errors : {};
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -112,15 +130,14 @@ export function DemoForm({
               aria-describedby={described("company")}
             />
           </Field>
-          <Field label="Your role" htmlFor={IDS.role} error={errors.role} required>
-            <Select
-              id={IDS.role}
-              name="role"
-              options={roles}
-              placeholder="Choose a role"
-              required
-              invalid={Boolean(errors.role)}
-              describedBy={described("role")}
+          <Field label={phone.label} htmlFor={IDS.phone} hint={phone.hint} error={errors.phone} optional>
+            <PhoneInput
+              id={IDS.phone}
+              name="phone"
+              defaultCountry={country}
+              searchLabel={phone.search}
+              invalid={Boolean(errors.phone)}
+              describedBy={errors.phone ? `${IDS.phone}-error` : undefined}
             />
           </Field>
         </div>

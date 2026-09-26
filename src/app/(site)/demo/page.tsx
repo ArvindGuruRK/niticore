@@ -26,7 +26,7 @@ export default function DemoPage() {
       />
       <DemoDoodles />
 
-      <Container className="grid gap-10 pb-section pt-[calc(8rem+var(--safe-top))] sm:pt-36 lg:grid-cols-[1.5fr_1fr] lg:gap-16 lg:pt-40">
+      <Container className="grid gap-10 pb-section pt-[calc(8rem+var(--safe-top))] sm:pt-36 lg:grid-cols-[1.85fr_1fr] lg:gap-14 lg:pt-40">
         <Reveal className="flex flex-col gap-10 rounded-panel border border-line-strong bg-surface p-6 shadow-panel sm:p-10">
           <div className="flex flex-col gap-4">
             <SplitHeading as="h1" id="book-heading" by="words" trigger="load" className="type-h2 text-fg">
@@ -34,7 +34,7 @@ export default function DemoPage() {
             </SplitHeading>
             <p className="type-lead max-w-2xl">{form.lead}</p>
           </div>
-          <DemoForm roles={form.roles} frameworks={form.frameworks} submit={form.submit} nextStep={form.nextStep} />
+          <DemoForm phone={form.phone} frameworks={form.frameworks} submit={form.submit} nextStep={form.nextStep} />
         </Reveal>
 
         <Reveal delay={0.2} className="flex flex-col gap-6 lg:sticky lg:top-32 lg:self-start lg:pt-10">

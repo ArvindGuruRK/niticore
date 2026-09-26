@@ -11,8 +11,8 @@ import { Sparkle } from "@/components/illustrations/sparkle";
  *   from off-screen right with its looping trail drawing behind it ("request sent")
  * - two speech bubbles on the right, midway between them, drawing themselves and then "typing"
  *   ("we'll talk it through"), the middle step of the story
- * They play in story order: the plane on load, the bubbles once the plane has landed (and they are in
- * view), and the calendar only when it is scrolled into view.
+ * The sparkle, the plane and the bubbles all start drawing together as the page opens; the calendar,
+ * lower down, draws when it is scrolled into view.
  * - a calendar with a check on the right, level with the "Request my demo" button at the card's
  *   foot ("slot booked")
  * - a sparkle in the left margin beside the card
@@ -22,15 +22,15 @@ import { Sparkle } from "@/components/illustrations/sparkle";
 export function DemoDoodles() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden text-tertiary md:block">
-      <Sparkle size={48} trigger="load" delay={1.4} className="absolute left-[3vw] top-[16%]" />
+      <Sparkle size={48} trigger="load" delay={0.4} className="absolute left-[3vw] top-[16%]" />
       {/* Top of the card: the section's top padding (lg:pt-40) plus a little */}
       <Drift delay={3} className="absolute right-0 top-[calc(10rem+var(--safe-top))] w-[clamp(10rem,15vw,16rem)]">
         <FlyingPlane delay={0.4} className="w-full" />
       </Drift>
       {/* Midway between the plane and the calendar */}
       <Drift delay={3.2} amount={9} className="absolute right-[0.5vw] top-1/2 w-[clamp(8rem,12vw,13rem)] -translate-y-1/2 -rotate-6">
-        {/* The plane starts at 0.4s and lands at about 2.4s; the bubbles wait for it */}
-        <ChatBubbles delay={2.5} className="w-full" />
+        {/* Starts with the plane and the sparkle */}
+        <ChatBubbles trigger="load" delay={0.4} className="w-full" />
       </Drift>
       {/* Foot of the card, beside the submit button: the section's bottom padding plus a little */}
       <Drift

@@ -9,7 +9,8 @@ const SAMPLE: DemoRequest = {
   name: "Alex Morgan",
   email: "alex@example.com",
   company: "Example Company",
-  role: content.form.roles[1],
+  // Ofcom reserves 020 7946 0xxx for drama and fiction: a real-looking number that reaches no one
+  phone: "+442079460000",
   frameworks: [content.form.frameworks[0], content.form.frameworks[1], content.form.frameworks[4]],
   notes: "We run a handful of models in production and a few agents in pilot.",
 };

@@ -1,7 +1,7 @@
 import { Fragment, type ReactNode } from "react";
 import { Column, Link, Row, Section, Text } from "@react-email/components";
 import type { DemoRequest } from "@/lib/demo-request";
-import { firstName } from "@/lib/demo-request";
+import { firstName, formatPhone } from "@/lib/demo-request";
 import { C, EmailButton, EmailShell, Pill, panel, text } from "./theme";
 
 /**
@@ -23,7 +23,7 @@ export function DemoNotificationEmail({
 
   return (
     <EmailShell
-      preview={`New demo request: ${request.name}, ${request.role} at ${request.company}`}
+      preview={`New demo request: ${request.name} at ${request.company}`}
       siteUrl={siteUrl}
       footerNote={`Sent from the Book a demo form on ${host}. Replying to this email reaches ${first} directly.`}
     >
@@ -34,7 +34,7 @@ export function DemoNotificationEmail({
           {request.name}
         </Text>
         <Text style={{ ...text.lead, marginTop: "6px" }}>
-          {request.role} · {request.company}
+          {request.phone ? `${request.company} · ${formatPhone(request.phone)}` : request.company}
         </Text>
         <Section style={{ marginTop: "28px" }}>
           <EmailButton href={`mailto:${request.email}?subject=${encodeURIComponent("Your Niticore demo")}`}>
@@ -52,7 +52,15 @@ export function DemoNotificationEmail({
           </Link>
         </Detail>
         <Detail label="Company">{request.company}</Detail>
-        <Detail label="Role">{request.role}</Detail>
+        <Detail label="Phone">
+          {request.phone ? (
+            <Link href={`tel:${request.phone}`} style={{ color: C.accent, textDecoration: "none" }}>
+              {formatPhone(request.phone)}
+            </Link>
+          ) : (
+            <span style={{ color: C.subtle }}>Not provided</span>
+          )}
+        </Detail>
         <Detail label="Frameworks">
           {request.frameworks.length > 0 ? (
             request.frameworks.map((f, i) => (

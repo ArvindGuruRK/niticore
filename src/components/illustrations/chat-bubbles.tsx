@@ -24,10 +24,18 @@ const DOTS = [116, 136, 156];
  * lines draw themselves, then the front bubble, then three typing dots pop in and keep bouncing in a
  * loop, like a reply being written. Violet line art via currentColor. Hidden until the animation takes
  * over (data-draw); reduced motion shows it finished and still.
- * It plays when it scrolls into view, but never earlier than `delay` seconds after the page loads, so
- * it can wait its turn behind another illustration (on Book a demo, the paper plane lands first).
+ * `trigger="load"` plays it `delay` seconds after the page loads; `trigger="view"` (the default) plays
+ * it when it scrolls into view, but never earlier than `delay` seconds after load.
  */
-export function ChatBubbles({ delay = 0.6, className }: { delay?: number; className?: string }) {
+export function ChatBubbles({
+  delay = 0.6,
+  trigger = "view",
+  className,
+}: {
+  delay?: number;
+  trigger?: "load" | "view";
+  className?: string;
+}) {
   const root = useRef<SVGSVGElement>(null);
 
   useGSAP(
@@ -55,6 +63,10 @@ export function ChatBubbles({ delay = 0.6, className }: { delay?: number; classN
           // Typing: the dots bounce one after another, forever
           .to(dots, { y: -7, duration: 0.32, ease: "sine.out", yoyo: true, repeat: -1, repeatDelay: 0.25, stagger: 0.14 });
 
+        if (trigger === "load") {
+          tl.delay(delay).play();
+          return;
+        }
         // Created last, so an immediate enter (already on screen at load) finds the timeline built
         ScrollTrigger.create({
           trigger: root.current,
@@ -64,7 +76,7 @@ export function ChatBubbles({ delay = 0.6, className }: { delay?: number; classN
         });
       });
     },
-    { scope: root, dependencies: [delay] },
+    { scope: root, dependencies: [delay, trigger] },
   );
 
   return (

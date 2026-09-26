@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Column, Row, Section, Text } from "@react-email/components";
 import type { DemoRequest } from "@/lib/demo-request";
-import { firstName } from "@/lib/demo-request";
+import { firstName, formatPhone } from "@/lib/demo-request";
 import { C, EmailButton, EmailShell, Pill, panel, text } from "./theme";
 
 /**
@@ -53,7 +53,7 @@ export function DemoConfirmationEmail({
         <Detail label="Name" value={request.name} />
         <Detail label="Work email" value={request.email} />
         <Detail label="Company" value={request.company} />
-        <Detail label="Role" value={request.role} />
+        {request.phone && <Detail label="Phone" value={formatPhone(request.phone)} />}
         {request.frameworks.length > 0 && (
           <Section style={{ marginTop: "8px" }}>
             <Text style={{ ...text.label, marginBottom: "10px" }}>Frameworks</Text>
