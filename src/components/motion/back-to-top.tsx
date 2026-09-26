@@ -60,16 +60,47 @@ export function BackToTop() {
     // after mount, growing the document mid-scroll with no resize/nav event to hang a refresh off.
     // Without this, `end` above stays pinned to whatever height existed at the last refresh and the
     // ring still saturates before the real bottom of the page, just less so than the ordering bug.
+    // The refresh never runs mid-gesture: it measures by jumping the page to the top and back, and on
+    // phones that write cancels the finger's momentum (the page stalled on the way down, while content
+    // was still settling). So it waits until no finger is down and scrolling has come to rest.
     let pending = 0;
-    const resizeObserver = new ResizeObserver(() => {
+    let dirty = false;
+    let touching = false;
+    let lastScroll = 0;
+    const refresh = () => {
+      dirty = false;
       cancelAnimationFrame(pending);
       pending = requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+    const resting = () => !touching && performance.now() - lastScroll > 250;
+    const onScroll = () => (lastScroll = performance.now());
+    const onTouchStart = () => (touching = true);
+    const onTouchEnd = (e: TouchEvent) => {
+      touching = e.touches.length > 0;
+      if (dirty && resting()) refresh(); // released without moving: scrollEnd won't fire
+    };
+    const onScrollEnd = () => {
+      if (dirty && !touching) refresh();
+    };
+    const resizeObserver = new ResizeObserver(() => {
+      dirty = true;
+      if (resting()) refresh();
     });
     resizeObserver.observe(document.body);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    ScrollTrigger.addEventListener("scrollEnd", onScrollEnd);
 
     return () => {
       cancelAnimationFrame(pending);
       resizeObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
+      ScrollTrigger.removeEventListener("scrollEnd", onScrollEnd);
     };
   });
 

@@ -112,11 +112,18 @@ function Title({ pillar }: { pillar: Pillar }) {
   );
 }
 
+/** Below lg the frame reserves the photo's 4:3 box before it loads: a lazy image arriving mid-swipe
+ *  used to grow the page, and every growth re-measured all scroll triggers under the finger. */
 function Media({ pillar, className }: { pillar: Pillar; className?: string }) {
   return (
-    <MediaReveal direction="down" className={cn("min-h-0 rounded-xl", className)}>
+    <MediaReveal direction="down" className={cn("min-h-0 rounded-xl max-lg:relative max-lg:aspect-[4/3]", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element -- external placeholder, swap for the real asset later */}
-      <img src={pillar.image} alt={pillar.alt} loading="lazy" className="size-full object-cover" />
+      <img
+        src={pillar.image}
+        alt={pillar.alt}
+        loading="lazy"
+        className="size-full object-cover max-lg:absolute max-lg:inset-0"
+      />
     </MediaReveal>
   );
 }
@@ -138,7 +145,7 @@ function StackCard({ pillar, imageFirst = false }: { pillar: Pillar; imageFirst?
   return (
     <div
       className={cn(
-        "flex h-full flex-col gap-4 rounded-panel border border-white/10 p-6 shadow-panel sm:p-7",
+        "flex h-full flex-col gap-4 rounded-panel border border-white/10 p-card shadow-panel sm:p-7",
         CARD_TONES[pillar.tone].className,
       )}
     >
