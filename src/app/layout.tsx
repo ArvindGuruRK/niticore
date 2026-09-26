@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { AnnouncementBar } from "@/components/announcement-bar";
+import { EventButton } from "@/components/event-button";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { JsonLd, SITE_GRAPH } from "@/components/seo/json-ld";
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <AnnouncementBar />
         <SmoothScroll />
         <BackToTop />
+        <EventButton />
         {children}
       </body>
     </html>

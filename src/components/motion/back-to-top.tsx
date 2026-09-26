@@ -4,13 +4,19 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUp } from "@phosphor-icons/react/ssr";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { EVENT_PATH } from "@/components/event-button";
 import { getLenis } from "@/lib/lenis";
+import { cn } from "@/lib/utils";
 
 const RADIUS = 21;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SHOW_AFTER = 320; // px scrolled before the button appears
 
-/** Back to top: circular button whose ring fills as the page is read. Scrolls up through Lenis. */
+/**
+ * Back to top: circular button whose ring fills as the page is read. Scrolls up through Lenis.
+ * Sits above EventButton (size-12 plus a 0.75rem gap), and drops into the corner on the event page,
+ * where that button isn't shown.
+ */
 export function BackToTop() {
   const button = useRef<HTMLButtonElement>(null);
   const ring = useRef<SVGCircleElement>(null);
@@ -116,7 +122,12 @@ export function BackToTop() {
       type="button"
       aria-label="Back to top"
       onClick={goTop}
-      className="invisible fixed bottom-[max(1.5rem,var(--safe-bottom))] right-[max(1.5rem,var(--safe-right))] z-[var(--z-menu)] grid size-12 translate-y-3 place-items-center rounded-full border border-white/[0.14] bg-nav/70 text-fg opacity-0 shadow-panel backdrop-blur-xl transition-colors duration-300 hover:text-accent active:scale-[0.96] sm:bottom-[max(2rem,var(--safe-bottom))] sm:right-[max(2rem,var(--safe-right))]"
+      className={cn(
+        "invisible fixed right-[max(1.5rem,var(--safe-right))] z-[var(--z-menu)] grid size-12 translate-y-3 place-items-center rounded-full border border-white/[0.14] bg-nav/70 text-fg opacity-0 shadow-panel backdrop-blur-xl transition-colors duration-300 hover:text-accent active:scale-[0.96] sm:right-[max(2rem,var(--safe-right))]",
+        pathname === EVENT_PATH
+          ? "bottom-[max(1.5rem,var(--safe-bottom))] sm:bottom-[max(2rem,var(--safe-bottom))]"
+          : "bottom-[calc(max(1.5rem,var(--safe-bottom))+3.75rem)] sm:bottom-[calc(max(2rem,var(--safe-bottom))+3.75rem)]",
+      )}
     >
       <svg aria-hidden viewBox="0 0 48 48" className="absolute -inset-px size-[calc(100%+2px)] -rotate-90">
         <circle cx="24" cy="24" r={RADIUS} fill="none" stroke="rgb(255 255 255 / 0.12)" strokeWidth="2" />
