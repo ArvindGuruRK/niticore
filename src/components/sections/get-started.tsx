@@ -58,6 +58,7 @@ export function GetStarted({
           ribbon
           ribbonColor="var(--color-accent)"
           ribbonWidth={52}
+          small={{ fontSize: 17, letterSpacing: 0.5, ribbonWidth: 38, curviness: 24 }}
           pauseOnHover
           className="h-full"
         />

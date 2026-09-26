@@ -1,10 +1,20 @@
 "use client";
 
-import { useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useId, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { gsap } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
 
 const EDGE_PAD = 6;
+
+/** Phones: below Tailwind's sm breakpoint, where the `small` overrides apply. */
+const SMALL_QUERY = "(max-width: 639.98px)";
+const subscribeSmall = (cb: () => void) => {
+  const mq = window.matchMedia(SMALL_QUERY);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+const isSmall = () => window.matchMedia(SMALL_QUERY).matches;
+const notSmall = () => false;
 const FALLBACK_W = 1200;
 const FALLBACK_H = 200;
 
@@ -80,6 +90,8 @@ type TextLoopProps = {
   pauseOnHover?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  /** Overrides for phones (below 640px), so a ribbon sized for desktop fits a narrow screen */
+  small?: { fontSize?: number; letterSpacing?: number; ribbonWidth?: number; curviness?: number };
 };
 
 /**
@@ -93,19 +105,27 @@ export function TextLoop({
   speed = 90,
   direction = "forward",
   separator = "✦",
-  curviness = 90,
-  fontSize = 46,
+  curviness: curvinessProp = 90,
+  fontSize: fontSizeProp = 46,
   fontWeight = 800,
-  letterSpacing = 2,
+  letterSpacing: letterSpacingProp = 2,
   uppercase = true,
   color = "#ffffff",
   ribbon = true,
   ribbonColor = "#5227FF",
-  ribbonWidth = 86,
+  ribbonWidth: ribbonWidthProp = 86,
   pauseOnHover = true,
   className = "",
   style = {},
+  small,
 }: TextLoopProps) {
+  // The server renders the desktop sizes; phones switch to `small` straight after hydration
+  const phone = useSyncExternalStore(subscribeSmall, isSmall, notSmall) && small !== undefined;
+  const fontSize = (phone && small?.fontSize) || fontSizeProp;
+  const letterSpacing = phone && small?.letterSpacing !== undefined ? small.letterSpacing : letterSpacingProp;
+  const ribbonWidth = (phone && small?.ribbonWidth) || ribbonWidthProp;
+  const curviness = phone && small?.curviness !== undefined ? small.curviness : curvinessProp;
+
   const rootRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const measureRef = useRef<SVGTextElement>(null);
