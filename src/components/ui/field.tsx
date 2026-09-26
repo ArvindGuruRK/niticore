@@ -7,13 +7,18 @@ import { cn } from "@/lib/utils";
  * to the same fill and text colour so it never flashes white or blue.
  */
 const control =
-  "w-full rounded-field border border-line-strong bg-raised px-4 text-base font-medium text-fg shadow-[inset_0_1px_0_rgb(255_255_255/0.04)] transition-colors duration-200 placeholder:text-fg-subtle/70 hover:border-white/25 focus:border-accent focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-accent/40 autofill:shadow-[inset_0_0_0_100px_var(--color-raised)] autofill:[-webkit-text-fill-color:var(--color-fg)]";
+  "w-full rounded-field border border-line-strong bg-raised px-4 text-base font-medium text-fg shadow-[inset_0_1px_0_rgb(255_255_255/0.04)] transition-colors duration-200 placeholder:text-fg-subtle/70 hover:border-white/25 focus:border-accent focus:outline-none focus-visible:outline-none focus:ring-2 focus:ring-accent/40 aria-[invalid=true]:border-status-risk/70 autofill:shadow-[inset_0_0_0_100px_var(--color-raised)] autofill:[-webkit-text-fill-color:var(--color-fg)]";
 
-/** Label above a control, with an optional hint under it. `htmlFor` must match the control's id. */
+/**
+ * Label above a control, with an optional hint under it. `htmlFor` must match the control's id.
+ * `error` shows a message under the control with the id `${htmlFor}-error`; point the control's
+ * aria-describedby at it and set aria-invalid, so screen readers read the message with the field.
+ */
 export function Field({
   label,
   htmlFor,
   hint,
+  error,
   optional,
   className,
   children,
@@ -21,6 +26,7 @@ export function Field({
   label: string;
   htmlFor: string;
   hint?: string;
+  error?: string;
   optional?: boolean;
   className?: string;
   children: ReactNode;
@@ -32,7 +38,12 @@ export function Field({
         {optional && <span className="font-medium text-fg-subtle"> (optional)</span>}
       </label>
       {children}
-      {hint && <p className="type-caption">{hint}</p>}
+      {hint && !error && <p className="type-caption">{hint}</p>}
+      {error && (
+        <p id={`${htmlFor}-error`} className="type-small text-status-risk">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

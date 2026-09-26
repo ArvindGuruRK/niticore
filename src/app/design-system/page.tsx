@@ -4,6 +4,7 @@ import { SiteNav } from "@/components/site-nav";
 import { Button } from "@/components/ui/button";
 import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";
 import { Select } from "@/components/ui/select";
+import { EmailPreviews } from "./email-previews";
 import { Container } from "@/components/ui/container";
 import { CountUp } from "@/components/motion/count-up";
 import { FooterMark } from "@/components/motion/footer-mark";
@@ -335,6 +336,13 @@ export default function DesignSystemPage() {
               <CheckPill label="DIFC Regulation 10" />
             </div>
           </div>
+        </Block>
+
+        <Block
+          title="Emails"
+          note="The Book a demo emails (src/emails), rendered by the real templates with sample details. Built with React Email and inline styles in the design-system colours, since email clients can't read the site's CSS. The logo is served as a PNG from /email-logo.png because many clients don't show SVG. Sent by the requestDemo server action through Resend."
+        >
+          <EmailPreviews />
         </Block>
 
         <Block

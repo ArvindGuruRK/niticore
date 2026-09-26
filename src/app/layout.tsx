@@ -3,6 +3,7 @@ import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const sora = Sora({
@@ -36,8 +37,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  // Absolute base for the generated Open Graph image. Swap for the custom domain when there is one.
-  metadataBase: new URL("https://niticore.vercel.app"),
+  // Absolute base for the generated Open Graph image: NEXT_PUBLIC_SITE_URL, else the Vercel address
+  metadataBase: new URL(SITE_URL),
   // Inner pages set a bare title ("Platform") and the template adds the brand
   title: {
     default: "Niticore | The operating layer for governed AI",

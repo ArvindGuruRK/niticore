@@ -11,6 +11,8 @@
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@react-email/components": "^1.0.12",
+    "@vercel/firewall": "^1.2.5",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "gsap": "^3.15.0",
@@ -20,6 +22,7 @@
     "ogl": "^1.0.11",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "resend": "^6.30.0",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {

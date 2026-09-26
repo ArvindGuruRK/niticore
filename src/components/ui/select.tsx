@@ -25,6 +25,8 @@ export function Select({
   options,
   placeholder,
   required,
+  invalid,
+  describedBy,
   className,
 }: {
   id: string;
@@ -32,6 +34,10 @@ export function Select({
   options: string[];
   placeholder: string;
   required?: boolean;
+  /** Marks the trigger invalid (red border) for a form error */
+  invalid?: boolean;
+  /** Id of the element describing the trigger, e.g. its error message */
+  describedBy?: string;
   className?: string;
 }) {
   const uid = useId();
@@ -123,10 +129,13 @@ export function Select({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={`${uid}-list`}
+        // A button can't carry aria-invalid; the linked error message is read out instead
+        aria-describedby={describedBy}
         onClick={() => (open ? setOpen(false) : openAt(value ? options.indexOf(value) : 0))}
         onKeyDown={onTriggerKey}
         className={cn(
-          "flex h-12 w-full items-center justify-between gap-3 rounded-field border border-line-strong bg-raised px-4 text-left text-base font-medium transition-colors duration-200 hover:border-white/25 focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40",
+          "flex h-12 w-full items-center justify-between gap-3 rounded-field border border-line-strong bg-raised px-4 text-left text-base font-medium transition-colors duration-200 hover:border-white/25 focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-60",
+          invalid && !open && "border-status-risk/70",
           open && "border-accent ring-2 ring-accent/40",
           value ? "text-fg" : "text-fg-subtle",
         )}

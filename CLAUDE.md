@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Niticore is a multi-page marketing site for an AI governance platform. In site copy the brand is spelled "Niticore", not "NitiCore". The site is purely presentational: no API routes, data layer, auth or env vars. Its value is in the visual design and scroll animation.
+Niticore is a multi-page marketing site for an AI governance platform. In site copy the brand is spelled "Niticore", not "NitiCore". The site is presentational (no data layer or auth), with one exception: Book a demo sends email through Resend from a Server Action (see "Book a demo emails" below). Its value is in the visual design and scroll animation.
 
 Stack: Next.js 16 (App Router), React 19 with the React Compiler, Tailwind CSS v4 (CSS-first config, no `tailwind.config`) and TypeScript. For motion:
 
@@ -68,7 +68,7 @@ These conventions cover the GSAP and Lenis code. Other libraries can be used alo
 Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There is no JS theme object.
 
 - **Dark only.** In components use semantic colour roles such as `bg-canvas`, `bg-surface`, `bg-raised`, `text-fg`, `text-fg-muted`, `text-fg-subtle`, `text-accent`, `text-tertiary` and `border-line`. Don't use the raw `ink-*`, `signal-*` or `aura-*` ramps.
-- **Accent rules.** Green (`accent`, #4AE057) is only for actions: CTAs and the one key word in a heading. Violet (`tertiary`) is for illustrations and secondary highlights, never buttons. `status-*` colours are only for alert text (LogStream), score arcs (ScoreRing) and score fills (the readiness result bar). **No status dots**: never put a green, amber or red dot beside a label, level or list item. The one exception is the Frameworks enforcement timeline (`frameworks/regional.tsx`): green = in force, amber = upcoming.
+- **Accent rules.** Green (`accent`, #4AE057) is only for actions: CTAs and the one key word in a heading. Violet (`tertiary`) is for illustrations and secondary highlights, never buttons. `status-*` colours are only for alert text (LogStream, form error messages and invalid-field borders), score arcs (ScoreRing) and score fills (the readiness result bar). **No status dots**: never put a green, amber or red dot beside a label, level or list item. The one exception is the Frameworks enforcement timeline (`frameworks/regional.tsx`): green = in force, amber = upcoming.
 - **Shape.** Controls are pills (`rounded-control`), panels use `rounded-panel` (20px), fields use `rounded-field` (12px).
 - **Type.** Use the utilities, not ad-hoc sizes: `type-display`, `type-hero`, `type-h2`, `type-h3`, `type-h4`, `type-lead`, `type-body`, `type-small`, `type-caption`, `type-label`.
 - **Layout.**
@@ -95,6 +95,16 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 
 `client-deliverable/` holds a standalone HTML export and a design write-up produced for the client. The Next app doesn't use it.
 
+## Book a demo emails
+
+- **Flow.** `src/components/demo/demo-form.tsx` submits (via `useActionState`, not `<form action>`, so typed values survive errors) to the Server Action `src/app/(site)/demo/actions.tsx`. It re-validates with `src/lib/demo-request.ts`, drops honeypot spam, emails the team (reply-to = visitor), then emails the visitor a confirmation (best effort).
+- **Templates.** React Email components in `src/emails/` with inline styles; `theme.tsx` copies the design tokens as plain values (keep it in step with `globals.css`). The logo is a PNG from the static route `src/app/email-logo.png/route.tsx`, because many clients don't show SVG. Previews render on `/design-system` (Emails block).
+- **Environment variables** (documented in `.env.example`): `RESEND_API_KEY`, `DEMO_TEAM_EMAIL` (comma-separated), optional `DEMO_FROM_EMAIL` (defaults to Resend's test sender `onboarding@resend.dev`, which only delivers to the Resend account's own email), optional `NEXT_PUBLIC_SITE_URL` (absolute links and images in emails; also `metadataBase`). Without the key or team email, the form shows "Demo requests aren't switched on yet."
+- **Abuse protection** (`src/lib/demo-guard.ts`, `src/lib/rate-limit.ts`): requests without a matching browser `Origin` are rejected (Next.js only rejects a *mismatched* one); an in-memory sliding-window limit of 5 attempts per IP per 10 minutes and 3 sent requests per email per hour; optional global limit through the Vercel Firewall Rate Limiting SDK when `DEMO_RATE_LIMIT_ID` is set; a honeypot field; server-side validation; Server Action bodies capped at 64 KB (`next.config.ts`).
+- **Security headers** (`next.config.ts`, every route): CSP `frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'` (no script-src, so inline scripts and styles keep working), `X-Frame-Options: DENY`, `nosniff`, `strict-origin-when-cross-origin`, a locked-down `Permissions-Policy`, `COOP: same-origin`, HSTS (no preload), and no `X-Powered-By`.
+- **Going live on a new Vercel account:** `vercel link` → `vercel integration add resend` (accept the terms, set the domain and region) → set `DEMO_TEAM_EMAIL` (and `NEXT_PUBLIC_SITE_URL`) with `vercel env add` → `vercel env pull` for local testing → verify the sending domain in Resend's DNS settings → set `DEMO_FROM_EMAIL` on that domain.
+- **Firewall (after linking, staged: log first, then enforce).** Add a platform rate limit on the form's POSTs: `vercel firewall rules add "Book a demo rate limit" --condition '{"type":"path","op":"eq","value":"/demo"}' --condition '{"type":"method","op":"eq","value":"POST"}' --action rate_limit --rate-limit-window 600 --rate-limit-requests 20 --rate-limit-keys ip --rate-limit-action log --yes`, then `vercel firewall diff` and publish (`vercel firewall publish --yes`, run by a person). After reviewing its hits in the Firewall dashboard, edit `--rate-limit-action` to `rate_limit` and publish again. Optionally create a Rate Limiting SDK rule in the dashboard and put its id in `DEMO_RATE_LIMIT_ID`.
+
 ## House style
 
 - **No eyebrows.** Never put a pill, badge or small label above a heading.
@@ -103,4 +113,4 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 
 Placeholders still in the code:
   - The showcase video points to an MDN sample clip.
-  - The demo form (`src/components/demo/demo-form.tsx`) is not connected to anything yet: submit only prevents the page reload.
+  - Book a demo needs a Resend key and team inbox before it sends anything (see "Book a demo emails").
