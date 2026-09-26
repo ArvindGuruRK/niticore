@@ -32,6 +32,13 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "64kb",
     },
   },
+  // The event page moved from /ai-everything to /announcements; keep shared links working
+  async redirects() {
+    return [
+      { source: "/ai-everything", destination: "/announcements", permanent: true },
+      { source: "/ai-everything/:path*", destination: "/announcements/:path*", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { MegaphoneSimple } from "@phosphor-icons/react/ssr";
 
 /** The AI Everything Abu Dhabi page. BackToTop reads it too, to know when this button is absent. */
-export const EVENT_PATH = "/ai-everything";
+export const EVENT_PATH = "/announcements";
 
 /**
  * Floating link to the event page, in the Back to top button's look (same size, border, glass and

@@ -76,7 +76,7 @@ export function VisitPass() {
             </dl>
 
             <div className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center">
-              <Button href="/ai-everything/calendar.ics" download size="lg" variant="secondary">
+              <Button href="/announcements/calendar.ics" download size="lg" variant="secondary">
                 <CalendarPlus aria-hidden weight="bold" className="size-4" />
                 {visit.calendar}
               </Button>

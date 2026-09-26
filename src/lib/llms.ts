@@ -198,7 +198,7 @@ function demoSection() {
 function eventSection() {
   const { event: e, intro } = event;
   return block(
-    `## ${PAGES["/ai-everything"].title} (${url("/ai-everything")})`,
+    `## ${PAGES["/announcements"].title} (${url("/announcements")})`,
     intro.lead,
     list([
       `Dates: ${e.dates}`,

@@ -9,13 +9,13 @@ const { event } = content;
 const esc = (s: string) => s.replace(/[\\,;]/g, (c) => `\\${c}`);
 
 /**
- * /ai-everything/calendar.ics: one event per opening day (the show's own hours, in UTC), so a
+ * /announcements/calendar.ics: one event per opening day (the show's own hours, in UTC), so a
  * calendar shows the stand when it is actually open. Built once at build time.
  */
 export function GET() {
   const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
   const location = esc(`${event.venue}, stands ${event.stands}`);
-  const description = esc(`Visit Niticore at stands ${event.stands}. ${SITE_URL}/ai-everything`);
+  const description = esc(`Visit Niticore at stands ${event.stands}. ${SITE_URL}/announcements`);
 
   const lines = [
     "BEGIN:VCALENDAR",
@@ -24,6 +24,7 @@ export function GET() {
     "CALSCALE:GREGORIAN",
     ...event.hours.flatMap((h, i) => [
       "BEGIN:VEVENT",
+      // The UID names the event, not the page URL: kept so re-importing never duplicates it
       `UID:niticore-ai-everything-2026-day${i + 1}@niticore`,
       `DTSTAMP:${stamp}`,
       `DTSTART:${h.start}`,
@@ -31,7 +32,7 @@ export function GET() {
       `SUMMARY:${esc(`Niticore at ${event.name}, day ${i + 1}`)}`,
       `LOCATION:${location}`,
       `DESCRIPTION:${description}`,
-      `URL:${SITE_URL}/ai-everything`,
+      `URL:${SITE_URL}/announcements`,
       "END:VEVENT",
     ]),
     "END:VCALENDAR",

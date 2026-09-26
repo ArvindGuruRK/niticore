@@ -19,7 +19,7 @@ export function AnnouncementBar() {
       className="absolute inset-x-0 top-0 z-[var(--z-nav)] h-[var(--banner-h)] bg-tertiary pt-safe text-accent-ink"
     >
       <Link
-        href="/ai-everything"
+        href="/announcements"
         aria-label={`${MESSAGE}. See where to find us.`}
         className="group block h-full focus-visible:outline-offset-[-4px]"
       >

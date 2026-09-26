@@ -10,7 +10,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/event.json";
 import { pageMetadata } from "@/lib/site";
 
-const base = pageMetadata("/ai-everything");
+const base = pageMetadata("/announcements");
 
 export const metadata: Metadata = {
   ...base,
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const { event, intro, countdown, booth } = content;
 
 /**
- * AI Everything Abu Dhabi, linked from the announcement bar. One quiet screen, like Book a demo:
+ * /announcements: currently AI Everything Abu Dhabi, linked from the announcement bar. One quiet screen, like Book a demo:
  * the headline and a line on what to expect at the stand (with a countdown beside it on lg), the
  * visit pass (details and actions), then the stand itself. No hero section.
  */
