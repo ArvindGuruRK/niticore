@@ -41,8 +41,8 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 - `src/app/(site)/` is a route group whose `layout.tsx` renders `SiteNav` and `Footer` around every marketing page:
   - `page.tsx` is the landing page. It stacks the sections from `src/components/sections/` in order.
   - `platform/`, `frameworks/`, `assessments/`, `solutions/` and `academy-advisory/` are the nav pages; `demo/` is "Book a demo". The nav and footer links come from `NAV_LINKS` in `src/lib/site.ts`, and each page sets its metadata with `pageMetadata()` from the same file.
-  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `demo/`).
-- Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `demo.json`), imported by the page. Edit the JSON to change text.
+  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `solutions/`, `academy/`, `demo/`).
+- Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `solutions.json`, `academy.json`, `demo.json`), imported by the page. Edit the JSON to change text.
 - `src/app/design-system/` is an internal showcase of the tokens, type scale and motion components. **Every animation, from any library, must also be shown here.**
 - `src/app/opengraph-image.tsx` generates the social card.
 
@@ -104,4 +104,3 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 Placeholders still in the code:
   - The showcase video points to an MDN sample clip.
   - The demo form (`src/components/demo/demo-form.tsx`) is not connected to anything yet: submit only prevents the page reload.
-  - The Solutions and Academy & Advisory pages have only their hero and closing CTA so far.

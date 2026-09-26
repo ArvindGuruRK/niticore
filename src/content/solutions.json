@@ -1,0 +1,270 @@
+{
+  "$source": "docs/content/06_industry_verticals_and_personas.md (industries, use cases, frameworks, personas); the Industries page of docs/trustlayer_inner_pages_v4 1 (1).html (descriptions, framework tags, closing quote, CTA); docs/docx_extracted.txt §12 (industry taglines). TrustLayer was the earlier product name.",
+  "hero": {
+    "lead": "Built for industries where AI errors carry real consequences: financial, legal or human. The regulatory requirements differ. The governance challenge is the same: build the capability to govern AI, continuously and provably."
+  },
+  "industries": {
+    "title": "Six industries. One governance practice.",
+    "lead": "When AI decisions carry real financial, legal, physical or human consequences, standard software checklists fall short. Pick your industry to see what Niticore governs and which frameworks apply.",
+    "frameworks": [
+      {
+        "id": "eu",
+        "name": "EU AI Act",
+        "logo": "/eu-iso-act-logos/eu-ai-act.webp"
+      },
+      {
+        "id": "iso",
+        "name": "ISO 42001",
+        "logo": "/eu-iso-act-logos/iso-42001.webp"
+      },
+      {
+        "id": "nist",
+        "name": "NIST AI RMF",
+        "logo": "/eu-iso-act-logos/nist-rmf.webp"
+      },
+      {
+        "id": "gdpr",
+        "name": "GDPR",
+        "logo": "/eu-iso-act-logos/gdpr.svg"
+      },
+      {
+        "id": "difc",
+        "name": "DIFC",
+        "logo": null,
+        "icon": "buildings"
+      },
+      {
+        "id": "adgm",
+        "name": "ADGM",
+        "logo": null,
+        "icon": "bank"
+      },
+      {
+        "id": "pdpl",
+        "name": "UAE PDPL",
+        "logo": "/eu-iso-act-logos/uae.svg"
+      }
+    ],
+    "items": [
+      {
+        "id": "financial",
+        "name": "Financial services",
+        "icon": "bank",
+        "tone": "blue",
+        "tagline": "Govern AI across highly regulated decision environments.",
+        "description": "Credit scoring, fraud detection, algorithmic trading and customer-facing AI all demand transparent risk management, model validation and regulator-ready audit trails.",
+        "useCases": [
+          "Credit underwriting and automated loans",
+          "Algorithmic trading and market execution",
+          "Real-time fraud detection and AML"
+        ],
+        "frameworks": [
+          "eu",
+          "nist",
+          "gdpr",
+          "difc",
+          "adgm"
+        ],
+        "also": "Also: OCC model risk guidance"
+      },
+      {
+        "id": "healthcare",
+        "name": "Healthcare & pharma",
+        "icon": "heartbeat",
+        "tone": "green",
+        "tagline": "Govern AI where safety, privacy and human oversight matter most.",
+        "description": "Clinical decision tools, diagnostic AI and drug development systems are high-risk by definition. Governance requires FRIA workflows, DPIA integration and evidence trails for AI and healthcare regulators.",
+        "useCases": [
+          "Clinical decision support and triage",
+          "Diagnostic imaging and radiology AI",
+          "Generative drug discovery pipelines"
+        ],
+        "frameworks": [
+          "eu",
+          "iso",
+          "gdpr"
+        ],
+        "also": "Also: HIPAA"
+      },
+      {
+        "id": "public",
+        "name": "Public sector",
+        "icon": "scales",
+        "tone": "violet",
+        "tagline": "Build accountable, transparent and responsible public-sector AI.",
+        "description": "AI in public services carries heightened accountability and transparency obligations. Niticore manages the full lifecycle from procurement to deployment to audit, with citizen impact at the centre.",
+        "useCases": [
+          "Citizen benefit and visa eligibility",
+          "Smart city surveillance and traffic AI",
+          "Automated regulatory enforcement"
+        ],
+        "frameworks": [
+          "eu",
+          "iso",
+          "nist"
+        ],
+        "also": "Also: sovereign data laws"
+      },
+      {
+        "id": "insurance",
+        "name": "Insurance",
+        "icon": "umbrella",
+        "tone": "blue",
+        "tagline": "Manage model risk, fairness and regulatory accountability.",
+        "description": "Underwriting models, claims automation and risk pricing algorithms. Model risk, fairness and regulatory accountability need governance that goes beyond traditional model validation.",
+        "useCases": [
+          "Actuarial risk pricing algorithms",
+          "Automated claims adjustment and payouts",
+          "Health and behavioural telematics"
+        ],
+        "frameworks": [
+          "eu",
+          "nist",
+          "gdpr",
+          "difc"
+        ],
+        "also": "Also: algorithmic fairness rules"
+      },
+      {
+        "id": "technology",
+        "name": "Technology & GPAI",
+        "icon": "cpu",
+        "tone": "green",
+        "tagline": "Build governance into AI products before deployment.",
+        "description": "If you build AI products, governance isn't something you add after launch. Niticore builds it into the development lifecycle, before deployment, not after a regulator arrives.",
+        "useCases": [
+          "Foundation model builders and API hosts",
+          "Agentic workflow automations",
+          "Enterprise AI SaaS products"
+        ],
+        "frameworks": [
+          "eu",
+          "iso",
+          "nist"
+        ],
+        "also": "Also: GPAI Code of Practice, SOC 2 Type II + AI"
+      },
+      {
+        "id": "global",
+        "name": "Global enterprises",
+        "icon": "globe",
+        "tone": "violet",
+        "tagline": "Create organisation-wide AI governance capability.",
+        "description": "Operating across the EU, UK, US and UAE at once? Niticore maps every jurisdiction, mainland, DIFC and ADGM, into a single governance practice with multi-framework evidence reuse.",
+        "useCases": [
+          "Cross-border multi-entity operations",
+          "Multi-jurisdiction data transfers",
+          "Centralised enterprise AI registries"
+        ],
+        "frameworks": [
+          "eu",
+          "nist",
+          "gdpr",
+          "difc",
+          "adgm",
+          "pdpl"
+        ],
+        "also": "Also: harmonised mapping across EU, US, UK and UAE"
+      }
+    ]
+  },
+  "personas": {
+    "title": "Seven seats. One source of truth.",
+    "lead": "AI governance is cross-functional. Instead of one-size-fits-all screens, every stakeholder gets the view and the workflows their role needs.",
+    "providesTitle": "What Niticore provides",
+    "items": [
+      {
+        "id": "board",
+        "tab": "Board & CEO",
+        "role": "Board of Directors & Chief Executive Officer",
+        "icon": "crown",
+        "question": "Can we trust our AI, and are we legally protected?",
+        "provides": [
+          "An executive Governance Readiness™ health scorecard",
+          "Brand reputation risk indicators and exposure heat maps",
+          "Assurance that high-risk systems comply with the EU AI Act and regional directives"
+        ]
+      },
+      {
+        "id": "caio",
+        "tab": "CAIO & CTO",
+        "role": "Chief AI Officer, CTO & CIO",
+        "icon": "rocket",
+        "question": "Can we scale AI deployment velocity without breaking compliance?",
+        "provides": [
+          "A unified inventory of models, agents and third-party APIs",
+          "DevSecOps-native governance gates inside CI/CD pipelines",
+          "Lifecycle monitoring of accuracy drift, latency and agent tool execution"
+        ]
+      },
+      {
+        "id": "risk",
+        "tab": "Risk",
+        "role": "Chief Risk Officer & risk managers",
+        "icon": "gauge",
+        "question": "Where are our aggregate exposures, and are controls actually working?",
+        "provides": [
+          "Multi-dimensional risk quantification, inherent vs. residual",
+          "Continuous control effectiveness telemetry",
+          "Automated escalation of unmitigated high-risk use cases"
+        ]
+      },
+      {
+        "id": "legal",
+        "tab": "Legal & Compliance",
+        "role": "General Counsel & Chief Compliance Officer",
+        "icon": "gavel",
+        "question": "Can we prove compliance immediately when a regulator audits us?",
+        "provides": [
+          "Immutable, timestamped audit logs of every approval and model change",
+          "Pre-built templates for Declarations of Conformity, FRIAs and DPIAs",
+          "One-click, regulator-ready evidence dossier exports"
+        ]
+      },
+      {
+        "id": "dpo",
+        "tab": "DPO",
+        "role": "Data Protection Officer",
+        "icon": "lock",
+        "question": "Are training datasets compliant with GDPR and UAE PDPL data rights?",
+        "provides": [
+          "Data lineage and consent tracking for model training corpora",
+          "Article 22 automated decision-making controls and opt-out logs",
+          "Cross-mapping from GDPR to UAE PDPL and DIFC Data Protection Law"
+        ]
+      },
+      {
+        "id": "engineers",
+        "tab": "AI Engineers",
+        "role": "AI engineers & data scientists",
+        "icon": "code",
+        "question": "Will governance slow down our deployment sprints?",
+        "provides": [
+          "Clean, API-driven registration workflows with no bureaucratic paperwork",
+          "Pre-configured test suites for bias, prompt injection and hallucination",
+          "Immediate clarity on required evidence before model freeze"
+        ]
+      },
+      {
+        "id": "auditors",
+        "tab": "Auditors",
+        "role": "Internal & external auditors",
+        "icon": "magnifier",
+        "question": "Show me the verifiable evidence trail.",
+        "provides": [
+          "Dedicated, read-only auditor inspection portals",
+          "Complete provenance chains from statutory requirement to verified code artifact",
+          "Historical versioning of model architectures, parameters and policies"
+        ]
+      }
+    ]
+  },
+  "statement": {
+    "quote": "The organisations shaping the future of trusted AI aren't doing more compliance work. They're building the capability to do it once, prove it everywhere, and move faster than anyone still working from spreadsheets.",
+    "author": "Niticore Advisory Team"
+  },
+  "cta": {
+    "title": "Ready to govern AI with confidence?",
+    "lead": "Build the capability. Operationalise the governance. Accelerate the innovation."
+  }
+}

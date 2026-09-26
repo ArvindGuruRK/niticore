@@ -19,6 +19,8 @@ type VerticalTab = {
  * With `interval` (seconds) it advances by itself while on screen, and a green line fills along the
  * bottom of the selected tab as the countdown. It never stops: hovering does not pause it, and a
  * click or the arrow keys just jump to that tab and the countdown carries on from there.
+ * `layout="top"` puts the options in a row of tiles above the panel instead (2, 3 or 6 across).
+ * Anything marked `data-pop` inside a panel pops in one by one after each switch (chips, badges).
  * WAI-ARIA tabs: roving tabindex, arrow keys (up/down and left/right), Home and End.
  * Reduced motion: no autoplay, and the panel swaps instantly.
  */
@@ -26,13 +28,16 @@ export function VerticalTabs({
   tabs,
   label,
   interval,
+  layout = "side",
   className,
 }: {
   tabs: VerticalTab[];
   label: string;
   interval?: number;
+  layout?: "side" | "top";
   className?: string;
 }) {
+  const top = layout === "top";
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(tabs[0]?.id);
@@ -43,11 +48,16 @@ export function VerticalTabs({
     () => {
       const motion = window.matchMedia(NO_REDUCE).matches;
       if (!first.current && motion) {
-        gsap.fromTo(
-          root.current!.querySelector(`[data-panel="${active}"]`),
-          { opacity: 0, y: 16 },
-          { opacity: 1, y: 0, duration: DUR.base * 0.7, ease: EASE.out, clearProps: "transform" },
-        );
+        const panel = root.current!.querySelector(`[data-panel="${active}"]`);
+        gsap.fromTo(panel, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: DUR.base * 0.7, ease: EASE.out, clearProps: "transform" });
+        const pops = panel?.querySelectorAll("[data-pop]");
+        if (pops?.length) {
+          gsap.fromTo(
+            pops,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.07, delay: 0.2, clearProps: "transform" },
+          );
+        }
       }
       first.current = false;
 
@@ -99,8 +109,16 @@ export function VerticalTabs({
   };
 
   return (
-    <div ref={root} className={cn("grid gap-6 lg:grid-cols-[minmax(0,21rem)_1fr] lg:gap-8", className)}>
-      <div role="tablist" aria-label={label} aria-orientation="vertical" className="flex flex-col gap-2 self-start">
+    <div
+      ref={root}
+      className={cn(top ? "flex flex-col gap-4" : "grid gap-6 lg:grid-cols-[minmax(0,21rem)_1fr] lg:gap-8", className)}
+    >
+      <div
+        role="tablist"
+        aria-label={label}
+        aria-orientation={top ? "horizontal" : "vertical"}
+        className={top ? "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6" : "flex flex-col gap-2 self-start"}
+      >
         {tabs.map((tab, i) => {
           const selected = tab.id === active;
           return (
@@ -117,7 +135,11 @@ export function VerticalTabs({
               onKeyDown={(e) => onKeyDown(e, i)}
               className={cn(
                 "relative overflow-hidden rounded-panel border p-4 text-left transition-colors duration-300",
-                selected ? "border-line-strong bg-raised" : "border-transparent hover:bg-white/[0.04]",
+                selected
+                  ? "border-line-strong bg-raised"
+                  : top
+                    ? "border-line bg-surface hover:border-white/25"
+                    : "border-transparent hover:bg-white/[0.04]",
               )}
             >
               {tab.label}

@@ -9,7 +9,10 @@ import { StarFive } from "@/components/illustrations/star-five";
 import { FocusList } from "@/components/motion/focus-list";
 import { LogStream } from "@/components/motion/log-stream";
 import { EvidenceSimulator } from "@/components/frameworks/evidence-simulator";
+import { FlipCard } from "@/components/motion/flip-card";
 import { FlowSteps } from "@/components/motion/flow-steps";
+import { ProgressGrid } from "@/components/motion/progress-grid";
+import { TickList } from "@/components/motion/tick-list";
 import { VerticalTabs } from "@/components/motion/vertical-tabs";
 import { OrbitSteps } from "@/components/motion/orbit-steps";
 import { Zigzag } from "@/components/illustrations/zigzag";
@@ -337,6 +340,30 @@ export function MotionShowcase() {
       </Demo>
 
       <Demo
+        title="Vertical tabs: top layout"
+        note='layout="top" turns the options into a row of tiles above the panel (2, 3 or 6 across). Anything marked data-pop inside the panel pops in one by one after each switch. Used for the Solutions industry explorer.'
+      >
+        <VerticalTabs
+          label="Top layout demo"
+          layout="top"
+          interval={4}
+          tabs={["Financial services", "Healthcare & pharma", "Public sector"].map((name, i) => ({
+            id: `top-${i}`,
+            label: <span key={name} className="type-h4 text-fg">{name}</span>,
+            content: (
+              <div key={name} className="card-violet flex flex-wrap gap-2 rounded-panel border border-white/10 p-8">
+                {["EU AI Act", "ISO 42001", "NIST AI RMF"].slice(0, i + 1).map((f) => (
+                  <span key={f} data-pop="" className="rounded-control bg-white/20 px-4 py-2 text-sm font-semibold text-fg">
+                    {f}
+                  </span>
+                ))}
+              </div>
+            ),
+          }))}
+        />
+      </Demo>
+
+      <Demo
         title="Flow steps"
         note="A chain of linked steps. Scrolling fills a green line through the nodes and each node lights as it is reached; scrolling back un-lights them. Horizontal from lg, vertical below. Used for the regulation-to-evidence pipeline."
       >
@@ -390,6 +417,48 @@ export function MotionShowcase() {
         <AssessmentIndex assessments={assessments.suite.assessments} />
       </Demo>
 
+      <Demo
+        title="Progress grid"
+        note="Numbered tiles that light up in order as the grid scrolls through the screen, like working through a course; scrolling back un-lights them. Lit tiles get a violet border and a green number. Used for the 16-module curriculum."
+      >
+        <ProgressGrid
+          items={[
+            { title: "AI Governance Fundamentals", body: "Principles and the AI lifecycle." },
+            { title: "EU AI Act in Practice", body: "Annex III and Article 27 FRIA." },
+            { title: "ISO/IEC 42001:2023", body: "Designing an AI Management System." },
+            { title: "NIST AI RMF 1.0", body: "GOVERN, MAP, MEASURE, MANAGE." },
+          ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Tick list"
+        note="A checklist that ticks itself off when it comes on screen: each check fills green in turn with a small spring. Replays on every return, resetting only once fully off screen. Used for the Academy outcomes."
+      >
+        <TickList items={["A shared governance vocabulary", "Internal champions", "A governance baseline"]} />
+      </Demo>
+
+      <Demo
+        title="Flip card"
+        note="Tap, click or use the corner button to turn the card over in 3D; it rises toward the viewer mid-turn and tilts toward the pointer. The flip runs straight in GSAP with no React re-render, animates only rotation and depth (never scale), and a second tap reverses it smoothly from wherever it is. Keep faces static (no spotlight). A still frame reads the pointer, a tilt layer and a flip layer sit inside it, and the two faces hide their backs. Only the visible face is focusable. Reduced motion: no tilt, instant flip. Used for the Academy tracks."
+      >
+        <div className="grid max-w-3xl gap-4 sm:grid-cols-2">
+          <FlipCard
+            label="Show the back"
+            front={
+              <div className="card-violet flex h-56 flex-col justify-end rounded-panel border border-white/10 p-6">
+                <p className="type-h3 text-fg">Front face</p>
+              </div>
+            }
+            back={
+              <div className="card-green flex h-56 flex-col justify-end rounded-panel border border-white/10 p-6">
+                <p className="type-h3 text-fg">Back face</p>
+              </div>
+            }
+          />
+        </div>
+      </Demo>
+
       <Demo title="Marquee" note="Seamless loop. Scroll speed pushes it faster and scrolling up reverses it. Hover pauses.">
         <Marquee speed={50}>
           {FRAMEWORKS.map((f) => (
@@ -404,11 +473,25 @@ export function MotionShowcase() {
         <Timeline items={LOOP} />
       </Demo>
 
+      <Demo
+        title="Timeline: numbered"
+        note="numbered swaps the dot for a larger node holding the step number, which fills green when the line reaches it. Use it instead of a meta label (no labels above headings). Used for the Assessments readiness-check steps."
+      >
+        <Timeline
+          numbered
+          items={[
+            { title: "Answer six questions", body: "One for each dimension of the readiness score." },
+            { title: "Watch your score build", body: "It updates with every answer." },
+            { title: "Walk through your gaps", body: "A 45-minute gap analysis with a specialist." },
+          ]}
+        />
+      </Demo>
+
       <Demo title="Accordion" note="Height and icon tweened by GSAP. Closed panels are inert. Set multiple to allow several open.">
         <Accordion items={FAQ} defaultOpen={["a"]} className="max-w-3xl" />
       </Demo>
 
-      <Demo title="Tabs" note="Sliding pill indicator, fade-rise panel swap, arrow keys, Home and End.">
+      <Demo title="Tabs" note="Sliding pill indicator, fade-rise panel swap, arrow keys, Home and End. align=&quot;center&quot; centres the pill row (Solutions personas).">
         <Tabs
           tabs={[
             { id: "disc", label: "Discover", content: <p className="type-body max-w-[60ch]">A live inventory of models, agents, vendors and data flows.</p> },
@@ -422,7 +505,7 @@ export function MotionShowcase() {
         <div className="flex flex-col gap-2 pb-4">
           <h2 className="type-h3 text-fg">Horizontal scroll</h2>
           <p className="type-body max-w-[65ch]">
-            Pins and drives the cards sideways on lg (1024px) and up. On phones and under reduced motion it is a native swipe row.
+            Pins and drives the cards sideways on lg (1024px) and up. On phones and under reduced motion it is a native swipe row. It pins when its centre reaches the middle of the space below the nav, so it sits centred with no empty band; keep the pinned content shorter than one screen (an optional short header can ride inside the pin).
           </p>
         </div>
         <HorizontalScroll>

@@ -56,6 +56,33 @@
       }
     ]
   },
+  "journey": {
+    "$source": "docs/content/04 §3 (the readiness funnel) and §2.01 (the full maturity assessment), matched to what the readiness check on this page does",
+    "title": "How the readiness check works.",
+    "lead": "From your first answer to a clear path forward, in four steps.",
+    "cta": {
+      "label": "Start the check",
+      "href": "#readiness-check"
+    },
+    "steps": [
+      {
+        "title": "Answer six questions",
+        "body": "One for each dimension of the Governance Readiness™ score. Pick the answer closest to how things work in your organisation today."
+      },
+      {
+        "title": "Watch your score build",
+        "body": "Your 0 to 100 score updates with every answer, with a radar across all six dimensions and your level on the five-level model."
+      },
+      {
+        "title": "Walk through your gaps",
+        "body": "Book a 45-minute gap analysis and go through your results with a certified AI governance specialist."
+      },
+      {
+        "title": "Go deeper",
+        "body": "The full AI Governance Maturity Assessment takes 10 minutes and ends with an executive roadmap."
+      }
+    ]
+  },
   "check": {
     "title": "How AI-governance ready is your organisation?",
     "lead": "Answer six questions, one for each dimension of the Governance Readiness™ score. Pick the answer closest to how things work today. Your score builds as you go.",

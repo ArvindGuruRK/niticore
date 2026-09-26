@@ -1,9 +1,11 @@
 import { AssessmentIndex } from "@/components/assessments/assessment-index";
 import { MaturityLadder } from "@/components/assessments/maturity-ladder";
 import { ReadinessCheck } from "@/components/assessments/readiness-check";
+import { Timeline } from "@/components/motion/timeline";
 import { PageHero } from "@/components/page/page-hero";
 import { SectionHeader } from "@/components/page/section-header";
 import { GetStarted } from "@/components/sections/get-started";
+import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import content from "@/content/assessments.json";
 import { pageMetadata } from "@/lib/site";
@@ -13,7 +15,7 @@ export const metadata = pageMetadata(
   "Six focused AI governance assessments and a 0 to 100 Governance Readiness score, starting with a free 10-minute diagnostic.",
 );
 
-const { model, check, suite, cta } = content;
+const { model, journey, check, suite, cta } = content;
 
 export default function AssessmentsPage() {
   return (
@@ -32,6 +34,19 @@ export default function AssessmentsPage() {
         <Container className="flex flex-col gap-12 sm:gap-16">
           <SectionHeader id="model-heading" title={model.title} lead={model.lead} />
           <MaturityLadder levels={model.levels} />
+        </Container>
+      </section>
+
+      {/* The check's four steps: heading and CTA stay put on the left while the timeline fills on the right */}
+      <section aria-labelledby="journey-heading" className="pb-section">
+        <Container className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <div className="flex flex-col items-start gap-8 lg:sticky lg:top-32 lg:self-start">
+            <SectionHeader id="journey-heading" align="left" title={journey.title} lead={journey.lead} />
+            <Button href={journey.cta.href} size="lg" arrow>
+              {journey.cta.label}
+            </Button>
+          </div>
+          <Timeline numbered items={journey.steps} className="lg:pt-2" />
         </Container>
       </section>
 

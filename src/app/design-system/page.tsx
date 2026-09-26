@@ -143,8 +143,11 @@ const ANIMATIONS = [
   { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },
   { name: "Log stream", where: "motion/log-stream", trigger: "Loops while on screen", note: "Lines print in sequence, hold, clear" },
   { name: "Evidence simulator", where: "frameworks/evidence-simulator", trigger: "Each time it enters view", note: "Wires fan out, targets tick, tally rises" },
-  { name: "Vertical tabs", where: "motion/vertical-tabs", trigger: "Autoplay on screen, click, keyboard", note: "Raised selection, progress line, panel fade-rise" },
+  { name: "Vertical tabs", where: "motion/vertical-tabs", trigger: "Autoplay on screen, click, keyboard", note: "Raised selection, progress line, panel fade-rise; top tile layout; data-pop chips" },
   { name: "Flow steps", where: "motion/flow-steps", trigger: "Scrubbed", note: "Line fills through the chain, nodes light" },
+  { name: "Progress grid", where: "motion/progress-grid", trigger: "Scroll position", note: "Tiles light in order as you read" },
+  { name: "Tick list", where: "motion/tick-list", trigger: "Each time it enters view", note: "Checks fill green in turn" },
+  { name: "Flip card", where: "motion/flip-card", trigger: "Tap, click, corner button; pointer tilt", note: "3D turn with a mid-flip lift" },
   { name: "Drift", where: "illustrations/drift", trigger: "Load, loops", note: "Idle bob and sway for margin doodles after they draw" },
   { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, replays on every return, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
 ];

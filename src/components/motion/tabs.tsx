@@ -15,8 +15,17 @@ type Tab = {
  * Tabs with a sliding pill indicator and a fade-rise panel swap. Follows the WAI-ARIA tabs
  * pattern: roving tabindex, arrow keys, Home and End. The indicator re-measures on resize.
  * Under reduced motion the indicator jumps and the panel swaps instantly.
+ * `align="center"` centres the pill row over the panel (default: left).
  */
-export function Tabs({ tabs, className }: { tabs: Tab[]; className?: string }) {
+export function Tabs({
+  tabs,
+  align = "start",
+  className,
+}: {
+  tabs: Tab[];
+  align?: "start" | "center";
+  className?: string;
+}) {
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(tabs[0]?.id);
@@ -75,7 +84,10 @@ export function Tabs({ tabs, className }: { tabs: Tab[]; className?: string }) {
       <div
         role="tablist"
         aria-orientation="horizontal"
-        className="relative inline-flex max-w-full self-start overflow-x-auto rounded-control border border-line bg-white/[0.03] p-1"
+        className={cn(
+          "relative inline-flex max-w-full overflow-x-auto rounded-control border border-line bg-white/[0.03] p-1",
+          align === "center" ? "self-center" : "self-start",
+        )}
       >
         <span
           data-indicator=""

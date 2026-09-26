@@ -1,0 +1,215 @@
+{
+  "$source": "docs/content/05_capability_masterclass_and_advisory.md (tracks, 16 modules, practice areas, engagement models); the Masterclass and Advisory pages of docs/trustlayer_inner_pages_v4 1 (1).html (headlines, track copy, outcomes, practice-area copy, engagement copy). TrustLayer was the earlier product name.",
+  "hero": {
+    "lead": "The practical programme for leaders and teams responsible for AI, built on real regulatory frameworks and delivered by governance practitioners, not academic theorists. Then an advisory practice that takes governance from policy to practice."
+  },
+  "tracks": {
+    "title": "Three tracks. One governance language.",
+    "lead": "Each track gives participants what they need for their role, so when governance decisions surface, everyone across the organisation speaks the same language.",
+    "items": [
+      {
+        "name": "Executive intensive",
+        "for": "For the boardroom.",
+        "duration": "4 hours",
+        "format": "Half-day format",
+        "description": "A concentrated programme for boards, the C-suite and senior leadership: AI governance strategy, the regulatory landscape, board-level oversight and how to read a governance health score.",
+        "audience": "Board · C-suite · General Counsel",
+        "tone": "violet",
+        "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1200&h=900&fit=crop&auto=format",
+        "alt": "Two people reviewing a decision together"
+      },
+      {
+        "name": "Practitioner programme",
+        "for": "For the operators.",
+        "duration": "2 days",
+        "format": "Deep-dive format",
+        "description": "A two-day deep dive for governance, risk, compliance, legal and technology teams: EU AI Act implementation, ISO 42001 requirements, risk assessment methodology and evidence compilation.",
+        "audience": "Risk · Compliance · Legal · Lead auditors",
+        "tone": "blue",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&h=900&fit=crop&auto=format",
+        "alt": "Analytics dashboard with charts and metrics"
+      },
+      {
+        "name": "AI team workshop",
+        "for": "For the builders.",
+        "duration": "1 day",
+        "format": "Workshop format",
+        "description": "A one-day workshop for product managers, data scientists and AI engineers: DevSecOps guardrails, LLM prompt-injection defence, agentic autonomy limits and bias testing in training pipelines.",
+        "audience": "ML engineers · Data scientists · Product · AI architects",
+        "tone": "green",
+        "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&h=900&fit=crop&auto=format",
+        "alt": "Close-up of code on a dark terminal screen"
+      }
+    ],
+    "flipHint": "Tap the card to flip it"
+  },
+  "curriculum": {
+    "title": "What you'll actually learn.",
+    "lead": "Sixteen modules taught through real governance scenarios, not abstract theory. Participants leave with knowledge they use the next day.",
+    "modules": [
+      {
+        "title": "AI Governance Fundamentals",
+        "body": "Definitions, core principles and the AI lifecycle."
+      },
+      {
+        "title": "EU AI Act in Practice",
+        "body": "Annex III classification, conformity and Article 27 FRIA."
+      },
+      {
+        "title": "ISO/IEC 42001:2023",
+        "body": "Designing and certifying an AI Management System."
+      },
+      {
+        "title": "NIST AI RMF 1.0",
+        "body": "Operationalising GOVERN, MAP, MEASURE and MANAGE."
+      },
+      {
+        "title": "AI Risk Management",
+        "body": "Scoring probabilistic systems vs. deterministic code."
+      },
+      {
+        "title": "Responsible AI & Ethics",
+        "body": "Fairness, transparency, explainability and accountability."
+      },
+      {
+        "title": "AI Lifecycle Governance",
+        "body": "From prototype to production monitoring and retirement."
+      },
+      {
+        "title": "Agentic AI & Autonomous Systems",
+        "body": "Tool use, runtime boundaries and kill-switches."
+      },
+      {
+        "title": "Policies & Control Frameworks",
+        "body": "Writing enforceable, automated AI policies."
+      },
+      {
+        "title": "UAE & GCC Regulatory Suite",
+        "body": "DIFC Regulation 10, UAE PDPL and ADGM FSRA mandates."
+      },
+      {
+        "title": "Governance Operating Models",
+        "body": "RACI matrices, AI ethics committees and role definition."
+      },
+      {
+        "title": "Board & C-Suite Reporting",
+        "body": "Metrics that convey real risk without technical jargon."
+      },
+      {
+        "title": "Third-Party AI & Supply Chain",
+        "body": "Auditing SaaS vendors, foundation models and external APIs."
+      },
+      {
+        "title": "LLM Evaluation & Red Teaming",
+        "body": "Stress-testing, hallucination detection and jailbreak prevention."
+      },
+      {
+        "title": "Data Governance for AI",
+        "body": "Training data provenance, copyright and synthetic data validation."
+      },
+      {
+        "title": "Maturity & Continuous Improvement",
+        "body": "Progressing from Level 1 Emerging to Level 5 Adaptive."
+      }
+    ]
+  },
+  "outcomes": {
+    "title": "What your team leaves with.",
+    "items": [
+      "A shared governance vocabulary across teams",
+      "A deep understanding of the regulations that apply",
+      "The ability to assess AI systems for risk and compliance",
+      "Practical knowledge of policy and control design",
+      "Internal champions to drive governance adoption",
+      "A governance baseline to measure progress"
+    ]
+  },
+  "practice": {
+    "title": "Strategy. Framework. Implementation. Assurance.",
+    "lead": "Niticore Advisory goes beyond strategy decks. Certified practitioners design governance that actually gets implemented, then configure it straight into the platform so it sticks.",
+    "areas": [
+      {
+        "name": "Strategy",
+        "title": "Build the strategy.",
+        "body": "Define the vision, priorities and operating model for AI governance. Align stakeholders from the board to the build team before a single policy is written.",
+        "points": [
+          "AI governance vision, risk appetite and principles",
+          "Regulatory exposure mapped across every operating region",
+          "Governance structure, AI committee charter and RACI roles"
+        ],
+        "tone": "violet"
+      },
+      {
+        "name": "Framework",
+        "title": "Design the framework.",
+        "body": "Bespoke frameworks, policies and controls for your sector, scale and regulatory context. Not a generic template.",
+        "points": [
+          "Policy suites for acceptable use, model validation and procurement",
+          "Control libraries harmonised across ISO 42001, EU AI Act, NIST and UAE mandates",
+          "Custom risk classification rubrics and assessment criteria"
+        ],
+        "tone": "blue"
+      },
+      {
+        "name": "Implementation",
+        "title": "Operationalise across your organisation.",
+        "body": "Turn the framework into daily practice, embedded in workflows, tools and teams. This is where most governance programmes stall.",
+        "points": [
+          "Niticore workflows, approval gates and CI/CD and MLOps integrations",
+          "Governance checkpoints inside JIRA, ServiceNow and GitHub",
+          "Change management, champion training and handover"
+        ],
+        "tone": "green"
+      },
+      {
+        "name": "Assurance",
+        "title": "Validate and continuously improve.",
+        "body": "Independent review of your governance posture against frameworks, regulations and your own standards. An ongoing assurance relationship, not a one-off audit.",
+        "points": [
+          "Formal gap analyses and external audit dry runs",
+          "Preparation for accredited ISO/IEC 42001 certification audits",
+          "Regulatory intelligence and quarterly executive posture reviews"
+        ],
+        "tone": "violet"
+      }
+    ]
+  },
+  "engage": {
+    "title": "Three ways to start.",
+    "lead": "Not every organisation needs the same commitment. Choose the engagement that fits where you are.",
+    "models": [
+      {
+        "name": "Discovery Workshop",
+        "duration": "Half-day",
+        "kind": "Single engagement",
+        "idealFor": "Organisations establishing baseline awareness",
+        "outcome": "Executive briefing, a regulatory heat map and your top 5 immediate governance gaps.",
+        "cta": "Book a discovery session"
+      },
+      {
+        "name": "Governance Sprint",
+        "duration": "6–8 weeks",
+        "kind": "Structured engagement",
+        "idealFor": "Companies preparing for regulatory deadlines",
+        "outcome": "Framework designed, policies authored, initial AI portfolio registered on Niticore and team trained.",
+        "cta": "Talk to our team"
+      },
+      {
+        "name": "Ongoing Advisory Retainer",
+        "duration": "Monthly",
+        "kind": "Long-term relationship",
+        "idealFor": "High-growth firms scaling AI rapidly",
+        "outcome": "Continuous regulatory updates, quarterly audits, incident response guidance and board-ready reporting support.",
+        "cta": "Discuss a retainer"
+      }
+    ]
+  },
+  "cta": {
+    "title": "We don't just help you comply. We help you build the capability.",
+    "lead": "Talk to a governance expert about what your organisation needs to move from documentation to durable governance.",
+    "primary": {
+      "label": "Talk to an expert",
+      "href": "/demo"
+    }
+  }
+}
