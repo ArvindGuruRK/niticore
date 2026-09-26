@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/page/section-header";
 import { Container } from "@/components/ui/container";
 
 /** docs/content/02 §1: the five questions the platform's control loop answers. */
-const QUESTIONS = [
+export const QUESTIONS = [
   {
     meta: "01",
     title: "What AI do we actually have?",

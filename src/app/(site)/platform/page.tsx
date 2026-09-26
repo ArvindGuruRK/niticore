@@ -7,10 +7,7 @@ import { Pillars } from "@/components/platform/pillars";
 import { GetStarted } from "@/components/sections/get-started";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Platform",
-  "One place to know, govern and prove that every AI system in your organisation is under control.",
-);
+export const metadata = pageMetadata("/platform");
 
 export default function PlatformPage() {
   return (

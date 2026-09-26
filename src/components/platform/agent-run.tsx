@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/page/section-header";
 import { Container } from "@/components/ui/container";
 
 /** docs/content/02 §4: the six agentic governance pillars, in the doc's own short form. */
-const CONTROLS = [
+export const CONTROLS = [
   { title: "Agent Identity", body: "Cryptographic agent ID, owner and role" },
   { title: "Autonomy Limits", body: "Pre-approved budgets and authority caps" },
   { title: "Tools & Data", body: "Allowed API endpoints and database privileges" },

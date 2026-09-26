@@ -6,10 +6,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/demo.json";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Book a demo",
-  "Book a 45-minute live platform demo. Bring your AI systems and a certified AI governance specialist will show you where the gaps are.",
-);
+export const metadata = pageMetadata("/demo");
 
 const { form } = content;
 

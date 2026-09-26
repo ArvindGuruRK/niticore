@@ -105,6 +105,13 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - **Going live on a new Vercel account:** `vercel link` → `vercel integration add resend` (accept the terms, set the domain and region) → set `DEMO_TEAM_EMAIL` (and `NEXT_PUBLIC_SITE_URL`) with `vercel env add` → `vercel env pull` for local testing → verify the sending domain in Resend's DNS settings → set `DEMO_FROM_EMAIL` on that domain.
 - **Firewall (after linking, staged: log first, then enforce).** Add a platform rate limit on the form's POSTs: `vercel firewall rules add "Book a demo rate limit" --condition '{"type":"path","op":"eq","value":"/demo"}' --condition '{"type":"method","op":"eq","value":"POST"}' --action rate_limit --rate-limit-window 600 --rate-limit-requests 20 --rate-limit-keys ip --rate-limit-action log --yes`, then `vercel firewall diff` and publish (`vercel firewall publish --yes`, run by a person). After reviewing its hits in the Firewall dashboard, edit `--rate-limit-action` to `rate_limit` and publish again. Optionally create a Rate Limiting SDK rule in the dashboard and put its id in `DEMO_RATE_LIMIT_ID`.
 
+## SEO and AI discovery
+
+- **One list of pages.** `PAGES` in `src/lib/site.ts` holds every public page's title and description. It feeds page metadata (`pageMetadata(path)`, which also sets the canonical URL and Open Graph), `sitemap.xml`, `llms.txt` and structured data. **A new public page must be added to `PAGES`.**
+- **Files** (all static, built at build time): `src/app/sitemap.ts`, `src/app/robots.ts` (search and AI crawlers named and allowed; only `/design-system` is kept out, and it is `noindex`), `src/app/llms.txt/route.ts` and `src/app/llms-full.txt/route.ts` (Markdown for AI assistants, per llmstxt.org), `src/app/logo.png/route.tsx` (512 px square logo for structured data).
+- **llms-full.txt is generated** by `src/lib/llms.ts` from the same data the pages render: the JSON in `src/content` and the exported constants in the FAQ and Platform sections. Keep page copy in those sources so the AI file never drifts from the site. Example figures are labelled as examples.
+- **Structured data:** `src/components/seo/json-ld.tsx` renders JSON-LD safely (`<` escaped). Organization and WebSite on every page (root layout); FAQPage on the home page, from the FAQ items.
+
 ## House style
 
 - **No eyebrows.** Never put a pill, badge or small label above a heading.

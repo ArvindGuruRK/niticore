@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/page/section-header";
 import { Container } from "@/components/ui/container";
 
 /** docs/content/02 §5: the live Governance Health dashboard figures. */
-const DOMAINS = [
+export const DOMAINS = [
   { label: "AI Inventory", value: 92 },
   { label: "AI Literacy", value: 84 },
   { label: "Policy Coverage", value: 81 },
@@ -14,7 +14,7 @@ const DOMAINS = [
   { label: "Evidence Readiness", value: 68 },
 ];
 
-const FEED = [
+export const FEED = [
   { count: "3", text: "high-risk systems without completed FRIA documentation" },
   { count: "7", text: "scheduled risk assessments due this quarter" },
   { count: "12", text: "controls awaiting validated evidence filings" },

@@ -10,10 +10,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/academy.json";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Academy & Advisory",
-  "AI governance masterclasses for boards, operators and builders, and expert-led advisory that configures governance straight into Niticore.",
-);
+export const metadata = pageMetadata("/academy-advisory");
 
 const { hero, tracks, curriculum, outcomes, practice, engage, cta } = content;
 

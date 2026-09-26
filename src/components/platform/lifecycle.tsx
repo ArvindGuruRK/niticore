@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/page/section-header";
 import { Container } from "@/components/ui/container";
 
 /** docs/content/02 §2: the 7-stage continuous governance lifecycle. */
-const STAGES = [
+export const STAGES = [
   {
     title: "Discover",
     question: "What AI exists?",

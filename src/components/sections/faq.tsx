@@ -6,7 +6,7 @@ import { Container } from "@/components/ui/container";
 
 /** Sourced from docs/content — 01 (positioning), 02 (architecture), 03 (frameworks),
  *  04 (assessments), 07 (pricing). Nothing here is invented. */
-const ITEMS = [
+export const ITEMS = [
   {
     id: "what-is-niticore",
     title: "What is Niticore?",

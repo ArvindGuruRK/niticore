@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 type Pillar = { title: string; icon: Icon; tone: CardTone; points: string[] };
 
 /** docs/content/02 §3: the four core platform pillars. */
-const PILLARS: Pillar[] = [
+export const PILLARS: Pillar[] = [
   {
     title: "AI Visibility & Discovery",
     icon: Binoculars,

@@ -10,10 +10,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/assessments.json";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Assessments",
-  "Six focused AI governance assessments and a 0 to 100 Governance Readiness score, starting with a free 10-minute diagnostic.",
-);
+export const metadata = pageMetadata("/assessments");
 
 const { model, journey, check, suite, cta } = content;
 

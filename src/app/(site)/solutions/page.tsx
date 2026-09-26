@@ -8,10 +8,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/solutions.json";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Solutions",
-  "AI governance for industries where AI errors carry real financial, legal or human consequences, with a view for every stakeholder.",
-);
+export const metadata = pageMetadata("/solutions");
 
 const { hero, industries, personas, statement, cta } = content;
 

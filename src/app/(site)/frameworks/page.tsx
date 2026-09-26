@@ -11,10 +11,7 @@ import { Container } from "@/components/ui/container";
 import content from "@/content/frameworks.json";
 import { pageMetadata } from "@/lib/site";
 
-export const metadata = pageMetadata(
-  "Frameworks",
-  "One governance action, credited against the EU AI Act, ISO/IEC 42001, NIST AI RMF, GDPR and UAE regulation at once.",
-);
+export const metadata = pageMetadata("/frameworks");
 
 const { simulator, explorer, pipeline, regional, cta } = content;
 

@@ -3,7 +3,8 @@ import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { AnnouncementBar } from "@/components/announcement-bar";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
-import { SITE_URL } from "@/lib/site";
+import { JsonLd, SITE_GRAPH } from "@/components/seo/json-ld";
+import { PAGES, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const sora = Sora({
@@ -41,17 +42,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   // Inner pages set a bare title ("Platform") and the template adds the brand
   title: {
-    default: "Niticore | The operating layer for governed AI",
+    default: PAGES["/"].title,
     template: "%s | Niticore",
   },
-  description:
-    "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
+  description: PAGES["/"].description,
+  // The home page's canonical address; inner pages set their own through pageMetadata()
+  alternates: { canonical: "/" },
   openGraph: {
+    url: "/",
     type: "website",
     siteName: "Niticore",
-    title: "Niticore | The operating layer for governed AI",
-    description:
-      "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
+    title: PAGES["/"].title,
+    description: PAGES["/"].description,
   },
   twitter: { card: "summary_large_image" },
 };
@@ -66,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <noscript>
           <style>{"[data-anim],[data-anim-stagger]>*,[data-word]{opacity:1!important}[data-split]{visibility:visible!important}[data-clip]{clip-path:none!important}[data-draw]{visibility:visible!important}"}</style>
         </noscript>
+        <JsonLd data={SITE_GRAPH} />
         <AnnouncementBar />
         <SmoothScroll />
         <BackToTop />
