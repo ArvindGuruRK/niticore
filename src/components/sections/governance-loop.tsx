@@ -51,7 +51,9 @@ const STAGES = [
 ].map((stage) => ({
   title: stage.title,
   body: (
-    <p>
+    // Narrower than PinScrub's max-w-2xl so the copy clears the network graphic. The lead and the
+    // rest flow as one paragraph (a forced break left a short orphan line when a lead wraps)
+    <p className="max-w-xl">
       <span className="text-fg">{stage.lead} </span>
       <span className="text-fg-muted">{stage.rest}</span>
     </p>
