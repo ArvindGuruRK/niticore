@@ -1,0 +1,42 @@
+{
+  "$source": "Event facts: the organiser (aieverythingabudhabi.com: name, dates, venue, opening hours) and the client (stand numbers, booth render in public/event-image). Product copy: docs/content/04 §2 (free 10-minute diagnostic). The two stations come from the booth render.",
+  "event": {
+    "name": "AI Everything Abu Dhabi",
+    "dates": "6–7 October 2026",
+    "venue": "ADNEC Centre Abu Dhabi",
+    "venueName": "ADNEC Centre",
+    "venueCity": "Abu Dhabi",
+    "flag": { "code": "AE", "alt": "United Arab Emirates flag" },
+    "stands": "H3-P041 + H3-P042",
+    "standList": ["H3-P041", "H3-P042"],
+    "start": "2026-10-06T11:00:00+04:00",
+    "end": "2026-10-07T18:00:00+04:00",
+    "website": "https://www.aieverythingabudhabi.com/home",
+    "directions": "https://www.google.com/maps/search/?api=1&query=ADNEC+Centre+Abu+Dhabi",
+    "hours": [
+      { "day": "Tue 6 Oct", "time": "11:00–18:00", "start": "20261006T070000Z", "end": "20261006T140000Z" },
+      { "day": "Wed 7 Oct", "time": "09:00–18:00", "start": "20261007T050000Z", "end": "20261007T140000Z" }
+    ]
+  },
+  "intro": {
+    "lead": "Come and see Niticore live at our stand. Take the free 10-minute readiness diagnostic, or sit down with our team for a guided walkthrough of the platform."
+  },
+  "countdown": {
+    "before": "Doors open in",
+    "live": "We're live now at stands H3-P041 + H3-P042.",
+    "after": "Thank you to everyone who visited us in Abu Dhabi."
+  },
+  "booth": {
+    "alt": "The Niticore stand at AI Everything Abu Dhabi: an AI Governance Readiness Lab with two screens, a visitor self-scan iPad and a guided demo iPad, under the question \"Can you prove your AI is governed?\""
+  },
+  "visit": {
+    "datesLabel": "Dates",
+    "hoursLabel": "Hours",
+    "venueLabel": "Venue",
+    "standsLabel": "Find us at stands",
+    "timezone": "Abu Dhabi time (GST)",
+    "calendar": "Add to calendar",
+    "directionsLabel": "Get directions",
+    "websiteLabel": "Event website"
+  }
+}

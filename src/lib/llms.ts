@@ -7,6 +7,7 @@ import { ITEMS as FAQ } from "@/components/sections/faq";
 import academy from "@/content/academy.json";
 import assessments from "@/content/assessments.json";
 import demo from "@/content/demo.json";
+import event from "@/content/event.json";
 import frameworks from "@/content/frameworks.json";
 import solutions from "@/content/solutions.json";
 import { PAGES, SITE_URL, type PagePath } from "./site";
@@ -194,6 +195,20 @@ function demoSection() {
   );
 }
 
+function eventSection() {
+  const { event: e, intro } = event;
+  return block(
+    `## ${PAGES["/ai-everything"].title} (${url("/ai-everything")})`,
+    intro.lead,
+    list([
+      `Dates: ${e.dates}`,
+      `Venue: ${e.venue}`,
+      `Stands: ${e.stands}`,
+      ...e.hours.map((h) => `${h.day}: ${h.time} (Abu Dhabi time)`),
+    ]),
+  );
+}
+
 /** Everything, in page order. */
 export function llmsFull(): string {
   return block(
@@ -206,6 +221,7 @@ export function llmsFull(): string {
     assessmentsSection(),
     solutionsSection(),
     academySection(),
+    eventSection(),
     demoSection(),
   );
 }

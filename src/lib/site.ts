@@ -49,6 +49,11 @@ export const PAGES = {
     description:
       "AI governance masterclasses for boards, operators and builders, and expert-led advisory that configures governance straight into Niticore.",
   },
+  "/ai-everything": {
+    title: "AI Everything Abu Dhabi",
+    description:
+      "Meet Niticore at AI Everything Abu Dhabi, 6–7 October 2026, ADNEC Centre, stands H3-P041 + H3-P042. Take the free readiness diagnostic or get a guided walkthrough of the platform.",
+  },
   "/demo": {
     title: "Book a demo",
     description:

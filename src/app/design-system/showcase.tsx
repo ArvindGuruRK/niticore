@@ -9,7 +9,9 @@ import { StarFive } from "@/components/illustrations/star-five";
 import { FlyingPlane } from "@/components/illustrations/flying-plane";
 import { ChatBubbles } from "@/components/illustrations/chat-bubbles";
 import { CalendarCheck } from "@/components/illustrations/calendar-check";
+import { Countdown } from "@/components/motion/countdown";
 import { FocusList } from "@/components/motion/focus-list";
+import eventContent from "@/content/event.json";
 import { LogStream } from "@/components/motion/log-stream";
 import { EvidenceSimulator } from "@/components/frameworks/evidence-simulator";
 import { FlipCard } from "@/components/motion/flip-card";
@@ -504,6 +506,21 @@ export function MotionShowcase() {
             { id: "asse", label: "Assess", content: <p className="type-body max-w-[60ch]">Quantified scoring across bias, privacy, security and safety.</p> },
             { id: "evid", label: "Evidence", content: <p className="type-body max-w-[60ch]">Reusable, tamper-evident proof ready for the regulator.</p> },
           ]}
+        />
+      </Demo>
+
+      <Demo
+        title="Countdown"
+        note="Live countdown to a date, used on the AI Everything Abu Dhabi page. Each tile's digits roll down when they change. It shows the live message between start and end, and the after message once it is over. The server renders dashes and the client fills in the real count, so there is no hydration mismatch. Reduced motion swaps the roll for a plain change."
+      >
+        <Countdown
+          start={eventContent.event.start}
+          end={eventContent.event.end}
+          label={eventContent.countdown.before}
+          live={eventContent.countdown.live}
+          after={eventContent.countdown.after}
+          dateLabel="6 October 2026, 11:00 Abu Dhabi time"
+          className="items-start"
         />
       </Demo>
 
