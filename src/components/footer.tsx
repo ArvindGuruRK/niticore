@@ -5,6 +5,7 @@ import { Parallax } from "@/components/motion/parallax";
 import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
 import { NAV_LINKS } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 const SITEMAP = [{ label: "Home", href: "/" }, ...NAV_LINKS];
 
@@ -100,7 +101,12 @@ export function Footer() {
 
         <Container className="relative flex flex-col gap-4 border-t border-line py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="type-caption">© {new Date().getFullYear()} Niticore. All rights reserved.</p>
-          <p className="type-caption flex items-center gap-3">
+          <a
+            href="https://tridentnets.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group type-caption flex items-center gap-3 self-start transition-colors duration-200 hover:text-fg focus-visible:text-fg sm:self-auto"
+          >
             Designed by
             {/* eslint-disable-next-line @next/next/no-img-element -- static white SVG wordmark; next/image won't optimise SVG */}
             <img
@@ -109,9 +115,11 @@ export function Footer() {
               width={115}
               height={16}
               loading="lazy"
-              className="h-4 w-auto opacity-80"
+              className="h-4 w-auto opacity-80 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
             />
-          </p>
+            <span className="sr-only"> (opens in a new tab)</span>
+            <ArrowUpRight aria-hidden weight="bold" className={cn(arrowClass, "size-3.5")} />
+          </a>
         </Container>
       </footer>
     </div>
