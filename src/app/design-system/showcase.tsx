@@ -6,6 +6,9 @@ import { Petal } from "@/components/illustrations/petal";
 import { Sparkle } from "@/components/illustrations/sparkle";
 import { StarArc } from "@/components/illustrations/star-arc";
 import { StarFive } from "@/components/illustrations/star-five";
+import { FlyingPlane } from "@/components/illustrations/flying-plane";
+import { ChatBubbles } from "@/components/illustrations/chat-bubbles";
+import { CalendarCheck } from "@/components/illustrations/calendar-check";
 import { FocusList } from "@/components/motion/focus-list";
 import { LogStream } from "@/components/motion/log-stream";
 import { EvidenceSimulator } from "@/components/frameworks/evidence-simulator";
@@ -226,7 +229,7 @@ export function MotionShowcase() {
 
       <Demo
         title="Illustrations"
-        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc, StarFive, Petal, Zigzag and Annotate are built on it. Drift adds a slow idle bob and sway once a margin shape has drawn in (inner-page heroes: one shape per edge via PageDoodles). Colour comes from currentColor and is always text-tertiary (violet), underlines and marks included. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
+        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc, StarFive, Petal, Zigzag, CalendarCheck and Annotate are built on it; FlyingPlane glides in from the right while its trail draws behind it; ChatBubbles draw themselves, then three dots keep typing. Drift adds a slow idle bob and sway once a margin shape has drawn in (inner-page heroes: one shape per edge via PageDoodles). Colour comes from currentColor and is always text-tertiary (violet), underlines and marks included. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
       >
         <div className="flex flex-wrap items-center gap-12">
           <Sparkle size={72} className="text-tertiary" />
@@ -240,6 +243,9 @@ export function MotionShowcase() {
             <Petal className="w-28 text-tertiary" delay={0.5} />
           </Drift>
           <Zigzag className="w-32 text-tertiary" delay={0.7} />
+          <FlyingPlane className="w-48 text-tertiary" delay={0.9} />
+          <ChatBubbles className="w-40 text-tertiary" delay={1.1} />
+          <CalendarCheck className="w-28 text-tertiary" delay={1.1} stagger={0.3} duration={0.6} />
           <Annotate target="[data-mark]" trigger="view" delay={0.4} className="type-h2 text-fg">
             <p>
               Governed <span data-mark="" className="inline-block">AI agents</span>

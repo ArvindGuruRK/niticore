@@ -2,7 +2,8 @@
 
 import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckPill, Field, Input, Select, Textarea } from "@/components/ui/field";
+import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";
+import { Select } from "@/components/ui/select";
 
 /**
  * Demo request form. Native validation (required fields, email format) runs before submit.
@@ -28,14 +29,7 @@ export function DemoForm({ roles, frameworks, submit }: { roles: string[]; frame
           <Input id="demo-company" name="company" autoComplete="organization" required />
         </Field>
         <Field label="Your role" htmlFor="demo-role">
-          <Select id="demo-role" name="role" required defaultValue="">
-            <option value="" disabled>
-              Choose a role
-            </option>
-            {roles.map((r) => (
-              <option key={r}>{r}</option>
-            ))}
-          </Select>
+          <Select id="demo-role" name="role" options={roles} placeholder="Choose a role" required />
         </Field>
       </div>
 

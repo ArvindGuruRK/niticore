@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { SiteNav } from "@/components/site-nav";
 import { Button } from "@/components/ui/button";
-import { CheckPill, Field, Input, Select, Textarea } from "@/components/ui/field";
+import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";
+import { Select } from "@/components/ui/select";
 import { Container } from "@/components/ui/container";
 import { CountUp } from "@/components/motion/count-up";
 import { FooterMark } from "@/components/motion/footer-mark";
@@ -138,7 +139,7 @@ const ANIMATIONS = [
   { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
-  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, Annotate: self-drawing line art" },
+  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, FlyingPlane, ChatBubbles, CalendarCheck, Annotate: self-drawing line art" },
   { name: "Focus list", where: "motion/focus-list", trigger: "Scroll position", note: "Row in the middle band lights, others dim" },
   { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },
   { name: "Log stream", where: "motion/log-stream", trigger: "Loops while on screen", note: "Lines print in sequence, hold, clear" },
@@ -316,19 +317,14 @@ export default function DesignSystemPage() {
 
         <Block
           title="Form fields"
-          note="ui/field: Field (label, optional hint), Input, Select, Textarea and CheckPill. Fields use the 12px field radius, surface fill and a green focus ring. Used on the Book a demo page."
+          note="ui/field: Field (label, optional hint), Input, Textarea and CheckPill; ui/select: a custom dropdown (the native menu cannot be styled) that eases open, with arrow keys, typeahead, Escape and native required validation. Fields use the 12px field radius and the raised fill, so they read on cards and on the page; autofill keeps the same colours. CheckPill turns solid green with a check when on. Used on the Book a demo page."
         >
           <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
             <Field label="Work email" htmlFor="ds-email" hint="We never share it.">
               <Input id="ds-email" type="email" placeholder="name@company.com" />
             </Field>
             <Field label="Your role" htmlFor="ds-role">
-              <Select id="ds-role" defaultValue="">
-                <option value="" disabled>
-                  Choose a role
-                </option>
-                <option>Data Protection Officer</option>
-              </Select>
+              <Select id="ds-role" name="ds-role" placeholder="Choose a role" options={["Board member or CEO", "Data Protection Officer", "Internal or external auditor"]} />
             </Field>
             <Field label="Anything we should know?" htmlFor="ds-notes" optional className="sm:col-span-2">
               <Textarea id="ds-notes" />

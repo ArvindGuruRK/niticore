@@ -49,7 +49,7 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 In `src/components/`:
 
 - Section files stay server components where possible. They compose client "leaf" components from `motion/` (Reveal, WarpHeading, CountUp, TiltCard, PinScrub, Marquee and others) and `illustrations/` (hand-drawn SVG doodles and the `governance-fabric` network graphic).
-- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Select`, `Textarea`, `CheckPill`) and `VideoPlayer`.
+- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Textarea`, `CheckPill`), the custom dropdown `select.tsx` (`Select`; never use a native `<select>`) and `VideoPlayer`.
 - Icons come from `@phosphor-icons/react`. In server components import from the `/ssr` entry, for example `@phosphor-icons/react/ssr` or `.../dist/ssr/<Name>`.
 
 ## Animation system

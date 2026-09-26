@@ -1,38 +1,5 @@
 {
-  "$source": "docs/content/08 §11 (3-door CTA), 04 §3 (gap analysis walkthrough), 02 §1 (five questions), 03 (frameworks), 06 §2 (personas); hero lead from the client concept HTML in docs/",
-  "hero": {
-    "lead": "Bring your AI systems. A certified AI governance specialist will show you where the gaps are."
-  },
-  "doors": {
-    "title": "Ready to govern AI with confidence?",
-    "lead": "Wherever you are on the governance journey, we provide an immediate path forward.",
-    "items": [
-      {
-        "stage": "Just starting",
-        "quote": "I want to know where our gaps are.",
-        "cta": "Take the free 10-min assessment",
-        "href": "/assessments",
-        "tone": "green",
-        "primary": false
-      },
-      {
-        "stage": "Fragmented efforts",
-        "quote": "We have policies, but they aren't working.",
-        "cta": "Consult a governance specialist",
-        "href": "/academy-advisory",
-        "tone": "blue",
-        "primary": false
-      },
-      {
-        "stage": "Ready to operationalise",
-        "quote": "We need a continuous governance platform.",
-        "cta": "Book a 45-min live demo",
-        "href": "#book",
-        "tone": "violet",
-        "primary": true
-      }
-    ]
-  },
+  "$source": "docs/content/04 §3 (gap analysis walkthrough), 02 §1 (five questions), 03 (frameworks), 06 §2 (personas)",
   "form": {
     "title": "Book your demo.",
     "lead": "Tell us a little about your AI estate and we'll tailor the walkthrough to it.",
