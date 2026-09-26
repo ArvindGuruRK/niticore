@@ -43,6 +43,7 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
   - `platform/`, `frameworks/`, `assessments/`, `solutions/` and `academy-advisory/` are the nav pages; `demo/` is "Book a demo"; `announcements/` is the announcements page, currently the AI Everything Abu Dhabi event (linked from `AnnouncementBar` and `EventButton`, copy in `src/content/event.json`, booth image in `public/event-image/`, calendar file at `announcements/calendar.ics`; `/ai-everything` redirects here in `next.config.ts`). The nav and footer links come from `NAV_LINKS` in `src/lib/site.ts`, and each page sets its metadata with `pageMetadata()` from the same file.
   - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `solutions/`, `academy/`, `demo/`).
 - Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `solutions.json`, `academy.json`, `demo.json`), imported by the page. Edit the JSON to change text.
+- `src/app/not-found.tsx` is the 404 page. It sits outside `(site)`, so it renders `SiteNav` and `Footer` itself. The "0" of "404" (`type-numeral`) is the `LostCompass` illustration.
 - `src/app/design-system/` is an internal showcase of the tokens, type scale and motion components. **Every animation, from any library, must also be shown here.**
 - `src/app/opengraph-image.tsx` generates the social card.
 

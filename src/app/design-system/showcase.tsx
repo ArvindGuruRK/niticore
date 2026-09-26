@@ -9,6 +9,7 @@ import { StarFive } from "@/components/illustrations/star-five";
 import { FlyingPlane } from "@/components/illustrations/flying-plane";
 import { ChatBubbles } from "@/components/illustrations/chat-bubbles";
 import { CalendarCheck } from "@/components/illustrations/calendar-check";
+import { LostCompass } from "@/components/illustrations/lost-compass";
 import { Countdown } from "@/components/motion/countdown";
 import { FocusList } from "@/components/motion/focus-list";
 import eventContent from "@/content/event.json";
@@ -231,7 +232,7 @@ export function MotionShowcase() {
 
       <Demo
         title="Illustrations"
-        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc, StarFive, Petal, Zigzag, CalendarCheck and Annotate are built on it; FlyingPlane glides in from the right while its trail draws behind it; ChatBubbles draw themselves, then three dots keep typing. Drift adds a slow idle bob and sway once a margin shape has drawn in (inner-page heroes: one shape per edge via PageDoodles). Colour comes from currentColor and is always text-tertiary (violet), underlines and marks included. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
+        note="Hand-drawn line art that draws itself with DrawSVG. Doodle is the base. Sparkle, Flourish, StarArc, StarFive, Petal, Zigzag, CalendarCheck and Annotate are built on it; FlyingPlane glides in from the right while its trail draws behind it; ChatBubbles draw themselves, then three dots keep typing. LostCompass is the zero of the 404 page: the ring draws, the needle spins in and keeps hunting for north, and follows the cursor on fine pointers. Drift adds a slow idle bob and sway once a margin shape has drawn in (inner-page heroes: one shape per edge via PageDoodles). Colour comes from currentColor and is always text-tertiary (violet), underlines and marks included. Placement rule: keep them in the page margins, bleeding off the viewport edge, never between content blocks."
       >
         <div className="flex flex-wrap items-center gap-12">
           <Sparkle size={72} className="text-tertiary" />
@@ -248,6 +249,7 @@ export function MotionShowcase() {
           <FlyingPlane className="w-48 text-tertiary" delay={0.9} />
           <ChatBubbles className="w-40 text-tertiary" delay={1.1} />
           <CalendarCheck className="w-28 text-tertiary" delay={1.1} stagger={0.3} duration={0.6} />
+          <LostCompass className="w-20 text-tertiary" delay={1.2} />
           <Annotate target="[data-mark]" trigger="view" delay={0.4} className="type-h2 text-fg">
             <p>
               Governed <span data-mark="" className="inline-block">AI agents</span>

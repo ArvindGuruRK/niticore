@@ -62,6 +62,7 @@ const STATUS = [
 
 const TYPE_SCALE = [
   { token: "type-display", spec: "Sora 600 / 44 to 80px / lh 1.04 / -0.04em", cls: "type-display", sample: "Govern AI." },
+  { token: "type-numeral", spec: "Sora 600 / 112 to 240px / lh 1 / -0.06em", cls: "type-numeral", sample: "404" },
   { token: "type-hero", spec: "Sora 600 / 36 to 58px / lh 1.08 / -0.035em", cls: "type-hero", sample: "Move fast with AI." },
   {
     token: "type-h2",
@@ -141,7 +142,7 @@ const ANIMATIONS = [
   { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
-  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, FlyingPlane, ChatBubbles, CalendarCheck, Annotate: self-drawing line art" },
+  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, FlyingPlane, ChatBubbles, CalendarCheck, LostCompass, Annotate: self-drawing line art" },
   { name: "Focus list", where: "motion/focus-list", trigger: "Scroll position", note: "Row in the middle band lights, others dim" },
   { name: "Countdown", where: "motion/countdown", trigger: "Every second", note: "Live count to a date, digits roll on change" },
   { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },

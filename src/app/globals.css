@@ -254,6 +254,15 @@ html.lenis body {
   letter-spacing: -0.04em;
 }
 
+/* Oversized numerals for a single status figure, such as the 404 page's "404" */
+@utility type-numeral {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(7rem, 3.6rem + 15vw, 15rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
 @utility type-hero {
   font-family: var(--font-display);
   font-weight: 600;
