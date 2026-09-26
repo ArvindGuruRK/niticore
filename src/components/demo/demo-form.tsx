@@ -227,7 +227,7 @@ function Sent({ state }: { state: Extract<DemoState, { status: "sent" }> }) {
       </h2>
       <p className="type-lead max-w-xl">
         Thanks{state.firstName ? `, ${state.firstName}` : ""}. A certified AI governance specialist will be in touch to
-        schedule your 45-minute live platform demo.
+        schedule your live platform demo.
       </p>
       {state.confirmationSent && state.email && (
         <p className="type-body">

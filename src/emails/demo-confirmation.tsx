@@ -6,8 +6,8 @@ import { C, EmailButton, EmailShell, Pill, panel, text } from "./theme";
 
 /**
  * Sent to the visitor after they book a demo: a warm thank-you, what happens next, a recap of what
- * they sent, and the five questions the demo answers. Copy follows docs/content (04 §3: a 45-minute
- * walkthrough with a certified AI governance specialist; 02 §1: the five questions).
+ * they sent, and the five questions the demo answers. Copy follows docs/content (04 §3: a walkthrough
+ * with a certified AI governance specialist; 02 §1: the five questions).
  */
 export function DemoConfirmationEmail({
   request,
@@ -39,8 +39,8 @@ export function DemoConfirmationEmail({
           </Row>
         </Section>
         <Text style={text.lead}>
-          A certified AI governance specialist will be in touch to schedule your 45-minute live platform demo. Bring
-          your AI systems, and we&apos;ll show you where the gaps are.
+          A certified AI governance specialist will be in touch to schedule your live platform demo. Bring your AI
+          systems, and we&apos;ll show you where the gaps are.
         </Text>
         <Section style={{ marginTop: "28px" }}>
           <EmailButton href={`${siteUrl}/platform`}>Explore the platform →</EmailButton>

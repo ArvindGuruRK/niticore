@@ -52,7 +52,7 @@ export const PAGES = {
   "/demo": {
     title: "Book a demo",
     description:
-      "Book a 45-minute live platform demo. Bring your AI systems and a certified AI governance specialist will show you where the gaps are.",
+      "Book a live platform demo. Bring your AI systems and a certified AI governance specialist will show you where the gaps are.",
   },
 } as const;
 
