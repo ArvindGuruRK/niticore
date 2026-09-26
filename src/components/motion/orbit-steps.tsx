@@ -146,11 +146,11 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
                 onKeyDown={(e) => onKeyDown(e, i)}
                 style={{ left: `${50 + R * Math.cos(a)}%`, top: `${50 + R * Math.sin(a)}%` }}
                 className={cn(
-                  "absolute grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border text-xs font-bold tabular-nums transition-colors duration-300 sm:size-12 sm:text-sm",
+                  "absolute grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 text-xs font-bold tabular-nums transition-colors duration-300 sm:size-12 sm:text-sm",
                   selected
                     ? "border-accent bg-accent text-accent-ink shadow-accent"
                     : i < active
-                      ? "border-accent/60 bg-surface text-accent hover:bg-raised"
+                      ? "border-accent bg-surface text-accent hover:bg-raised"
                       : "border-line-strong bg-surface text-fg-muted hover:border-white/30 hover:text-fg",
                 )}
               >
