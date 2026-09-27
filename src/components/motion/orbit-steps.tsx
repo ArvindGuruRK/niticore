@@ -20,14 +20,14 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * Steps arranged on a loop. A green arc runs from the first node to the active one, and a comet dot
  * travels round the ring to it (always forwards, so 07 → 01 closes the loop instead of rewinding).
  * The centre and the side panel show the active step. While on screen it advances by itself every
- * `interval` seconds, with a progress line filling under the panel; clicking or using the arrow keys
- * takes over, stops the autoplay and hides the line. Follows the WAI-ARIA tabs pattern. Reduced motion: no autoplay, no tweens.
+ * `interval` seconds, with a progress line filling under the panel; clicking a node or using the arrow
+ * keys jumps straight there and the autoplay clock restarts from that step, so it keeps looping either
+ * way. Follows the WAI-ARIA tabs pattern. Reduced motion: no autoplay, no tweens.
  */
 export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitStep[]; interval?: number; className?: string }) {
   const uid = useId();
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [auto, setAuto] = useState(true);
   const angle = useRef(0); // comet rotation, cumulative so it only ever moves forwards
   const n = steps.length;
   const timer = useRef<{ tween: gsap.core.Tween; trigger: ScrollTrigger } | null>(null);
@@ -54,7 +54,7 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
       timer.current?.trigger.kill();
       timer.current?.tween.kill();
       timer.current = null;
-      if (!motion || !auto) return;
+      if (!motion) return;
       const tween = gsap.fromTo(
         q("[data-timer]"),
         { scaleX: 0 },
@@ -69,11 +69,10 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
       if (trigger.isActive) tween.resume();
       timer.current = { tween, trigger };
     },
-    { scope: root, dependencies: [active, auto, n, interval] },
+    { scope: root, dependencies: [active, n, interval] },
   );
 
   const choose = (i: number) => {
-    setAuto(false);
     setActive(i);
   };
 
@@ -184,11 +183,9 @@ export function OrbitSteps({ steps, interval = 3.5, className }: { steps: OrbitS
             </li>
           ))}
         </ul>
-        {auto && (
-          <div aria-hidden className="mt-2 h-0.5 w-full overflow-hidden rounded-control bg-white/[0.07]">
-            <span data-timer="" className="block h-full origin-left scale-x-0 rounded-control bg-accent" />
-          </div>
-        )}
+        <div aria-hidden className="mt-2 h-0.5 w-full overflow-hidden rounded-control bg-white/[0.07]">
+          <span data-timer="" className="block h-full origin-left scale-x-0 rounded-control bg-accent" />
+        </div>
       </div>
     </div>
   );

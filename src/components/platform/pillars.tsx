@@ -80,9 +80,7 @@ export function Pillars() {
                 className={cn("flex h-full flex-col gap-6 border-white/10 p-card sm:p-8", tone.className)}
               >
                 <div className="flex items-center justify-between">
-                  <span className="grid size-12 place-items-center rounded-full bg-white/15 text-fg">
-                    <Glyph weight="duotone" aria-hidden className="size-6" />
-                  </span>
+                  <Glyph weight="duotone" aria-hidden className="size-9 text-fg" />
                   <span className="type-h3 tabular-nums text-fg/60">0{i + 1}</span>
                 </div>
                 <h3 className="type-h3 text-fg">{pillar.title}</h3>
