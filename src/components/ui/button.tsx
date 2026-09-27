@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, type ComponentProps, type Ref } from "react";
 import { ArrowRight } from "@phosphor-icons/react";
 import { useFillHover } from "@/components/motion/fill-hover";
+import { useMagneticGlow } from "@/components/motion/magnetic-glow";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "ghost";
@@ -22,9 +23,12 @@ type ButtonProps = BaseProps &
   );
 
 const variants: Record<Variant, string> = {
-  // Ink text on signal green: 11.7:1 contrast
+  // Ink text on signal green: 11.7:1 contrast. On a fine pointer the pill leans toward the
+  // cursor (useMagneticGlow) and the fill eases to accent-hover, a touch lighter/less intense.
+  // GSAP owns `transform` entirely here, so the CSS transition below excludes it to avoid
+  // double-easing.
   primary:
-    "bg-accent text-accent-ink shadow-accent hover:bg-accent-hover hover:-translate-y-px",
+    "bg-accent text-accent-ink shadow-accent transition-[background-color,border-color,color] hover:bg-accent-hover",
   // Glass outline: bordered, tinted fill so it reads on the canvas. On a fine pointer a light
   // pill wipes in from the side the cursor enters (useFillHover) and the label turns ink.
   secondary:
@@ -49,6 +53,8 @@ export function Button({
   const fill = useRef<HTMLSpanElement>(null);
   const filled = variant === "secondary";
   useFillHover(root, fill, filled);
+  const magnetic = variant === "primary";
+  useMagneticGlow(root, magnetic);
 
   const classes = cn(
     "group inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control font-semibold",
