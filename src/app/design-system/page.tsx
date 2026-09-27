@@ -299,7 +299,8 @@ export default function DesignSystemPage() {
             </Button>
           </div>
           <p className="type-caption">
-            Hover lifts 1px and the arrow nudges. Press scales to 0.98. Focus shows a 2px green ring with a 3px offset.
+            Hover lifts 1px and the arrow nudges. On the outline button a light spotlight expands from wherever the
+            cursor enters and collapses back to wherever it leaves (fine pointers only). Press scales to 0.98. Focus shows a 2px green ring with a 3px offset.
             Tab through to check.
           </p>
         </Block>
