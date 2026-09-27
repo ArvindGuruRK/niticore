@@ -133,7 +133,8 @@ export function TextLoop({
   const tailRef = useRef<SVGTextPathElement>(null);
 
   const [box, setBox] = useState({ width: FALLBACK_W, height: FALLBACK_H });
-  const [metrics, setMetrics] = useState({ length: 0, reps: 1 });
+  // period: the laid-out width of one copy of the looped text (reps units), which is the loop's step
+  const [metrics, setMetrics] = useState({ period: 0, reps: 1 });
 
   const rawId = useId();
   const pathId = `text-loop-${rawId.replace(/:/g, "")}`;
@@ -186,14 +187,20 @@ export function TextLoop({
       let unitWidth = 0;
       try {
         length = pathEl.getTotalLength();
-        unitWidth = measureEl.getComputedTextLength();
+        // The measure element holds the unit twice; where the second copy starts is one unit's true
+        // advance as laid out, letter-spacing and the trailing space included, in every engine
+        unitWidth = measureEl.getStartPositionOfChar(unit.length).x - measureEl.getStartPositionOfChar(0).x;
       } catch {
         return;
       }
-      if (!length) return;
+      if (!length || !(unitWidth > 0)) return;
 
-      const reps = unitWidth > 0 ? Math.max(1, Math.round(length / unitWidth)) : 1;
-      setMetrics((prev) => (prev.length === length && prev.reps === reps ? prev : { length, reps }));
+      // Each copy is at least as long as the path, so two copies side by side always cover it.
+      // The copies keep their natural width: no textLength stretching, which WebKit (every iOS
+      // browser) ignores on textPath, and which left the copies overlapping on iPhones.
+      const reps = Math.max(1, Math.ceil(length / unitWidth));
+      const period = reps * unitWidth;
+      setMetrics((prev) => (prev.period === period && prev.reps === reps ? prev : { period, reps }));
     };
 
     measure();
@@ -207,13 +214,14 @@ export function TextLoop({
   }, [d, unit, fontSize, fontWeight, letterSpacing]);
 
   useLayoutEffect(() => {
-    const { length } = metrics;
+    const { period } = metrics;
     const head = headRef.current;
     const tail = tailRef.current;
-    if (!head || !tail || !length) return undefined;
+    if (!head || !tail || !period) return undefined;
 
+    // The tail copy sits exactly one period behind (or ahead of) the head, so they meet seamlessly
     const apply = (offset: number) => {
-      const partner = offset >= 0 ? offset - length : offset + length;
+      const partner = offset >= 0 ? offset - period : offset + period;
       head.setAttribute("startOffset", String(offset));
       tail.setAttribute("startOffset", String(partner));
     };
@@ -226,8 +234,8 @@ export function TextLoop({
 
     const state = { offset: 0 };
     const tween = gsap.to(state, {
-      offset: direction === "reverse" ? -length : length,
-      duration: length / speed,
+      offset: direction === "reverse" ? -period : period,
+      duration: period / speed,
       ease: "none",
       repeat: -1,
       onUpdate: () => apply(state.offset),
@@ -252,7 +260,6 @@ export function TextLoop({
   }, [metrics, speed, direction, pauseOnHover]);
 
   const loopText = unit.repeat(metrics.reps);
-  const fitLength = metrics.length || undefined;
 
   return (
     <div ref={rootRef} className={cn("relative w-full overflow-hidden", className)} style={style}>
@@ -275,7 +282,7 @@ export function TextLoop({
         />
 
         <text ref={measureRef} className="invisible pointer-events-none" style={textStyle} aria-hidden="true">
-          {unit}
+          {unit + unit}
         </text>
 
         <text
@@ -284,8 +291,6 @@ export function TextLoop({
           fill={color}
           dominantBaseline="central"
           aria-hidden="true"
-          textLength={fitLength}
-          lengthAdjust="spacing"
         >
           <textPath ref={headRef} href={`#${pathId}`} startOffset={0}>
             {loopText}
@@ -298,8 +303,6 @@ export function TextLoop({
           fill={color}
           dominantBaseline="central"
           aria-hidden="true"
-          textLength={fitLength}
-          lengthAdjust="spacing"
         >
           <textPath ref={tailRef} href={`#${pathId}`} startOffset={0}>
             {loopText}
