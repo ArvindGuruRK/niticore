@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Manrope, Sora } from "next/font/google";
 import { AnnouncementBar } from "@/components/announcement-bar";
+import { CookieConsent } from "@/components/consent/cookie-consent";
 import { EventButton } from "@/components/event-button";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <BackToTop />
         <EventButton />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

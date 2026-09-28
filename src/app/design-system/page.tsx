@@ -17,11 +17,23 @@ import { SplitHeading } from "@/components/motion/split-heading";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { WarpHeading } from "@/components/motion/warp-heading";
 import { DIST, DUR, EASE, STAGGER } from "@/lib/motion";
+import { CookieSettingsCta } from "@/components/consent/cookie-consent";
+import { CityBand } from "@/components/about/city-band";
+import { Journey } from "@/components/about/journey";
+import { SpeedLanes } from "@/components/about/speed-lanes";
+import { StackCards } from "@/components/motion/stack-cards";
+import { StrikeRows } from "@/components/motion/strike-rows";
+import aboutContent from "@/content/about.json";
+import { COMPANY } from "@/lib/company";
+import { LegalToc } from "@/components/legal/legal-toc";
 import { MotionShowcase } from "./showcase";
+import { SwitchDemo } from "./switch-demo";
 
 export const metadata: Metadata = {
-  title: "Niticore Design System",
+  title: "Design system",
   robots: { index: false },
+  // Don't inherit the home page's canonical URL from the root layout
+  alternates: { canonical: null },
 };
 
 const INK = [
@@ -69,6 +81,12 @@ const TYPE_SCALE = [
     spec: "Sora 600 / 30 to 44px / lh 1.12 / -0.03em",
     cls: "type-h2",
     sample: "Governance that travels with your AI.",
+  },
+  {
+    token: "type-statement",
+    spec: "Sora 600 / 22 to 32px / lh 1.25 / -0.025em",
+    cls: "type-statement max-w-3xl",
+    sample: "We don't just help you comply. We help you build the capability.",
   },
   {
     token: "type-h3",
@@ -154,7 +172,23 @@ const ANIMATIONS = [
   { name: "Tick list", where: "motion/tick-list", trigger: "Each time it enters view", note: "Checks fill green in turn" },
   { name: "Flip card", where: "motion/flip-card", trigger: "Tap, click, corner button; pointer tilt", note: "3D turn with a mid-flip lift" },
   { name: "Drift", where: "illustrations/drift", trigger: "Load, loops", note: "Idle bob and sway for margin doodles after they draw" },
+  { name: "Warp heading", where: "motion/warp-heading", trigger: "Hover (fine pointers)", note: "React Bits WebGL glass warp over section headings. WebGL loads on the first hover and each canvas unmounts after the pointer leaves" },
+  { name: "Switch", where: "ui/switch", trigger: "Click, keyboard", note: "Thumb slides and the track turns green" },
+  { name: "Cookie banner", where: "consent/cookie-consent", trigger: "First visit, after the hero", note: "Rises from the corner; slips away once a choice is saved" },
+  { name: "Cookie settings dialog", where: "consent/cookie-consent", trigger: "Footer link, banner, Cookie Policy", note: "Panel rises in over a fading backdrop; reverses on close" },
+  { name: "Reading rail", where: "legal/legal-toc", trigger: "Scroll position", note: "Violet rail fills as the article is read; the section being read lights up" },
+  { name: "Stack cards", where: "motion/stack-cards", trigger: "Sticky, scrubbed (lg+)", note: "Cards stick and stack; the one underneath scales back and dims. Plain stack below lg" },
+  { name: "Strike rows", where: "motion/strike-rows", trigger: "Scrubbed", note: "Old way struck through across every line, new way rises in with a violet tick" },
+  { name: "Speed lanes", where: "about/speed-lanes", trigger: "Always on, scrubbed", note: "Two marquee lanes at the same speed in opposite directions; a scrub drifts them further apart" },
+  { name: "Journey rail", where: "about/journey", trigger: "Pinned, scrubbed (lg+)", note: "Rail fills, stations light, stage panels crossfade. Stacked fade-ins below lg" },
+  { name: "City band", where: "about/city-band", trigger: "Scrubbed", note: "Outer words slide in from their side, the middle rises, hairlines grow between them, then one line" },
   { name: "Footer mark", where: "motion/footer-mark", trigger: "Enters viewport, replays on every return, last in the footer", note: "Rise and settle; full mark shown via matched aspect ratio" },
+];
+
+const LEGAL_DEMO = [
+  { id: "ds-legal-one", title: "Who we are", body: "The company that runs the site, and how to reach it about privacy. Each section is numbered, and its title is what the list beside it shows." },
+  { id: "ds-legal-two", title: "The data we collect", body: "What the demo form asks for, what any website receives, and what stays on your device. Sections are separated by a hairline, not boxed." },
+  { id: "ds-legal-three", title: "Your rights", body: "What the law lets you ask for and how. Clicking an item in the list scrolls here through Lenis, leaving room for the nav." },
 ];
 
 const RESPONSIVE: [string, string, string][] = [
@@ -344,6 +378,111 @@ export default function DesignSystemPage() {
               <CheckPill label="ISO/IEC 42001" />
               <CheckPill label="DIFC Regulation 10" />
             </div>
+          </div>
+        </Block>
+
+        <Block
+          title="Switch"
+          note="ui/switch: an on/off toggle (role=switch) in the pill shape. Raised fill when off, solid green with an ink thumb when on, like CheckPill. A locked switch (strictly necessary cookies) stays on and dims. The hit area reaches the 44px touch minimum. Label it with aria-labelledby."
+        >
+          <SwitchDemo />
+        </Block>
+
+        <Block
+          title="Long-form reading"
+          note="type-prose styles plain markup inside it for the legal pages: body copy at 16px with a 1.7 line height, h3 subheadings, bold leads in fg, links underlined in violet, and lists marked with small round bullets in a neutral tone."
+        >
+          <div className="type-prose max-w-2xl">
+            <h3>Data you give us</h3>
+            <p>
+              When you book a demo, the form asks for your <strong>name, work email and company</strong>. Read more in
+              our <a href="/privacy">Privacy Policy</a>.
+            </p>
+            <ul>
+              <li>your phone number, if you choose to add it;</li>
+              <li>the frameworks you are interested in, and anything you write in the notes.</li>
+            </ul>
+          </div>
+        </Block>
+
+        <Block
+          title="Cookie consent"
+          note="consent/cookie-consent, mounted once in the root layout. When BANNER_ENABLED is on, a first-visit banner rises from the bottom left (full width on phones) with Accept all and Reject all at the same size, and Customise; it is off while the site sets no optional cookies. The settings dialog is a native modal dialog: focus stays inside, Escape and the backdrop close it, and the page behind stops scrolling. The footer's Cookie settings link, the Cookie Policy and this button all open it. The choice lives in one first-party cookie (lib/consent); any future analytics must check useConsent() or hasConsent() before loading."
+        >
+          <div>
+            <CookieSettingsCta />
+          </div>
+        </Block>
+
+        <Block
+          title="Legal pages"
+          note="legal/legal-page: a centred hero (grid canvas, sparkle, large white title, with nothing drawn under it) with the last-updated date, a violet summary card (The short version), then numbered sections separated by hairlines. From lg, a sticky On this page list sits beside the text: its violet rail fills as the article is read and the current section lights up. Below lg it folds into a panel above the text. Scroll this demo to see the rail."
+        >
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-16">
+            <LegalToc items={LEGAL_DEMO.map(({ id, title }) => ({ id, title }))} articleId="ds-legal-article" />
+            <article id="ds-legal-article" className="flex max-w-2xl flex-col">
+              {LEGAL_DEMO.map((section, i) => (
+                <section
+                  key={section.id}
+                  id={section.id}
+                  className="scroll-mt-32 border-t border-line py-10 first:border-t-0 first:pt-0"
+                >
+                  <h3 className="type-h3 flex gap-3 text-fg">
+                    <span className="tabular-nums text-fg-subtle">{String(i + 1).padStart(2, "0")}</span>
+                    {section.title}
+                  </h3>
+                  <div className="type-prose mt-5 sm:pl-10">
+                    <p>{section.body}</p>
+                  </div>
+                </section>
+              ))}
+            </article>
+          </div>
+        </Block>
+
+        <Block
+          title="Bezel"
+          note="The bezel utility: a machined outer shell (hairline border, faint fill, 8px padding) around a feature panel, like glass seated in a metal tray. The shell's radius is the panel's plus its padding, so the curves stay concentric. Used for the About page's stacked and journey cards."
+        >
+          <div className="bezel max-w-md">
+            <div className="card-violet rounded-panel p-card shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] sm:p-8">
+              <p className="type-h3 text-fg">Panel in a bezel</p>
+            </div>
+          </div>
+        </Block>
+
+        <Block
+          title="About page scroll story"
+          note="The About page's GSAP set pieces, with its real copy. Speed lanes: two marquee lanes at the same speed in opposite directions (violet pills right to left, green pills left to right), drifted further apart by a scroll scrub. Stack cards (motion/stack-cards): sticky cards that stack from lg, each settling back as the next arrives. Journey (about/journey): pins under the nav from lg while a stations rail fills and the stage panels crossfade; stacked fade-ins below lg. Strike rows (motion/strike-rows): the old way struck through, the new way rising in. City band: the hubs converge into one line, with hairlines between them. All respect reduced motion."
+        >
+          <div className="flex flex-col gap-16">
+            <SpeedLanes
+              topLabel={aboutContent.gap.aiLabel}
+              bottomLabel={aboutContent.gap.governanceLabel}
+              topItems={aboutContent.gap.ai}
+              bottomItems={aboutContent.gap.governance}
+            />
+            <div className="max-w-2xl">
+              <StackCards>
+                {aboutContent.philosophy.items.map((item) => (
+                  <div key={item.title} className="bezel">
+                    <div className="card-blue flex min-h-56 flex-col justify-end gap-2 rounded-panel p-card sm:p-8">
+                      <p className="type-hero text-fg">{item.title}</p>
+                      <p className="type-body text-fg/85">{item.subtitle}</p>
+                    </div>
+                  </div>
+                ))}
+              </StackCards>
+            </div>
+            <Journey stages={aboutContent.journey.stages} />
+            <div className="max-w-3xl">
+              <StrikeRows
+                rows={aboutContent.why.rows.slice(0, 3).map(([before, after]) => ({ before, after }))}
+                beforeLabel={aboutContent.why.left}
+                afterLabel={aboutContent.why.right}
+              />
+            </div>
+            <CityBand cities={COMPANY.hubs} certification={COMPANY.certification} />
           </div>
         </Block>
 

@@ -1,28 +1,29 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react/ssr";
+import { CookieSettingsButton } from "@/components/consent/cookie-consent";
 import { FooterMark } from "@/components/motion/footer-mark";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
+import { COMPANY } from "@/lib/company";
 import { NAV_LINKS } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-const SITEMAP = [{ label: "Home", href: "/" }, ...NAV_LINKS];
+const SITEMAP: FooterLink[] = [{ label: "Home", href: "/" }, ...NAV_LINKS];
 
-// X has no link yet: it stays "#" (and opens in place) until the handle is ready.
-const SOCIALS = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/niticore-ai/", external: true },
-  { label: "Instagram", href: "https://www.instagram.com/niticore_ai/", external: true },
-  { label: "X", href: "#" },
+const SOCIALS: FooterLink[] = COMPANY.socials.map((s) => ({ ...s, external: true }));
+
+const INFOS: FooterLink[] = [
+  { label: "About", href: "/about" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Cookie settings", opensCookieSettings: true },
 ];
 
-const INFOS = [
-  { label: "Terms & Conditions", href: "#" },
-  { label: "Privacy Policy", href: "#" },
-];
-
-/** `external` opens in a new tab and shows the ↗ arrow; everything else shows → on hover. */
-type FooterLink = { label: string; href: string; external?: boolean };
+/** `external` opens in a new tab and shows the ↗ arrow; `opensCookieSettings` is a button that
+ *  opens the cookie dialog; everything else is a page link that shows → on hover. */
+type FooterLink = { label: string; href?: string; external?: boolean; opensCookieSettings?: boolean };
 
 const linkClass =
   "group type-h4 inline-flex items-center gap-2 text-fg-muted transition-colors duration-200 hover:text-fg focus-visible:text-fg";
@@ -40,14 +41,19 @@ function FooterColumn({ index, title, links }: { index: string; title: string; l
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
           <li key={link.label}>
-            {link.external ? (
+            {link.opensCookieSettings ? (
+              <CookieSettingsButton className={cn(linkClass, "text-left")}>
+                {link.label}
+                <ArrowRight aria-hidden weight="bold" className={arrowClass} />
+              </CookieSettingsButton>
+            ) : link.external ? (
               <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {link.label}
                 <span className="sr-only"> (opens in a new tab)</span>
                 <ArrowUpRight aria-hidden weight="bold" className={arrowClass} />
               </a>
             ) : (
-              <Link href={link.href} className={linkClass}>
+              <Link href={link.href ?? "/"} className={linkClass}>
                 {link.label}
                 <ArrowRight aria-hidden weight="bold" className={arrowClass} />
               </Link>
@@ -100,7 +106,9 @@ export function Footer() {
         <FooterMark className="mt-4 sm:mt-6" />
 
         <Container className="relative flex flex-col gap-4 border-t border-line py-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="type-caption">© {new Date().getFullYear()} Niticore. All rights reserved.</p>
+          <p className="type-caption">
+            © {new Date().getFullYear()} {COMPANY.legalName ?? COMPANY.name}. All rights reserved.
+          </p>
           <a
             href="https://tridentnets.com/"
             target="_blank"

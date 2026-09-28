@@ -1,0 +1,159 @@
+{
+  "_source": "Only the client's HTML prototypes and website concept: docs/trustlayer_readable_v4 1.html (hero lead, gap, philosophy, journey, why), the website concept docx (gap lanes: \"Autonomous workflows\", \"Policies\"), docs/trustlayer_website_v2 1.html (gap lanes: \"Point tools\", \"Siloed audits\"), docs/trustlayer_inner_pages_v3 1.html (capability line) and the prototype footers (hubs, certification). The hero title (\"AI is moving fast. Governance needs to move faster.\") is set in the page. TrustLayer is renamed Niticore; em dashes became commas or colons.",
+  "hero": {
+    "lead": "Niticore helps organisations build the capability to govern AI, combining expert advisory, practical training and an intelligent governance platform into one integrated practice."
+  },
+  "gap": {
+    "title": "AI adoption doesn't wait for governance.",
+    "lead": "Your organisation is already using AI. Governance often hasn't kept pace.",
+    "aiLabel": "Where AI is today",
+    "governanceLabel": "Where governance often is",
+    "ai": [
+      "Generative AI and copilots",
+      "LLMs and foundation models",
+      "AI applications",
+      "Autonomous agents",
+      "Third-party AI vendors",
+      "Autonomous workflows"
+    ],
+    "governance": [
+      "Spreadsheets and PDFs",
+      "Point-in-time audits",
+      "Email approvals",
+      "Periodic reviews",
+      "Siloed compliance tools",
+      "Policies",
+      "Point tools",
+      "Siloed audits"
+    ],
+    "punchline": "That's the gap Niticore is built to close: turning governance from a compliance exercise into a continuous organisational capability."
+  },
+  "philosophy": {
+    "title": "Governance should enable AI. Not slow it down.",
+    "lead": "From passive documentation to active, measurable governance: that's how Niticore thinks about AI governance.",
+    "items": [
+      {
+        "title": "Know",
+        "subtitle": "Understand your AI landscape.",
+        "body": "AI inventory, use cases, systems, models, vendors, data flows and stakeholders, structured and visible in one place."
+      },
+      {
+        "title": "Assess",
+        "subtitle": "Understand your risk.",
+        "body": "AI impact, risk classification, regulatory exposure, responsible AI considerations and governance maturity, assessed against the frameworks that apply."
+      },
+      {
+        "title": "Act",
+        "subtitle": "Turn governance into practice.",
+        "body": "Policies, controls, workflows, evidence, accountability and continuous improvement, operationalised across your entire AI lifecycle."
+      }
+    ]
+  },
+  "journey": {
+    "title": "One governance journey. Four ways to engage.",
+    "lead": "Whether you're starting from zero or scaling an existing programme, Niticore meets you where you are, with an integrated offering that takes you from assessment to operational governance.",
+    "stages": [
+      {
+        "name": "Assess",
+        "title": "Know where you stand.",
+        "line": "Before you can govern, you have to see.",
+        "items": [
+          "Governance Maturity Assessment",
+          "AI System / Use Case Assessment",
+          "Regulatory Readiness Review",
+          "Risk & Gap Analysis",
+          "AI Vendor Assessment"
+        ],
+        "link": {
+          "label": "Assessment",
+          "href": "/assessments"
+        }
+      },
+      {
+        "name": "Learn",
+        "title": "Build capability.",
+        "line": "Knowledge is the first control.",
+        "items": [
+          "AI Governance Masterclass",
+          "Executive & board education",
+          "Practitioner training",
+          "Role-based workshops",
+          "AI literacy programmes"
+        ],
+        "link": {
+          "label": "Masterclass",
+          "href": "/academy-advisory"
+        }
+      },
+      {
+        "name": "Build",
+        "title": "Design what works.",
+        "line": "Strategy without execution is just a document.",
+        "items": [
+          "AI Governance Strategy",
+          "Policy & framework design",
+          "Risk & control framework",
+          "Operating model design",
+          "Implementation consulting"
+        ],
+        "link": {
+          "label": "Advisory",
+          "href": "/academy-advisory"
+        }
+      },
+      {
+        "name": "Operate",
+        "title": "Run continuously.",
+        "line": "The platform that makes governance permanent.",
+        "items": [
+          "AI inventory & classification",
+          "Risk & controls management",
+          "Multi-framework compliance",
+          "Evidence & audit readiness",
+          "Workflows, monitoring & reporting"
+        ],
+        "link": {
+          "label": "Platform",
+          "href": "/platform"
+        }
+      }
+    ]
+  },
+  "why": {
+    "title": "AI governance is bigger than software.",
+    "lead": "The organisations building durable AI governance capability aren't choosing between a platform and a consultant. They're choosing Niticore, because we're both.",
+    "left": "Traditional approach",
+    "right": "Niticore approach",
+    "rows": [
+      [
+        "Point-in-time assessment",
+        "Continuous, live governance posture"
+      ],
+      [
+        "Compliance exercise",
+        "Organisational capability, built to last"
+      ],
+      [
+        "Policy documents on a shelf",
+        "Operational controls with evidence trails"
+      ],
+      [
+        "Consultants alone, then you're on your own",
+        "Advisory, platform and training, integrated"
+      ],
+      [
+        "Generic framework overlay",
+        "Contextual governance for your AI, your sector"
+      ],
+      [
+        "Audit preparation crunch",
+        "Audit-ready by design, every day"
+      ],
+      [
+        "One framework at a time",
+        "EU AI Act, ISO 42001, NIST, GDPR and UAE, simultaneously"
+      ]
+    ],
+    "statement": "We don't just help you comply. We help you build the capability."
+  }
+}

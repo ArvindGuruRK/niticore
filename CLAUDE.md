@@ -41,16 +41,21 @@ There are no tests. Check changes with `npm run lint` and `npm run build`.
 - `src/app/(site)/` is a route group whose `layout.tsx` renders `SiteNav` and `Footer` around every marketing page:
   - `page.tsx` is the landing page. It stacks the sections from `src/components/sections/` in order.
   - `platform/`, `frameworks/`, `assessments/`, `solutions/` and `academy-advisory/` are the nav pages; `demo/` is "Book a demo"; `announcements/` is the announcements page, currently the AI Everything Abu Dhabi event (linked from `AnnouncementBar` and `EventButton`, copy in `src/content/event.json`, booth image in `public/event-image/`, calendar file at `announcements/calendar.ics`; `/ai-everything` redirects here in `next.config.ts`). The nav and footer links come from `NAV_LINKS` in `src/lib/site.ts`, and each page sets its metadata with `pageMetadata()` from the same file.
-  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `solutions/`, `academy/`, `demo/`).
-- Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `solutions.json`, `academy.json`, `demo.json`), imported by the page. Edit the JSON to change text.
-- `src/app/not-found.tsx` is the 404 page. It sits outside `(site)`, so it renders `SiteNav` and `Footer` itself. The "0" of "404" (`type-numeral`) is the `LostCompass` illustration.
+  - Inner pages open with `PageHero` (`src/components/page/`) and close with `GetStarted`. Page-specific sections live in a folder per page (`src/components/platform/`, `frameworks/`, `assessments/`, `solutions/`, `academy/`, `demo/`, `about/`).
+  - `about/` is the About page (first link in the footer's Infos column, copy in `src/content/about.json`). **Its copy comes only from the client's HTML prototypes and the website concept (`.docx`), never from `docs/content/*.md`**; `_source` in the JSON lists the files. It opens with `PageHero` and is told as a GSAP scroll story (`src/components/about/`), with no closing `GetStarted`: speed lanes for the gap (two lanes, same speed, opposite directions), a sticky `StackCards` stack for Know / Assess / Act, the pinned `Journey` stations rail, `StrikeRows` for "bigger than software", and the `CityBand` hubs line.
+  - `privacy/`, `terms/` and `cookies/` are the legal pages, built on `LegalPage` (`src/components/legal/`): a centred hero (grid canvas, sparkle, white `type-display` title; no underline or ornament under it) with the last-updated date, a "The short version" summary card, numbered sections in `type-prose`, and a sticky "On this page" list with a reading rail (`LegalToc`). They skip `PageHero` and `GetStarted`. Their wording describes what the site really does (demo form fields, Resend, Vercel, in-memory rate limiting, no analytics): **when that changes, update the pages and `LEGAL_UPDATED`.**
+- Company facts (brand, legal entity, registered address, phone, governing law, email, hubs, certification, socials) live in `src/lib/company.ts` and feed the legal pages, the footer and structured data. Fields that are `null` are still to be confirmed by the client and are left out of the site until filled in; never show a stand-in value.
+- Cookie consent: `CookieConsent` (`src/components/consent/`, mounted in the root layout) holds a first-visit banner and the Cookie settings dialog (native modal `<dialog>`). The banner is off (`BANNER_ENABLED = false`) because nothing needs consent today; switch it on in the same change that adds any optional cookie. The footer, the Cookie Policy and `CookieSettingsCta` open it. The choice is one first-party cookie managed by `src/lib/consent.ts`. The site sets no optional cookies today; **anything optional (analytics, pixels) must check `useConsent()` or `hasConsent()` before loading, and be added to the Cookie Policy's list first.**
+- Page copy can live in JSON under `src/content/` (`frameworks.json`, `assessments.json`, `solutions.json`, `academy.json`, `demo.json`, `about.json`), imported by the page. Edit the JSON to change text.
+- `src/app/not-found.tsx` is the 404 page. It sits outside `(site)`, so it renders `SiteNav` and `Footer` itself. The "0" of "404" (`type-numeral`) is the `LostCompass` illustration. `error.tsx` and `global-error.tsx` replace Next's default error screens.
 - `src/app/design-system/` is an internal showcase of the tokens, type scale and motion components. **Every animation, from any library, must also be shown here.**
 - `src/app/opengraph-image.tsx` generates the social card.
 
 In `src/components/`:
 
 - Section files stay server components where possible. They compose client "leaf" components from `motion/` (Reveal, WarpHeading, CountUp, TiltCard, PinScrub, Marquee and others) and `illustrations/` (hand-drawn SVG doodles and the `governance-fabric` network graphic).
-- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Textarea`, `CheckPill`), the custom dropdown `select.tsx` (`Select`; never use a native `<select>`), and `phone-input.tsx` (`PhoneInput`: searchable country picker plus number, validated with `libphonenumber-js/min`; flags are SVGs in `public/flags` from `country-flag-icons`, since emoji flags don't render on Windows) and `VideoPlayer`.
+- `ui/` holds the primitives: `Button` (renders a `Link` when given `href`, variants primary, secondary and ghost), `Container` (max-w-7xl + `px-page`), form fields in `field.tsx` (`Field`, `Input`, `Textarea`, `CheckPill`), the custom dropdown `select.tsx` (`Select`; never use a native `<select>`), and `phone-input.tsx` (`PhoneInput`: searchable country picker plus number, validated with `libphonenumber-js/min`; flags are SVGs in `public/flags` from `country-flag-icons`, since emoji flags don't render on Windows), `Switch` (on/off toggle, role="switch") and `VideoPlayer`.
+- Images go through `next/image` with real `alt` text that describes what the photo actually shows (empty `alt` only for purely decorative images or logos next to their visible name). Unsplash photos are allowed through `images.remotePatterns` in `next.config.ts`.
 - Icons come from `@phosphor-icons/react`. In server components import from the `/ssr` entry, for example `@phosphor-icons/react/ssr` or `.../dist/ssr/<Name>`.
 
 ## Animation system
@@ -63,7 +68,8 @@ These conventions cover the GSAP and Lenis code. Other libraries can be used alo
 4. **Scrolling.** `SmoothScroll` runs Lenis from the GSAP ticker so ScrollTrigger and Lenis share one clock. Scroll programmatically with `getLenis()` from `@/lib/lenis`. Lenis is off under reduced motion, and touch uses native scrolling (`syncTouch` was tried and reverted as laggy).
 5. **Nav and banner.** `SiteNav` writes a `--scroll-y` CSS variable. CSS combines it with `--banner-h` so the nav follows the announcement bar up the page. A scrubbed ScrollTrigger then docks the floating pill into a full-width bar.
 6. **No pinning on phones or tablets.** `PinScrub` and `HorizontalScroll` pin only at `lg` (1024px) and up. Below that they stack or swipe natively; a long pin on touch felt like the page had stopped scrolling. Hover-only effects (marquee pause, tilt) are gated on `FINE_POINTER`, since `pointerenter` also fires when a finger starts a swipe.
-7. **WebGL.** `motion/warp-text.tsx` is a ported React Bits `ogl` shader, used through `WarpHeading` for heading hover. Keep its logic unchanged. Tune the shared params instead.
+7. **WebGL.** `motion/warp-text.tsx` is a ported React Bits `ogl` shader, used through `WarpHeading` for heading hover. Keep its logic unchanged. Tune the shared params instead. `WarpHeading` loads it (and `ogl`) only on the first hover and unmounts each canvas shortly after the pointer leaves, so pages stay light and never hit the browser's WebGL context limit. Keep it that way.
+8. **GSAP `quickTo`** can't drive shorthand properties like `scale`: use `scaleX` and `scaleY` (GSAP warns in the console otherwise).
 
 ## Design tokens
 
@@ -72,13 +78,14 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - **Dark only.** In components use semantic colour roles such as `bg-canvas`, `bg-surface`, `bg-raised`, `text-fg`, `text-fg-muted`, `text-fg-subtle`, `text-accent`, `text-tertiary` and `border-line`. Don't use the raw `ink-*`, `signal-*` or `aura-*` ramps.
 - **Accent rules.** Green (`accent`, #4AE057) is only for actions: CTAs and the one key word in a heading. Violet (`tertiary`) is for illustrations and secondary highlights, never buttons. `status-*` colours are only for alert text (LogStream, form error messages and invalid-field borders), score arcs (ScoreRing) and score fills (the readiness result bar). **No status dots**: never put a green, amber or red dot beside a label, level or list item. The one exception is the Frameworks enforcement timeline (`frameworks/regional.tsx`): green = in force, amber = upcoming.
 - **Shape.** Controls are pills (`rounded-control`), panels use `rounded-panel` (20px), fields use `rounded-field` (12px).
-- **Type.** Use the utilities, not ad-hoc sizes: `type-display`, `type-hero`, `type-h2`, `type-h3`, `type-h4`, `type-lead`, `type-body`, `type-small`, `type-caption`, `type-label`.
+- **Type.** Use the utilities, not ad-hoc sizes: `type-display`, `type-hero`, `type-h2`, `type-h3`, `type-h4`, `type-lead`, `type-body`, `type-small`, `type-caption`, `type-label`, and `type-statement` for a sentence-long statement or punchline on its own. For long-form text (legal pages), wrap plain markup (`p`, `h3`, `ul`, `a`, `strong`) in `type-prose`.
 - **Layout.**
   - Spacing: `px-page`, `py-section`, `tap-target` (44px minimum), `p-card` (card padding: 20px on phones, 24px from `sm`; roomier cards add `sm:p-8`/`sm:p-10`).
   - Grids that stack on phones need `grid-cols-1`: a bare `grid` column grows to its widest content (a log line, a form row) and widens the whole page on mobile.
   - Notch-safe padding: `pt-safe` and `pb-safe`, which rely on `--safe-*` and `viewport-fit=cover`.
   - Backgrounds and masks: `grid-bg` and `fabric-mask`.
   - Spacing is fluid through `clamp()`. Design mobile first; the desktop layout starts at `lg`.
+- **Bezel.** `bezel` wraps a feature panel in a machined outer shell (hairline, faint fill, 8px padding, concentric radius); put a `rounded-panel` panel inside.
 - **Card tones.** Solid feature cards use `card-blue`, `card-violet` and `card-green`. For a `SpotlightCard`, take the matching cursor light from `CARD_TONES` in `src/lib/card-tones.ts`. No divider lines inside cards.
 - **Z-index.** Only `--z-nav` and `--z-menu` exist.
 - **Performance.** Don't put `backdrop-filter` on fixed or large surfaces. It caused scroll jank over the hero video. `body` uses `overflow-x: clip`, not `hidden`, so sticky elements and pinning still work.
@@ -113,7 +120,8 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - **One list of pages.** `PAGES` in `src/lib/site.ts` holds every public page's title and description. It feeds page metadata (`pageMetadata(path)`, which also sets the canonical URL and Open Graph), `sitemap.xml`, `llms.txt` and structured data. **A new public page must be added to `PAGES`.**
 - **Files** (all static, built at build time): `src/app/sitemap.ts`, `src/app/robots.ts` (search and AI crawlers named and allowed; only `/design-system` is kept out, and it is `noindex`), `src/app/llms.txt/route.ts` and `src/app/llms-full.txt/route.ts` (Markdown for AI assistants, per llmstxt.org), `src/app/logo.png/route.tsx` (512 px square logo for structured data).
 - **llms-full.txt is generated** by `src/lib/llms.ts` from the same data the pages render: the JSON in `src/content` and the exported constants in the FAQ and Platform sections. Keep page copy in those sources so the AI file never drifts from the site. Example figures are labelled as examples.
-- **Structured data:** `src/components/seo/json-ld.tsx` renders JSON-LD safely (`<` escaped). Organization and WebSite on every page (root layout); FAQPage on the home page, from the FAQ items.
+- **Structured data:** `src/components/seo/json-ld.tsx` renders JSON-LD safely (`<` escaped as the six characters `<`; in the source that needs a doubled backslash). Organization (email, contact point, the three hubs, social profiles) and WebSite on every page (root layout), plus a LocalBusiness (`ProfessionalService`) once `COMPANY.address` is set; FAQPage on the home page, from the FAQ items. All company details come from `src/lib/company.ts`.
+- **Legal pages** are in `PAGES` too, and listed in `LEGAL_PAGES`: the sitemap gives them a lower priority and llms.txt lists them under Optional. Pages that aren't indexed (404, `/design-system`) clear the inherited canonical URL.
 
 ## House style
 
@@ -122,5 +130,7 @@ Everything is defined in `src/app/globals.css` (`@theme` plus `@utility`). There
 - **Illustrations are violet** (`text-tertiary`), including underline and circle marks.
 
 Placeholders still in the code:
-  - The showcase video points to an MDN sample clip.
+  - The showcase video points to an MDN sample clip (`VIDEO_SOURCES` in `sections/video-showcase.tsx`) until the client sends the product video. Keep it on the page; don't hide the section.
+  - The legal entity, registered address, phone and governing law in `src/lib/company.ts` are `null` until the client confirms them. The LocalBusiness structured data and the Terms' governing-law section appear automatically once they are set.
+  - The stock photos on the landing page (Agentic governance) and Academy tracks come from Unsplash; swap them for real assets when available.
   - Book a demo needs a Resend key and team inbox before it sends anything (see "Book a demo emails").

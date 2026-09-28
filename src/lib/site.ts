@@ -59,7 +59,30 @@ export const PAGES = {
     description:
       "Book a live platform demo. Bring your AI systems and a certified AI governance specialist will show you where the gaps are.",
   },
+  "/about": {
+    title: "About",
+    description:
+      "Niticore helps organisations build the capability to govern AI, combining expert advisory, practical training and an intelligent governance platform.",
+  },
+  "/privacy": {
+    title: "Privacy Policy",
+    description:
+      "How Niticore collects, uses and protects personal data when you visit this website or book a demo, and the rights and choices you have.",
+  },
+  "/terms": {
+    title: "Terms & Conditions",
+    description:
+      "The terms for using the Niticore website: acceptable use, intellectual property, third-party links and the limits of our liability.",
+  },
+  "/cookies": {
+    title: "Cookie Policy",
+    description:
+      "The cookies this website uses, why it uses them, and how to change your cookie settings at any time.",
+  },
 } as const;
+
+/** Legal pages: listed in the sitemap at a lower priority, and under "Optional" in llms.txt. */
+export const LEGAL_PAGES = ["/privacy", "/terms", "/cookies"] as const satisfies readonly PagePath[];
 
 export type PagePath = keyof typeof PAGES;
 

@@ -4,13 +4,15 @@ import { QUESTIONS } from "@/components/platform/five-questions";
 import { STAGES } from "@/components/platform/lifecycle";
 import { PILLARS } from "@/components/platform/pillars";
 import { ITEMS as FAQ } from "@/components/sections/faq";
+import about from "@/content/about.json";
 import academy from "@/content/academy.json";
 import assessments from "@/content/assessments.json";
 import demo from "@/content/demo.json";
 import event from "@/content/event.json";
 import frameworks from "@/content/frameworks.json";
 import solutions from "@/content/solutions.json";
-import { PAGES, SITE_URL, type PagePath } from "./site";
+import { COMPANY } from "./company";
+import { LEGAL_PAGES, PAGES, SITE_URL, type PagePath } from "./site";
 
 /**
  * llms.txt and llms-full.txt (https://llmstxt.org): plain Markdown that AI assistants and crawlers
@@ -27,10 +29,12 @@ const block = (...parts: (string | false | null | undefined)[]) => parts.filter(
 const SUMMARY =
   "Niticore is the operating layer for governed AI: an AI governance platform with continuous AI visibility, risk intelligence, controls and reusable compliance evidence, plus agent guardrails, from first idea to production. It maps one governance action to the EU AI Act, ISO/IEC 42001, NIST AI RMF, GDPR and UAE regulation (DIFC, ADGM, PDPL) at once, and adds assessments, an AI governance academy and expert advisory.";
 
+const isLegal = (path: PagePath) => (LEGAL_PAGES as readonly PagePath[]).includes(path);
+
 /** The short index: what Niticore is and where each topic lives. */
 export function llmsIndex(): string {
   const pages = (Object.keys(PAGES) as PagePath[])
-    .filter((p) => p !== "/" && p !== "/demo")
+    .filter((p) => p !== "/" && p !== "/demo" && !isLegal(p))
     .map((p) => `- ${link(p)}: ${PAGES[p].description}`)
     .join("\n");
 
@@ -40,7 +44,11 @@ export function llmsIndex(): string {
     SUMMARY,
     `## Pages\n\n${pages}`,
     `## Full content\n\n- [llms-full.txt](${url("/llms-full.txt")}): every page's content in one Markdown file`,
-    `## Optional\n\n- ${link("/demo")}: ${PAGES["/demo"].description}\n- [Home](${url("/")}): overview and FAQ`,
+    `## Optional\n\n${list([
+      `${link("/demo")}: ${PAGES["/demo"].description}`,
+      `[Home](${url("/")}): overview and FAQ`,
+      ...LEGAL_PAGES.map((p) => `${link(p)}: ${PAGES[p].description}`),
+    ])}`,
   );
 }
 
@@ -187,6 +195,33 @@ function academySection() {
   );
 }
 
+function aboutSection() {
+  const { hero, gap, philosophy, journey, why } = about;
+  const pairs = (left: string, right: string, rows: string[][]) =>
+    rows.map(([a, b]) => `- ${left}: ${a}. ${right}: ${b}.`).join("\n");
+  return block(
+    `## About (${url("/about")})`,
+    "AI is moving fast. Governance needs to move faster.",
+    hero.lead,
+    `### ${gap.title}`,
+    gap.lead,
+    `${gap.aiLabel}: ${gap.ai.join(", ")}.`,
+    `${gap.governanceLabel}: ${gap.governance.join(", ")}.`,
+    gap.punchline,
+    `### ${philosophy.title}`,
+    philosophy.lead,
+    philosophy.items.map((i) => `- **${i.title}: ${i.subtitle}** ${i.body}`).join("\n"),
+    `### ${journey.title}`,
+    journey.lead,
+    journey.stages.map((st, i) => `${i + 1}. **${st.name}: ${st.title}** ${st.line} ${st.items.join(", ")}.`).join("\n"),
+    `### ${why.title}`,
+    why.lead,
+    pairs(why.left, why.right, why.rows),
+    why.statement,
+    `${COMPANY.certification} · ${COMPANY.hubs.join(" · ")}. Contact: ${COMPANY.email}`,
+  );
+}
+
 function demoSection() {
   return block(
     `## Book a demo (${url("/demo")})`,
@@ -222,6 +257,7 @@ export function llmsFull(): string {
     solutionsSection(),
     academySection(),
     eventSection(),
+    aboutSection(),
     demoSection(),
   );
 }
