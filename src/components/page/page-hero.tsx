@@ -3,6 +3,7 @@ import { Annotate } from "@/components/illustrations/annotate";
 import { Sparkle } from "@/components/illustrations/sparkle";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeading } from "@/components/motion/split-heading";
+import { cn } from "@/lib/utils";
 import { PageDoodles, type DoodleShape } from "./page-doodles";
 
 /**
@@ -14,12 +15,15 @@ export function PageHero({
   title,
   lead,
   doodles,
+  size = "display",
 }: {
   /** Static markup for SplitHeading. Colour the key phrase with text-accent, and put
    *  data-accent on one short inline-block word inside it: that word gets the underline. */
   title: ReactNode;
   lead: string;
   doodles: { left: DoodleShape; right: DoodleShape };
+  /** Title scale: `hero` (one step down) for a sentence-long title that runs to three lines */
+  size?: "display" | "hero";
 }) {
   return (
     <section className="relative isolate overflow-hidden">
@@ -31,7 +35,7 @@ export function PageHero({
           <div className="flex w-full max-w-5xl flex-col items-center gap-7 text-center">
             <Sparkle size={64} trigger="load" delay={0.5} className="text-tertiary" />
             <Annotate target="[data-accent]" variant="double" delay={1.3} className="w-full">
-              <SplitHeading as="h1" by="words" trigger="load" delay={0.15} className="type-display text-fg">
+              <SplitHeading as="h1" by="words" trigger="load" delay={0.15} className={cn(size === "hero" ? "type-hero" : "type-display", "text-fg")}>
                 {title}
               </SplitHeading>
             </Annotate>

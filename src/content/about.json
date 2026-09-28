@@ -1,5 +1,5 @@
 {
-  "_source": "Only the client's HTML prototypes and website concept: docs/trustlayer_readable_v4 1.html (hero lead, gap, philosophy, journey, why), the website concept docx (gap lanes: \"Autonomous workflows\", \"Policies\"), docs/trustlayer_website_v2 1.html (gap lanes: \"Point tools\", \"Siloed audits\"), docs/trustlayer_inner_pages_v3 1.html (capability line) and the prototype footers (hubs, certification). The hero title (\"AI is moving fast. Governance needs to move faster.\") is set in the page. TrustLayer is renamed Niticore; em dashes became commas or colons.",
+  "_source": "Only the client's HTML prototypes and website concept: docs/trustlayer_readable_v4 1.html (hero lead, gap, philosophy, journey, why, closing cta), the website concept docx (gap lanes: \"Autonomous workflows\", \"Policies\"), docs/trustlayer_website_v2 1.html (gap lanes: \"Point tools\", \"Siloed audits\"), docs/trustlayer_inner_pages_v3 1.html (capability line) and the prototype footers (hubs, certification). The hero title (\"AI is moving fast. Governance needs to move faster.\") is set in the page. TrustLayer is renamed Niticore; em dashes became commas or colons.",
   "hero": {
     "lead": "Niticore helps organisations build the capability to govern AI, combining expert advisory, practical training and an intelligent governance platform into one integrated practice."
   },
@@ -155,5 +155,17 @@
       ]
     ],
     "statement": "We don't just help you comply. We help you build the capability."
+  },
+  "cta": {
+    "title": "Ready to govern AI with confidence?",
+    "lead": "Build the capability. Operationalise the governance. Accelerate the innovation.",
+    "primary": {
+      "label": "Assess your readiness",
+      "href": "/assessments"
+    },
+    "secondary": {
+      "label": "Explore the platform",
+      "href": "/platform"
+    }
   }
 }

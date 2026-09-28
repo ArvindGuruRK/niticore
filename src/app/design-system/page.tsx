@@ -482,7 +482,7 @@ export default function DesignSystemPage() {
                 afterLabel={aboutContent.why.right}
               />
             </div>
-            <CityBand cities={COMPANY.hubs} certification={COMPANY.certification} />
+            <CityBand cities={COMPANY.hubs} />
           </div>
         </Block>
 

@@ -17,6 +17,19 @@ type Stage = {
 };
 
 const TONES: CardTone[] = ["blue", "violet", "green", "blue"];
+/**
+ * With an odd count the last tile spans both columns, so the longest item swaps places with the last
+ * one: long names get the wide tile instead of wrapping in a half-width one.
+ */
+function tileOrder(items: string[]) {
+  if (items.length % 2 === 0) return items;
+  const out = [...items];
+  const longest = out.reduce((best, item, i) => (item.length > out[best].length ? i : best), 0);
+  const last = out.length - 1;
+  [out[longest], out[last]] = [out[last], out[longest]];
+  return out;
+}
+
 /** Height of the docked nav: the pinned block centres in the space below it */
 const NAV_H = 88;
 
@@ -131,30 +144,19 @@ export function Journey({ stages }: { stages: Stage[] }) {
             >
               <div
                 className={cn(
-                  "group relative grid grid-cols-1 gap-8 rounded-panel p-card shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-14",
+                  "group relative grid grid-cols-1 gap-8 rounded-panel p-card shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] sm:p-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-12",
                   tone.className,
                 )}
               >
+                {/* Story on the left, with its link; the offering fills the right as a grid of tiles */}
                 <div className="flex flex-col gap-4">
                   <span className="type-h3 tabular-nums text-fg/50">0{i + 1}</span>
                   <h3 className="type-hero text-fg">{stage.name}</h3>
                   <p className="type-h3 text-fg">{stage.title}</p>
                   <p className="type-body text-fg/85">{stage.line}</p>
-                </div>
-                <div className="flex flex-col gap-6 lg:justify-center">
-                  <ul className="flex flex-col gap-3">
-                    {stage.items.map((item) => (
-                      <li key={item} className="type-body flex items-start gap-3 text-fg">
-                        <span aria-hidden className="mt-1 grid size-5 shrink-0 place-items-center rounded-full bg-white/15">
-                          <Check weight="bold" className="size-3" />
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
                   <Link
                     href={stage.link.href}
-                    className="inline-flex w-fit items-center gap-3 rounded-control bg-white/10 py-1.5 pl-5 pr-1.5 font-semibold text-fg shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] transition-colors duration-300 hover:bg-white/15"
+                    className="mt-2 inline-flex w-fit items-center gap-3 rounded-control bg-white/10 py-1.5 pl-5 pr-1.5 font-semibold text-fg shadow-[inset_0_1px_0_rgb(255_255_255/0.15)] transition-colors duration-300 hover:bg-white/15"
                   >
                     {stage.link.label}
                     <span className="grid size-8 place-items-center rounded-full bg-white/15 transition-transform duration-300 ease-out-expo group-hover:translate-x-0.5 hover:translate-x-1">
@@ -162,6 +164,20 @@ export function Journey({ stages }: { stages: Stage[] }) {
                     </span>
                   </Link>
                 </div>
+                {/* Two columns from sm; an odd last tile spans both, so the grid never ends on a hole */}
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  {tileOrder(stage.items).map((item) => (
+                    <li
+                      key={item}
+                      className="type-body flex items-center gap-3 rounded-field bg-white/[0.07] p-4 text-fg shadow-[inset_0_1px_0_rgb(255_255_255/0.08)] sm:[&:last-child:nth-child(odd)]:col-span-2"
+                    >
+                      <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-full bg-white/15">
+                        <Check weight="bold" className="size-3.5" />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </article>
           );

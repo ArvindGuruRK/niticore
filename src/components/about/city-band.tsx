@@ -1,16 +1,15 @@
 "use client";
 
 import { useRef } from "react";
-import { SealCheck } from "@phosphor-icons/react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { NO_REDUCE } from "@/lib/motion";
 
 /**
  * The hubs as one line of large type. Scrubbed to scroll, the outer cities slide in from their own
  * side and the middle one rises, all brightening as they converge, then settle into a single row
- * with a hairline between them; the certification sits underneath. Stacks on phones (no hairlines).
+ * with a hairline between them. Stacks on phones (no hairlines).
  */
-export function CityBand({ cities, certification }: { cities: readonly string[]; certification: string }) {
+export function CityBand({ cities }: { cities: readonly string[] }) {
   const root = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -28,7 +27,6 @@ export function CityBand({ cities, certification }: { cities: readonly string[];
           );
         });
         gsap.fromTo("[data-city-rule]", { scaleY: 0 }, { scaleY: 1, ease: "none", scrollTrigger });
-        gsap.fromTo("[data-cert]", { opacity: 0, y: 16 }, { opacity: 1, y: 0, ease: "none", scrollTrigger });
       });
     },
     { scope: root },
@@ -36,8 +34,8 @@ export function CityBand({ cities, certification }: { cities: readonly string[];
 
   return (
     <div ref={root} className="overflow-hidden py-4">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-10 px-page">
-        <p className="flex flex-col items-center gap-2 text-center lg:flex-row lg:gap-8">
+      <div className="mx-auto max-w-7xl px-page">
+        <p className="flex flex-col items-center justify-center gap-2 text-center lg:flex-row lg:gap-8">
           {cities.map((city, i) => (
             <span key={city} className="flex flex-col items-center gap-2 lg:flex-row lg:gap-8">
               {i > 0 && <span data-city-rule="" aria-hidden className="hidden h-10 w-px bg-line-strong lg:block" />}
@@ -46,10 +44,6 @@ export function CityBand({ cities, certification }: { cities: readonly string[];
               </span>
             </span>
           ))}
-        </p>
-        <p data-cert="" className="type-body flex items-center gap-3 rounded-control border border-line-strong bg-surface px-5 py-2.5 text-fg">
-          <SealCheck aria-hidden weight="duotone" className="size-5 shrink-0 text-tertiary" />
-          {certification}
         </p>
       </div>
     </div>

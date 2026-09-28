@@ -10,6 +10,7 @@ import { StrikeRows } from "@/components/motion/strike-rows";
 import { TextReveal } from "@/components/motion/text-reveal";
 import { PageHero } from "@/components/page/page-hero";
 import { SectionHeader } from "@/components/page/section-header";
+import { GetStarted } from "@/components/sections/get-started";
 import { Container } from "@/components/ui/container";
 import content from "@/content/about.json";
 import { CARD_TONES, type CardTone } from "@/lib/card-tones";
@@ -23,9 +24,9 @@ export const metadata = pageMetadata("/about");
  * The About page as a scroll story. Copy comes only from the client's HTML prototypes and website
  * concept (see _source in about.json). In order: the hero, the gap as two speed lanes, Know / Assess /
  * Act as a sticky card stack, the four-way journey pinned on a stations rail, the traditional approach
- * struck through row by row, then the hubs converging into one line. No closing call-to-action section.
+ * struck through row by row, the hubs converging into one line, then the closing call to action.
  */
-const { hero, gap, philosophy, journey, why } = content;
+const { hero, gap, philosophy, journey, why, cta } = content;
 
 const PHILOSOPHY: { icon: Icon; tone: CardTone }[] = [
   { icon: Binoculars, tone: "blue" },
@@ -60,6 +61,7 @@ export default function AboutPage() {
         }
         lead={hero.lead}
         doodles={{ left: "petal", right: "zigzag" }}
+        size="hero"
       />
 
       {/* 1. The gap: the two lanes run in opposite directions */}
@@ -131,9 +133,11 @@ export default function AboutPage() {
       </section>
 
       {/* 5. The hubs converge into one line, straight after the statement above */}
-      <section aria-label="Offices and certification" className="pb-section">
-        <CityBand cities={COMPANY.hubs} certification={COMPANY.certification} />
+      <section aria-label="Offices" className="pb-section">
+        <CityBand cities={COMPANY.hubs} />
       </section>
+
+      <GetStarted title={cta.title} lead={cta.lead} primary={cta.primary} secondary={cta.secondary} />
     </>
   );
 }
