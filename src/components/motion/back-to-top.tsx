@@ -8,7 +8,10 @@ import { EVENT_PATH } from "@/components/event-button";
 import { getLenis } from "@/lib/lenis";
 import { cn } from "@/lib/utils";
 
-const RADIUS = 21;
+// The ring is drawn on the button's edge, in place of a CSS border: the 1px track matches
+// EventButton's border exactly, and the 2px progress stroke covers it (22–24 of the 24 radius).
+const TRACK_RADIUS = 23.5;
+const RADIUS = 23;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SHOW_AFTER = 320; // px scrolled before the button appears
 
@@ -123,14 +126,14 @@ export function BackToTop() {
       aria-label="Back to top"
       onClick={goTop}
       className={cn(
-        "invisible fixed right-[max(1.5rem,var(--safe-right))] z-[var(--z-menu)] grid size-12 translate-y-3 place-items-center rounded-full border border-white/[0.14] bg-nav/70 text-fg opacity-0 shadow-panel backdrop-blur-xl transition-colors duration-300 hover:text-accent active:scale-[0.96] sm:right-[max(2rem,var(--safe-right))]",
+        "invisible fixed right-[max(1.5rem,var(--safe-right))] z-[var(--z-menu)] grid size-12 translate-y-3 place-items-center rounded-full border border-transparent bg-nav/70 text-fg opacity-0 shadow-panel backdrop-blur-xl transition-colors duration-300 hover:text-accent active:scale-[0.96] sm:right-[max(2rem,var(--safe-right))]",
         pathname === EVENT_PATH
           ? "bottom-[max(1.5rem,var(--safe-bottom))] sm:bottom-[max(2rem,var(--safe-bottom))]"
           : "bottom-[calc(max(1.5rem,var(--safe-bottom))+3.75rem)] sm:bottom-[calc(max(2rem,var(--safe-bottom))+3.75rem)]",
       )}
     >
       <svg aria-hidden viewBox="0 0 48 48" className="absolute -inset-px size-[calc(100%+2px)] -rotate-90">
-        <circle cx="24" cy="24" r={RADIUS} fill="none" stroke="rgb(255 255 255 / 0.12)" strokeWidth="2" />
+        <circle cx="24" cy="24" r={TRACK_RADIUS} fill="none" stroke="rgb(255 255 255 / 0.14)" strokeWidth="1" />
         <circle
           ref={ring}
           cx="24"
