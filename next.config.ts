@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   // Don't advertise the framework in an X-Powered-By header
   poweredByHeader: false,
+  // Never publish source maps for the browser bundles (this is Next's default; kept explicit so it
+  // can't be switched on by accident)
+  productionBrowserSourceMaps: false,
+  images: {
+    // Stock photos are fetched once by the image optimiser, then resized per screen and served from
+    // this site's own domain, so visitors' browsers never call Unsplash directly
+    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com", pathname: "/photo-*" }],
+  },
   experimental: {
     serverActions: {
       // The only Server Action is Book a demo: a few short fields and notes capped at 2,000

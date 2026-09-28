@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { FlipCard } from "@/components/motion/flip-card";
 import { Reveal } from "@/components/motion/reveal";
 import { CARD_TONES, type CardTone } from "@/lib/card-tones";
@@ -53,8 +54,14 @@ export function Tracks({ tracks }: { tracks: Track[] }) {
             }
             back={
               <div className="relative h-full overflow-hidden rounded-panel border border-white/10 shadow-panel">
-                {/* eslint-disable-next-line @next/next/no-img-element -- external placeholder, swap for the real asset later */}
-                <img src={t.image} alt={t.alt} decoding="async" className="absolute inset-0 size-full object-cover" />
+                <Image
+                  src={t.image}
+                  alt={t.alt}
+                  width={1200}
+                  height={900}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="absolute inset-0 size-full object-cover"
+                />
                 <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-card sm:p-8">
                   <p className="type-h3 text-fg">{t.name}</p>

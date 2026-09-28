@@ -67,6 +67,9 @@ export function VisitPass() {
                       alt={event.flag.alt}
                       width={30}
                       height={20}
+                      // Lazy, so React doesn't emit a preload for it: this page is prefetched from the
+                      // announcement bar on every page, and an unused preload logs a console warning there
+                      loading="lazy"
                       className="h-5 w-[1.875rem] shrink-0 rounded-[3px] object-cover"
                     />
                   </span>

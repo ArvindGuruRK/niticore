@@ -19,7 +19,15 @@ export function useMagneticGlow(root: RefObject<HTMLElement | null>, enabled = t
 
         const tx = gsap.quickTo(el, "x", { duration: 0.6, ease: "elastic.out(1, 0.5)" });
         const ty = gsap.quickTo(el, "y", { duration: 0.6, ease: "elastic.out(1, 0.5)" });
-        const scale = gsap.quickTo(el, "scale", { duration: 0.3, ease: "power3.out" });
+        // quickTo can't drive the `scale` shorthand (GSAP warns "scale not eligible for reset" and
+        // skips it), so the press dip tweens scaleX and scaleY together
+        const scaleOpts = { duration: 0.3, ease: "power3.out" };
+        const sx = gsap.quickTo(el, "scaleX", scaleOpts);
+        const sy = gsap.quickTo(el, "scaleY", scaleOpts);
+        const scale = (value: number) => {
+          sx(value);
+          sy(value);
+        };
 
         const move = (e: PointerEvent) => {
           const r = el.getBoundingClientRect();

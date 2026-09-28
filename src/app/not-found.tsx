@@ -10,6 +10,8 @@ import { SiteNav } from "@/components/site-nav";
 export const metadata: Metadata = {
   title: "Page not found",
   robots: { index: false },
+  // Don't inherit the home page's canonical URL from the root layout
+  alternates: { canonical: null },
 };
 
 /**

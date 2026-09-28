@@ -16,7 +16,7 @@
         "audience": "Board · C-suite · General Counsel",
         "tone": "violet",
         "image": "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1200&h=900&fit=crop&auto=format",
-        "alt": "Two people reviewing a decision together"
+        "alt": "Three colleagues working on laptops around a shared table"
       },
       {
         "name": "Practitioner programme",
@@ -27,7 +27,7 @@
         "audience": "Risk · Compliance · Legal · Lead auditors",
         "tone": "blue",
         "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&h=900&fit=crop&auto=format",
-        "alt": "Analytics dashboard with charts and metrics"
+        "alt": "Analytics dashboard with charts on a laptop screen"
       },
       {
         "name": "AI team workshop",
@@ -38,7 +38,7 @@
         "audience": "ML engineers · Data scientists · Product · AI architects",
         "tone": "green",
         "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&h=900&fit=crop&auto=format",
-        "alt": "Close-up of code on a dark terminal screen"
+        "alt": "Close-up of a computer circuit board"
       }
     ],
     "flipHint": "Tap the card to flip it"

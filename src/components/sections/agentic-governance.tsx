@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Icon } from "@phosphor-icons/react";
 import { Fingerprint } from "@phosphor-icons/react/dist/ssr/Fingerprint";
 import { Gauge } from "@phosphor-icons/react/dist/ssr/Gauge";
@@ -25,7 +26,7 @@ type Pillar = {
   alt: string;
 };
 
-/** Every placeholder photo is cropped to the same 4:3 box at the source, so no card's image is
+/** Every photo is cropped to the same 4:3 box at the source, so no card's image is
  * naturally taller than another's and every StackCard can share one plain height pattern. */
 const IMG = (id: string) => `https://images.unsplash.com/photo-${id}?q=80&w=1200&h=900&fit=crop&auto=format`;
 
@@ -38,7 +39,7 @@ const PILLARS: Pillar[] = [
     icon: Fingerprint,
     tone: "blue",
     image: IMG("1518770660439-4636190af475"),
-    alt: "Close-up of code on a dark terminal screen",
+    alt: "Close-up of a computer circuit board",
   },
   {
     tag: "Autonomy",
@@ -47,7 +48,7 @@ const PILLARS: Pillar[] = [
     icon: Gauge,
     tone: "violet",
     image: IMG("1551288049-bebda4e38f71"),
-    alt: "Analytics dashboard with charts and metrics",
+    alt: "Analytics dashboard with charts on a laptop screen",
   },
   {
     tag: "Access",
@@ -57,7 +58,7 @@ const PILLARS: Pillar[] = [
     icon: Plugs,
     tone: "green",
     image: IMG("1504384308090-c894fdcc538d"),
-    alt: "Server racks in a data centre",
+    alt: "Rows of people working at laptops in a large open-plan office",
   },
   {
     tag: "Guardrails",
@@ -66,7 +67,7 @@ const PILLARS: Pillar[] = [
     icon: Prohibit,
     tone: "blue",
     image: IMG("1550751827-4bd374c3f58b"),
-    alt: "Padlock resting on a dark keyboard",
+    alt: "Glowing circuit diagram on a dark screen",
   },
   {
     tag: "Oversight",
@@ -75,7 +76,7 @@ const PILLARS: Pillar[] = [
     icon: HandPalm,
     tone: "violet",
     image: IMG("1521737711867-e3b97375f902"),
-    alt: "Two people reviewing a decision together",
+    alt: "Three colleagues working on laptops around a shared table",
   },
   {
     tag: "Telemetry",
@@ -117,11 +118,13 @@ function Title({ pillar }: { pillar: Pillar }) {
 function Media({ pillar, className }: { pillar: Pillar; className?: string }) {
   return (
     <MediaReveal direction="down" className={cn("min-h-0 rounded-xl max-lg:relative max-lg:aspect-[4/3]", className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- external placeholder, swap for the real asset later */}
-      <img
+      {/* Served through next/image: resized per screen and from this site's own domain */}
+      <Image
         src={pillar.image}
         alt={pillar.alt}
-        loading="lazy"
+        width={1200}
+        height={900}
+        sizes="(min-width: 1024px) 40vw, 100vw"
         className="size-full object-cover max-lg:absolute max-lg:inset-0"
       />
     </MediaReveal>

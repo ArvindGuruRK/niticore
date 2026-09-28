@@ -9,8 +9,19 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
-import { WarpText } from "@/components/motion/warp-text";
+import type { WarpText as WarpTextComponent } from "@/components/motion/warp-text";
 import { cn } from "@/lib/utils";
+
+/** How long after the pointer leaves before the WebGL canvas is torn down (after its 300ms fade). */
+const UNMOUNT_AFTER = 600;
+
+/**
+ * WarpText (and ogl, its WebGL library) is only fetched the first time someone hovers a heading, so
+ * phones, tablets and reduced-motion visitors never download it, and desktop pages load lighter.
+ * One shared promise: every heading waits on the same download.
+ */
+let warpModule: Promise<typeof WarpTextComponent> | null = null;
+const loadWarpText = () => (warpModule ??= import("@/components/motion/warp-text").then((m) => m.WarpText));
 
 const WARP_QUERY = "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
 
@@ -135,7 +146,8 @@ function useTextAlign(ref: RefObject<HTMLElement | null>, enabled: boolean): "le
  * wrap point moves on hover. WebGL only mounts for pointers that can actually hover (skips touch)
  * and only under `prefers-reduced-motion: no-preference` — same gating TiltCard uses for its pointer
  * effect (see FINE_POINTER/NO_REDUCE there), applied here via matchMedia since the swap has to
- * decide whether to render the canvas at all, not just gate a GSAP timeline.
+ * decide whether to render the canvas at all, not just gate a GSAP timeline. The canvas mounts on
+ * the first hover and unmounts shortly after the pointer leaves (see loadWarpText and UNMOUNT_AFTER).
  */
 export function WarpHeading({
   as: Tag = "h2",
@@ -159,19 +171,64 @@ export function WarpHeading({
   const textRef = useRef<HTMLSpanElement>(null);
   const wrappedText = useWrappedText(textRef, text, warpEnabled);
   const textAlign = useTextAlign(textRef, warpEnabled);
-  const warpReady = warpEnabled && wrappedText !== null;
+
+  // The canvas exists only while the heading is hovered (plus a short grace period after), so a page
+  // never holds more than a couple of WebGL contexts. Browsers cap live contexts (about 16 in Chrome)
+  // and warn in the console, dropping the oldest, when a page creates one per heading up front.
+  const [Warp, setWarp] = useState<typeof WarpTextComponent | null>(null);
+  const [hovering, setHovering] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [painted, setPainted] = useState(false);
+  const unmountTimer = useRef(0);
+
+  // One frame at opacity 0 after the canvas mounts, so the CSS fade-in actually runs
+  useEffect(() => {
+    if (!hovering || !mounted || !Warp || painted) return undefined;
+    const frame = requestAnimationFrame(() => setPainted(true));
+    return () => cancelAnimationFrame(frame);
+  }, [hovering, mounted, Warp, painted]);
+
+  useEffect(() => () => window.clearTimeout(unmountTimer.current), []);
+
+  const ready = warpEnabled && wrappedText !== null;
+  const shown = ready && hovering && painted;
+
+  const onPointerEnter = () => {
+    if (!ready) return;
+    window.clearTimeout(unmountTimer.current);
+    setHovering(true);
+    setMounted(true);
+    if (!Warp) loadWarpText().then((component) => setWarp(() => component)).catch(() => {});
+  };
+
+  const onPointerLeave = () => {
+    setHovering(false);
+    window.clearTimeout(unmountTimer.current);
+    unmountTimer.current = window.setTimeout(() => {
+      setMounted(false);
+      setPainted(false);
+    }, UNMOUNT_AFTER);
+  };
 
   return (
-    <Tag id={id} className={cn("group relative isolate", className)}>
-      <span ref={textRef} className={cn("block transition-opacity duration-300", warpReady && "group-hover:opacity-0")}>
+    <Tag
+      id={id}
+      className={cn("relative isolate", className)}
+      onPointerEnter={warpEnabled ? onPointerEnter : undefined}
+      onPointerLeave={warpEnabled ? onPointerLeave : undefined}
+    >
+      <span ref={textRef} className={cn("block transition-opacity duration-300", shown && "opacity-0")}>
         {children ?? text}
       </span>
-      {warpEnabled && wrappedText !== null ? (
+      {ready && mounted && Warp ? (
         <span
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:pointer-events-auto group-hover:opacity-100"
+          className={cn(
+            "absolute inset-0 transition-opacity duration-300",
+            shown ? "opacity-100" : "pointer-events-none opacity-0",
+          )}
         >
-          <WarpText
+          <Warp
             text={wrappedText}
             color={color}
             align={textAlign}
