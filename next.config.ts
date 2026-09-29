@@ -1,3 +1,4 @@
+import { withPayload } from "@payloadcms/next/withPayload";
 import type { NextConfig } from "next";
 
 /**
@@ -31,14 +32,23 @@ const nextConfig: NextConfig = {
   images: {
     // Stock photos are fetched once by the image optimiser, then resized per screen and served from
     // this site's own domain, so visitors' browsers never call Unsplash directly
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com", pathname: "/photo-*" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com", pathname: "/photo-*" },
+      // Blog and news images uploaded through the CMS, stored in Vercel Blob
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+    ],
   },
   experimental: {
     serverActions: {
-      // The only Server Action is Book a demo: a few short fields and notes capped at 2,000
-      // characters. 64 KB is ample and stops oversized payloads before they are parsed.
-      bodySizeLimit: "64kb",
+      // Two Server Actions: Book a demo (a few short fields, notes capped at 2,000 characters) and
+      // the CMS admin's server functions, which send a whole article's form state on each save; a
+      // long post runs to hundreds of KB. 4 MB covers that and sits under Vercel's 4.5 MB request
+      // cap. Image uploads don't pass through here (they go to Blob directly).
+      bodySizeLimit: "4mb",
     },
+    // The site and the CMS admin have separate root layouts, so unmatched addresses get their 404
+    // from app/global-not-found.tsx
+    globalNotFound: true,
   },
   // The event page moved from /ai-everything to /announcements; keep shared links working
   async redirects() {
@@ -52,4 +62,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Payload CMS (the /admin panel and its /api routes) runs inside this app
+export default withPayload(nextConfig, { devBundleServerPackages: false });

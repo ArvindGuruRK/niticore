@@ -3,7 +3,7 @@
 import { startTransition, useActionState, useEffect, useRef, useState, type FormEvent } from "react";
 import { Check, Warning } from "@phosphor-icons/react";
 import { getCountries, type CountryCode } from "libphonenumber-js/min";
-import { detectCountry, requestDemo } from "@/app/(site)/demo/actions";
+import { detectCountry, requestDemo } from "@/app/(frontend)/(site)/demo/actions";
 import { celebrate } from "@/components/motion/confetti";
 import { Button } from "@/components/ui/button";
 import { CheckPill, Field, Input, Textarea } from "@/components/ui/field";

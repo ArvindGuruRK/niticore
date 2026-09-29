@@ -11,7 +11,9 @@ const mail = <a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a>;
 /**
  * Written to match what this website actually does: the Book a demo form (demo-request.ts) emailed
  * through Resend, hosting and security on Vercel, IP-based rate limiting held in memory
- * (demo-guard.ts), a readiness check that runs only in the browser, and no analytics.
+ * (demo-guard.ts), a readiness check that runs only in the browser, blog and news published from
+ * Payload CMS (content and team accounts in Postgres on Neon, images in Vercel Blob; nothing about
+ * visitors), and no analytics.
  * Keep it in step when any of that changes, and update LEGAL_UPDATED.
  */
 const SECTIONS: LegalSection[] = [
@@ -138,6 +140,10 @@ const SECTIONS: LegalSection[] = [
           </li>
           <li>
             <strong>Resend</strong>, which delivers the emails sent when you book a demo.
+          </li>
+          <li>
+            <strong>Neon</strong> and <strong>Vercel Blob</strong>, which store our blog and news posts and their
+            images. They hold what we publish and our own team&apos;s editor accounts, nothing about visitors.
           </li>
           <li>
             <strong>The provider of our business email</strong>, where your request and our replies are kept.

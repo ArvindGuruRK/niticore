@@ -31,8 +31,13 @@ const SUMMARY =
 
 const isLegal = (path: PagePath) => (LEGAL_PAGES as readonly PagePath[]).includes(path);
 
-/** The short index: what Niticore is and where each topic lives. */
-export function llmsIndex(): string {
+/** A published blog or news post, as listed in llms.txt */
+export type LlmsPost = { title: string; url: string; excerpt: string };
+
+/** The short index: what Niticore is and where each topic lives, then the published posts. */
+export function llmsIndex(posts: { blog: LlmsPost[]; news: LlmsPost[] } = { blog: [], news: [] }): string {
+  const postList = (items: LlmsPost[]) => list(items.map((p) => `[${p.title}](${p.url}): ${p.excerpt}`));
+
   const pages = (Object.keys(PAGES) as PagePath[])
     .filter((p) => p !== "/" && p !== "/demo" && !isLegal(p))
     .map((p) => `- ${link(p)}: ${PAGES[p].description}`)
@@ -43,6 +48,8 @@ export function llmsIndex(): string {
     `> ${PAGES["/"].description}`,
     SUMMARY,
     `## Pages\n\n${pages}`,
+    posts.blog.length > 0 && `## Blog posts\n\n${postList(posts.blog)}`,
+    posts.news.length > 0 && `## News\n\n${postList(posts.news)}`,
     `## Full content\n\n- [llms-full.txt](${url("/llms-full.txt")}): every page's content in one Markdown file`,
     `## Optional\n\n${list([
       `${link("/demo")}: ${PAGES["/demo"].description}`,

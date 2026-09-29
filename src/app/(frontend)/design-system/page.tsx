@@ -27,6 +27,7 @@ import aboutContent from "@/content/about.json";
 import { COMPANY } from "@/lib/company";
 import { LegalToc } from "@/components/legal/legal-toc";
 import { MotionShowcase } from "./showcase";
+import { ArticleTypeDemo, PostsDemo } from "./posts-demo";
 import { SwitchDemo } from "./switch-demo";
 
 export const metadata: Metadata = {
@@ -438,6 +439,20 @@ export default function DesignSystemPage() {
               ))}
             </article>
           </div>
+        </Block>
+
+        <Block
+          title="Blog and news"
+          note="components/posts, fed by Payload CMS (lib/cms). FeaturedPost: the newest post in a bezel, cover beside the text from lg; no label over the title. PostCard: cover (cropped around the focal point set in the CMS, slow zoom on hover, grid canvas when missing), title clamped to two lines, byline (photo or violet initials, name, hairline, date) and a three-line excerpt; the whole card is one link. Pagination: pills, the current page in the nav's active style. Grids reveal with a stagger."
+        >
+          <PostsDemo />
+        </Block>
+
+        <Block
+          title="Article type"
+          note="type-article (globals.css) styles what the CMS article editor produces, rendered by components/posts/rich-text: h2 to h4, paragraphs, bold, links, inline code, numbered and bulleted lists, quotes, code blocks, figures with captions, tables and dividers. Articles open with a back link, title and byline on the grid canvas, then the cover in a bezel; from lg a sticky side column holds On this page (the legal pages' list) and a Book a demo card."
+        >
+          <ArticleTypeDemo />
         </Block>
 
         <Block

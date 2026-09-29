@@ -4,7 +4,8 @@ import { SITE_URL } from "@/lib/site";
 /**
  * Search engines and AI crawlers named explicitly, so the intent is unambiguous: we want to be found,
  * read, cited and answered from. A named group replaces the "*" group for that crawler, so each one
- * carries the same disallow list. Only the internal design-system showcase is kept out.
+ * carries the same disallow list. Kept out: the internal design-system showcase, and the CMS (its
+ * admin, API and draft preview), which is for the team only.
  */
 const CRAWLERS = [
   // Search
@@ -32,7 +33,7 @@ const CRAWLERS = [
   "CCBot",
 ];
 
-const DISALLOW = ["/design-system"];
+const DISALLOW = ["/design-system", "/admin", "/api/", "/cms-preview"];
 
 export default function robots(): MetadataRoute.Robots {
   return {

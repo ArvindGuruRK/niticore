@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Footer } from "@/components/footer";
 import { Annotate } from "@/components/illustrations/annotate";
 import { LostCompass } from "@/components/illustrations/lost-compass";
@@ -7,19 +6,13 @@ import { SplitHeading } from "@/components/motion/split-heading";
 import { PageDoodles } from "@/components/page/page-doodles";
 import { SiteNav } from "@/components/site-nav";
 
-export const metadata: Metadata = {
-  title: "Page not found",
-  robots: { index: false },
-  // Don't inherit the home page's canonical URL from the root layout
-  alternates: { canonical: null },
-};
-
 /**
- * Every unknown address lands here. It sits outside the (site) group, so it brings its own nav and
- * footer. Same flat canvas, grid and edge doodles as the inner-page heroes; the zero of "404" is a
- * lost compass that hunts for north (and follows the cursor on desktop).
+ * The 404 page body, with its own nav and footer. Same flat canvas, grid and edge doodles as the
+ * inner-page heroes; the zero of "404" is a lost compass that hunts for north (and follows the
+ * cursor on desktop). Rendered by app/(frontend)/not-found.tsx (a missing post, say) and by
+ * app/global-not-found.tsx (an address that matches nothing).
  */
-export default function NotFound() {
+export function NotFoundView() {
   return (
     <>
       <SiteNav />

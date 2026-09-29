@@ -16,7 +16,7 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
   );
 }
 
-const ORG_ID = `${SITE_URL}/#organization`;
+export const ORG_ID = `${SITE_URL}/#organization`;
 const LOGO = { "@type": "ImageObject", url: `${SITE_URL}/logo.png`, width: 512, height: 512 };
 
 /** Countries of the hubs in COMPANY.hubs (docs/content/08 §12), as ISO codes */

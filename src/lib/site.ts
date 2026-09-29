@@ -13,6 +13,8 @@ export const NAV_LINKS = [
   { label: "Assessments", href: "/assessments" },
   { label: "Solutions", href: "/solutions" },
   { label: "Academy & Advisory", href: "/academy-advisory" },
+  { label: "Blog", href: "/blog" },
+  { label: "News", href: "/news" },
 ] as const;
 
 /**
@@ -48,6 +50,15 @@ export const PAGES = {
     title: "Academy & Advisory",
     description:
       "AI governance masterclasses for boards, operators and builders, and expert-led advisory that configures governance straight into Niticore.",
+  },
+  "/blog": {
+    title: "Blog",
+    description:
+      "AI governance intelligence: guides, research and perspectives on AI regulation, responsible AI, AI risk and agentic AI.",
+  },
+  "/news": {
+    title: "News",
+    description: "The latest from Niticore: announcements, product updates and events from the team.",
   },
   "/announcements": {
     title: "AI Everything Abu Dhabi",

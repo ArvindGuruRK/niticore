@@ -43,3 +43,6 @@ next-env.d.ts
 
 # editor settings (personal)
 /.vscode/
+
+# Payload CMS: uploads stored locally when Vercel Blob is not configured
+/media

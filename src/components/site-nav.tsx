@@ -93,7 +93,9 @@ export function SiteNav() {
             <Image src="/logo/niticore.svg" alt="Niticore" width={156} height={38} priority className="h-8 w-auto -translate-y-[2px]" />
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+          {/* Seven links plus the logo and Book a demo need about 1,000px, so the row appears at
+              xl; below that the menu button carries them */}
+          <nav aria-label="Primary" className="hidden items-center gap-1 xl:flex">
             {LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -119,7 +121,7 @@ export function SiteNav() {
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
-              className="grid size-11 place-items-center rounded-control border border-line-strong text-fg transition-colors hover:bg-white/[0.06] lg:hidden"
+              className="grid size-11 place-items-center rounded-control border border-line-strong text-fg transition-colors hover:bg-white/[0.06] xl:hidden"
             >
               {open ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
             </button>
@@ -130,7 +132,7 @@ export function SiteNav() {
           <nav
             id="mobile-menu"
             aria-label="Mobile"
-            className="max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-line lg:hidden"
+            className="max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain border-t border-line xl:hidden"
           >
             <div className="flex flex-col gap-1 px-4 py-4 sm:px-5">
               {LINKS.map((link) => (

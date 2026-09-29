@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import boothImage from "../../../../public/event-image/event_stall.png";
+import boothImage from "../../../../../public/event-image/event_stall.png";
 import { VisitPass } from "@/components/event/visit-pass";
 import { Countdown } from "@/components/motion/countdown";
 import { Reveal } from "@/components/motion/reveal";

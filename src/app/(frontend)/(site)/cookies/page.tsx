@@ -26,6 +26,22 @@ const COOKIES = [
       "Set only if the site's firewall asks your browser to pass a check during a suspected attack, so you aren't checked again.",
     duration: "Short-lived",
   },
+  {
+    name: "payload-token",
+    provider: "Niticore",
+    category: "Strictly necessary",
+    purpose:
+      "Keeps members of our team signed in to the editor they use to publish blog and news posts. Only set for people who sign in there; visitors never get it.",
+    duration: "8 hours",
+  },
+  {
+    name: "__prerender_bypass",
+    provider: "Niticore",
+    category: "Strictly necessary",
+    purpose:
+      "Lets a signed-in member of our team preview a blog or news post before it is published. Only set when they open a preview.",
+    duration: "Until the browser is closed",
+  },
 ];
 
 function CookieCard({ cookie }: { cookie: (typeof COOKIES)[number] }) {
@@ -69,7 +85,8 @@ const SECTIONS: LegalSection[] = [
       <>
         <p>
           We keep cookies to a minimum. Today the site only uses cookies that are <strong>strictly necessary</strong>
-          : to remember your cookie choice and to keep the site secure. They don&apos;t track you across other
+          : to remember your cookie choice, to keep the site secure, and to keep our team signed in to the editor
+          they publish blog and news posts with. They don&apos;t track you across other
           websites, and the law doesn&apos;t require consent for them.
         </p>
         <p>
