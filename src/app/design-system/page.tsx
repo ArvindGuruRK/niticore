@@ -160,7 +160,7 @@ const ANIMATIONS = [
   { name: "Accordion", where: "motion/accordion", trigger: "Click, keyboard", note: "Height tween, inert when closed" },
   { name: "Tabs", where: "motion/tabs", trigger: "Click, keyboard", note: "Sliding indicator, panel fade-rise" },
   { name: "Horizontal scroll", where: "motion/horizontal-scroll", trigger: "Pinned, scrubbed (lg+)", note: "Vertical scroll drives a sideways track" },
-  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, FlyingPlane, ChatBubbles, CalendarCheck, LostCompass, Annotate: self-drawing line art" },
+  { name: "Illustrations", where: "illustrations/*", trigger: "Load or enters viewport", note: "Doodle, Sparkle, Flourish, StarFive, Petal, Zigzag, FlyingPlane, ChatBubbles, CalendarCheck, LostCompass, HandSignature (hidden; rises and writes itself while its tiny spot is hovered), Annotate: self-drawing line art" },
   { name: "Focus list", where: "motion/focus-list", trigger: "Scroll position", note: "Row in the middle band lights, others dim" },
   { name: "Countdown", where: "motion/countdown", trigger: "Every second", note: "Live count to a date, digits roll on change" },
   { name: "Orbit steps", where: "motion/orbit-steps", trigger: "Autoplay on screen, click, keys", note: "Loop of steps with comet, arc and panel swap" },

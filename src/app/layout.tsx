@@ -6,6 +6,7 @@ import { EventButton } from "@/components/event-button";
 import { BackToTop } from "@/components/motion/back-to-top";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { JsonLd, SITE_GRAPH } from "@/components/seo/json-ld";
+import { Signature } from "@/components/signature";
 import { PAGES, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <EventButton />
         {children}
         <CookieConsent />
+        <Signature />
       </body>
     </html>
   );

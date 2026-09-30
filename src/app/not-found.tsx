@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/footer";
 import { Annotate } from "@/components/illustrations/annotate";
+import { HandSignature } from "@/components/illustrations/hand-signature";
 import { LostCompass } from "@/components/illustrations/lost-compass";
 import { Reveal } from "@/components/motion/reveal";
 import { SplitHeading } from "@/components/motion/split-heading";
@@ -17,7 +18,8 @@ export const metadata: Metadata = {
 /**
  * Every unknown address lands here. It sits outside the (site) group, so it brings its own nav and
  * footer. Same flat canvas, grid and edge doodles as the inner-page heroes; the zero of "404" is a
- * lost compass that hunts for north (and follows the cursor on desktop).
+ * lost compass that hunts for north (and follows the cursor on desktop). A tiny spot under the
+ * heading hides a hand-written signature that shows on hover.
  */
 export default function NotFound() {
   return (
@@ -46,6 +48,9 @@ export default function NotFound() {
                     </span>
                   </SplitHeading>
                 </Annotate>
+
+                {/* Easter egg: a signature that writes itself only while its own tiny spot is hovered */}
+                <HandSignature className="mt-4 w-13 text-tertiary" />
               </div>
             </div>
           </div>
