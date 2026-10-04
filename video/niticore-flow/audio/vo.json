@@ -1,0 +1,254 @@
+[
+ {
+  "i": 0,
+  "beat": 2,
+  "t0": 1.25,
+  "t1": 3.27,
+  "text": "The world is accelerating with AI."
+ },
+ {
+  "i": 1,
+  "beat": 7,
+  "t0": 4.375,
+  "t1": 7.255,
+  "text": "Now, AI needs governance built for what's next."
+ },
+ {
+  "i": 2,
+  "beat": 15,
+  "t0": 9.375,
+  "t1": 10.815,
+  "text": "Introducing Niticore."
+ },
+ {
+  "i": 3,
+  "beat": 24,
+  "t0": 15.0,
+  "t1": 17.34,
+  "text": "AI is already everywhere in your business."
+ },
+ {
+  "i": 4,
+  "beat": 29,
+  "t0": 18.125,
+  "t1": 20.725,
+  "text": "And the faster it moves, the harder it is to see."
+ },
+ {
+  "i": 5,
+  "beat": 36,
+  "t0": 22.5,
+  "t1": 23.99,
+  "text": "Models no one approved."
+ },
+ {
+  "i": 6,
+  "beat": 39.5,
+  "t0": 24.688,
+  "t1": 26.197,
+  "text": "Agents acting on their own."
+ },
+ {
+  "i": 7,
+  "beat": 43,
+  "t0": 26.875,
+  "t1": 28.305,
+  "text": "Risks no one can measure."
+ },
+ {
+  "i": 8,
+  "beat": 48.5,
+  "t0": 30.312,
+  "t1": 33.032,
+  "text": "Niticore brings all of it into one clear view."
+ },
+ {
+  "i": 9,
+  "beat": 54,
+  "t0": 33.75,
+  "t1": 35.04,
+  "text": "One continuous loop."
+ },
+ {
+  "i": 10,
+  "beat": 57.0,
+  "t0": 35.625,
+  "t1": 36.345,
+  "text": "Discover."
+ },
+ {
+  "i": 11,
+  "beat": 59.2,
+  "t0": 37.0,
+  "t1": 37.71,
+  "text": "Assess."
+ },
+ {
+  "i": 12,
+  "beat": 61.4,
+  "t0": 38.375,
+  "t1": 38.965,
+  "text": "Govern."
+ },
+ {
+  "i": 13,
+  "beat": 63.6,
+  "t0": 39.75,
+  "t1": 40.42,
+  "text": "Prove."
+ },
+ {
+  "i": 14,
+  "beat": 65.6,
+  "t0": 41.0,
+  "t1": 41.8,
+  "text": "And monitor."
+ },
+ {
+  "i": 15,
+  "beat": 70.5,
+  "t0": 44.062,
+  "t1": 46.873,
+  "text": "Discover every model, agent and dataset."
+ },
+ {
+  "i": 16,
+  "beat": 80,
+  "t0": 50.0,
+  "t1": 52.873,
+  "text": "Assess the risk of each one, the moment it appears."
+ },
+ {
+  "i": 17,
+  "beat": 86,
+  "t0": 53.75,
+  "t1": 55.9,
+  "text": "Align with governance frameworks such as"
+ },
+ {
+  "i": 18,
+  "beat": 90.4,
+  "t0": 56.5,
+  "t1": 57.87,
+  "text": "the EU AI Act,"
+ },
+ {
+  "i": 19,
+  "beat": 93.6,
+  "t0": 58.5,
+  "t1": 60.27,
+  "text": "ISO 42001,"
+ },
+ {
+  "i": 20,
+  "beat": 97.5,
+  "t0": 60.938,
+  "t1": 62.639,
+  "text": "the NIST AI [RMF],"
+ },
+ {
+  "i": 21,
+  "beat": 101.2,
+  "t0": 63.25,
+  "t1": 64.93,
+  "text": "the [UAE] [PDPL],"
+ },
+ {
+  "i": 22,
+  "beat": 105.0,
+  "t0": 65.625,
+  "t1": 68.285,
+  "text": "[ADGM] [DPR] twenty twenty-one,"
+ },
+ {
+  "i": 23,
+  "beat": 110.2,
+  "t0": 68.875,
+  "t1": 70.945,
+  "text": "and [DIFC] Regulation ten."
+ },
+ {
+  "i": 24,
+  "beat": 117,
+  "t0": 73.125,
+  "t1": 75.335,
+  "text": "Keep your evidence audit-ready, always."
+ },
+ {
+  "i": 25,
+  "beat": 122,
+  "t0": 76.25,
+  "t1": 78.643,
+  "text": "And keep people in the loop when it matters most."
+ },
+ {
+  "i": 26,
+  "beat": 128,
+  "t0": 80.0,
+  "t1": 82.78,
+  "text": "Six ways governance actually gets enforced."
+ },
+ {
+  "i": 27,
+  "beat": 134,
+  "t0": 83.75,
+  "t1": 85.42,
+  "text": "A tamper-evident audit trail."
+ },
+ {
+  "i": 28,
+  "beat": 139.5,
+  "t0": 87.188,
+  "t1": 88.737,
+  "text": "Segregation of duties."
+ },
+ {
+  "i": 29,
+  "beat": 144.5,
+  "t0": 90.312,
+  "t1": 93.222,
+  "text": "Three regulatory assessments, signed and locked."
+ },
+ {
+  "i": 30,
+  "beat": 151,
+  "t0": 94.375,
+  "t1": 96.145,
+  "text": "A risk-based deployment gate."
+ },
+ {
+  "i": 31,
+  "beat": 156,
+  "t0": 97.5,
+  "t1": 100.521,
+  "text": "Encrypted evidence, on its own retention schedule."
+ },
+ {
+  "i": 32,
+  "beat": 162.5,
+  "t0": 101.562,
+  "t1": 104.427,
+  "text": "And one control that satisfies many frameworks."
+ },
+ {
+  "i": 33,
+  "beat": 171,
+  "t0": 106.875,
+  "t1": 109.395,
+  "text": "So you can innovate with confidence, and prove it."
+ },
+ {
+  "i": 34,
+  "beat": 180,
+  "t0": 112.5,
+  "t1": 113.39,
+  "text": "Niticore."
+ },
+ {
+  "i": 35,
+  "beat": 182.5,
+  "t0": 114.062,
+  "t1": 116.382,
+  "text": "AI governance, from policy to proof."
+ }
+]

@@ -1,0 +1,12 @@
+node_modules/
+out/
+bin/
+models/
+.skillpath
+
+# Large rendered audio: regenerate with each film's audio/score.py and audio/tts.py
+*/audio/music.wav
+*/audio/vo.wav
+*/audio/mix.wav
+*/audio/sfx.wav
+*/audio/vo/

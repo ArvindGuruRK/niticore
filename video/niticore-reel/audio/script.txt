@@ -1,0 +1,17 @@
+# Niticore ad: voice-over, one phrase per line (tts.py makes one take per line)
+The first AI governance platform from India.
+Introducing Niticore.
+AI is already everywhere in your business.
+And the faster it moves, the harder it is to see.
+Models no one approved.
+Agents acting on their own.
+Risks no one can measure.
+Niticore brings all of it into one clear view.
+Discover every model, agent and dataset, even the ones hiding in the shadows.
+Assess the risk of each one, the moment it appears.
+Align with the EU AI Act and ISO 42001, and keep your evidence audit-ready, always.
+Set guardrails for every agent, with people in the loop when it matters most.
+And watch over everything, continuously, as it happens.
+So you can innovate with confidence, and prove it.
+Niticore.
+Trusted AI, by design.

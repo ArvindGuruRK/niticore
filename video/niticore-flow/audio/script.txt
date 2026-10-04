@@ -1,0 +1,38 @@
+# Niticore particle cut v2.1: one line per phrase (tts.py makes pNN.wav, score.py places them on beats)
+# [ABC] is spelled out letter by letter
+The world is accelerating with AI.
+Now, AI needs governance built for what's next.
+Introducing Niticore.
+AI is already everywhere in your business.
+And the faster it moves, the harder it is to see.
+Models no one approved.
+Agents acting on their own.
+Risks no one can measure.
+Niticore brings all of it into one clear view.
+One continuous loop.
+Discover.
+Assess.
+Govern.
+Prove.
+And monitor.
+Discover every model, agent and dataset.
+Assess the risk of each one, the moment it appears.
+Align with governance frameworks such as
+the EU AI Act,
+ISO 42001,
+the NIST AI [RMF],
+the [UAE] [PDPL],
+[ADGM] [DPR] twenty twenty-one,
+and [DIFC] Regulation ten.
+Keep your evidence audit-ready, always.
+And keep people in the loop when it matters most.
+Six ways governance actually gets enforced.
+A tamper-evident audit trail.
+Segregation of duties.
+Three regulatory assessments, signed and locked.
+A risk-based deployment gate.
+Encrypted evidence, on its own retention schedule.
+And one control that satisfies many frameworks.
+So you can innovate with confidence, and prove it.
+Niticore.
+AI governance, from policy to proof.

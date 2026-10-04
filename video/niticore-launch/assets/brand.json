@@ -1,0 +1,123 @@
+{
+ "url": "https://niticore.vercel.app",
+ "title": "Niticore | The operating layer for governed AI",
+ "description": "Continuous AI visibility, reusable compliance evidence, and agent guardrails, from first idea to production.",
+ "themeColor": [
+  "#06011F"
+ ],
+ "text_colors": [
+  [
+   "#f2f0fb",
+   241
+  ],
+  [
+   "#cbc6e4",
+   151
+  ],
+  [
+   "#06011f",
+   19
+  ],
+  [
+   "#a6a1c4",
+   16
+  ],
+  [
+   "#4ae057",
+   6
+  ],
+  [
+   "#a98bff",
+   1
+  ]
+ ],
+ "background_colors": [
+  [
+   "#0c062b",
+   603
+  ],
+  [
+   "#06011f",
+   20
+  ],
+  [
+   "#a98bff",
+   5
+  ],
+  [
+   "#4ae057",
+   2
+  ],
+  [
+   "#140d3d",
+   0
+  ],
+  [
+   "#a6a1c4",
+   0
+  ],
+  [
+   "#f2f0fb",
+   0
+  ]
+ ],
+ "font_families": [
+  [
+   "Manrope",
+   341
+  ],
+  [
+   "Sora",
+   247
+  ]
+ ],
+ "font_weights": [
+  [
+   "Manrope 500",
+   300
+  ],
+  [
+   "Sora 600",
+   237
+  ],
+  [
+   "Manrope 600",
+   32
+  ],
+  [
+   "Sora 700",
+   10
+  ],
+  [
+   "Manrope 700",
+   6
+  ],
+  [
+   "Manrope 800",
+   2
+  ],
+  [
+   "Manrope 400",
+   1
+  ]
+ ],
+ "css_vars": {
+  "--z-nav": "50",
+  "--z-menu": "60",
+  "--lightningcss-light": "",
+  "--lightningcss-dark": "initial",
+  "--safe-top": "env(safe-area-inset-top,0px)",
+  "--safe-right": "env(safe-area-inset-right,0px)",
+  "--safe-bottom": "env(safe-area-inset-bottom,0px)",
+  "--safe-left": "env(safe-area-inset-left,0px)",
+  "--banner-h": "calc(2rem + var(--safe-top))",
+  "--grid-cell": "40px"
+ },
+ "wordmark": {
+  "text": "",
+  "font": "Manrope, \"Manrope Fallback\", ui-sans-serif, system-ui, sans-serif",
+  "weight": "400",
+  "tracking": "normal",
+  "html": "<img alt=\"Niticore\" width=\"156\" height=\"38\" decoding=\"async\" data-nimg=\"1\" class=\"h-8 w-auto -translate-y-[2px]\" style=\"color:transparent\" src=\"/logo/niticore.svg\">"
+ }
+}
