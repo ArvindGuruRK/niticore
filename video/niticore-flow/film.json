@@ -5,5 +5,9 @@
   "16x9",
   "9x16"
  ],
- "poster": 119.9
+ "poster": 119.9,
+ "poster_clean": false,
+ "poster_spread": false,
+ "poster_chips": false,
+ "poster_face": false
 }

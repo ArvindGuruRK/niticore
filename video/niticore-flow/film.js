@@ -1055,13 +1055,16 @@ function buildCam() {
   const f = vnorm(vsub(Tc, Ec)), r = vnorm(vcross(f, [0, 1, 0])), up = vcross(r, f);
   const tv = Math.tan((FOV * DEG) / 2), th = (tv * W) / H;
   const unproj = (sx, sy, d) => vadd(Ec, vsc(vadd(f, vadd(vsc(r, ((sx / W) * 2 - 1) * th), vsc(up, (1 - (sy / H) * 2) * tv))), d));
-  const SL = P
-    ? { cockpit: [230, 700, 62, 6], loop: [540, 690, 64, 0], inventory: [850, 700, 62, -6], risk: [230, 890, 63, 5], frameworks: [540, 900, 60, 0], evidence: [850, 890, 63, -5],
+  // poster stills only (film.json poster_spread): the 13 components spread across the 16:9 frame
+  const SPREAD = { cockpit: [300, 250, 39, 8], loop: [730, 250, 36, 2], inventory: [1170, 250, 37, -4], risk: [1610, 250, 37, -8],
+    frameworks: [300, 597, 43, 6], evidence: [730, 597, 40, 0], approve: [1170, 597, 39, -7], six0: [1610, 597, 40, 7],
+    six1: [300, 894, 40, 2], six2: [730, 894, 40, -2], six3: [1170, 894, 40, -6], six4: [1610, 894, 40, 4] };
+  const SL = M.CFG.poster_spread && !P ? SPREAD : P    ? { cockpit: [230, 700, 62, 6], loop: [540, 690, 64, 0], inventory: [850, 700, 62, -6], risk: [230, 890, 63, 5], frameworks: [540, 900, 60, 0], evidence: [850, 890, 63, -5],
       approve: [230, 1080, 62, 6], six0: [540, 1075, 64, 0], six1: [850, 1080, 62, -6], six2: [230, 1260, 63, 5], six3: [540, 1255, 64, 0], six4: [850, 1260, 63, -5], six5: [540, 1430, 62, 0] }
     : { cockpit: [1000, 215, 58, 8], loop: [1235, 205, 60, 2], inventory: [1475, 215, 59, -4], risk: [1730, 225, 58, -8], frameworks: [1120, 470, 56, 6], evidence: [1500, 460, 59, 0],
       approve: [1760, 470, 58, -7], six0: [985, 720, 59, 7], six1: [1220, 715, 60, 2], six2: [1455, 720, 59, -2], six3: [1695, 725, 58, -7], six4: [1150, 935, 58, 4], six5: [1420, 935, 58, -4] };
   const yawC = Math.atan2(-f[0], -f[2]) / DEG;
-  CONST.forEach((name) => { const [sx, sy, d, yj] = SL[name]; CPOSE[name] = poseFor(B[name], unproj(sx, sy, d), yawC + yj); });
+  CONST.forEach((name) => { if (!SL[name]) return; const [sx, sy, d, yj] = SL[name]; CPOSE[name] = poseFor(B[name], unproj(sx, sy, d), yawC + yj); });
   const Ee = vadd(Ec, vsc(f, 6)), fH = vnorm([f[0], 0, f[2]]);
   Object.assign(B.logoEnd, poseFor(B.logoEnd, vadd(Ee, vsc(fH, D0)), Math.atan2(-fH[0], -fH[2]) / DEG));
   B.logoEnd.pose = { C: B.logoEnd.C, yaw: B.logoEnd.yaw };
@@ -1640,7 +1643,7 @@ function renderGL(u, t, subs, vis, cam, pj, glowUsed) {
     const lb = BOARDS.loop;
     gl.uniform3fv(L('uLpC'), lb.C); gl.uniform3fv(L('uLpX'), lb.X); gl.uniform3fv(L('uLpY'), lb.Y); gl.uniform1f(L('uLpR'), (LOOP.R * lb.s) / 100); gl.uniform3fv(L('uLpC'), at(lb, LOOP.cx, LOOP.c));
     gl.uniform1f(L('uLpA'), Math.PI / 2 - (loopStep(uu) / 5) * TAU); gl.uniform1f(L('uLpK'), 0.6 * ease(uu, 54.4, 55.4));
-    gl.drawArrays(gl.POINTS, 0, N);
+    if (!(M.CFG.poster_spread && !P) && !M.CFG.poster_face) gl.drawArrays(gl.POINTS, 0, N);   // poster stills: no particle field, just the components (or the avatar alone)
   }
   gl.disable(gl.DEPTH_TEST); gl.depthMask(true);
   if (glowUsed) {
@@ -1681,8 +1684,9 @@ function renderGL(u, t, subs, vis, cam, pj, glowUsed) {
     tex(0, G.scene.tex); tex(1, G.lv[0][0].tex); tex(2, G.lv[1][0].tex); tex(3, G.lv[2][0].tex); tex(4, sa.tex); tex(5, G.cards.tex);
     const C = ul.comp;
     gl.uniform1i(C('uScene'), 0); gl.uniform1i(C('uB1'), 1); gl.uniform1i(C('uB2'), 2); gl.uniform1i(C('uB3'), 3); gl.uniform1i(C('uSt'), 4); gl.uniform1i(C('uCards'), 5);
-    gl.uniform2f(C('uRes'), W, H); gl.uniform1f(C('uT'), t); gl.uniform1f(C('uExp'), EXP(u)); gl.uniform1f(C('uGrain'), 0.025);
-    gl.uniform3fv(C('uBg0'), [0x10 / 255, 0x09 / 255, 0x36 / 255]); gl.uniform3fv(C('uBg1'), [0x06 / 255, 0x01 / 255, 0x1f / 255]);
+    gl.uniform2f(C('uRes'), W, H); gl.uniform1f(C('uT'), t); gl.uniform1f(C('uExp'), EXP(u)); gl.uniform1f(C('uGrain'), (M.CFG.poster_spread && !P) || M.CFG.poster_face ? 0 : 0.025);   // poster stills: no grain
+    if (M.CFG.poster_face) { gl.uniform3fv(C('uBg0'), [0, 0, 0]); gl.uniform3fv(C('uBg1'), [0, 0, 0]); }
+    else { gl.uniform3fv(C('uBg0'), [0x10 / 255, 0x09 / 255, 0x36 / 255]); gl.uniform3fv(C('uBg1'), [0x06 / 255, 0x01 / 255, 0x1f / 255]); }
   });
 }
 
@@ -1726,6 +1730,7 @@ function accents(g, u, pj) {
   if (uo > 148.6 && uo < 157.6) {
     const k = ease(uo, 148.6, 150.2) * (1 - ease(uo, 156.6, 157.6));
     for (let i = 0; i < CONST.length - 1; i++) {
+      if (!CPOSE[CONST[i]] || !CPOSE[CONST[i + 1]]) continue;
       const a = pj.to(CPOSE[CONST[i]].C), z = pj.to(CPOSE[CONST[i + 1]].C); if (!a.ok || !z.ok) continue;
       for (let n = 0; n < 30; n++) {
         const f = (n / 30 + u * 0.06) % 1, x = lerp(a.x, z.x, f), y = lerp(a.y, z.y, f) - Math.sin(f * Math.PI) * 26;
@@ -1914,6 +1919,8 @@ function endCard(ctx, u, pj) {
   if (k > 0) { ctx.save(); ctx.globalAlpha = k; tx(ctx, 'www.niticore.ai', W / 2, bot.y + (P ? 120 : 104) + (1 - k) * 12, P ? 36 : 32, 700, UI, T.accent, 'center', 0.5); ctx.restore(); }
 }
 function overlay(ctx, u, pj) {
+  if (M.CFG.poster_clean) return;   // poster stills: the components alone (film.json poster_clean)
+  if (M.CFG.poster_chips) { agentChips(ctx, u, pj); return; }   // poster stills: the avatar's chips alone, no captions
   agentChips(ctx, u, pj);
   CAPS.forEach((c) => caption(ctx, u, c));
   problems(ctx, u);
@@ -1994,15 +2001,17 @@ M.film({
     shiftTimeline();
     buildPhi(); buildRib(); buildCam(); setupGL(); sampleLayers();
   },
-  draw(ctx, u, t) {
-    const cam = camera(u), pj = projector(cam);
-    const vis = visible(u);
+  draw(ctx, u0, t) {
+    const spread = M.CFG.poster_spread && !P;   // poster stills: the spread layout, drawn at one fixed moment
+    const u = spread ? 153 : u0;
+    const cam = spread ? { eye: BOARDS.CEND.Ec, tgt: BOARDS.CEND.Tc, fov: FOV } : camera(u), pj = projector(cam);
+    const vis = spread ? CONST.filter((n) => CPOSE[n]).map((n) => ({ b: BOARDS[n], a: 1, leave: null, final: true, C: CPOSE[n].C, X: CPOSE[n].X, Y: CPOSE[n].Y })) : visible(u);
     vis.forEach((v) => (v.tex = boardTex(v.b, u, v.final)));
     G.glow.clearRect(0, 0, W, H);
     const glowUsed = accents(G.glow, u, pj);
     const subs = [];
     for (let k = 0; k < MB; k++) {
-      const uk = M.U(t + (k / MB - 0.5) * (SHUTTER / FPS)), ck = camera(uk);
+      const uk = M.U(t + (k / MB - 0.5) * (SHUTTER / FPS)), ck = spread ? cam : camera(uk);
       subs.push({ u: uk, cam: ck, pj: projector(ck) });
     }
     renderGL(u, t, subs, vis, cam, pj, glowUsed);
