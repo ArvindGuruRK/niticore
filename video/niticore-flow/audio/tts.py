@@ -4,10 +4,10 @@
 # ///
 """Voice-over takes for the Niticore ad, one wav per phrase, with Kokoro (Apache-2.0, offline).
 
-    uv run --python 3.12 niticore-ad/audio/tts.py [voice ...]
+    uv run --python 3.12 niticore-flow/audio/tts.py [voice ...]
 
 Model files live in video/models/ (kokoro-v1.0.onnx, voices-v1.0.bin; not committed).
-Writes niticore-ad/audio/vo/<voice>/pNN.wav (24 kHz mono) and prints each phrase's length.
+Writes niticore-flow/audio/vo/<voice>/pNN.wav (24 kHz mono) and prints each phrase's length.
 "Niticore" is forced to NEE-tee-core (from Sanskrit niti); the tokenizer alone says NIT-ee-core.
 """
 import json

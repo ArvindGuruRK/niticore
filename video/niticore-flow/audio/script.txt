@@ -1,4 +1,4 @@
-# Niticore particle cut v2.1: one line per phrase (tts.py makes pNN.wav, score.py places them on beats)
+# Niticore particle cut v3: one line per phrase (tts.py makes pNN.wav, score.py places them on beats)
 # [ABC] is spelled out letter by letter
 The world is accelerating with AI.
 Now, AI needs governance built for what's next.
@@ -33,6 +33,23 @@ Three regulatory assessments, signed and locked.
 A risk-based deployment gate.
 Encrypted evidence, on its own retention schedule.
 And one control that satisfies many frameworks.
+Built for industries where AI errors carry real consequences, such as
+finance,
+healthcare,
+workforce,
+government,
+retail and consumer,
+and infrastructure and mobility.
 So you can innovate with confidence, and prove it.
+The regulatory wave has three years to peak.
+Twenty twenty-four: the EU AI Act enters into force.
+February twenty twenty-five: AI literacy obligations go live.
+August twenty twenty-five: the EU AI Act's [GPAI] provisions apply.
+January twenty twenty-six: [DIFC] Regulation ten enforcement begins.
+January twenty twenty-seven: the [UAE] Federal [PDPL] compliance deadline.
+And then, the EU AI Act's high-risk rules apply in full.
+The countdown has started.
+Start getting ready today.
+Book a demo at niticore dot [AI].
 Niticore.
 AI governance, from policy to proof.

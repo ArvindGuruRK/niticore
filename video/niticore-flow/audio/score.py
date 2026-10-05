@@ -31,7 +31,7 @@ from dsp import SR, Bus, bass_note, clap, crash, filt, hat, keys, kick, ks_pluck
 
 HERE = Path(__file__).resolve().parent
 FILM = HERE.parent
-BPM, BEATS = 96.0, 192
+BPM, BEATS = 96.0, 290
 BEAT = 60 / BPM
 DUR = BEATS * BEAT
 VOICE = "af_heart"
@@ -40,7 +40,11 @@ PLACE = [(0, 2), (1, 7), (2, 15), (3, 24), (4, 29), (5, 36), (6, 39.5), (7, 43),
          (15, 70.5), (16, 80),
          (17, 86), (18, 90.4), (19, 93.6), (20, 97.5), (21, 101.2), (22, 105.0), (23, 110.2),   # the six frameworks
          (24, 117), (25, 122), (26, 128), (27, 134), (28, 139.5), (29, 144.5), (30, 151), (31, 156), (32, 162.5),
-         (33, 171), (34, 180), (35, 182.5)]
+         (33, 169.0), (34, 177.0), (35, 179.3), (36, 181.6), (37, 183.9), (38, 186.2), (39, 188.6),   # v3: the six industries
+         (40, 198.0),                                                                                  # innovate with confidence
+         (41, 208.0), (42, 213.5), (43, 220.5), (44, 228.5), (45, 238.25), (46, 247.5), (47, 257.25),  # the regulatory wave
+         (48, 265.5), (49, 269.0), (50, 274.0),                                                        # the countdown, the call to action
+         (51, 280.0), (52, 282.5)]
 
 
 def T(b):
@@ -195,11 +199,11 @@ def main():
         fx.add(sub_drop(1.2, 58, 30), b, 0.32)
     fx.add(riser(T(2.0)), 46, 0.22)
 
-    # ---------------- 48-180: the chorus sections
+    # ---------------- 48-168: the chorus sections (v3: 168-172 a breath; the new sections follow)
     def groove(b):
-        return (48 <= b < 128) or (132 <= b < 168) or (170 <= b < 180)
+        return (48 <= b < 128) or (132 <= b < 168)
 
-    for b0 in range(48, 180, 4):
+    for b0 in range(48, 168, 4):
         brk = 128 <= b0 < 132
         lift = 168 <= b0 < 170
         prog_ = CHORUS_B if 88 <= b0 < 128 else CHORUS
@@ -240,29 +244,124 @@ def main():
     fx.add(riser(T(4)), 128, 0.26)
     fx.add(crash(2.0), 132, 0.24)
     fx.add(riser(T(2)), 168, 0.26)
-    fx.add(crash(2.2), 170, 0.26)
-    fx.add(sub_drop(1.4, 66, 28), 170, 0.4)
-    fx.add(riser(T(2)), 178, 0.2)
+    fx.add(crash(2.2), 170, 0.2)
+    fx.add(sub_drop(1.4, 66, 28), 170, 0.32)
 
-    # ---------------- 180: the resolve
+    # ---------------- v3 170-196: who it is for, a lighter groove under the six industries
+    pads.add(pad_chord(CH["D"], T(2) + 0.3, (700, 1400), attack=0.3, release=0.4), 170, 0.26)
+    for b0 in range(172, 196, 4):
+        c = CHORUS[((b0 - 172) // 4) % 4]
+        pads.add(pad_chord(CH[c], T(4) + 0.3, (1100, 2200), attack=0.06, release=0.4), b0, 0.28)
+        for s in range(16):
+            b = b0 + s * 0.25
+            if s in (0, 8):
+                drums.add(kick(soft=True), b, 0.7)
+            if s in (4, 12):
+                drums.add(clap(tight=True), b, 0.16, pan=0.05)
+            if s % 4 == 2:
+                drums.add(hat(), b, 0.07, pan=0.25)
+            if s % 4 == 0:
+                bass.add(bass_note(ROOT[c], BEAT * 0.8, 800), b, 0.42)
+            if s % 2 == 0:
+                pool = [CH[c][2], CH[c][3], CH[c][4], note_name(midi(CH[c][3]) + 12)]
+                arp.add(pluck([pool[[0, 2, 1, 3][(s // 2) % 4]]], 0.14, 1700 + 30 * (b0 - 172)), b, 0.075, pan=0.35 * (1 if s % 4 else -1))
+    fx.add(riser(T(4)), 192, 0.2)
+
+    # ---------------- v3 196-206: everything together, the full chorus once more
+    for b0 in range(196, 208, 4):
+        c = CHORUS[((b0 - 196) // 4) % 4]
+        pads.add(pad_chord(CH[c], T(4) + 0.3, (1500, 3000), attack=0.04, release=0.4), b0, 0.3)
+        for off, nt, ln in HOOK[c]:
+            if b0 + off < 206:
+                lead.add(keys([nt], ln * BEAT * 1.6), b0 + off, 0.2)
+                lead.add(pluck([nt], ln * BEAT * 0.9, 3200), b0 + off, 0.1, pan=0.2)
+        for s in range(16):
+            b = b0 + s * 0.25
+            if b >= 206:
+                break
+            if s % 4 == 0:
+                drums.add(kick(), b, 0.9)
+            if s in (4, 12):
+                drums.add(clap(), b, 0.3, pan=0.05)
+            if s % 4 == 2:
+                drums.add(hat(open_=True), b, 0.12, pan=0.25)
+            if s % 2 == 0:
+                bass.add(bass_note(ROOT[c] if s % 4 == 0 else note_name(midi(ROOT[c]) + 12), BEAT / 2 * 0.85, 1000), b, 0.5)
+            pool = [CH[c][2], CH[c][3], CH[c][4], note_name(midi(CH[c][3]) + 12)]
+            arp.add(pluck([pool[[0, 2, 1, 3, 2, 1, 3, 0][s % 8]]], 0.14, 2400), b, 0.12, pan=0.35 * (1 if s % 2 else -1))
+    fx.add(crash(2.2), 196, 0.26)
+    fx.add(sub_drop(1.4, 66, 28), 196, 0.4)
+
+    # ---------------- v3 208-260: the regulatory wave, a slow swell that climbs a step with each milestone
+    WAVE = [(208, "Bm", 700), (216, "G", 950), (224, "D", 1250), (232, "A", 1600), (240, "Bm", 2000), (248, "G", 2500)]
+    for b0, c, cut in WAVE:
+        pads.add(pad_chord(CH[c], T(8) + 0.4, (cut, cut * 1.5), attack=0.9, release=0.6), b0, 0.3)
+        bass.add(bass_note(ROOT[c], T(7.6), 420 + cut * 0.1), b0, 0.3)
+    for b in np.arange(216, 256, 2):
+        drums.add(kick(soft=True), b, 0.42 + 0.006 * (b - 216))
+    for b in np.arange(241, 256, 2):
+        drums.add(kick(soft=True), b, 0.3)
+    for b in np.arange(228, 256, 0.5):
+        drums.add(hat(), b + 0.25, 0.03 + 0.0018 * (b - 228), pan=0.25)
+    for b in np.arange(224, 257, 0.5):
+        c = [w[1] for w in WAVE if w[0] <= b][-1]
+        pool = [CH[c][2], CH[c][3], CH[c][4], note_name(midi(CH[c][2]) + 12)]
+        arp.add(pluck([pool[int(b * 2) % 4]], 0.16, 1200 + 45 * (b - 224)), b, 0.035 + 0.0022 * (b - 224), pan=0.3 * np.sin(b * 3))
+    fx.add(riser(T(5.2)), 252.0, 0.28)
+    pads.add(pad_chord(["D3", "A3", "D4", "F#4", "A4", "D5"], T(3.2) + 0.6, (3400, 2000), attack=0.05, release=0.8), 257.25, 0.3)
+
+    # ---------------- v3 260-272: the countdown, a clock ticking over a held minor chord
+    fx.add(crash(2.4), 260.5, 0.22)
+    fx.add(sub_drop(1.8, 62, 28), 260.5, 0.5)
+    drums.add(kick(), 260.5, 0.8)
+    pads.add(pad_chord(CH["Bm"], T(6) + 0.4, (900, 1300), attack=0.2, release=0.5), 260.5, 0.28)
+    pads.add(pad_chord(CH["G"], T(5.5) + 0.4, (1100, 1700), attack=0.3, release=0.5), 266.5, 0.28)
+    for b in np.arange(261, 272, 1):
+        drums.add(hat(), b, 0.11, pan=-0.15)
+        drums.add(hat(), b + 0.5, 0.04, pan=0.2)
+    for b in (264, 268):
+        bass.add(bass_note(ROOT["Bm" if b < 266 else "G"], T(3.5), 500), b, 0.36)
+        drums.add(kick(soft=True), b, 0.55)
+    fx.add(riser(T(3.4)), 268.6, 0.26)
+
+    # ---------------- v3 272-280: the call to action, the chorus returns
+    for b0 in (272, 276):
+        c = CHORUS[((b0 - 272) // 4) % 4]
+        pads.add(pad_chord(CH[c], T(4) + 0.3, (1500, 3000), attack=0.04, release=0.4), b0, 0.3)
+        for off, nt, ln in HOOK[c]:
+            lead.add(keys([nt], ln * BEAT * 1.6), b0 + off, 0.18)
+        for s in range(16):
+            b = b0 + s * 0.25
+            if s % 4 == 0:
+                drums.add(kick(), b, 0.85)
+            if s in (4, 12):
+                drums.add(clap(), b, 0.26, pan=0.05)
+            if s % 4 == 2:
+                drums.add(hat(open_=True), b, 0.1, pan=0.25)
+            if s % 2 == 0:
+                bass.add(bass_note(ROOT[c] if s % 4 == 0 else note_name(midi(ROOT[c]) + 12), BEAT / 2 * 0.85, 1000), b, 0.46)
+    fx.add(crash(2.0), 272, 0.24)
+    fx.add(riser(T(2)), 278, 0.2)
+
+    # ---------------- 280: the resolve (the logo)
     fin = ["D3", "A3", "E4", "F#4", "A4"]
-    pads.add(pad_chord(fin, T(12) + 1.0, (5200, 900), attack=0.004, release=1.5), 180, 0.55)
-    piano.add(keys(["D5", "A4", "F#4", "D4"], 4.5), 180, 0.4)
-    piano.add(keys(["E5", "A4"], 3.0), 182.5, 0.24)
-    piano.add(keys(["F#5", "D5"], 3.5), 185, 0.22)
-    drums.add(kick(), 180, 1.0)
-    fx.add(crash(3.4), 180, 0.3)
-    fx.add(sub_drop(2.2, 66, 26), 180, 0.6)
-    bass.add(bass_note("D1", 2.8, 600), 180, 0.6)
+    pads.add(pad_chord(fin, T(9) + 1.0, (5200, 900), attack=0.004, release=1.5), 280, 0.55)
+    piano.add(keys(["D5", "A4", "F#4", "D4"], 4.5), 280, 0.4)
+    piano.add(keys(["E5", "A4"], 3.0), 282.5, 0.24)
+    piano.add(keys(["F#5", "D5"], 3.5), 285, 0.22)
+    drums.add(kick(), 280, 1.0)
+    fx.add(crash(3.4), 280, 0.3)
+    fx.add(sub_drop(2.2, 66, 26), 280, 0.6)
+    bass.add(bass_note("D1", 2.8, 600), 280, 0.6)
 
     N = drums.n
-    kick_t = [T(b) for b in np.arange(48, 180, 1) if groove(b)]
+    kick_t = [T(b) for b in np.arange(48, 290, 1) if groove(b) or 196 <= b < 206 or 272 <= b < 280]
     pump = sidechain(kick_t, drums.x.shape[1], 0.35, 0.12)
     ir = reverb_ir(2.4, 0.7, 5)
     wsrc = pads.x * 0.5 + arp.x * 0.6 + lead.x * 0.5 + piano.x * 0.6
     wet = np.stack([signal.fftconvolve(wsrc[c], ir[c])[: wsrc.shape[1]] for c in range(2)])
     bed = drums.x * 0.9 + (bass.x * 0.85 + pads.x + arp.x + lead.x) * pump + piano.x + fx.x * 0.8 + wet * 0.55
-    for x0, x1 in ((46, 47.95), (168, 169.95)):   # the stops before the drops
+    for x0, x1 in ((46, 47.95), (168, 169.95), (206.2, 207.95)):   # the stops before the drops
         a, b = int(T(x0) * SR), int(T(x1) * SR)
         bed[:, a:b] = fx.x[:, a:b] * 0.8 + wet[:, a:b] * 0.3
     bed = np.stack([filt(c, "highpass", 28) for c in bed])[:, :N]
@@ -278,11 +377,16 @@ def main():
     grid["beats"] = [x for x in grid["beats"] if x < DUR + 0.5]
     grid["downbeats"] = grid["beats"][::4]
     grid["sections"] = [{"name": n, "beat": bt} for n, bt in [("intro", 0), ("logo", 16), ("verse", 24), ("shadow", 36), ("chorus", 48),
-                                                               ("chorus b", 88), ("breakdown", 128), ("chorus c", 132), ("last", 170), ("end", 180)]]
+                                                               ("chorus b", 88), ("breakdown", 128), ("chorus c", 132), ("industries", 170),
+                                                               ("together", 196), ("wave", 208), ("countdown", 260), ("cta", 272), ("end", 280)]]
+    # v3: keep the v2.1 grid exactly, so the first 100 s of picture are reused frame for frame
+    grid["bpm"], grid["period"], grid["offset"] = 96.001, 0.624996, 0.00228
+    grid["beats"] = [round(grid["offset"] + i * grid["period"], 5) for i in range(BEATS + 1)]
+    grid["downbeats"] = grid["beats"][::4]
     grid["duration"] = DUR
     grid["designed_bpm"] = BPM
     grid["vo"] = placed
-    grid["source"] = "niticore-flow/audio/score.py, 96 bpm, D major song form, grid measured on the drum stem"
+    grid["source"] = "niticore-flow/audio/score.py (v3), 96 bpm, D major song form; grid locked to the v2.1 measurement"
     (FILM / "beats.json").write_text(json.dumps(grid, indent=1))
     print(f"grid: {grid['bpm']} bpm, offset {grid['offset'] * 1000:.1f} ms, {len(grid['beats'])} beats, "
           f"fit {grid['fit_inliers']} inliers, rms {grid['fit_residual_ms']} ms")

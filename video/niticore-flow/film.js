@@ -6,6 +6,9 @@
 // LogStream) and pour from one to the next. Components are 2D canvases shown as 3D boards; GL does the
 // particles, the avatar meshes, HDR bloom and the composite. Beats on the measured 96 bpm grid; VO in
 // audio/vo.json. Sentence case everywhere. Copy and figures from niticore-website-v2 (niticore.ai).
+// v3 (b166-290, docs/v3-video-script.md): six industry cards dealt and flipped, the constellation, the
+// regulatory wave (a particle sea with the timeline on its crest), a dive into the EU AI Act countdown,
+// the Book a demo button, the end card. Everything before b166 is v2.1, untouched.
 import * as M from './lib/motion.js';
 
 const { W, H, FORMAT, E, prog, lerp, clamp, noise1 } = M;
@@ -104,6 +107,36 @@ const SIX = [
 const SIX_ON = [113.6, 119.2, 124.2, 130.7, 135.7, 142.2];   // each mechanism goes live on its line
 // the avatar's agents: the six small blobs it buds
 const CLONES = [['Model', 'Cube'], ['Agent', 'Robot'], ['Dataset', 'Database'], ['Vendor tool', 'Plugs'], ['Internal app', 'Stack'], ['Embedded API', 'Lightning']].map((kind) => ({ kind }));
+
+// ---------------------------------------------------------------- v3: who it's for, the regulatory wave, the countdown, the call to action
+// Authored on the v3 grid directly (nothing here goes through sh()). Copy: docs/v3-video-script.md, signed
+// off by the client. Timeline dates checked against the EU's Digital Omnibus (in force 27 July 2026):
+// GPAI rules since Aug 2025, Annex III high-risk rules from 2 December 2027.
+const V3 = {
+  intro: 169.0, names: [177.0, 179.3, 181.6, 183.9, 186.2, 188.6], threads: 192.0,
+  innov: 198.0, head: 208.0, ms: [213.5, 220.5, 228.5, 238.25, 247.5, 257.25], today: 245.6,
+  cross: 260.4, lock: 261.4, started: 265.5, close: 270.6, cta: 274.0, url: 275.3, end: 279.6, tag: 282.5, dur: 290,
+};
+const INDS = [
+  { name: 'Finance', icon: 'Coins', tone: 'green', motif: 'chart' },
+  { name: 'Healthcare', icon: 'Heartbeat', tone: 'blue', motif: 'pulse' },
+  { name: 'Workforce', icon: 'UsersThree', tone: 'violet', motif: 'people' },
+  { name: 'Government', icon: 'Bank', tone: 'green', motif: 'columns' },
+  { name: 'Retail & consumer', icon: 'ShoppingBag', tone: 'blue', motif: 'bag' },
+  { name: 'Infrastructure & mobility', icon: 'Train', tone: 'violet', motif: 'route' },
+];
+const MILES = [
+  { date: '2024', label: 'EU AI Act enters into force', logo: 'eu' },
+  { date: 'Feb 2025', label: 'Art. 4 AI literacy obligations live', logo: 'eu' },
+  { date: 'Aug 2025', label: 'EU AI Act GPAI provisions apply', logo: 'eu' },
+  { date: 'Jan 2026', label: 'DIFC Regulation 10 enforcement begins', logo: 'difc' },
+  { date: 'Jan 2027', label: 'UAE Federal PDPL compliance deadline', logo: 'uae' },
+  { date: 'Dec 2027', label: 'EU Annex III high-risk rules apply', logo: 'eu' },
+];
+const YEARS = [[V3.ms[1], 5], [V3.ms[3], 6], [V3.ms[4], 7]];   // the background year rolls on these milestones
+// days to go: exact for the screening day (film.json countdown_from, or ?countdown_from= for another day's file)
+const DEADLINE = Date.UTC(2027, 11, 2);
+const daysLeft = () => { const [y, m, d] = String(QS.get('countdown_from') || M.CFG.countdown_from || '2026-10-06').split('-').map(Number); return Math.round((DEADLINE - Date.UTC(y, m - 1, d)) / 86400000); };
 
 // ---------------------------------------------------------------- canvas helpers
 let ICONS = {}, IMGS = {};
@@ -813,6 +846,489 @@ SIXB(5, {
   },
 });
 
+// ================================================================ v3 boards
+// a duotone Phosphor icon (the site's weight on feature tiles): the soft fill, then the line
+function iconDuo(g, name, x, y, size, color) {
+  const ds = ICONS[name]?.duo || [];
+  g.save(); g.translate(x, y); g.scale(size / 256, size / 256); g.fillStyle = color;
+  ds.forEach(([d, op]) => { g.globalAlpha *= op; g.fill(path2(d)); g.globalAlpha /= op; }); g.restore();
+}
+
+// ---- six industries: six cards dealt out of the last demo, each flipping to its industry on its name
+const IND = { cols: P ? 2 : 3, tw: 420, th: 280, gap: 28 };
+IND.rows = 6 / IND.cols; IND.css = [IND.cols * IND.tw + (IND.cols - 1) * IND.gap, IND.rows * IND.th + (IND.rows - 1) * IND.gap];
+const indXY = (i) => [(i % IND.cols) * (IND.tw + IND.gap), Math.floor(i / IND.cols) * (IND.th + IND.gap)];
+const dealT = (i) => 167.7 + i * 0.26;   // each card lifts out of the last demo, spins, lands face-down
+const DEAL = 1.45;
+// the card's spin around its vertical axis, in degrees: 540 -> 180 (face-down) while dealt, then 180 -> 0 on its name
+const indTheta = (i, u) => 180 + 360 * (1 - E.inOutCubic(prog(u, dealT(i), dealT(i) + DEAL))) - 180 * springB(u, V3.names[i] - 0.05, { stiffness: 150, damping: 12 });
+function indBack(g, i) {   // face-down: one of the six ways governance gets enforced
+  const s = SIX[i];
+  panel(g, 0, 0, IND.tw, IND.th, { grad: T[s.tone], border: 'rgba(255,255,255,0.1)' });
+  tagPill(g, 24, 24, s.icon, s.tag);
+  wrap(g, s.title, IND.tw - 48, 28, 600, DISPLAY).forEach((ln, j, a) => tx(g, ln, 24, IND.th - 28 - (a.length - 1 - j) * 34, 28, 600, DISPLAY, T.fg, 'left', -0.6));
+}
+// ---- the six worlds: each card turns over to a full-bleed living illustration, drawn in light (violet,
+// lavender and white on a night sky in the card's tone). It draws itself on its name, then keeps moving.
+const SW = IND.tw, SH = IND.th, BASE = 206;
+const hs = (i, s) => M.hash01(i, s);
+const K = (f, a, b, fn = E.outCubic) => fn(clamp((f - a) / (b - a)));
+const LAV = '#c9b8ff', VIO = '#a98bff', INKV = '#0b0630';
+function glow(g, col, blur) { g.shadowColor = col; g.shadowBlur = blur; }
+function noGlow(g) { g.shadowColor = 'transparent'; g.shadowBlur = 0; }
+// stroke the first k of a polyline's length; returns the pen's position
+function polyK(g, pts, k = 1) {
+  if (k <= 0 || pts.length < 2) return null;
+  const L = [0]; for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+  const lim = L[L.length - 1] * clamp(k); let tip = pts[0];
+  g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) {
+    if (L[i] <= lim) { g.lineTo(pts[i][0], pts[i][1]); tip = pts[i]; continue; }
+    const t = (lim - L[i - 1]) / Math.max(1e-6, L[i] - L[i - 1]); tip = [lerp(pts[i - 1][0], pts[i][0], t), lerp(pts[i - 1][1], pts[i][1], t)];
+    g.lineTo(tip[0], tip[1]); break;
+  }
+  g.stroke(); return tip;
+}
+function pen(g, p, a = 1) { if (!p || a <= 0) return; noGlow(g); g.fillStyle = `rgba(201,184,255,${0.3 * a})`; g.beginPath(); g.arc(p[0], p[1], 11, 0, TAU); g.fill(); g.fillStyle = `rgba(255,255,255,${a})`; g.beginPath(); g.arc(p[0], p[1], 3.6, 0, TAU); g.fill(); }
+const bez = (p0, p1, p2, n = 24) => Array.from({ length: n + 1 }, (_, i) => { const t = i / n, s = 1 - t; return [s * s * p0[0] + 2 * s * t * p1[0] + t * t * p2[0], s * s * p0[1] + 2 * s * t * p1[1] + t * t * p2[1]]; });
+function sky(g, tone, f) {
+  const [c0, c1] = T[tone];
+  const lg = g.createLinearGradient(0, 0, 0, SH); lg.addColorStop(0, '#05011a'); lg.addColorStop(0.62, mixc('#05011a', c0, 0.75)); lg.addColorStop(1, c1);
+  g.fillStyle = lg; g.fillRect(0, 0, SW, SH);
+  const rg = g.createRadialGradient(SW * 0.62, BASE, 10, SW * 0.62, BASE, 260); rg.addColorStop(0, rgba(c1, 0.55)); rg.addColorStop(1, rgba(c1, 0));
+  g.fillStyle = rg; g.fillRect(0, 0, SW, SH);
+  for (let k = 0; k < 34; k++) {
+    const tw2 = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(f * 1.9 + k * 2.3));
+    g.fillStyle = fgA(0.55 * tw2 * hs(k, 11)); g.fillRect(hs(k, 7) * SW, hs(k, 9) * BASE * 0.7, 1.7, 1.7);
+  }
+}
+function sparkle(g, x, y, r, a) { g.save(); g.translate(x, y); g.fillStyle = `rgba(255,255,255,${a})`; g.beginPath(); for (let i = 0; i < 8; i++) { const rr2 = i % 2 ? r * 0.28 : r, an = (i * Math.PI) / 4; g.lineTo(Math.cos(an) * rr2, Math.sin(an) * rr2); } g.closePath(); g.fill(); g.restore(); }
+
+const SCENES = {
+  // a city at night: the towers rise, their windows come on, a market line draws itself across the sky
+  chart(g, f) {
+    const towers = [[14, 52, 92], [72, 40, 128], [118, 58, 80], [182, 38, 150], [226, 52, 108], [284, 42, 132], [332, 58, 86], [394, 34, 116]];
+    towers.forEach(([x, w, h], j) => {
+      const k = K(f, 0.02 + j * 0.05, 0.55 + j * 0.05), hh = h * k; if (hh <= 0) return;
+      const lg = g.createLinearGradient(0, BASE - hh, 0, BASE); lg.addColorStop(0, '#1a1150'); lg.addColorStop(1, '#0a0528');
+      g.fillStyle = lg; g.fillRect(x, BASE - hh, w, hh);
+      glow(g, 'rgba(169,139,255,0.7)', 8); g.strokeStyle = rgba(LAV, 0.75); g.lineWidth = 1.4; g.strokeRect(x + 0.5, BASE - hh + 0.5, w - 1, hh - 1); noGlow(g);
+      for (let wy = BASE - hh + 10; wy < BASE - 8; wy += 13) for (let wx = x + 7; wx < x + w - 8; wx += 10) {
+        const id = j * 997 + wx * 13 + wy, on = f > 0.5 + hs(id, 3) * 1.6 && hs(id, 5) > 0.42;
+        if (on) { const fl = 0.75 + 0.25 * Math.sin(f * 3 + id); g.fillStyle = `rgba(233,227,255,${(0.7 * fl).toFixed(3)})`; g.fillRect(wx, wy, 4, 6); }
+      }
+    });
+    if (f > 0.4) { g.strokeStyle = fgA(0.85); g.lineWidth = 1.4; const ak = K(f, 0.5, 0.8); g.beginPath(); g.moveTo(201, BASE - 150); g.lineTo(201, BASE - 150 - 22 * ak); g.stroke(); if (Math.sin(f * 4) > 0) sparkle(g, 201, BASE - 172, 5, 0.9); }
+    const pts = [[10, 178], [58, 158], [98, 166], [148, 124], [194, 134], [244, 92], [290, 102], [338, 58], [404, 30]], k = K(f, 0.55, 1.8, E.inOutCubic);
+    if (k > 0) {
+      const L = [0]; for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      const lim = L[L.length - 1] * k, vis = [pts[0]];
+      for (let i = 1; i < pts.length; i++) { if (L[i] <= lim) vis.push(pts[i]); else { const t = (lim - L[i - 1]) / (L[i] - L[i - 1]); vis.push([lerp(pts[i - 1][0], pts[i][0], t), lerp(pts[i - 1][1], pts[i][1], t)]); break; } }
+      const ag = g.createLinearGradient(0, 30, 0, BASE); ag.addColorStop(0, 'rgba(201,184,255,0.32)'); ag.addColorStop(1, 'rgba(201,184,255,0)');
+      g.beginPath(); g.moveTo(vis[0][0], BASE); vis.forEach(([x, y]) => g.lineTo(x, y)); g.lineTo(vis[vis.length - 1][0], BASE); g.closePath(); g.fillStyle = ag; g.fill();
+      glow(g, 'rgba(201,184,255,0.95)', 16); g.strokeStyle = '#ffffff'; g.lineWidth = 3.4; g.lineJoin = 'round'; g.lineCap = 'round'; polyK(g, vis, 1); noGlow(g);
+      const tip = vis[vis.length - 1];
+      if (k < 1) pen(g, tip);
+      else {
+        g.strokeStyle = '#ffffff'; g.lineWidth = 3.4; g.beginPath(); g.moveTo(388, 28); g.lineTo(404, 30); g.lineTo(398, 45); g.stroke();
+        const pk = ((f - 1.8) % 1.6) / 1.6; g.strokeStyle = `rgba(201,184,255,${(0.8 * (1 - pk)).toFixed(3)})`; g.lineWidth = 2; g.beginPath(); g.arc(404, 30, 6 + 26 * pk, 0, TAU); g.stroke();
+        const q = ((f - 1.8) * 0.45) % 1, i = Math.min(pts.length - 2, Math.floor(q * (pts.length - 1))), t = q * (pts.length - 1) - i;
+        pen(g, [lerp(pts[i][0], pts[i + 1][0], t), lerp(pts[i][1], pts[i + 1][1], t)], 0.8);
+      }
+    }
+    g.fillStyle = 'rgba(201,184,255,0.5)'; g.fillRect(0, BASE, SW, 1.5);
+  },
+  // a heart of light that beats, an ECG through it, a turning DNA helix, crosses rising
+  pulse(g, f) {
+    const beat = Math.pow(Math.max(0, Math.sin((f * TAU) / 1.6)), 10), hk = K(f, 0.02, 0.95, E.inOutCubic);
+    const heart = Array.from({ length: 121 }, (_, i) => { const t = (i / 120) * TAU; return [16 * Math.sin(t) ** 3, -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))]; });
+    g.save(); g.translate(140, 108); const sc = 4.4 * (1 + 0.06 * beat); g.scale(sc, sc);
+    if (hk > 0.6) { const rg = g.createRadialGradient(0, 0, 2, 0, 0, 22); rg.addColorStop(0, `rgba(201,184,255,${(0.5 * (hk - 0.6) / 0.4 + 0.25 * beat).toFixed(3)})`); rg.addColorStop(1, 'rgba(169,139,255,0)'); g.fillStyle = rg; g.beginPath(); heart.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.fill(); }
+    glow(g, 'rgba(201,184,255,0.95)', 14); g.strokeStyle = '#f2f0fb'; g.lineWidth = 3.2 / sc; g.lineJoin = 'round';
+    const tip = polyK(g, heart, hk); noGlow(g); g.restore();
+    if (hk < 1 && tip) pen(g, [140 + tip[0] * sc, 108 + tip[1] * sc]);
+    const ecg = (x) => { const p = ((x - 40) / 150) % 1; if (p < 0.3 || x < 40) return 0; if (p < 0.36) return -6 * Math.sin(((p - 0.3) / 0.06) * Math.PI); if (p < 0.42) return 0; if (p < 0.46) return lerp(0, -46, (p - 0.42) / 0.04); if (p < 0.51) return lerp(-46, 30, (p - 0.46) / 0.05); if (p < 0.55) return lerp(30, 0, (p - 0.51) / 0.04); if (p < 0.66) return 0; if (p < 0.78) return -10 * Math.sin(((p - 0.66) / 0.12) * Math.PI); return 0; };
+    const ek = K(f, 0.3, 1.25, E.inOutCubic);
+    if (ek > 0) {
+      const pts = []; for (let x = 6; x <= 6 + 270 * ek; x += 2) pts.push([x, 168 + ecg(x)]);
+      g.strokeStyle = 'rgba(201,184,255,0.45)'; g.lineWidth = 2.2; polyK(g, pts, 1);
+      const hd = ((f - 1.25) * 110) % 380;
+      if (f > 1.25) { glow(g, 'rgba(255,255,255,0.9)', 12); for (let j = 0; j < 36; j++) { const x0 = 6 + hd - j * 3; if (x0 < 6 || x0 > 276) continue; g.strokeStyle = fgA(0.95 * (1 - j / 36)); g.lineWidth = 3; g.beginPath(); g.moveTo(x0, 168 + ecg(x0)); g.lineTo(x0 + 3, 168 + ecg(x0 + 3)); g.stroke(); } noGlow(g); }
+      else pen(g, pts[pts.length - 1]);
+    }
+    const dk = K(f, 0.55, 1.4), ph = f * 1.4;
+    for (let y = 22; y <= 22 + 168 * dk; y += 11) {
+      const a = y * 0.075 + ph, x1 = 340 + 30 * Math.sin(a), x2 = 340 - 30 * Math.sin(a), z = Math.cos(a);
+      g.strokeStyle = `rgba(201,184,255,${(0.25 + 0.2 * Math.abs(z)).toFixed(3)})`; g.lineWidth = 1.6; g.beginPath(); g.moveTo(x1, y); g.lineTo(x2, y); g.stroke();
+      [[x1, z], [x2, -z]].forEach(([x, zz]) => { g.fillStyle = zz > 0 ? '#ffffff' : 'rgba(169,139,255,0.8)'; g.beginPath(); g.arc(x, y, zz > 0 ? 3.6 : 2.6, 0, TAU); g.fill(); });
+    }
+    for (let k = 0; k < 5; k++) { const yy = 190 - (((f * 18 + k * 44) % 190)), x = 220 + k * 22 + 8 * Math.sin(f + k), a = 0.6 * Math.sin((Math.PI * (190 - yy)) / 190) * K(f, 1.0, 1.4); if (a <= 0.01) continue; g.strokeStyle = `rgba(255,255,255,${a.toFixed(3)})`; g.lineWidth = 2.2; g.beginPath(); g.moveTo(x - 5, yy); g.lineTo(x + 5, yy); g.moveTo(x, yy - 5); g.lineTo(x, yy + 5); g.stroke(); }
+  },
+  // people, each a bust of light, joined by links that carry pulses between them
+  people(g, f) {
+    const P5 = [[78, 172, 0.85], [150, 150, 1.0], [214, 162, 1.2], [282, 146, 1.0], [352, 170, 0.85]], heads = P5.map(([x, y, s]) => [x, y - 44 * s]);
+    const links = [[0, 1], [1, 2], [2, 3], [3, 4], [0, 2], [2, 4], [1, 3]];
+    links.forEach(([a, b], e) => {
+      const k = K(f, 0.75 + e * 0.07, 1.3 + e * 0.07, E.inOutCubic); if (k <= 0) return;
+      const pa = heads[a], pb = heads[b], ctl = [(pa[0] + pb[0]) / 2, Math.min(pa[1], pb[1]) - 38 - 10 * (e % 2)], pts = bez(pa, ctl, pb);
+      glow(g, 'rgba(169,139,255,0.8)', 8); g.strokeStyle = 'rgba(201,184,255,0.7)'; g.lineWidth = 2; polyK(g, pts, k); noGlow(g);
+      if (f > 1.6) { const q = ((f - 1.6) * 0.55 + e * 0.17) % 1, i = Math.floor(q * (pts.length - 1)), p = pts[i]; pen(g, p, 0.9); }
+    });
+    P5.forEach(([x, y, s], j) => {
+      const k = springB(f, 0.05 + j * 0.13, { stiffness: 260, damping: 13 }); if (k <= 0) return;
+      g.save(); g.translate(x, y); g.scale(s * Math.min(1.15, k), s * Math.min(1.15, k));
+      const lg = g.createLinearGradient(0, -60, 0, 30); lg.addColorStop(0, '#e9e3ff'); lg.addColorStop(1, 'rgba(118,84,224,0.85)');
+      glow(g, 'rgba(201,184,255,0.8)', 14); g.fillStyle = lg;
+      g.beginPath(); g.arc(0, -44, 16, 0, TAU); g.fill();
+      g.beginPath(); g.moveTo(-32, 26); g.quadraticCurveTo(-32, -18, 0, -20); g.quadraticCurveTo(32, -18, 32, 26); g.closePath(); g.fill(); noGlow(g);
+      g.restore();
+    });
+    const sh = g.createRadialGradient(214, BASE, 4, 214, BASE, 200); sh.addColorStop(0, 'rgba(201,184,255,0.25)'); sh.addColorStop(1, 'rgba(201,184,255,0)'); g.fillStyle = sh; g.fillRect(0, BASE - 20, SW, 40);
+  },
+  // a capitol: the columns rise, the pediment and the dome draw on, the flag climbs and waves; light fans behind
+  columns(g, f) {
+    const cx = 210, rk = K(f, 0.9, 1.6);
+    if (rk > 0) { g.save(); g.translate(cx, 76); g.rotate(f * 0.08); for (let r = 0; r < 14; r++) { g.rotate(TAU / 14); g.fillStyle = `rgba(201,184,255,${(0.07 * rk).toFixed(3)})`; g.beginPath(); g.moveTo(0, 0); g.lineTo(-14, -300); g.lineTo(14, -300); g.closePath(); g.fill(); } g.restore(); }
+    const lav = (a) => `rgba(233,227,255,${a})`;
+    [[60, 360, BASE], [74, 346, BASE - 8], [88, 332, BASE - 16]].forEach(([a, b, y], j) => { const k = K(f, j * 0.08, 0.4 + j * 0.08); if (k <= 0) return; g.fillStyle = lav(0.85); g.fillRect(cx - (cx - a) * k, y - 3, (b - a) * k, 4); });
+    for (let j = 0; j < 6; j++) {
+      const x = 104 + j * 40, k = K(f, 0.2 + j * 0.07, 0.75 + j * 0.07), h = 70 * k; if (h <= 0) continue;
+      const lg = g.createLinearGradient(x, 0, x + 16, 0); lg.addColorStop(0, '#f2f0fb'); lg.addColorStop(1, '#8f74e8');
+      glow(g, 'rgba(201,184,255,0.6)', 8); g.fillStyle = lg; g.fillRect(x, BASE - 22 - h, 16, h); noGlow(g);
+    }
+    const ek = K(f, 0.75, 1.05); if (ek > 0) { g.fillStyle = lav(0.9); g.fillRect(cx - 120 * ek, BASE - 104, 240 * ek, 12); }
+    const pk = K(f, 0.9, 1.35, E.inOutCubic);
+    if (pk > 0) { glow(g, 'rgba(201,184,255,0.9)', 12); g.strokeStyle = '#f2f0fb'; g.lineWidth = 3; polyK(g, [[cx - 122, BASE - 104], [cx, BASE - 138], [cx + 122, BASE - 104]], pk); noGlow(g); }
+    const dk = K(f, 1.05, 1.6, E.inOutCubic);
+    if (dk > 0) {
+      g.fillStyle = lav(0.85 * dk); g.fillRect(cx - 34, BASE - 158, 68, 14);
+      const dome = Array.from({ length: 41 }, (_, i) => { const a = Math.PI + (i / 40) * Math.PI; return [cx + Math.cos(a) * 38, BASE - 158 + Math.sin(a) * 36]; });
+      glow(g, 'rgba(201,184,255,0.9)', 12); g.strokeStyle = '#f2f0fb'; g.lineWidth = 3; polyK(g, dome, dk); noGlow(g);
+      if (dk > 0.95) { const rg = g.createLinearGradient(0, BASE - 194, 0, BASE - 158); rg.addColorStop(0, 'rgba(233,227,255,0.55)'); rg.addColorStop(1, 'rgba(169,139,255,0.15)'); g.fillStyle = rg; g.beginPath(); dome.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); g.fill(); }
+    }
+    const fk = K(f, 1.45, 2.1, E.inOutCubic);
+    if (fk > 0) {
+      g.strokeStyle = lav(0.9); g.lineWidth = 2; g.beginPath(); g.moveTo(cx, BASE - 194); g.lineTo(cx, BASE - 236); g.stroke();
+      const fy = lerp(BASE - 206, BASE - 236, fk);
+      g.fillStyle = '#f2f0fb'; g.beginPath(); for (let i = 0; i <= 12; i++) { const x = (i / 12) * 34; g.lineTo(cx + x, fy + 3 * Math.sin(x * 0.22 - f * 6) * (x / 34)); } for (let i = 12; i >= 0; i--) { const x = (i / 12) * 34; g.lineTo(cx + x, fy + 18 + 3 * Math.sin(x * 0.22 - f * 6) * (x / 34)); } g.closePath(); g.fill();
+    }
+  },
+  // a storefront under its awning; a cart rolls in and a bag drops into it; the price tag swings
+  bag(g, f) {
+    const ak = K(f, 0.02, 0.6, E.inOutCubic);
+    if (ak > 0) {
+      g.save(); g.beginPath(); g.rect(20, 40, 204 * ak, 70); g.clip();
+      for (let s = 0; s < 6; s++) { g.fillStyle = s % 2 ? 'rgba(169,139,255,0.85)' : 'rgba(233,227,255,0.92)'; g.fillRect(22 + s * 33, 46, 33, 26); g.beginPath(); g.arc(22 + s * 33 + 16.5, 72, 16.5, 0, Math.PI); g.fill(); }
+      g.restore();
+      glow(g, 'rgba(201,184,255,0.7)', 10); g.strokeStyle = 'rgba(233,227,255,0.85)'; g.lineWidth = 2.2;
+      polyK(g, [[30, 92], [30, BASE], [214, BASE], [214, 92]], K(f, 0.3, 0.9));
+      const wk = K(f, 0.5, 0.95); if (wk > 0) { g.fillStyle = `rgba(201,184,255,${(0.22 * wk).toFixed(3)})`; g.fillRect(44, 110, 84 * wk, 64); g.strokeRect(44, 110, 84 * wk, 64); g.strokeRect(146, 120, 50, 86 * wk); }
+      noGlow(g);
+    }
+    const ck = K(f, 0.35, 1.25), off = (1 - ck) * 190, x0 = 248 + off, wheelA = -off / 12;
+    if (ck > 0) {
+      glow(g, 'rgba(201,184,255,0.9)', 12); g.strokeStyle = '#f2f0fb'; g.lineWidth = 3; g.lineJoin = 'round';
+      g.beginPath(); g.moveTo(x0 - 18, 104); g.lineTo(x0, 104); g.lineTo(x0 + 22, 178); g.lineTo(x0 + 140, 178); g.lineTo(x0 + 156, 122); g.lineTo(x0 + 8, 122); g.stroke();
+      g.lineWidth = 1.6; for (let i = 1; i < 4; i++) { g.beginPath(); g.moveTo(x0 + 8 + i * 37, 122); g.lineTo(x0 + 18 + i * 31, 178); g.stroke(); }
+      g.beginPath(); g.moveTo(x0 + 22, 178); g.lineTo(x0 + 26, 190); g.lineTo(x0 + 136, 190); g.stroke();
+      noGlow(g);
+      [[x0 + 40, 198], [x0 + 124, 198]].forEach(([x, y]) => { g.strokeStyle = '#f2f0fb'; g.lineWidth = 2.6; g.beginPath(); g.arc(x, y, 9, 0, TAU); g.stroke(); g.lineWidth = 1.4; for (let s = 0; s < 3; s++) { const a = wheelA + (s * TAU) / 3; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * 9, y + Math.sin(a) * 9); g.stroke(); } });
+      const bk = f <= 1.2 ? 0 : M.spring((f - 1.2) * M.GRID.period, { stiffness: 200, damping: 11 });
+      if (bk > 0) { const by = lerp(-40, 116, Math.min(1.05, bk)); g.save(); g.translate(x0 + 80, by); const lg = g.createLinearGradient(-34, 0, 34, 0); lg.addColorStop(0, '#e9e3ff'); lg.addColorStop(1, '#8f74e8'); glow(g, 'rgba(201,184,255,0.8)', 14); g.fillStyle = lg; rr(g, -32, -10, 64, 62, 8); g.fill(); noGlow(g); g.strokeStyle = INKV; g.lineWidth = 3; g.beginPath(); g.arc(0, -10, 14, Math.PI, TAU); g.stroke(); g.restore(); }
+      const sw = 0.6 * M.ring((f - 1.0) * M.GRID.period, 1.3, 1.2) + 0.1 * Math.sin(f * 1.8);
+      g.save(); g.translate(x0 - 12, 104); g.rotate(sw); g.strokeStyle = 'rgba(233,227,255,0.85)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 22); g.stroke();
+      g.fillStyle = '#f2f0fb'; g.beginPath(); g.moveTo(-14, 22); g.lineTo(14, 22); g.lineTo(14, 50); g.lineTo(0, 60); g.lineTo(-14, 50); g.closePath(); g.fill();
+      g.globalCompositeOperation = 'destination-out'; g.beginPath(); g.arc(0, 30, 3.5, 0, TAU); g.fill(); g.globalCompositeOperation = 'source-over'; g.restore();
+    }
+    for (let k = 0; k < 6; k++) { const a = Math.max(0, Math.sin(f * 2.4 + k * 1.9)) * K(f, 1.2, 1.6); if (a > 0.05) sparkle(g, 240 + hs(k, 21) * 170, 24 + hs(k, 23) * 70, 4 + 4 * a, 0.85 * a); }
+  },
+  // a suspension bridge at night: the towers rise, the cables draw, a lit train crosses over the water
+  route(g, f) {
+    const deck = 158, wk = K(f, 0.1, 0.5);
+    const water = g.createLinearGradient(0, deck + 12, 0, SH); water.addColorStop(0, 'rgba(118,84,224,0.25)'); water.addColorStop(1, 'rgba(5,1,26,0.2)'); g.fillStyle = water; g.fillRect(0, deck + 12, SW, SH - deck);
+    for (let r = 0; r < 5; r++) { const y = deck + 24 + r * 10; g.strokeStyle = `rgba(201,184,255,${(0.28 - r * 0.04) * wk})`; g.lineWidth = 1.4; g.beginPath(); for (let x = 0; x <= SW; x += 6) g.lineTo(x, y + 2 * Math.sin(x * 0.05 + f * 2 + r)); g.stroke(); }
+    [120, 300].forEach((tx0, j) => {
+      const k = K(f, 0.05 + j * 0.1, 0.6 + j * 0.1), top = deck + 38 - 150 * k; if (k <= 0) return;
+      glow(g, 'rgba(201,184,255,0.8)', 10); g.strokeStyle = '#f2f0fb'; g.lineWidth = 3.2;
+      [-8, 8].forEach((dx) => { g.beginPath(); g.moveTo(tx0 + dx, deck + 38); g.lineTo(tx0 + dx, top); g.stroke(); });
+      [[top + 16], [top + 70]].forEach(([y]) => { if (y < deck) { g.beginPath(); g.moveTo(tx0 - 8, y); g.lineTo(tx0 + 8, y); g.stroke(); } });
+      noGlow(g);
+      if (k > 0.98 && Math.sin(f * 4 + j * 2) > 0.2) sparkle(g, tx0, top - 6, 5, 0.95);
+      g.strokeStyle = 'rgba(201,184,255,0.16)'; g.lineWidth = 3; g.beginPath(); g.moveTo(tx0, deck + 40); g.lineTo(tx0, deck + 40 + 60 * k); g.stroke();
+    });
+    const dk = K(f, 0.3, 0.8);
+    if (dk > 0) { g.fillStyle = 'rgba(233,227,255,0.9)'; g.fillRect(0, deck, SW * dk, 4); g.fillStyle = 'rgba(169,139,255,0.7)'; g.fillRect(0, deck + 8, SW * dk, 2); }
+    const top = deck - 112, sag = deck - 22;
+    const cable = [...bez([0, deck - 40], [60, deck - 60], [120, top]), ...bez([120, top], [210, sag + (sag - top)], [300, top]).slice(1), ...bez([300, top], [360, deck - 60], [420, deck - 40]).slice(1)];
+    const ck = K(f, 0.5, 1.25, E.inOutCubic);
+    if (ck > 0) {
+      glow(g, 'rgba(201,184,255,0.9)', 12); g.strokeStyle = '#f2f0fb'; g.lineWidth = 2.4; const tip = polyK(g, cable, ck); noGlow(g);
+      if (ck < 1) pen(g, tip);
+      g.strokeStyle = 'rgba(201,184,255,0.55)'; g.lineWidth = 1.2;
+      for (let x = 132; x < 292; x += 14) { const t = (x - 120) / 180, y = (1 - t) ** 2 * top + 2 * (1 - t) * t * (sag + (sag - top)) + t * t * top; if (ck * cable.length < cable.length * ((x / 420) * 0.9 + 0.05)) continue; g.beginPath(); g.moveTo(x, y); g.lineTo(x, deck); g.stroke(); }
+    }
+    if (f > 1.0) {
+      const tx1 = -130 + (((f - 1.0) * 95) % 690);
+      glow(g, 'rgba(201,184,255,0.9)', 14);
+      const lg = g.createLinearGradient(0, deck - 24, 0, deck); lg.addColorStop(0, '#e9e3ff'); lg.addColorStop(1, '#8f74e8'); g.fillStyle = lg;
+      for (let c = 0; c < 3; c++) { rr(g, tx1 + c * 40, deck - 22, 36, 20, c === 2 ? 8 : 4); g.fill(); }
+      noGlow(g);
+      g.fillStyle = INKV; for (let c = 0; c < 3; c++) for (let w = 0; w < 3; w++) g.fillRect(tx1 + c * 40 + 5 + w * 10, deck - 17, 6, 6);
+      const hg = g.createLinearGradient(tx1 + 116, 0, tx1 + 200, 0); hg.addColorStop(0, 'rgba(255,255,255,0.55)'); hg.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = hg; g.beginPath(); g.moveTo(tx1 + 116, deck - 12); g.lineTo(tx1 + 200, deck - 22); g.lineTo(tx1 + 200, deck - 2); g.closePath(); g.fill();
+    }
+  },
+};
+function indFront(g, i, u) {
+  const d = INDS[i], f = Math.max(0, u - V3.names[i]);
+  g.save(); rr(g, 0, 0, SW, SH, 20); g.clip();
+  sky(g, d.tone, f);
+  g.save(); SCENES[d.motif](g, f); g.restore(); noGlow(g);
+  const sg = g.createLinearGradient(0, SH - 96, 0, SH); sg.addColorStop(0, 'rgba(4,1,20,0)'); sg.addColorStop(1, 'rgba(4,1,20,0.86)');
+  g.fillStyle = sg; g.fillRect(0, SH - 96, SW, 96);
+  const nk = K(f, 0.15, 0.75);
+  if (nk > 0) {
+    const lines = wrap(g, d.name, SW - 48, 30, 600, DISPLAY, -0.6);
+    g.save(); g.globalAlpha = nk; g.translate(0, (1 - nk) * 14);
+    lines.forEach((ln, j) => tx(g, ln, 24, SH - 24 - (lines.length - 1 - j) * 34, 30, 600, DISPLAY, T.fg, 'left', -0.6));
+    g.restore();
+  }
+  g.restore();
+  g.lineWidth = 1; g.strokeStyle = 'rgba(255,255,255,0.14)'; rr(g, 0.5, 0.5, SW - 1, SH - 1, 20); g.stroke();
+  sweep(g, u, V3.names[i] + 0.15, SW, SH);
+}
+// the composite grid: sampled for the particles (face-down) and shown in the constellation (face-up)
+board('industries', {
+  css: IND.css, s: 1.0, pose: { C: [8, -77, -137], yaw: -6 }, occ: false, frame: { ox: 0, oy: P ? 150 : 50 },
+  els: INDS.map((_, i) => [...indXY(i), IND.tw, IND.th]), anim: [[1e5, 1e5 + 1]],
+  draw(g, u) {
+    INDS.forEach((_, i) => { const [x, y] = indXY(i); g.save(); g.translate(x, y); if (u >= V3.names[i] + 0.2) indFront(g, i, u); else indBack(g, i); g.restore(); });
+  },
+});
+INDS.forEach((_, i) => board(`ind${i}`, {
+  css: [IND.tw, IND.th], s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, occ: false, anim: [[167.4, 198.6]],
+  draw(g, u) {
+    const th = indTheta(i, u) * DEG, front = u >= V3.names[i] - 0.05 && Math.cos(th) >= 0;
+    if (front) indFront(g, i, u);
+    else if (Math.cos(th) < 0) { g.save(); g.translate(IND.tw, 0); g.scale(-1, 1); indBack(g, i); g.restore(); }
+    else indBack(g, i);
+    const sh = 0.6 * (1 - Math.abs(Math.cos(th)));   // light falls off as the card turns edge-on
+    if (sh > 0.01) { rr(g, 0, 0, IND.tw, IND.th, 20); g.fillStyle = `rgba(6,1,31,${sh.toFixed(3)})`; g.fill(); }
+  },
+}));
+// where card i is right now: dealt from the last demo in an arc, then lifted a little as it flips
+function indPose(i, u) {
+  const t0 = dealT(i); if (u < t0) return null;
+  const b = BOARDS.industries, tb = BOARDS[`ind${i}`], [x, y] = indXY(i);
+  const k = E.inOutCubic(prog(u, t0, t0 + DEAL)), arcK = Math.sin(Math.PI * k);
+  const S = at(BOARDS.six5, 300, 220), D = at(b, x + IND.tw / 2, y + IND.th / 2);
+  // on its name the card comes forward and grows while its world draws itself, then settles back into the grid
+  const f = u - V3.names[i], pop = E.outCubic(clamp((f + 0.05) / 0.4)) * (1 - E.inOutCubic(clamp((f - 1.25) / 0.75)));
+  const towardMid = Math.floor(i / IND.cols) === 0 ? -0.45 : 0.15;   // the top row comes forward a little lower, clear of the heading
+  const C = vadd(vadd(vadd(vsc(S, 1 - k), vsc(D, k)), vsc(b.N, 3.0 * arcK + 2.3 * pop)), [0, 0.9 * arcK + towardMid * pop, 0]);
+  const sc = lerp(0.5, 1, E.outCubic(k)) * (1 + 0.18 * pop), th = indTheta(i, u) * DEG, pitch = 0.45 * arcK * (i % 2 ? 1 : -1);
+  const Xd = vadd(vsc(b.R, Math.cos(th)), vsc(b.N, Math.sin(th))), Yd = vadd(vsc([0, 1, 0], Math.cos(pitch)), vsc(b.N, Math.sin(pitch)));
+  return { C, X: vsc(Xd, (tb.wpx / 200) * sc), Y: vsc(Yd, (tb.hpx / 200) * sc), a: eo(u, t0, t0 + 0.3) };
+}
+
+// ---- the regulatory wave: a sea of light rising toward 2027, the timeline riding its crest
+// local frame (set in buildCam): origin Ec, rH right, up, fH forward. The shader's wave uses the same envelope.
+const WV = { a0: -30, da: 6, base: -4.6, amp: 4.2, above: 0.62, top: 4.0 };
+const wenv = (a) => Math.pow(clamp((a + 40) / 40), 1.3) * (1 - 0.55 * ss(2, 16, a));
+const crestB = (a) => WV.base + WV.amp * wenv(a) + WV.above;   // the timeline line: just above the crest
+const msA = (i) => WV.a0 + WV.da * i;
+const TODAY_A = msA(3) + WV.da * 0.75;   // October 2026: nine months past Jan 2026, of twelve
+const MSB = { css: [540, 400], nx: 270, ny: 352 };
+function msContent(g, i, u, still) {
+  const m = MILES[i], t = V3.ms[i], last = i === 5;
+  const pre = still ? 1 : eo(u, 209.0 + i * 0.5, 210.2 + i * 0.5), lit = still ? 1 : eo(u, t - 0.15, t + 0.45);
+  if (pre <= 0) return;
+  // the mark
+  const img = IMGS[m.logo];
+  if (img) {
+    const wide = img.width / img.height > 1.6, bw = wide ? 70 : 46, bh = wide ? 38 : 46, k = Math.min(bw / img.width, bh / img.height);
+    g.save(); g.globalAlpha *= pre * lerp(0.25, 1, lit); g.drawImage(img, MSB.nx - (img.width * k) / 2, 20 + (46 - img.height * k) / 2, img.width * k, img.height * k); g.restore();
+  }
+  // the date: dim while it waits, then each character rolls up bright
+  const size = 62; setFont(g, size, 600, DISPLAY, -size * 0.03);
+  const chars = [...m.date], wsum = g.measureText(m.date).width; let x = MSB.nx - wsum / 2;
+  chars.forEach((ch, j) => {
+    const cw = tw(g, ch, size, 600, DISPLAY, -size * 0.03), kc = still ? 1 : E.outCubic(prog(u, t + j * 0.05, t + 0.5 + j * 0.05));
+    g.save(); g.beginPath(); g.rect(x - 4, 66, cw + 8, 84); g.clip();
+    if (kc < 1) { g.globalAlpha *= pre * 0.3; tx(g, ch, x, 136 - kc * 80, size, 600, DISPLAY, T.fg, 'left', -size * 0.03); g.globalAlpha /= pre * 0.3; }
+    if (kc > 0) { g.globalAlpha *= pre; tx(g, ch, x, 136 + (1 - kc) * 80, size, 600, DISPLAY, last ? T.accent : T.fg, 'left', -size * 0.03); }
+    g.restore(); x += cw;
+  });
+  // the label writes on, left to right
+  const lk = still ? 1 : E.inOutCubic(prog(u, t + 0.25, t + 1.25));
+  if (lk > 0) {
+    const lines = wrap(g, m.label, 490, 27, 500, UI);
+    g.save(); g.beginPath(); g.rect(0, 150, 25 + lk * 490, 90); g.clip();
+    lines.forEach((ln, j) => tx(g, ln, MSB.nx, 186 + j * 35, 27, 500, UI, T.muted, 'center'));
+    g.restore();
+  }
+  // the stem and the node on the line
+  const sk = still ? 1 : E.outCubic(prog(u, t + 0.1, t + 0.7));
+  if (sk > 0) { g.strokeStyle = 'rgba(255,255,255,0.22)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(MSB.nx, 252); g.lineTo(MSB.nx, 252 + (MSB.ny - 20 - 252) * sk); g.stroke(); }
+  const r = last ? 19 : 15, pk = still ? 1 : springB(u, t - 0.05, { stiffness: 320, damping: 13 });
+  g.save(); g.translate(MSB.nx, MSB.ny); g.globalAlpha *= pre;
+  g.beginPath(); g.arc(0, 0, r, 0, TAU); g.fillStyle = T.surface; g.fill(); g.lineWidth = 2.5; g.strokeStyle = lit > 0.5 ? (last ? T.accent : T.fg) : T.lineStrong; g.stroke();
+  if (pk > 0) { g.scale(pk, pk); g.beginPath(); g.arc(0, 0, r * 0.5, 0, TAU); g.fillStyle = last ? T.accent : T.tertiary; g.fill(); }
+  g.restore();
+}
+MILES.forEach((_, i) => board(`ms${i}`, {
+  css: MSB.css, s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, occ: false, frame: { ox: 0, oy: -70 }, anim: [[206.4, 261.5]],
+  draw(g, u) { msContent(g, i, u, false); },
+}));
+// the composite: every milestone and the line in one plane, sampled for the particles (never shown)
+const TL = { css: [3700, 800], ax: -33.5 };
+const tlX = (a) => (a - TL.ax) * 100, tlY = (b) => (WV.top - b) * 100;
+board('tl', {
+  css: TL.css, s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, occ: false, anim: [[1e5, 1e5 + 1]],
+  els: MILES.map((_, i) => [tlX(msA(i)) - MSB.nx, tlY(crestB(msA(i))) - MSB.ny, MSB.css[0], MSB.css[1]]),
+  draw(g) {
+    g.beginPath(); for (let a = TL.ax; a <= TL.ax + 37; a += 0.25) { const x = tlX(a), y = tlY(crestB(a)); a > TL.ax ? g.lineTo(x, y) : g.moveTo(x, y); }
+    g.strokeStyle = 'rgba(201,184,255,0.7)'; g.lineWidth = 3; g.stroke();
+    MILES.forEach((_, i) => { g.save(); g.translate(tlX(msA(i)) - MSB.nx, tlY(crestB(msA(i))) - MSB.ny); msContent(g, i, 1000, true); g.restore(); });
+  },
+});
+// "Today": a marker lands on the line between Jan 2026 and Jan 2027 and lets its label hang below, into the wave
+const TODAY_Y = 30;   // the marker's centre in the board, on the line
+board('today', {
+  css: [240, 220], s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, occ: false, anim: [[244.6, 261.5]],
+  draw(g, u) {
+    const dk = springB(u, V3.today, { stiffness: 300, damping: 12 }); if (dk <= 0) return;
+    g.save(); g.translate(120, TODAY_Y); g.rotate(Math.PI / 4); g.scale(dk, dk); g.fillStyle = T.tertiary; g.fillRect(-8, -8, 16, 16); g.restore();
+    const sk = E.outCubic(prog(u, V3.today + 0.15, V3.today + 0.7));
+    if (sk > 0) { g.strokeStyle = rgba(T.tertiary, 0.85); g.lineWidth = 2; g.setLineDash([4, 5]); g.beginPath(); g.moveTo(120, TODAY_Y + 14); g.lineTo(120, TODAY_Y + 14 + 92 * sk); g.stroke(); g.setLineDash([]); }
+    const pk = springB(u, V3.today + 0.45, { stiffness: 240, damping: 13 });
+    if (pk > 0) {
+      g.save(); g.globalAlpha = clamp(pk * 1.5); g.translate(0, (1 - pk) * -40);
+      rr(g, 55, 140, 130, 50, 25); g.fillStyle = T.raised; g.fill(); g.lineWidth = 1.5; g.strokeStyle = T.tertiary; rr(g, 55.75, 140.75, 128.5, 48.5, 25); g.stroke();
+      tx(g, 'Today', 120, 173, 23, 600, UI, T.fg, 'center');
+      g.restore();
+    }
+  },
+});
+// the year, huge and faint, far behind the wave: it rolls like an odometer as the timeline moves on
+board('years', {
+  css: [1300, 440], s: 2.0, pose: { C: [0, 0, 0], yaw: 0 }, occ: false, anim: [[206.0, 261.5]],
+  draw(g, u) {
+    const k = eo(u, 208.0, 210.5) * (1 - ease(u, 257.6, 259.0)); if (k <= 0) return;
+    const d = 4 + YEARS.reduce((s, [t]) => s + E.inOutCubic(prog(u, t + 0.1, t + 1.1)), 0);
+    const size = 400, y = 380; setFont(g, size, 600, DISPLAY, -size * 0.04);
+    const w202 = g.measureText('202').width, wd = g.measureText('0').width, x0 = 650 - (w202 + wd) / 2;
+    g.save(); g.globalAlpha = k;
+    const ink = (s, x, yy, a) => { g.globalAlpha = k * a; g.lineWidth = 2; g.strokeStyle = 'rgba(201,184,255,0.55)'; g.font = `600 ${size}px ${DISPLAY}`; g.textAlign = 'left'; g.strokeText(s, x, yy); g.fillStyle = 'rgba(169,139,255,0.07)'; g.fillText(s, x, yy); };
+    ink('202', x0, y, 1);
+    g.beginPath(); g.rect(x0 + w202 - 10, y - size * 0.9, wd + 40, size * 1.0); g.clip();
+    const lo = Math.floor(d), fr = d - lo;
+    ink(String(lo % 10), x0 + w202, y - fr * size, 1 - fr * 0.6);
+    if (fr > 0.001) ink(String((lo + 1) % 10), x0 + w202, y + (1 - fr) * size, 0.4 + 0.6 * fr);
+    g.restore();
+  },
+});
+
+// ---- the countdown: days to go, on a ring of the months left; the date in green
+const CD = { css: [1000, 900], cx: 500, cy: 470, R: 290, months: 14 };
+const cdProg = (u) => ease(u, V3.started + 0.3, V3.close, E.inOutSine);
+function rollDigits(g, s, cx, base, size, u, t0, live) {
+  setFont(g, size, 600, DISPLAY, -size * 0.03);
+  const cw = [...s].map((ch) => g.measureText(ch).width), total = cw.reduce((a, b) => a + b, 0);
+  let x = cx - total / 2;
+  [...s].forEach((ch, j) => {
+    const tl = t0 + j * 0.55, d = Number(ch);
+    let p = d, speed = 0;
+    if (live) {
+      const k = prog(u, tl - 2.2, tl);
+      p = d - 23 * (1 - E.outCubic(k)) + (u > tl ? -0.16 * M.ring((u - tl) * M.GRID.period, 2.4, 7) : 0);
+      speed = (1 - k) * 1.2;
+    }
+    const lo = Math.floor(p), fr = p - lo, lh = size * 1.02;
+    g.save(); g.beginPath(); g.rect(x - 10, base - size * 0.98, cw[j] + 20, size * 1.18); g.clip();
+    const copies = speed > 0.05 ? 4 : 1;
+    for (let c = 0; c < copies; c++) {
+      const off = copies > 1 ? (c / (copies - 1) - 0.5) * speed * size * 0.5 : 0, a = copies > 1 ? 0.42 : 1;
+      [0, 1].forEach((n) => { const v = (((lo + n) % 10) + 10) % 10; tx(g, String(v), x + cw[j] / 2, base + (n - fr) * lh + off, size, 600, DISPLAY, fgA(a), 'center', -size * 0.03); });
+    }
+    g.restore(); x += cw[j];
+  });
+}
+board('countdown', {
+  css: CD.css, s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, center: true, occ: false,
+  els: [[CD.cx - CD.R - 20, CD.cy - CD.R - 20, CD.R * 2 + 40, CD.R * 2 + 40], [CD.cx - 220, CD.cy - 170, 440, 290], [200, 800, 600, 90], [200, 10, 600, 80]],
+  anim: [[259.4, 272.6]],
+  draw(g, u) {
+    const live = !this.sampling, { cx, cy, R } = CD, pr = live ? cdProg(u) : 1;
+    // header: the mark and what is counting down
+    const hk = live ? eo(u, 260.8, 261.6) : 1;
+    if (hk > 0) {
+      g.save(); g.globalAlpha = hk; g.translate(0, (1 - hk) * 16);
+      const label = 'EU AI Act · high-risk rules apply in', lw = tw(g, label, 25, 600, UI), img = IMGS.eu, iw = 44, x0 = cx - (lw + iw + 14) / 2;
+      if (img) { const k = Math.min(iw / img.width, iw / img.height); g.drawImage(img, x0, 32, img.width * k, img.height * k); }
+      tx(g, label, x0 + iw + 14, 63, 25, 600, UI, T.muted);
+      g.restore();
+    }
+    // the ring: the track draws round from 12 o'clock, then the comet runs the months
+    const rk = live ? E.inOutCubic(prog(u, 260.3, 261.5)) : 1;
+    if (rk > 0) {
+      g.lineWidth = 3; g.strokeStyle = T.lineStrong; g.beginPath(); g.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + TAU * rk); g.stroke();
+      for (let m = 0; m < CD.months; m++) {
+        const a = -Math.PI / 2 + (m / CD.months) * TAU, tk = live ? eo(u, 260.5 + m * 0.06, 260.9 + m * 0.06) : 1; if (tk <= 0) continue;
+        const on = pr >= m / CD.months - 0.001 && pr > 0, len = m === 3 ? 24 : 12;
+        g.save(); g.globalAlpha = tk; g.strokeStyle = on ? T.accent : 'rgba(255,255,255,0.32)'; g.lineWidth = m === 0 || m === 3 ? 3 : 2;
+        g.beginPath(); g.moveTo(cx + Math.cos(a) * (R + 10), cy + Math.sin(a) * (R + 10)); g.lineTo(cx + Math.cos(a) * (R + 10 + len), cy + Math.sin(a) * (R + 10 + len)); g.stroke(); g.restore();
+      }
+      g.save(); g.globalAlpha = rk;
+      tx(g, '2027', cx + Math.cos(-Math.PI / 2 + (3 / 14) * TAU) * (R + 56), cy + Math.sin(-Math.PI / 2 + (3 / 14) * TAU) * (R + 56) + 6, 18, 600, UI, T.subtle, 'left');
+      tx(g, 'Today', cx + 14, cy - R - 30, 18, 600, UI, T.subtle, 'left');
+      tx(g, 'Dec 2027', cx - 14, cy - R - 30, 18, 600, UI, T.subtle, 'right');
+      g.restore();
+    }
+    if (live && pr > 0.001) {
+      const a1 = -Math.PI / 2 + pr * TAU;
+      g.lineWidth = 6; g.lineCap = 'round'; g.strokeStyle = T.accent; g.beginPath(); g.arc(cx, cy, R, -Math.PI / 2, a1); g.stroke(); g.lineCap = 'butt';
+      const x = cx + Math.cos(a1) * R, y = cy + Math.sin(a1) * R;
+      g.fillStyle = rgba(T.accent, 0.22); g.beginPath(); g.arc(x, y, 22, 0, TAU); g.fill(); g.fillStyle = '#d9ffdd'; g.beginPath(); g.arc(x, y, 8, 0, TAU); g.fill();
+    }
+    // days to go, spinning like a departure board and locking digit by digit
+    const dk = live ? eo(u, 260.6, 261.3) : 1;
+    if (dk > 0) { g.save(); g.globalAlpha = dk; rollDigits(g, String(daysLeft()), cx, cy + 62, 230, u, V3.lock, live); g.restore(); }
+    const gk = live ? eo(u, V3.lock + 1.4, V3.lock + 2.0) : 1;
+    if (gk > 0) { g.save(); g.globalAlpha = gk; g.translate(0, (1 - gk) * 12); tx(g, 'days to go', cx, cy + 128, 32, 500, UI, T.muted, 'center'); g.restore(); }
+    // the date: it writes on in green
+    const wk = live ? E.inOutCubic(prog(u, V3.lock + 1.9, V3.lock + 2.9)) : 1;
+    if (wk > 0) {
+      const s = '2 December 2027', sw = tw(g, s, 58, 600, DISPLAY, -1.6);
+      g.save(); g.beginPath(); g.rect(cx - sw / 2 - 10, 790, (sw + 20) * wk, 100); g.clip();
+      tx(g, s, cx, 856, 58, 600, DISPLAY, T.accent, 'center', -1.6); g.restore();
+    }
+  },
+});
+
+// ---- the call to action: the ring squeezes into the green button; the voice presses it
+const CTA = { css: [1000, 400], cx: 500, cy: 170, h: 150, size: 60 };
+board('cta', {
+  css: CTA.css, s: 1.0, pose: { C: [0, 0, 0], yaw: 0 }, center: true, occ: false, els: [[160, 80, 680, 180]], anim: [[270.9, 279.8]],
+  draw(g, u) {
+    const live = !this.sampling, { cx, cy, h, size } = CTA;
+    const label = 'Book a demo', bw = tw(g, label, size, 600, UI) + 2 * 78;
+    const k1 = live ? E.inOutCubic(prog(u, 270.9, 271.9)) : 1, k2 = live ? clamp(E.outBack(prog(u, 271.8, 272.7), 1.4), 0, 1.08) : 1, k3 = live ? eo(u, 272.4, 273.0) : 1;
+    if (k2 <= 0.001) {   // the countdown's ring, shrinking to the button's height
+      const r = lerp(CD.R, h / 2, k1);
+      g.lineWidth = lerp(6, 4, k1); g.strokeStyle = T.accent; g.beginPath(); g.arc(cx, cy, r, 0, TAU); g.stroke();
+      return;
+    }
+    const press = live ? Math.max(0, 1 - Math.abs(u - (V3.cta + 0.2)) / 0.22) : 0, w = lerp(h, bw, k2);
+    g.save(); g.translate(cx, cy); g.scale(1 - 0.04 * press, 1 - 0.04 * press);
+    g.save(); g.shadowColor = 'rgba(74,224,87,0.45)'; g.shadowBlur = 60; g.shadowOffsetY = 14;
+    rr(g, -w / 2, -h / 2, w, h, h / 2); g.fillStyle = mixc(T.accent, '#8df09a', press * 0.6); g.globalAlpha = clamp(k2 * 1.4); g.fill(); g.restore();
+    g.save(); rr(g, -w / 2, -h / 2, w, h, h / 2); g.clip(); g.fillStyle = 'rgba(255,255,255,0.32)'; g.fillRect(-w / 2, -h / 2, w, 2); g.restore();
+    if (k3 > 0) { g.save(); g.globalAlpha = k3; g.beginPath(); g.rect(-w / 2, -h / 2, w, h); g.clip(); tx(g, label, 0, size * 0.36 + (1 - k3) * 20, size, 600, UI, T.ink, 'center'); g.restore(); }
+    g.restore();
+    if (live) sweep(g, u, 272.9, CTA.css[0], CTA.css[1]);
+  },
+});
 
 // ---- the end card: the niticore-sub wordmark (public/logo/niticore-sub.svg), parsed at init
 let SUB = null;
@@ -839,18 +1355,18 @@ async function loadSub() {
   const bw = Math.max(...all.map((b) => b[2])) + pad - bx, bh = Math.max(...all.map((b) => b[3])) + pad - by;
   SUB = { letters, sub, sparkles, bx, by, bw, bh };
 }
-const END_T0 = 159.6;
+const END_T0 = V3.end;   // v3: the end card comes last, after the call to action (on the v3 grid)
 function drawSub(g, u) {
   g.save(); g.translate(-SUB.bx, -SUB.by);
   SUB.letters.forEach((p, i) => letterIn(g, u, END_T0 + i * 0.07, p.d, p.fill));
   SUB.sub.forEach((p, i) => {   // the subtitle types on with the voice
-    const t = 162.45 + (i / SUB.sub.length) * 2.1, k = eo(u, t, t + 0.25);
+    const t = V3.tag - 0.05 + (i / SUB.sub.length) * 2.1, k = eo(u, t, t + 0.25);
     if (k <= 0) return;
     g.save(); g.globalAlpha = k; g.fillStyle = p.fill; g.fill(path2(p.d)); g.restore();
   });
   g.restore();
   sweep(g, u, END_T0 + 0.85, SUB.bw, SUB.bh);
-  sweep(g, u, 165.6, SUB.bw, SUB.bh);
+  sweep(g, u, V3.tag + 3.1, SUB.bw, SUB.bh);
   g.save(); g.translate(-SUB.bx, -SUB.by);
   SUB.sparkles.forEach((p, i) => {
     const sk = springB(u, END_T0 + 0.95 + i * 0.25);
@@ -863,9 +1379,9 @@ function drawSub(g, u) {
 function defineEndBoard() {
   const s = (P ? 820 : 1060) / SUB.bw, el = (p) => [p.box[0] - SUB.bx, p.box[1] - SUB.by, p.box[2] - p.box[0], p.box[3] - p.box[1]];
   const box = (ps) => { const b = ps.map(el); const x0 = Math.min(...b.map((r) => r[0])), y0 = Math.min(...b.map((r) => r[1])); return [x0, y0, Math.max(...b.map((r) => r[0] + r[2])) - x0, Math.max(...b.map((r) => r[1] + r[3])) - y0]; };
-  board('logoEnd', { old: true,
+  board('logoEnd', {
     css: [SUB.bw, SUB.bh], s, pose: { C: [0, 0, -200], yaw: 0 }, center: true, occ: false, sampleScale: 4,
-    els: [...SUB.letters.slice(0, NEL - 2).map(el), box(SUB.sparkles), box(SUB.sub)], anim: [[159.2, 166.6]],
+    els: [...SUB.letters.slice(0, NEL - 2).map(el), box(SUB.sparkles), box(SUB.sub)], anim: [[V3.end - 0.4, V3.tag + 4.1]],
     draw(g, u) { drawSub(g, u); },
   });
 }
@@ -969,11 +1485,13 @@ function icosphere(level) {
 // ---------------------------------------------------------------- the particle story: states and transitions
 // rest shapes: 0 nebula · 1 spark · 2 ribbons · 3 the avatar's surface · 4 the loop ring
 const SIXN = [0, 1, 2, 3, 4, 5].map((i) => `six${i}`);
-const LAYERS = ['claimA', 'claimB', 'logoA', 'cockpit', 'loop', 'inventory', 'risk', 'frameworks', 'evidence', 'approve', ...SIXN, 'logoEnd'];
-const LCOUNT = { claimA: 36000, claimB: 42000, logoA: 70000, cockpit: 64000, loop: 48000, inventory: 52000, risk: 52000, frameworks: 72000, evidence: 50000, approve: 56000, logoEnd: 74000 };
+// v3 layers go after logoEnd, so every v2.1 layer keeps its row and its random stream
+const LAYERS = ['claimA', 'claimB', 'logoA', 'cockpit', 'loop', 'inventory', 'risk', 'frameworks', 'evidence', 'approve', ...SIXN, 'logoEnd', 'industries', 'tl', 'countdown', 'cta'];
+const LCOUNT = { claimA: 36000, claimB: 42000, logoA: 70000, cockpit: 64000, loop: 48000, inventory: 52000, risk: 52000, frameworks: 72000, evidence: 50000, approve: 56000, logoEnd: 74000,
+  industries: 60000, tl: 24000, countdown: 50000, cta: 40000 };
 SIXN.forEach((n) => (LCOUNT[n] = 52000));
 const LSAMPLE = { claimA: 5, claimB: 11.5, logoA: 18, cockpit: 53.5, loop: 67.6, inventory: 71, risk: 77, frameworks: 115.5, evidence: 100.5, approve: 104.5,
-  six0: 117, six1: 123.9, six2: 129, six3: 134, six4: 140.5, six5: 147, logoEnd: 168 };
+  six0: 117, six1: 123.9, six2: 129, six3: 134, six4: 140.5, six5: 147, logoEnd: 168, industries: 172, tl: 1000, countdown: 268.6, cta: 276 };
 const wordEls = (ts, off, gh) => ts.map((t) => [t + off, gh]);
 // element reveal beats + ghost alpha (how strongly the particles hold the shape before it resolves)
 const STATES = [
@@ -996,8 +1514,17 @@ const STATES = [
   { lay: 'six3', rest: 0, el: [[130.9, 0.3], [131.0, 0.2], [131.1, 0], [131.9, 0], [132.7, 0], [131.4, 0.1]] },
   { lay: 'six4', rest: 0, el: [[135.9, 0.3], [136.1, 0.1], [136.35, 0.1], [136.6, 0.1]] },
   { lay: 'six5', rest: 0, el: [[142.3, 0.3], [142.6, 0.1], [143.0, 0]] },
-  { rest: 0 },
-  { lay: 'logoEnd', rest: 2, el: [...[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => [END_T0 + 0.02 + i * 0.07, 0.25]), [END_T0 + 0.95, 0.25], [162.45, 0.03]] },
+];
+// v3 states (v3 grid): 19 industries · 20 constellation · 21 the wave · 22 countdown · 23 call to action · 24 the end card
+// rest shapes: 5 the wave
+const ST_CONST = { rest: 0, nt: true }, ST_IND = { rest: 6, nt: true };
+const V3_STATES = [
+  ST_IND,   // rest 6: the six worlds as particle sculptures (no layer: every particle takes part)
+  ST_CONST,
+  { lay: 'tl', rest: 5, nt: true, el: V3.ms.map((t) => [t - 0.1, 0.05]) },
+  { lay: 'countdown', rest: 4, nt: true, el: [[261.0, 0], [261.3, 0], [V3.lock + 2.4, 0], [261.0, 0]] },
+  { lay: 'cta', rest: 0, nt: true, el: [[272.4, 0]] },
+  { lay: 'logoEnd', rest: 2, nt: true, el: [] },
 ];
 // [K0, Kd, Ks, [ax, ay, bx, by], kr, kc, arc, squeeze]: start beat, per-particle flight, stagger spread,
 // stagger weights on the source/target uv, random share, centre-out share, flight curl, stream squeeze
@@ -1020,8 +1547,14 @@ const TR = [
   [130.0, 1.3, 0.5, [0, 0.6, 0, 0], 0.3, 0, 1.5, 0.8],
   [135.0, 1.3, 0.5, [0, 0.6, 0, 0], 0.3, 0, 1.5, 0.8],
   [141.4, 1.3, 0.5, [0, 0.6, 0, 0], 0.3, 0, 1.5, 0.8],
-  [147.6, 1.8, 0.8, [0.4, 0, 0, 0], 0.5, 0, 2.2],             // → constellation
-  [157.9, 1.3, 0.4, [0, 0, 0.8, 0], 0.5, 0, 2.0, 0.5],        // → the end wordmark, letter by letter
+];
+const V3_TR = [
+  [167.4, 1.7, 0.7, [0.5, 0, 0, 0], 0.35, 0, 1.6, 0.5],        // the last demo → six cards
+  [195.4, 1.8, 0.8, [0.4, 0, 0, 0], 0.5, 0, 2.2],             // the cards → constellation
+  [204.9, 1.9, 1.3, [0, 0, 0.75, 0], 0.4, 0, 1.2],            // constellation → the wave, poured in left to right
+  [258.5, 1.4, 0.7, [0, 0, 0, 0], 0.4, 1.0, 1.0],             // the wave → the countdown, from the centre out (the dive)
+  [270.9, 1.4, 0.5, [0, 0, 0, 0], 0.3, 1.0, 1.2, 0.5],        // the ring → the button
+  [278.0, 1.3, 0.4, [0, 0, 0.8, 0], 0.5, 0, 2.0, 0.5],        // the button → the end wordmark, letter by letter
 ];
 function shiftTimeline() {
   STATES.forEach((st) => { if (!st.nt && st.el) st.el = st.el.map(([t, gh]) => [sh(t), gh]); });
@@ -1032,7 +1565,15 @@ const trAt = (u) => { let i = 0; while (i + 1 < TR.length && TR[i + 1][0] <= u) 
 // when each board shows, and the transition that dissolves it
 const SHOW = { claimA: [1.5, 2], claimB: [6.4, 3], logoA: [15.4, 4], cockpit: [48.8, 6], loop: [54.0, 7], inventory: [62.6, 8], risk: [71.6, 9],
   frameworks: [80.2, 10], evidence: [97.0, 11], approve: [101.0, 12], six0: [108.0, 13], six1: [119.6, 14], six2: [124.6, 15], six3: [130.6, 16],
-  six4: [135.6, 17], six5: [142.0, 18], logoEnd: [159.2, null] };
+  six4: [135.6, 17], six5: [142.0, 18] };
+const V3_SHOW = { ...Object.fromEntries(MILES.map((_, i) => [`ms${i}`, [206.4, 21]])), years: [206.0, 21], today: [244.6, 21], countdown: [259.4, 22], cta: [270.9, 23], logoEnd: [V3.end - 0.8, null] };
+// v3: appended after the v2.1 timeline has been shifted (these are already on the v3 grid)
+function addV3() {
+  STATES.push(...V3_STATES);
+  TR.push(...V3_TR);
+  Object.assign(SHOW, V3_SHOW);
+  STATES[24].el = [...SUB.letters.slice(0, NEL - 2).map((_, i) => [END_T0 + 0.02 + i * 0.07, 0.25]), [END_T0 + 0.95, 0.25], [V3.tag - 0.05, 0.03]].slice(0, NEL);
+}
 const CONST = ['cockpit', 'loop', 'inventory', 'risk', 'frameworks', 'evidence', 'approve', ...SIXN];
 
 // ---------------------------------------------------------------- camera
@@ -1060,16 +1601,35 @@ function buildCam() {
     frameworks: [300, 597, 43, 6], evidence: [730, 597, 40, 0], approve: [1170, 597, 39, -7], six0: [1610, 597, 40, 7],
     six1: [300, 894, 40, 2], six2: [730, 894, 40, -2], six3: [1170, 894, 40, -6], six4: [1610, 894, 40, 4] };
   const SL = M.CFG.poster_spread && !P ? SPREAD : P    ? { cockpit: [230, 700, 62, 6], loop: [540, 690, 64, 0], inventory: [850, 700, 62, -6], risk: [230, 890, 63, 5], frameworks: [540, 900, 60, 0], evidence: [850, 890, 63, -5],
-      approve: [230, 1080, 62, 6], six0: [540, 1075, 64, 0], six1: [850, 1080, 62, -6], six2: [230, 1260, 63, 5], six3: [540, 1255, 64, 0], six4: [850, 1260, 63, -5], six5: [540, 1430, 62, 0] }
+      approve: [230, 1080, 62, 6], six0: [540, 1075, 64, 0], six1: [850, 1080, 62, -6], six2: [230, 1260, 63, 5], six3: [540, 1255, 64, 0], six4: [850, 1260, 63, -5], six5: [540, 1430, 62, 0], industries: [540, 1640, 60, 0] }
     : { cockpit: [1000, 215, 58, 8], loop: [1235, 205, 60, 2], inventory: [1475, 215, 59, -4], risk: [1730, 225, 58, -8], frameworks: [1120, 470, 56, 6], evidence: [1500, 460, 59, 0],
-      approve: [1760, 470, 58, -7], six0: [985, 720, 59, 7], six1: [1220, 715, 60, 2], six2: [1455, 720, 59, -2], six3: [1695, 725, 58, -7], six4: [1150, 935, 58, 4], six5: [1420, 935, 58, -4] };
+      approve: [1760, 470, 58, -7], six0: [985, 720, 59, 7], six1: [1220, 715, 60, 2], six2: [1455, 720, 59, -2], six3: [1695, 725, 58, -7], six4: [1150, 935, 58, 4], six5: [1420, 935, 58, -4], industries: [1700, 940, 57, -9] };
   const yawC = Math.atan2(-f[0], -f[2]) / DEG;
   CONST.forEach((name) => { if (!SL[name]) return; const [sx, sy, d, yj] = SL[name]; CPOSE[name] = poseFor(B[name], unproj(sx, sy, d), yawC + yj); });
   const Ee = vadd(Ec, vsc(f, 6)), fH = vnorm([f[0], 0, f[2]]);
   Object.assign(B.logoEnd, poseFor(B.logoEnd, vadd(Ee, vsc(fH, D0)), Math.atan2(-fH[0], -fH[2]) / DEG));
   B.logoEnd.pose = { C: B.logoEnd.C, yaw: B.logoEnd.yaw };
   B.CEND = { Ec, Tc, f };
-  STATES[19].cen = vadd(Ec, vsc(f, 32));
+  ST_CONST.cen = vadd(Ec, vsc(f, 32));
+  SC.C = vadd(at(B.industries, IND.css[0] / 2, IND.css[1] / 2), vadd(vsc(B.industries.R, P ? 0 : 3.6), [0, P ? -1.6 : -0.25, 0]));
+  ST_IND.cen = SC.C;
+  // v3: a level frame at the constellation's eye (rH right, up, fH forward). The timeline rides the wave's crest at
+  // depth 0 and climbs to the end card's height, so the last milestone, the countdown, the button and the logo
+  // all sit on one axis: the camera dives straight through the last node.
+  const rH = vnorm(vcross(fH, [0, 1, 0])), yawF = Math.atan2(-fH[0], -fH[2]) / DEG;
+  const L3 = (a, b, c) => vadd(Ec, vadd(vsc(rH, a), vadd([0, b, 0], vsc(fH, c))));
+  const lb = B.logoEnd.C[1] - Ec[1];
+  WV.base = lb - WV.amp - WV.above; WV.top = lb + 3.92;
+  B.V3F = { Ec, rH, fH, L3, lb };
+  const place = (b, C) => { Object.assign(b, poseFor(b, C, yawF)); b.pose = { C, yaw: yawF }; };
+  MILES.forEach((_, i) => { const a = msA(i), b = B[`ms${i}`]; place(b, vadd(L3(a, crestB(a), 0), [0, ((MSB.ny - MSB.css[1] / 2) / 100) * b.s, 0])); });
+  place(B.tl, L3(TL.ax + TL.css[0] / 200, WV.top - TL.css[1] / 200, 0));
+  B.tl.els = MILES.map((_, i) => [tlX(msA(i)) - MSB.nx, tlY(crestB(msA(i))) - MSB.ny, MSB.css[0], MSB.css[1]]);
+  place(B.today, vadd(L3(TODAY_A, crestB(TODAY_A), 0), [0, ((TODAY_Y - B.today.css[1] / 2) / 100) * B.today.s, 0]));
+  place(B.years, L3(-14, lb + 6, 46));
+  place(B.countdown, vadd(B.logoEnd.C, [0, ((CD.cy - CD.css[1] / 2) / 100) * B.countdown.s, 0]));
+  place(B.cta, vadd(B.logoEnd.C, [0, ((CTA.cy - CTA.css[1] / 2) / 100) * B.cta.s, 0]));
+  const node5 = L3(0, crestB(0), 0);
   const six = (i, t0, t1) => [[t0, look(B[`six${i}`], { yaw: 6 })], [t1, look(B[`six${i}`], { yaw: 0, d: 0.95 })]];
   CAM = [
     [0, fr([0, 0, D0 * 1.04], [0, 0, 0])], [6.0, fr([0, 0.04, D0 * 0.98], [0, 0, 0])], [12.8, fr([0, 0.08, D0 * 0.93], [0, 0, 0])],
@@ -1084,9 +1644,21 @@ function buildCam() {
     [98.0, look(B.evidence, { yaw: -7 })], [100.8, look(B.evidence, { yaw: 2, d: 0.955 })],
     [102.8, look(B.approve, { yaw: 7 })], [106.6, look(B.approve, { yaw: -3, d: 0.945 })],
     ...six(0, 108.8, 118.8), ...six(1, 120.4, 123.8), ...six(2, 125.4, 130.2), ...six(3, 131.8, 135.2), ...six(4, 136.8, 141.6), ...six(5, 143.2, 147.8),
-    [151.0, fr(Ec, Tc)], [157.6, fr(vadd(Ec, vsc(f, 2.2)), vadd(Tc, vsc(f, 2.2)))],
-    [160.4, look(B.logoEnd)], [172, look(B.logoEnd, { d: 0.92 })],
   ].map(([t, v, nt]) => [nt ? t : sh(t), v]);
+  // v3 (v3 grid): down to the cards; back to the constellation; a wide look over the wave, the ride along its crest;
+  // the dive through the last node; the countdown, the button and the end card, all on one axis
+  const wideE = L3(-38, crestB(-30) + 7.5, -24), wideT = L3(-25, crestB(-27) - 1.2, 8);
+  CAM.push(
+    [170.4, look(B.industries, { yaw: 7, d: 1.07 })], [182.0, look(B.industries, { yaw: 1, d: 1.0 })], [193.6, look(B.industries, { yaw: -3, d: 0.955 })],
+    [199.4, fr(Ec, Tc)], [205.0, fr(vadd(Ec, vsc(f, 2.2)), vadd(Tc, vsc(f, 2.2)))],
+    [209.8, fr(wideE, wideT)],
+    ...V3.ms.map((t, i) => [t + (i === 5 ? 0.1 : 0.5), look(B[`ms${i}`], { yaw: i === 5 ? 0 : 5 - i * 2, lift: i === 5 ? 0.16 : 0.3, d: i === 5 ? 1.0 : 1.06 })]),
+    [260.0, fr(vadd(node5, vsc(fH, -1.2)), vadd(node5, vsc(fH, 12)))],
+    [261.5, fr(L3(0, lb + 0.12, 4.4), vadd(B.countdown.C, [0, -0.15, 0]))],
+    [263.2, look(B.countdown, { d: 1.06 })], [270.6, look(B.countdown, { d: 0.985 })],
+    [276.4, look(B.cta, { d: 0.97 })],
+    [280.6, look(B.logoEnd)], [V3.dur, look(B.logoEnd, { d: 0.92 })],
+  );
 }
 
 
@@ -1157,13 +1729,14 @@ uniform mat4 uProj, uView; uniform vec3 uEye;
 uniform float uU, uFocus, uAper, uGain;
 uniform int uLay[2]; uniform float uCnt[2]; uniform int uRest[2];
 uniform vec3 uC[2]; uniform vec3 uX[2]; uniform vec3 uY[2];
-uniform float uElT[${2 * NEL}]; uniform float uElG[${2 * NEL}];
+uniform float uElT[${2 * NEL}]; uniform float uElG[${2 * NEL}]; uniform float uResK[2];
 uniform float uK0, uKd, uKs, uKr, uKc, uArc, uSq; uniform vec4 uKw; uniform vec3 uCA, uCB;
 float gHide;
 uniform vec3 uPath[12];
 uniform float uPt, uRibPhase, uRibY, uRibYaw, uRibK; uniform vec3 uRibO;
 uniform vec3 uBlobC; uniform float uBlobR, uBlobP;
 uniform vec3 uLpC, uLpX, uLpY; uniform float uLpR, uLpA, uLpK;
+uniform vec3 uWvO, uWvR, uWvF; uniform float uWvK, uWvX, uWvB;
 uniform vec4 uOcc[12]; uniform int uOccN;
 out vec3 vCol; out float vA; out float vSz;
 ${NOISE}
@@ -1226,6 +1799,174 @@ vec3 loopring(out vec3 col,out float al,out vec2 uv){
   uv=vec2(R(111.),0.5);
   return p;
 }
+// v3 · the regulatory wave: a sea of light that rises toward 2027, rolling forward; the crest sits just behind
+// the timeline (depth 0) and the comet lights it green as it passes (same envelope as wenv() in JS)
+float wenv(float a){ return pow(clamp((a+40.)/40.,0.,1.),1.3)*(1.-0.55*smoothstep(2.,16.,a)); }
+vec3 wave(out vec3 col,out float al,out vec2 uv){
+  float s=R(120.), q=R(121.);
+  float a=mix(-54.,18.,s);
+  float foam=step(R(125.),0.16);   // a share of the light rides the crest itself, as foam
+  float c=mix(-2.0+36.0*pow(q,2.2),2.2+(q-0.5)*1.6,foam);
+  float prof=exp(-pow((c-2.2)/5.5,2.))*0.85+0.15;
+  float t=uU*0.625;
+  float roll=0.8+0.2*sin(a*0.55-t*1.6+c*0.35);
+  float rip=0.22*sin(a*0.9+c*0.6-t*2.1)*(0.4+prof)+0.14*snoise(vec3(a*0.18,c*0.18,t*0.25));
+  float h=uWvB+uWvK*(4.2*wenv(a)*prof*roll+rip);
+  vec3 p=uWvO+uWvR*a+vec3(0.,h,0.)+uWvF*c;
+  float hi=clamp((h-uWvB)/4.4,0.,1.);
+  float m=R(122.);
+  col= m<0.5 ? mix(VIO2,LAV,hi) : (m<0.85 ? mix(VIO,WHT,hi*0.7) : LAV);
+  col=mix(col,mix(LAV,WHT,0.6),foam*hi);
+  float cm=exp(-pow((a-uWvX)/3.4,2.))*prof;
+  col=mix(col,GRN,clamp(cm*1.1,0.,0.8));
+  al=(0.16+0.42*R(123.))*(0.22+1.15*prof*prof)*(0.5+0.8*hi)*(1.+2.0*cm)*(1.+1.4*foam*hi);
+  if(R(124.)>0.985) al*=3.;
+  al*=smoothstep(-54.,-42.,a)*(1.-smoothstep(10.,18.,a))*(1.-smoothstep(24.,35.,c));
+  uv=vec2(s,q);
+  return p;
+}
+// v3 · the six worlds as 3D particle sculptures (and the globe they come from), morphing one into the next
+uniform vec3 uScC, uScX, uScY, uScZ; uniform float uScA, uScB, uScK, uScYaw, uScS, uScVis;
+float Q(float k){ return float(pcg(uint(aId)*7919u+uint(k)*104729u+1013904223u))*(1.0/4294967295.0); }
+vec3 boxS(vec3 c, vec3 h, float a, float b, float d, float e){
+  vec3 p;
+  if(d<e){
+    float k=floor(a*12.); float t=b*2.-1.; float ax=mod(k,3.); float s1=mod(floor(k/3.),2.)*2.-1.; float s2=floor(k/6.)*2.-1.;
+    if(ax<0.5) p=vec3(t*h.x,s1*h.y,s2*h.z); else if(ax<1.5) p=vec3(s1*h.x,t*h.y,s2*h.z); else p=vec3(s1*h.x,s2*h.y,t*h.z);
+  } else {
+    float f=floor(a*6.); vec2 q=vec2(fract(a*6.)*2.-1.,b*2.-1.);
+    if(f<0.5) p=vec3(h.x,q.x*h.y,q.y*h.z); else if(f<1.5) p=vec3(-h.x,q.x*h.y,q.y*h.z);
+    else if(f<2.5) p=vec3(q.x*h.x,h.y,q.y*h.z); else if(f<3.5) p=vec3(q.x*h.x,-h.y,q.y*h.z);
+    else if(f<4.5) p=vec3(q.x*h.x,q.y*h.y,h.z); else p=vec3(q.x*h.x,q.y*h.y,-h.z);
+  }
+  return c+p;
+}
+vec3 cylS(vec3 c,float r,float hh,float a,float b){ float t=a*6.2831853; return c+vec3(cos(t)*r,(b*2.-1.)*hh,sin(t)*r); }
+vec3 qbez(vec3 p0,vec3 p1,vec3 p2,float t){ float s=1.-t; return s*s*p0+2.*s*t*p1+t*t*p2; }
+vec3 jit(float r){ return (vec3(Q(31.),Q(32.),Q(33.))-0.5)*r; }
+float ecgf(float p){ if(p<0.3) return 0.; if(p<0.36) return 0.12*sin((p-0.3)/0.06*3.14159); if(p<0.42) return 0.; if(p<0.46) return mix(0.,1.,(p-0.42)/0.04); if(p<0.51) return mix(1.,-0.6,(p-0.46)/0.05); if(p<0.55) return mix(-0.6,0.,(p-0.51)/0.04); if(p<0.66) return 0.; if(p<0.78) return 0.2*sin((p-0.66)/0.12*3.14159); return 0.; }
+// 0 · a globe of light: latitude rings, meridians, a dusting over the surface
+vec3 scGlobe(out float br){
+  float a=Q(1.),b=Q(2.),m=Q(3.);
+  if(m<0.4){ float lat=((floor(b*9.)+0.5)/9.)*3.14159-1.5708; float t=a*6.2832; br=0.9; return vec3(cos(lat)*cos(t),sin(lat),cos(lat)*sin(t))*2.3; }
+  if(m<0.78){ float lon=floor(a*14.)/14.*6.2832; float la=(b*2.-1.)*1.5708; br=0.9; return vec3(cos(la)*cos(lon),sin(la),cos(la)*sin(lon))*2.3; }
+  br=0.35; return sdir(a,b)*2.3*(0.97+0.06*Q(4.));
+}
+// 1 · finance: a city of towers, a market line rising over it to an arrow
+vec3 scFinance(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.7){
+    float i=floor(Q(5.)*9.); float gx=mod(i,3.)-1.; float gz=floor(i/3.)-1.;
+    float h=1.2+2.6*fract(sin(i*12.9898+4.1)*43758.5453);
+    vec3 hs=vec3(0.4,h*0.5,0.4); vec3 p=boxS(vec3(gx*1.2,-2.1+hs.y,gz*1.05),hs,a,b,d,0.42);
+    br= d<0.42 ? 1.0 : (fract(p.y*3.4+i*0.3)<0.28 ? 0.85 : 0.28);
+    return p;
+  }
+  if(m<0.95){
+    float t=a*5.; float i=floor(t); float f=fract(t);
+    vec3 p0,p1;
+    if(i<0.5){p0=vec3(-3.,-0.7,1.5);p1=vec3(-1.8,0.1,1.5);} else if(i<1.5){p0=vec3(-1.8,0.1,1.5);p1=vec3(-0.8,-0.25,1.5);}
+    else if(i<2.5){p0=vec3(-0.8,-0.25,1.5);p1=vec3(0.4,0.95,1.5);} else if(i<3.5){p0=vec3(0.4,0.95,1.5);p1=vec3(1.4,0.6,1.5);} else {p0=vec3(1.4,0.6,1.5);p1=vec3(2.9,2.5,1.5);}
+    br=1.25; return mix(p0,p1,f)+jit(0.07);
+  }
+  vec3 tip=vec3(2.9,2.5,1.5); br=1.3; return (b<0.5 ? mix(tip,tip+vec3(-0.55,-0.05,0.),a) : mix(tip,tip+vec3(-0.12,-0.55,0.),a))+jit(0.06);
+}
+// 2 · healthcare: a puffy heart, an ECG trace in front of it, a cross floating beside
+vec3 scHealth(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.62){
+    float t=a*6.2832; vec2 hp=vec2(16.*pow(sin(t),3.),13.*cos(t)-5.*cos(2.*t)-2.*cos(3.*t)-cos(4.*t))*0.09;
+    if(d<0.32){ br=1.0; return vec3(hp.x-0.5,hp.y+0.35,(Q(6.)*2.-1.)*0.22); }
+    float u=sqrt(b); float side=d<0.66?1.:-1.;
+    br=0.35+0.45*u; return vec3(hp.x*u-0.5,hp.y*u+0.35,side*0.9*sqrt(max(0.,1.-u*u)));
+  }
+  if(m<0.86){
+    float x=mix(-3.2,3.2,a); float p=fract((x+3.2)/3.2); float pulse=exp(-pow(x-(-3.6+mod(uU*2.2,7.4)),2.)*2.);
+    br=0.55+1.2*pulse; return vec3(x,ecgf(p)*1.0-1.15,1.45)+jit(0.05);
+  }
+  vec3 c=vec3(2.35,1.75,0.); br=0.95;
+  return a<0.5 ? boxS(c,vec3(0.62,0.2,0.2),b,d,Q(7.),0.45) : boxS(c,vec3(0.2,0.62,0.2),b,d,Q(7.),0.45);
+}
+vec3 wHead(float j){ float s=j==2.?1.2:(abs(j-2.)<1.5?1.0:0.85); return vec3((j-2.)*1.3,-0.95+1.1*s,-0.7*(1.-pow((j-2.)/2.,2.))); }
+// 3 · workforce: five people, joined by arcs that carry pulses
+vec3 scWork(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.8){
+    float j=floor(Q(5.)*5.); float s=j==2.?1.2:(abs(j-2.)<1.5?1.0:0.85); vec3 h=wHead(j);
+    if(d<0.42){ br=0.85; return h+sdir(a,b)*0.4*s; }
+    vec3 dd=sdir(a,b); dd.y=abs(dd.y); br=0.5; return vec3(h.x,h.y-1.42*s,h.z)+vec3(dd.x*0.8,dd.y*1.0,dd.z*0.5)*s;
+  }
+  float e=floor(Q(8.)*4.); vec3 h0=wHead(e),h1=wHead(e+1.); vec3 mid=(h0+h1)*0.5+vec3(0.,1.1,0.);
+  float pulse=exp(-pow(a-fract(uU*0.45+e*0.25),2.)*120.);
+  br=0.6+1.3*pulse; return qbez(h0+vec3(0.,0.45,0.),mid,h1+vec3(0.,0.45,0.),a)+jit(0.04);
+}
+// 4 · government: a capitol: steps, columns, entablature, pediment, drum and dome, a flag
+vec3 scGov(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.16){ float s=floor(Q(5.)*3.); br=0.6; return boxS(vec3(0.,-2.2+s*0.18,0.35-s*0.15),vec3(2.7-s*0.25,0.09,1.35-s*0.15),a,b,d,0.5); }
+  if(m<0.48){ float j=floor(Q(5.)*6.); br=0.85; return cylS(vec3(-1.75+j*0.7,-0.85,0.95),0.15,0.95,a,b); }
+  if(m<0.58){ br=0.8; return boxS(vec3(0.,0.22,0.55),vec3(2.3,0.12,0.62),a,b,d,0.5); }
+  if(m<0.7){ float u=a,v=b; if(u+v>1.){u=1.-u;v=1.-v;} vec2 A=vec2(-2.35,0.34),B=vec2(2.35,0.34),C=vec2(0.,1.1); vec2 q=A+u*(B-A)+v*(C-A); br= d<0.4 ? 0.9 : 0.5; return vec3(q,d<0.4?1.15:mix(1.15,-0.05,Q(6.))); }
+  if(m<0.86){ if(d<0.35){ br=0.7; return cylS(vec3(0.,1.32,0.3),0.82,0.18,a,b); } vec3 dd=sdir(a,b); dd.y=abs(dd.y); br=0.85; return vec3(0.,1.5,0.3)+dd*vec3(0.82,0.85,0.82); }
+  if(m<0.92){ br=1.0; return vec3(0.,2.35+a*0.95,0.3)+jit(0.04); }
+  float fx=a*0.85,fy=b*0.48; br=1.05; return vec3(fx,2.82+fy+0.09*sin(fx*6.-uU*3.),0.3+0.12*sin(fx*5.-uU*2.5));
+}
+// 5 · retail and consumer: a shopping bag and a cart, a price tag swinging from the handle
+const vec3 CART[32]=vec3[32](
+  vec3(0.2,-0.15,-0.6),vec3(2.7,-0.15,-0.6), vec3(0.2,-0.15,0.6),vec3(2.7,-0.15,0.6), vec3(0.2,-0.15,-0.6),vec3(0.2,-0.15,0.6), vec3(2.7,-0.15,-0.6),vec3(2.7,-0.15,0.6),
+  vec3(0.55,-1.3,-0.5),vec3(2.45,-1.3,-0.5), vec3(0.55,-1.3,0.5),vec3(2.45,-1.3,0.5), vec3(0.55,-1.3,-0.5),vec3(0.55,-1.3,0.5), vec3(2.45,-1.3,-0.5),vec3(2.45,-1.3,0.5),
+  vec3(0.2,-0.15,0.6),vec3(0.55,-1.3,0.5), vec3(2.7,-0.15,0.6),vec3(2.45,-1.3,0.5), vec3(0.2,-0.15,-0.6),vec3(0.55,-1.3,-0.5), vec3(2.7,-0.15,-0.6),vec3(2.45,-1.3,-0.5),
+  vec3(1.03,-0.15,0.6),vec3(1.1,-1.3,0.5), vec3(1.87,-0.15,0.6),vec3(1.9,-1.3,0.5), vec3(0.2,-0.15,0.6),vec3(-0.25,0.45,0.6), vec3(0.2,-0.15,-0.6),vec3(-0.25,0.45,-0.6));
+vec3 scRetail(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.4){
+    if(d<0.84){ br=0.65; return boxS(vec3(-1.55,-1.05,0.),vec3(0.85,0.95,0.4),a,b,Q(9.),0.34); }
+    float t=a*3.14159; br=1.05; return vec3(-1.55+cos(t)*0.45,-0.1+sin(t)*0.55,(b-0.5)*0.12);
+  }
+  if(m<0.82){
+    if(d<0.78){ int e=int(floor(a*16.)); br=0.95; return mix(CART[e*2],CART[e*2+1],b)+jit(0.05); }
+    if(d<0.86){ br=1.0; return mix(vec3(-0.25,0.45,-0.6),vec3(-0.25,0.45,0.6),b)+jit(0.04); }
+    float w=floor(Q(10.)*4.); vec3 c=vec3(w<2.?0.75:2.25,-1.62,mod(w,2.)<1.?-0.48:0.48); float t=a*6.2832; br=0.9; return c+vec3(cos(t)*0.22,sin(t)*0.22,0.);
+  }
+  float sw=0.35*sin(uU*1.3); vec2 q=vec2((a-0.5)*0.42,-b*0.55); vec2 r=vec2(cos(sw)*q.x-sin(sw)*q.y,sin(sw)*q.x+cos(sw)*q.y);
+  br= (abs(q.x)>0.17||b>0.92) ? 1.0 : 0.45; return vec3(-0.25+r.x,0.25+r.y,0.62);
+}
+// 6 · infrastructure and mobility: a suspension bridge, a train crossing it, water rippling below
+vec3 scInfra(out float br){
+  float m=Q(1.),a=Q(2.),b=Q(3.),d=Q(4.);
+  if(m<0.13){ br=0.75; return boxS(vec3(0.,-0.75,0.),vec3(3.5,0.08,0.45),a,b,d,0.6); }
+  if(m<0.33){ float j=floor(Q(5.)*4.); float tx=j<2.?-1.75:1.75; float tz=mod(j,2.)<1.?-0.42:0.42; br=0.9; return boxS(vec3(tx,0.05,tz),vec3(0.09,2.05,0.09),a,b,d,0.55); }
+  if(m<0.58){
+    float side=d<0.5?-0.42:0.42; float s3=floor(Q(5.)*3.); vec3 p;
+    if(s3<0.5) p=qbez(vec3(-1.75,2.05,side),vec3(0.,-0.55,side),vec3(1.75,2.05,side),a);
+    else if(s3<1.5) p=qbez(vec3(-3.5,-0.68,side),vec3(-2.7,0.55,side),vec3(-1.75,2.05,side),a);
+    else p=qbez(vec3(1.75,2.05,side),vec3(2.7,0.55,side),vec3(3.5,-0.68,side),a);
+    br=1.05; return p+jit(0.04);
+  }
+  if(m<0.72){ float hx=-1.55+floor(a*15.)/14.*3.1; float t=(hx+1.75)/3.5; vec3 top=qbez(vec3(-1.75,2.05,0.),vec3(0.,-0.55,0.),vec3(1.75,2.05,0.),t); br=0.5; return vec3(hx,mix(-0.68,top.y,b),d<0.5?-0.42:0.42); }
+  if(m<0.84){ float tx=-4.2+mod(uU*0.9,8.4); br=1.1*(1.-smoothstep(3.2,3.9,abs(tx))); return boxS(vec3(tx,-0.47,0.),vec3(0.75,0.18,0.22),a,b,d,0.5); }
+  float wx=(a*2.-1.)*3.9,wz=(b*2.-1.)*1.7; br=0.28; return vec3(wx,-1.95+0.09*sin(wx*2.+uU*1.5)+0.06*sin(wz*3.+uU),wz);
+}
+vec3 sculpt(float k,out float br){
+  if(k<0.5) return scGlobe(br); if(k<1.5) return scFinance(br); if(k<2.5) return scHealth(br); if(k<3.5) return scWork(br);
+  if(k<4.5) return scGov(br); if(k<5.5) return scRetail(br); return scInfra(br);
+}
+vec3 sculptPos(out vec3 col,out float al,out vec2 uv){
+  if(R(127.)<0.16) return nebula(col,al,uv);
+  float bA,bB; vec3 pA=sculpt(uScA,bA),pB=sculpt(uScB,bB);
+  float st=Q(20.)*0.45; float k=smoothstep(st,st+0.55,uScK);
+  vec3 p=mix(pA,pB,k);
+  float arc=sin(3.14159*k);
+  if(arc>0.001) p+=arc*1.1*vec3(snoise(p*0.5+vec3(0.,uU*0.1,0.)),snoise(p*0.5+vec3(5.,0.,uU*0.1)),snoise(p*0.5+vec3(0.,9.,uU*0.1)));
+  float br=mix(bA,bB,k);
+  float cy=cos(uScYaw),sy=sin(uScYaw); p=vec3(cy*p.x+sy*p.z,p.y,-sy*p.x+cy*p.z);
+  vec3 w=uScC+(uScX*p.x+uScY*p.y+uScZ*p.z)*uScS;
+  float mm=Q(24.);
+  col= mm<0.55 ? mix(VIO,WHT,clamp(0.3+0.45*br,0.,1.)) : (mm<0.85 ? LAV : WHT);
+  al=(0.07+0.16*Q(25.))*br*uScVis*(1.+0.6*arc);
+  uv=vec2(Q(20.),Q(2.));
+  return w;
+}
 vec3 primary(int s,out vec3 col,out float al,out vec2 uv){
   int id=int(aId);
   vec4 d=texelFetch(uData,ivec2(id%512,uLay[s]*${RL}+id/512),0);
@@ -1239,7 +1980,7 @@ vec3 primary(int s,out vec3 col,out float al,out vec2 uv){
   float x=uU-te;
   gHide=(gh<0.001 && x<0.) ? 1. : 0.;
   float flare=smoothstep(-0.12,0.1,x)*exp(-max(x,0.)*2.0);
-  al=mix(gh,0.022+0.018*sin(uU*2.+R(81.)*30.),smoothstep(0.,0.3,x))+1.5*flare;
+  al=mix(gh,(0.022+0.018*sin(uU*2.+R(81.)*30.))*uResK[s],smoothstep(0.,0.3,x))+1.5*flare;
   al*=0.35+0.9*bri;
   return p;
 }
@@ -1250,6 +1991,8 @@ vec3 statePos(int s,out vec3 col,out float al,out vec2 uv){
   if(r==2) return ribbon(col,al,uv);
   if(r==3) return blobsurf(col,al,uv);
   if(r==4) return loopring(col,al,uv);
+  if(r==5) return wave(col,al,uv);
+  if(r==6) return sculptPos(col,al,uv);
   return nebula(col,al,uv);
 }
 void main(){
@@ -1529,18 +2272,41 @@ function sampleLayers() {
 }
 
 // ---------------------------------------------------------------- per-frame GL
-const EXP = (u) => M.kf(u, [[0, 1.45], [15.7, 1.45], [16.0, 2.0], [17.6, 1.45], [179.4, 1.45], [179.8, 2.0], [181.6, 1.4]], E.inOutSine);
+const EXP = (u) => M.kf(u, [[0, 1.45], [15.7, 1.45], [16.0, 2.0], [17.6, 1.45],
+  [V3.cross - 0.5, 1.45], [V3.cross, 2.5], [V3.cross + 1.2, 1.45], [V3.close - 0.2, 1.45], [V3.close + 0.1, 1.8], [V3.close + 0.8, 1.45],
+  [V3.end - 0.2, 1.45], [V3.end + 0.2, 2.0], [V3.end + 2.0, 1.4]], E.inOutSine);
+// v3 · the six worlds: where the sculpture stands, and which world it is (A -> B, K the morph)
+const SC = { C: [0, 0, 0], s: 1.08 };
+function scState(u) {
+  let A = 0, B = 0, K = 1;
+  for (const [idx, t] of [...V3.names.map((t, i) => [i + 1, t]), [0, V3.threads]]) { if (u < t - 0.45) break; A = B; B = idx; K = prog(u, t - 0.45, t + 0.6); }
+  return { A, B, K, yaw: 0.42 * Math.sin((u - 170) * 0.5) };   // a gentle sway round the front view, never edge-on
+}
+// the comet on the timeline: it reaches each milestone as the voice names it
+function cometA(u) {
+  const ks = [[208.6, -44], ...V3.ms.map((t, i) => [t, msA(i)])];
+  if (u <= ks[0][0]) return ks[0][1];
+  for (let i = 0; i < ks.length - 1; i++) if (u < ks[i + 1][0]) return lerp(ks[i][1], ks[i + 1][1], E.inOutSine(prog(u, ks[i][0], ks[i + 1][0])));
+  return ks[ks.length - 1][1];
+}
+// the big faint year sits low, far behind the wave, and drifts a little against the camera
+function yearsPose(u) {
+  const F = BOARDS.V3F, cam = camera(u), fw = vnorm(vsub(cam.tgt, cam.eye)), rt = vnorm(vcross(fw, [0, 1, 0])), up = vcross(rt, fw);
+  const e = vsub(cam.eye, F.Ec), ca = e[0] * F.rH[0] + e[2] * F.rH[2];
+  const b = BOARDS.years, C = vadd(cam.eye, vadd(vsc(fw, 58), vadd(vsc(up, -11.5), vsc(rt, 6 - 0.22 * (ca + 15)))));
+  return { C, X: vsc(rt, b.wpx / 200), Y: vsc(up, b.hpx / 200) };   // always square to the camera
+}
 function visible(u) {
   const out = [], add = (b, a, leave, final, pose) => { const p = pose || b; out.push({ b, a, leave, final, C: p.C, X: p.X, Y: p.Y }); };
-  const cl = (i) => (u > 176.6 ? [176.8 + i * 0.07, 0.6, 0.8, 0.8, 0, 0.4] : null);
+  const cl = (i) => (u > 204.6 ? [204.8 + i * 0.07, 0.6, 0.8, 0.8, 0, 0.4] : null);
   for (const [name, [from, leave]] of Object.entries(SHOW)) {
     if (u < from) continue;
-    const b = BOARDS[name];
-    if (leave !== null) { const tr = TR[leave]; if (u > tr[0] + tr[2] + tr[1] + 0.05) continue; add(b, 1, [tr[0], tr[1], tr[2], tr[3][0], tr[3][1], tr[4]]); }
-    else add(b, 1, null);
+    const b = BOARDS[name], pose = name === 'years' ? yearsPose(u) : null;
+    if (leave !== null) { const tr = TR[leave]; if (u > tr[0] + tr[2] + tr[1] + 0.05) continue; add(b, 1, [tr[0], tr[1], tr[2], tr[3][0], tr[3][1], tr[4]], false, pose); }
+    else add(b, 1, null, false, pose);
   }
-  if (u > 168.2 && u < 178.6) CONST.forEach((name, i) => {
-    const a = ease(u, 168.4 + i * 0.16, 169.6 + i * 0.16) * 0.94;
+  if (u > 196.0 && u < 207.2) CONST.forEach((name, i) => {
+    const a = ease(u, 196.2 + i * 0.14, 197.4 + i * 0.14) * 0.94;
     if (a > 0) add(BOARDS[name], a, cl(i), true, CPOSE[name]);
   });
   return out;
@@ -1571,6 +2337,7 @@ function stateUniforms(L, gl, sA, sB) {
   const et = new Float32Array(2 * NEL).fill(-100), eg = new Float32Array(2 * NEL);
   st.forEach((s, k) => (s.el || []).slice(0, NEL).forEach(([t, gh], e) => { et[k * NEL + e] = t; eg[k * NEL + e] = gh; }));
   gl.uniform1fv(L('uElT'), et); gl.uniform1fv(L('uElG'), eg);
+  gl.uniform1fv(L('uResK'), st.map((s) => (s.resK === undefined ? 1 : s.resK)));   // v3: how much of a resolved shape the particles keep
   const cen = (s, b, dflt) => (b ? b.C : s.cen || dflt);
   gl.uniform3fv(L('uCA'), cen(st[0], bd[0], [0, 0, 0])); gl.uniform3fv(L('uCB'), cen(st[1], bd[1], [0, 0, 1]));
 }
@@ -1634,15 +2401,27 @@ function renderGL(u, t, subs, vis, cam, pj, glowUsed) {
     gl.uniform1f(L('uAper'), 0.012 + 0.07 * fog);
     gl.uniform1f(L('uPt'), 0.006 * ease(uu, 0, 0.3));
     // ribbons: around the headlines at the open, far behind the end card at the close
-    const endR = uu > 170, eb = BOARDS.logoEnd;
+    const endR = uu > V3.end - 0.6, eb = BOARDS.logoEnd;
     gl.uniform1f(L('uRibPhase'), ribPhase(uu)); gl.uniform1f(L('uRibY'), endR ? (P ? -4.8 : -4.4) : P ? -3.9 : -2.25);
     gl.uniform3fv(L('uRibO'), endR ? vadd(eb.C, vsc(eb.N, -6)) : [0, 0, 0]); gl.uniform1f(L('uRibYaw'), endR ? eb.yaw * DEG : 0);
     gl.uniform1f(L('uRibK'), endR ? 0.32 : 1 - 0.45 * ease(uu, 13.6, 16.0));
     const bs = sc || { R: BLOB_R, burst: uu > 46 ? 1 : 0, pre: 0 };
     gl.uniform3fv(L('uBlobC'), BLOB_C); gl.uniform1f(L('uBlobR'), Math.max(0.3, bs.R)); gl.uniform1f(L('uBlobP'), Math.max(bs.burst, bs.pre));
-    const lb = BOARDS.loop;
-    gl.uniform3fv(L('uLpC'), lb.C); gl.uniform3fv(L('uLpX'), lb.X); gl.uniform3fv(L('uLpY'), lb.Y); gl.uniform1f(L('uLpR'), (LOOP.R * lb.s) / 100); gl.uniform3fv(L('uLpC'), at(lb, LOOP.cx, LOOP.c));
-    gl.uniform1f(L('uLpA'), Math.PI / 2 - (loopStep(uu) / 5) * TAU); gl.uniform1f(L('uLpK'), 0.6 * ease(uu, 54.4, 55.4));
+    if (uu > 256) {   // v3: the ring of light belongs to the countdown now; its comet runs the months left
+      const cb = BOARDS.countdown;
+      gl.uniform3fv(L('uLpX'), cb.X); gl.uniform3fv(L('uLpY'), cb.Y); gl.uniform1f(L('uLpR'), (CD.R * cb.s) / 100); gl.uniform3fv(L('uLpC'), at(cb, CD.cx, CD.cy));
+      gl.uniform1f(L('uLpA'), Math.PI / 2 - cdProg(uu) * TAU); gl.uniform1f(L('uLpK'), 0.55 * ease(uu, 260.8, 262.2));
+    } else {
+      const lb = BOARDS.loop;
+      gl.uniform3fv(L('uLpC'), lb.C); gl.uniform3fv(L('uLpX'), lb.X); gl.uniform3fv(L('uLpY'), lb.Y); gl.uniform1f(L('uLpR'), (LOOP.R * lb.s) / 100); gl.uniform3fv(L('uLpC'), at(lb, LOOP.cx, LOOP.c));
+      gl.uniform1f(L('uLpA'), Math.PI / 2 - (loopStep(uu) / 5) * TAU); gl.uniform1f(L('uLpK'), 0.6 * ease(uu, 54.4, 55.4));
+    }
+    const scs = scState(uu);   // v3: the six worlds
+    gl.uniform3fv(L('uScC'), SC.C); gl.uniform3fv(L('uScX'), BOARDS.industries.R); gl.uniform3fv(L('uScY'), [0, 1, 0]); gl.uniform3fv(L('uScZ'), BOARDS.industries.N);
+    gl.uniform1f(L('uScA'), scs.A); gl.uniform1f(L('uScB'), scs.B); gl.uniform1f(L('uScK'), scs.K); gl.uniform1f(L('uScYaw'), scs.yaw); gl.uniform1f(L('uScS'), SC.s); gl.uniform1f(L('uScVis'), 1);
+    const F = BOARDS.V3F;   // v3: the wave
+    gl.uniform3fv(L('uWvO'), F.Ec); gl.uniform3fv(L('uWvR'), F.rH); gl.uniform3fv(L('uWvF'), F.fH); gl.uniform1f(L('uWvB'), WV.base);
+    gl.uniform1f(L('uWvK'), ease(uu, 206.4, 211.8)); gl.uniform1f(L('uWvX'), cometA(uu));
     if (!(M.CFG.poster_spread && !P) && !M.CFG.poster_face) gl.drawArrays(gl.POINTS, 0, N);   // poster stills: no particle field, just the components (or the avatar alone)
   }
   gl.disable(gl.DEPTH_TEST); gl.depthMask(true);
@@ -1726,9 +2505,64 @@ function accents(g, u, pj) {
     const b = BOARDS.six5, a = sp(b, 244, 251);
     MAPS.forEach((_, j) => { if (flowDots(g, a, sp(b, 300, 156 + j * 45), [10, 0], uo, 142.9 + j * 0.32, green, 16, 1.6)) used = true; });
   }
-  // the constellation: light travels the path we flew, component to component
-  if (uo > 148.6 && uo < 157.6) {
-    const k = ease(uo, 148.6, 150.2) * (1 - ease(uo, 156.6, 157.6));
+  // v3 · the sculpture stands on a pedestal of light: two rings that turn, a brighter arc running round them
+  if (u > 168.6 && u < 196.2) {
+    const k = eo(u, 169.0, 170.6) * (1 - ease(u, 195.2, 196.0)), b = BOARDS.industries, c0 = vadd(SC.C, [0, -2.45 * SC.s, 0]);
+    [[3.3, 0.5], [2.5, 0.28]].forEach(([r, a], ri) => {
+      let prev = null;
+      for (let n = 0; n <= 72; n++) {
+        const t = (n / 72) * TAU, q = pj.to(vadd(c0, vadd(vsc(b.R, Math.cos(t) * r * SC.s), vsc(b.N, Math.sin(t) * r * SC.s * 0.55))));
+        if (!q.ok) { prev = null; continue; }
+        if (prev) { const hot = Math.exp(-(((((t - u * (0.5 + ri * 0.3)) % TAU) + TAU) % TAU - Math.PI) ** 2) * 3); g.strokeStyle = lilac(k * (a + 0.6 * hot)); g.lineWidth = 1.6 + 2 * hot; g.beginPath(); g.moveTo(prev.x, prev.y); g.lineTo(q.x, q.y); g.stroke(); }
+        prev = q;
+      }
+    });
+    used = true;
+  }
+  // v3 · the timeline: a line of light along the crest (solid up to today, faint beyond), the comet, the milestones igniting
+  if (u > 207.8 && u < 260.8) {
+    const F = BOARDS.V3F, fade = eo(u, 208.0, 209.2) * (1 - ease(u, 259.4, 260.6));
+    const drawTo = lerp(-46, 12, E.inOutCubic(prog(u, 208.2, 213.2))), aC = cometA(u), cOn = eo(u, 211.6, 212.6);
+    let prev = null;
+    for (let a = -46; a <= drawTo; a += 0.25) {
+      const s = pj.to(F.L3(a, crestB(a), 0)); if (!s.ok) { prev = null; continue; }
+      const past = a <= TODAY_A, dash = !past && Math.floor(a * 2.5) % 2 === 1;
+      if (prev && !dash) { g.strokeStyle = past ? lilac(0.7 * fade) : lilac(0.26 * fade); g.lineWidth = past ? 2.6 : 1.8; g.beginPath(); g.moveTo(prev.x, prev.y); g.lineTo(s.x, s.y); g.stroke(); used = true; }
+      prev = s;
+    }
+    if (cOn > 0) {   // the comet and its tail
+      for (let q = 0; q < 28; q++) { const a = aC - q * 0.16, s = pj.to(F.L3(a, crestB(a), 0)); if (!s.ok) continue; g.fillStyle = green((1 - q / 28) * 0.8 * cOn * fade); g.beginPath(); g.arc(s.x, s.y, 4.2 - q * 0.1, 0, TAU); g.fill(); }
+      const s = pj.to(F.L3(aC, crestB(aC), 0));
+      if (s.ok) { g.fillStyle = green(0.3 * cOn * fade); g.beginPath(); g.arc(s.x, s.y, 20, 0, TAU); g.fill(); g.fillStyle = `rgba(225,255,228,${0.95 * cOn * fade})`; g.beginPath(); g.arc(s.x, s.y, 6, 0, TAU); g.fill(); used = true; }
+    }
+    V3.ms.forEach((t, i) => {
+      if (u < t - 0.1) return;
+      const s = pj.to(F.L3(msA(i), crestB(msA(i)), 0)); if (!s.ok) return;
+      const k = prog(u, t, t + 1.2), col = i === 5 ? green : lilac;
+      if (k < 1) { g.strokeStyle = col(0.85 * (1 - k) * fade); g.lineWidth = 3; g.beginPath(); g.arc(s.x, s.y, 18 + 120 * E.outCubic(k), 0, TAU); g.stroke(); }
+      g.fillStyle = col(0.22 * fade); g.beginPath(); g.arc(s.x, s.y, i === 5 ? 34 : 26, 0, TAU); g.fill(); used = true;
+    });
+  }
+  // v3 · the dive: the last node's ring grows round the camera as it flies through
+  if (u > 258.4 && u < V3.cross + 0.2) {
+    const F = BOARDS.V3F, n5 = F.L3(0, crestB(0), 0), c = pj.to(n5), e = pj.to(vadd(n5, vsc(F.rH, 0.19)));
+    if (c.ok && e.ok) { const r = Math.abs(e.x - c.x), k = eo(u, 258.4, 259.4); g.strokeStyle = green(0.9 * k); g.lineWidth = Math.max(3, r * 0.08); g.beginPath(); g.arc(c.x, c.y, r, 0, TAU); g.stroke(); g.strokeStyle = green(0.25 * k); g.lineWidth = Math.max(10, r * 0.3); g.beginPath(); g.arc(c.x, c.y, r, 0, TAU); g.stroke(); used = true; }
+  }
+  // v3 · the countdown: bloom on the comet; one pulse round the ring as it closes
+  if (u > V3.started && u < 271.6) {
+    const b = BOARDS.countdown, pr = cdProg(u), a1 = -Math.PI / 2 + pr * TAU;
+    if (pr > 0.001 && u < V3.close + 0.4) { const s = sp(b, CD.cx + Math.cos(a1) * CD.R, CD.cy + Math.sin(a1) * CD.R); if (s.ok) { g.fillStyle = green(0.55); g.beginPath(); g.arc(s.x, s.y, 14, 0, TAU); g.fill(); used = true; } }
+    const k = prog(u, V3.close, V3.close + 1.0);
+    if (k > 0 && k < 1) { const c = sp(b, CD.cx, CD.cy), e = sp(b, CD.cx + CD.R, CD.cy); if (c.ok && e.ok) { const r = Math.abs(e.x - c.x) * (1 + 0.16 * E.outCubic(k)); g.strokeStyle = green(0.8 * (1 - k)); g.lineWidth = 5; g.beginPath(); g.arc(c.x, c.y, r, 0, TAU); g.stroke(); used = true; } }
+  }
+  // v3 · the button is pressed: light ripples out from it
+  if (u > V3.cta + 0.15 && u < V3.cta + 2.2) {
+    const b = BOARDS.cta, c = sp(b, CTA.cx, CTA.cy);
+    if (c.ok) [0, 0.35].forEach((d) => { const k = prog(u, V3.cta + 0.2 + d, V3.cta + 1.8 + d); if (k <= 0 || k >= 1) return; const rx = 210 + 380 * E.outCubic(k), ry = 62 + 300 * E.outCubic(k); g.strokeStyle = green(0.7 * (1 - k)); g.lineWidth = 3; g.beginPath(); g.ellipse(c.x, c.y, rx, ry, 0, 0, TAU); g.stroke(); used = true; });
+  }
+  // the constellation (v3 grid): light travels the path we flew, component to component
+  if (u > 196.6 && u < 205.6) {
+    const k = ease(u, 196.6, 198.2) * (1 - ease(u, 204.6, 205.6));
     for (let i = 0; i < CONST.length - 1; i++) {
       if (!CPOSE[CONST[i]] || !CPOSE[CONST[i + 1]]) continue;
       const a = pj.to(CPOSE[CONST[i]].C), z = pj.to(CPOSE[CONST[i + 1]].C); if (!a.ok || !z.ok) continue;
@@ -1753,7 +2587,11 @@ const CAPS = [
   [85.9, 115.6, [['Align', 1], [' with governance frameworks such as…']], null, true],
   [116.6, 120.5, [['Evidence, '], ['audit-ready', 1], [', always.']], 'File once, satisfy everywhere.'],
   [121.6, 126.4, [['People in the '], ['loop', 1], ['.']], 'A person signs off when it matters most.'],
-  [170.6, 177.4, [['Innovate with '], ['confidence', 1], ['.']], 'And prove it.'],
+  // v3
+  [169.2, 191.6, [['Built for industries where AI errors carry real '], ['consequences', 1], ['.']], null, true, { maxW: 1240 }],
+  [192.2, 195.4, [['Six industries and more. '], ['One', 1], [' governance practice.']], null, true],
+  [198.6, 205.0, [['Innovate with '], ['confidence', 1], ['.']], 'And prove it.'],
+  [208.3, 257.6, [['The regulatory '], ['wave', 1], [' has three years to peak.']], null, true],
 ];
 const CAP = P ? { x: S.x, top: 300, size: 64, maxW: S.w, lead: 30 } : { x: 110, top: 404, size: 62, maxW: 790, lead: 26 };
 const CAP_TOP = P ? CAP : { x: 110, top: 104, size: 60, maxW: 1700, lead: 26 };
@@ -1912,20 +2750,62 @@ function sixOverlay(ctx, u) {
     y += 64 + extra * on;
   });
 }
+// v3: www.niticore.ai types on with "niticore dot AI" under the button, and stays under the end card
+// v3 · the industry on the left: its number, then its name, huge, letter by letter; at the end, all six as one list
+function industriesText(ctx, u) {
+  if (u < V3.names[0] - 0.3 || u > 196.2) return;
+  const X = CAP.x, size = P ? 92 : 104, lh = size * 1.04, top = P ? 1200 : 500, maxW = P ? S.w : 780;
+  INDS.forEach((d, i) => {
+    const t0 = V3.names[i] - 0.1, t1 = i < 5 ? V3.names[i + 1] - 0.2 : V3.threads - 0.25;
+    if (u < t0 - 0.05 || u > t1 + 0.8) return;
+    const nk = eo(u, t0, t0 + 0.45), nout = E.inCubic(prog(u, t1, t1 + 0.4)), num = `0${i + 1}`;
+    ctx.save(); ctx.globalAlpha = nk * (1 - nout);
+    const ny = top + (1 - nk) * 12 - nout * 12;
+    tx(ctx, num, X, ny, 30, 700, UI, T.accent); tx(ctx, '/ 06', X + tw(ctx, `${num} `, 30, 700, UI), ny, 30, 600, UI, T.subtle);
+    ctx.restore();
+    const lines = wrap(ctx, d.name, maxW, size, 600, DISPLAY, -size * 0.035);
+    let li = 0;
+    lines.forEach((ln, j) => {
+      const base = top + 34 + j * lh + size * 0.9;
+      ctx.save(); ctx.beginPath(); ctx.rect(X - 20, base - size * 1.02, maxW + 400, lh + size * 0.16); ctx.clip();
+      [...ln].forEach((ch, c) => {
+        const kin = E.outCubic(prog(u, t0 + li * 0.022, t0 + li * 0.022 + 0.55)), kout = E.inCubic(prog(u, t1 + li * 0.012, t1 + li * 0.012 + 0.42)); li++;
+        if (kin <= 0 || kout >= 1 || ch === ' ') return;
+        const x = X + tw(ctx, ln.slice(0, c), size, 600, DISPLAY, -size * 0.035);
+        ctx.globalAlpha = kin * (1 - kout);
+        tx(ctx, ch, x, base + (1 - kin) * lh * 0.9 - kout * lh * 0.9, size, 600, DISPLAY, T.fg, 'left', -size * 0.035);
+      });
+      ctx.restore();
+    });
+  });
+  const out = E.inCubic(prog(u, 195.1, 195.9));
+  INDS.forEach((d, i) => {
+    const t = V3.threads + i * 0.12, k = eo(u, t, t + 0.5); if (k <= 0 || out >= 1) return;
+    const y = top + 10 + i * 58;
+    ctx.save(); ctx.globalAlpha = k * (1 - out); ctx.translate((1 - k) * -26, 0);
+    tx(ctx, `0${i + 1}`, X, y, 22, 700, UI, T.accent); tx(ctx, d.name, X + 52, y + 2, 40, 600, DISPLAY, T.fg, 'left', -1);
+    ctx.restore();
+  });
+}
 function endCard(ctx, u, pj) {
-  if (u < 164) return;
+  if (u < V3.url) return;
   const b = BOARDS.logoEnd, bot = pj.to(at(b, b.css[0] / 2, b.css[1]));
-  const k = eo(u, 165.0, 166.0);
-  if (k > 0) { ctx.save(); ctx.globalAlpha = k; tx(ctx, 'www.niticore.ai', W / 2, bot.y + (P ? 120 : 104) + (1 - k) * 12, P ? 36 : 32, 700, UI, T.accent, 'center', 0.5); ctx.restore(); }
+  const s = 'www.niticore.ai', size = P ? 36 : 34, n = Math.round(clamp((u - V3.url) / 1.1) * s.length);
+  if (n <= 0 || !bot.ok) return;
+  const full = tw(ctx, s, size, 700, UI, 0.5), x = W / 2 - full / 2, y = bot.y + (P ? 120 : 104);
+  ctx.save(); tx(ctx, s.slice(0, n), x, y, size, 700, UI, T.accent, 'left', 0.5);
+  if (n < s.length) { ctx.fillStyle = T.accent; ctx.fillRect(x + tw(ctx, s.slice(0, n), size, 700, UI, 0.5) + 3, y - size * 0.78, 3, size * 0.95); }
+  ctx.restore();
 }
 function overlay(ctx, u, pj) {
   if (M.CFG.poster_clean) return;   // poster stills: the components alone (film.json poster_clean)
   if (M.CFG.poster_chips) { agentChips(ctx, u, pj); return; }   // poster stills: the avatar's chips alone, no captions
   agentChips(ctx, u, pj);
-  CAPS.forEach((c) => caption(ctx, u, c));
+  CAPS.forEach((c) => caption(ctx, u, c, c[5] ? { ...(c[4] ? CAP_TOP : CAP), ...c[5] } : undefined));   // c[5]: a layout override (v3)
   problems(ctx, u);
   sixOverlay(ctx, unsh(u));
-  endCard(ctx, unsh(u), pj);
+  industriesText(ctx, u);
+  endCard(ctx, u, pj);
 }
 
 // ---------------------------------------------------------------- hits (sounds on the picture's accents)
@@ -1955,11 +2835,35 @@ const OLD_HITS = [
   [131.3, 'pass', 'blip', { pitch: 'A5', gain: 0.12 }], [132.1, 'warn', 'blip', { pitch: 'E5', gain: 0.12 }], [132.9, 'block', 'thud', { pitch: 70, to: 42, gain: 0.22 }],
   [139.3, 'link expires', 'blip', { pitch: 'C5', gain: 0.12 }], [139.6, 'retention scheduled', 'tick', { gain: 0.2 }],
   ...MAPS.map((_, j) => [143.0 + j * 0.32, 'clause satisfied', 'blip', { pitch: ['D5', 'F#5', 'A5', 'B5', 'D6', 'F#6'][j], gain: 0.08 }]),
-  [148.2, 'pull back', 'whoosh', { len: 2.0, from: 300, to: 1800, gain: 0.15 }],
-  [149.8, 'the constellation lights', 'swell', { gain: 0.14 }],
-  [160.0, 'wordmark', 'impact'],
-  [160.55, 'sparkle', 'bell', { pitch: 'D6', gain: 0.22 }], [160.8, 'sparkle 2', 'bell', { pitch: 'A6', gain: 0.2 }],
-  [165.0, 'www.niticore.ai', 'tick', { gain: 0.18 }],
+];
+// v3 accents (v3 grid)
+const V3_HITS = [
+  [167.6, 'the demo pours into a globe', 'whoosh', { len: 1.3, from: 500, to: 2600, gain: 0.12 }],
+  [169.8, 'the globe forms', 'swell', { gain: 0.1 }],
+  ...V3.names.map((t) => [t - 0.2, 'a world morphs', 'whoosh', { len: 0.9, from: 900, to: 3400, gain: 0.09 }]),
+  ...V3.names.map((t, i) => [t + 0.05, 'an industry', 'bell', { pitch: ['D5', 'E5', 'F#5', 'A5', 'B5', 'D6'][i], gain: 0.14 }]),
+  [V3.threads, 'back to one world', 'swell', { gain: 0.12 }],
+  ...INDS.map((_, i) => [V3.threads + 0.1 + i * 0.12, 'a name in the list', 'tick', { gain: 0.08 }]),
+  [195.6, 'into the constellation', 'whoosh', { len: 1.6, from: 400, to: 2200, gain: 0.13 }],
+  [197.6, 'the constellation lights', 'swell', { gain: 0.12 }],
+  [205.8, 'light falls into the sea', 'whoosh', { len: 2.4, from: 2600, to: 260, gain: 0.15 }],
+  [209.4, 'the wave swells', 'swell', { gain: 0.13 }],
+  ...V3.ms.map((t, i) => [t, 'a milestone ignites', 'bell', { pitch: ['A4', 'B4', 'D5', 'E5', 'F#5', 'A5'][i], gain: 0.16 }]),
+  ...YEARS.map(([t]) => [t + 0.3, 'the year rolls', 'tick', { gain: 0.14 }]),
+  [V3.today, 'today', 'pop', { pitch: 'A5', to: 'E5', gain: 0.12 }],
+  [258.6, 'the dive', 'whoosh', { len: 1.8, from: 300, to: 3200, gain: 0.16 }],
+  [V3.cross, 'through the ring', 'impact', { gain: 0.5 }],
+  ...[0, 1, 2].map((k) => [V3.lock + k * 0.55, 'a digit locks', 'click', { gain: 0.24 }]),
+  [V3.lock + 1.9, 'the date', 'blip', { pitch: 'A5', gain: 0.1 }],
+  ...Array.from({ length: 14 }, (_, m) => [V3.started + 0.3 + (V3.close - V3.started - 0.3) * ((m + 1) / 14), 'a month passes', 'tick', { gain: 0.09 }]),
+  [V3.close, 'the ring closes', 'bell', { pitch: 'D6', gain: 0.2 }],
+  [270.9, 'ring to button', 'whoosh', { len: 1.2, from: 2400, to: 600, gain: 0.12 }],
+  [272.2, 'the button forms', 'pop', { pitch: 'D5', to: 'A5', gain: 0.14 }],
+  [V3.cta + 0.2, 'book a demo', 'click', { gain: 0.3 }], [V3.cta + 0.3, 'pressed', 'bell', { pitch: 'A5', gain: 0.16 }],
+  [V3.url, 'www.niticore.ai types', 'type', { n: 15, len: 0.7, gain: 0.1 }],
+  [278.1, 'into the wordmark', 'whoosh', { len: 1.4, from: 400, to: 2400, gain: 0.12 }],
+  [V3.end + 0.4, 'wordmark', 'impact'],
+  [V3.end + 0.95, 'sparkle', 'bell', { pitch: 'D6', gain: 0.22 }], [V3.end + 1.2, 'sparkle 2', 'bell', { pitch: 'A6', gain: 0.2 }],
 ];
 const HITS = [
   [0.25, 'the spark', 'sub', { len: 1.6, gain: 0.4 }],
@@ -1986,6 +2890,7 @@ const HITS = [
   ...OLD_HITS.map(([t, ...r]) => [sh(t), ...r]),
   ...FRAMEWORKS.map((f) => [f.t, f.name, 'sub', { len: 0.6, gain: 0.26 }]),
   [112.4, 'cross-mapped', 'bell', { pitch: 'D6', gain: 0.14 }],
+  ...V3_HITS,
 ].sort((a, b) => a[0] - b[0]);
 
 M.film({
@@ -1997,8 +2902,8 @@ M.film({
     IMGS = IMG;
     [ICONS, VOENV] = await Promise.all([fetch('assets/icons.json').then((r) => r.json()), fetch('audio/vo_env.json').then((r) => r.json())]);
     await loadSub(); defineEndBoard();
-    STATES[20].el = [...SUB.letters.slice(0, NEL - 2).map((_, i) => [END_T0 + 0.02 + i * 0.07, 0.25]), [END_T0 + 0.95, 0.25], [162.45, 0.03]].slice(0, NEL);
-    shiftTimeline();
+    shiftTimeline();   // the v2.1 timeline onto the v3 grid
+    addV3();           // then the v3 states, transitions and boards, already on it
     buildPhi(); buildRib(); buildCam(); setupGL(); sampleLayers();
   },
   draw(ctx, u0, t) {

@@ -112,3 +112,66 @@ Length 192 beats (120 s). -14.1 LUFS, -1.1 dBTP; 48/92 hits within 20 ms.
 Verdict: READY
 7. Client: "Even the ones hiding in the shadows." removed from the voice ("Discover every model,
    agent and dataset.") and from the caption (heading only). The inventory panel is unchanged.
+
+---
+# v3: who it's for, the regulatory wave, the countdown, the call to action (2026-10-05)
+Brief: docs/v3-video-script.md (client sign-off). After "Six ways", six industries (finance,
+healthcare, workforce, government, retail and consumer, infrastructure and mobility), the regulatory
+timeline from the client's slide (dates corrected: GPAI Aug 2025; Annex III high-risk 2 Dec 2027 after
+the Digital Omnibus), a countdown to 2 Dec 2027 (422 days, for 6 Oct 2026), "Book a demo at
+niticore.ai", then the end card. 16:9 first; 9:16 tomorrow. Length 290 beats (181.25 s).
+The first 160 beats (0-100 s) are reused frame for frame from the approved v2.1 render: the beat grid
+is locked to v2.1, v3 layers come after logoEnd, the nebula path is unchanged; a re-rendered frame
+at 100 s matches the approved one (same mean brightness, 39 dB) and frames 6000+ are spliced on.
+
+## v3 round 1 (stills across every new scene)
+| hook | read | motion | variety | brand | sync | min |
+|  8   |  7   |   7    |    9    |   8   |  8   |  7  |
+1. [b205-258] The wave read as a thin band of dots. -> denser near the crest, brighter (crest-weighted
+   alpha), foam particles on the crest itself, camera looking down on it (lift 0.3); 10k more particles.
+2. [b208-258] The big background year sat on the heading, and the "Today" pill sat on the Jan 2027
+   date. -> the year sits low behind the wave, square to the camera; "Today" lands on the line and
+   hangs its label below it.
+3. [b169-197] The caption's full stop wrapped onto its own line, and the card backs' text showed
+   through the faces as particle residue. -> a narrower caption (two clean lines); residue scaled
+   down for the cards' state (uResK). Also: a bigger Book a demo button, 27 px milestone labels.
+
+## v3 round 2 (stills + strips across the six transitions)
+| hook | read | motion | variety | brand | sync | min |
+|  8   |  8   |   8    |    9    |   9   |  8   |  8  |
+Deal (six ways -> six cards spinning in 3D), flips on each name, light round every card, the
+constellation, the wave, the dive through the last node's ring, the departure-board digits, the ring
+squeezing into the button, the button bursting into the wordmark: all continuous.
+1. [b262.6] The digits flared as their particles resolved after locking. -> resolve at b261.3.
+Sound: 150 hits, 70 within 20 ms (median 22 ms; misses are peak-anchored whooshes); -14.1 LUFS, -1.2 dBTP.
+Remaining: about a second of sparse dust between the constellation and the wave (b206-207.5); the
+Dec 2027 date rolls over its own dim preview for half a beat.
+
+## v3 round 3 (client: illustrations, not components; the clock reverted)
+The client tried a doomsday clock (Days · Hours · Minutes · Seconds) and preferred the day count: back
+to "422 days to go" (421 on the 7 Oct file, ?countdown_from=2026-10-07). The six-ways card backs stay
+(the client likes "six ways become six industries"). The card faces were UI (icon tile, small motif);
+they are now full-bleed living illustrations drawn in light on a night sky in the card's tone:
+a skyline whose windows come on under a rising market line (finance); a beating heart of light with
+an ECG and a turning DNA helix (healthcare); five people joined by arcs carrying pulses (workforce);
+a capitol whose columns rise, dome draws on and flag climbs (government); a storefront, a cart rolling
+in, a bag dropping into it, a swinging tag (retail and consumer); a suspension bridge with a lit train
+crossing shimmering water (infrastructure and mobility). Each card comes forward and grows while its
+world draws itself, a burst of light particles breaking off its edges, then settles into the grid.
+| hook | read | motion | variety | brand | sync | min |
+|  9   |  8   |   8    |    9    |   9   |  8   |  8  |
+Sound: 150 hits; -14.1 LUFS, -1.2 dBTP.
+Verdict: READY (16:9). 9:16 to follow.
+
+## v3 round 4 (client: names on the left, rich 3D on the right, no cards)
+The six cards gave way to a stage: the heading on top; on the left the industry's number and name, huge,
+rolling in letter by letter; on the right a 3D particle sculpture on a hologram pedestal (two turning
+rings), morphing on each name: a globe (intro and finale), a city of towers with a rising market line
+and arrow, a puffy heart with an ECG trace and a cross, five people joined by pulsing arcs, a capitol
+(steps, columns, pediment, dome, flag), a bag and a wireframe cart with a swinging tag, a suspension
+bridge with a train and rippling water. All particles take part (rest shape 6, no layer); the sculpture
+sways round its front view (never edge-on). Names respaced 2.3 beats apart; the heading reads "Six
+industries and more. One governance practice." The grid left the constellation (back to 13 components).
+| hook | read | motion | variety | brand | sync | min |
+|  9   |  8   |   9    |    9    |   9   |  8   |  8  |
+Sound: 151 hits; -14.1 LUFS, -1.2 dBTP.

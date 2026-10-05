@@ -232,23 +232,142 @@
  },
  {
   "i": 33,
-  "beat": 171,
-  "t0": 106.875,
-  "t1": 109.395,
-  "text": "So you can innovate with confidence, and prove it."
+  "beat": 169.0,
+  "t0": 105.625,
+  "t1": 110.292,
+  "text": "Built for industries where AI errors carry real consequences, such as"
  },
  {
   "i": 34,
-  "beat": 180,
-  "t0": 112.5,
-  "t1": 113.39,
-  "text": "Niticore."
+  "beat": 177.0,
+  "t0": 110.625,
+  "t1": 111.385,
+  "text": "finance,"
  },
  {
   "i": 35,
-  "beat": 182.5,
-  "t0": 114.062,
-  "t1": 116.382,
+  "beat": 179.3,
+  "t0": 112.062,
+  "t1": 112.823,
+  "text": "healthcare,"
+ },
+ {
+  "i": 36,
+  "beat": 181.6,
+  "t0": 113.5,
+  "t1": 114.35,
+  "text": "workforce,"
+ },
+ {
+  "i": 37,
+  "beat": 183.9,
+  "t0": 114.938,
+  "t1": 115.698,
+  "text": "government,"
+ },
+ {
+  "i": 38,
+  "beat": 186.2,
+  "t0": 116.375,
+  "t1": 117.765,
+  "text": "retail and consumer,"
+ },
+ {
+  "i": 39,
+  "beat": 188.6,
+  "t0": 117.875,
+  "t1": 119.875,
+  "text": "and infrastructure and mobility."
+ },
+ {
+  "i": 40,
+  "beat": 198.0,
+  "t0": 123.75,
+  "t1": 126.27,
+  "text": "So you can innovate with confidence, and prove it."
+ },
+ {
+  "i": 41,
+  "beat": 208.0,
+  "t0": 130.0,
+  "t1": 132.618,
+  "text": "The regulatory wave has three years to peak."
+ },
+ {
+  "i": 42,
+  "beat": 213.5,
+  "t0": 133.438,
+  "t1": 137.302,
+  "text": "Twenty twenty-four: the EU AI Act enters into force."
+ },
+ {
+  "i": 43,
+  "beat": 220.5,
+  "t0": 137.812,
+  "t1": 142.201,
+  "text": "February twenty twenty-five: AI literacy obligations go live."
+ },
+ {
+  "i": 44,
+  "beat": 228.5,
+  "t0": 142.812,
+  "t1": 148.322,
+  "text": "August twenty twenty-five: the EU AI Act's [GPAI] provisions apply."
+ },
+ {
+  "i": 45,
+  "beat": 238.25,
+  "t0": 148.906,
+  "t1": 154.2,
+  "text": "January twenty twenty-six: [DIFC] Regulation ten enforcement begins."
+ },
+ {
+  "i": 46,
+  "beat": 247.5,
+  "t0": 154.688,
+  "t1": 160.204,
+  "text": "January twenty twenty-seven: the [UAE] Federal [PDPL] compliance deadline."
+ },
+ {
+  "i": 47,
+  "beat": 257.25,
+  "t0": 160.781,
+  "t1": 164.56,
+  "text": "And then, the EU AI Act's high-risk rules apply in full."
+ },
+ {
+  "i": 48,
+  "beat": 265.5,
+  "t0": 165.938,
+  "t1": 167.387,
+  "text": "The countdown has started."
+ },
+ {
+  "i": 49,
+  "beat": 269.0,
+  "t0": 168.125,
+  "t1": 169.485,
+  "text": "Start getting ready today."
+ },
+ {
+  "i": 50,
+  "beat": 274.0,
+  "t0": 171.25,
+  "t1": 173.47,
+  "text": "Book a demo at niticore dot [AI]."
+ },
+ {
+  "i": 51,
+  "beat": 280.0,
+  "t0": 175.0,
+  "t1": 175.89,
+  "text": "Niticore."
+ },
+ {
+  "i": 52,
+  "beat": 282.5,
+  "t0": 176.562,
+  "t1": 178.882,
   "text": "AI governance, from policy to proof."
  }
 ]
